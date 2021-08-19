@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KnowledgeBank</title>
+    <link rel='icon' href='/static/ver2.1/img/logo@3x.png'/>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css'/>
+    <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+    <style>
+        .close-list.disabled{
+          cursor:not-allowed !important;
+        }
+    </style>
+{% include './ver2.1/partials/ga_tag.html' %}
+</head>
+{% include './ver2.1/partials/header.html' %}
+{% include './ver2.1/partials/sidebar.html' %}
+<body>
+    <div>
+        <div class='kb-container'>
+            <div class='kb-setting-container'>
+                <div class='kb-setting-top text-center text-center'>
+                    <h3>ナレッジバンク設定</h3>
+                    <p class='text-muted'><small>ナレッジバンクの様々な設定ができます</small></p>
+                    <div class='flex flex-c py-3'>
+                        <div class='p-3 px-4'>
+                            <a href='/settings/base'>
+                                <img src='/static/ver2.1/img/base_active.png' alt='' />
+                                <p class='active'><small>基本設定</small></p>
+                            </a>
+                        </div>
+                        <div class='p-3 px-4'>
+                            <a href='/settings/event'>
+                            <img src='/static/ver2.1/img/learn.png' alt='' />
+                            <p><small>イベント設定</small></p>
+                            </a>
+                        </div>
+                        <div class='p-3 px-4'>
+                            <a href='/settings/import'>
+                            <img src='/static/ver2.1/img/import.png' alt='' />
+                            <p><small>ナレッジパック設定</small></p>
+                            </a>
+                        </div>
+                        <div class='p-3 px-4'>
+                            <a href='/settings/mail'>
+                            <img src='/static/ver2.1/img/mail.png' alt='' />
+                            <p><small>通知</small></p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class='kb-panel'>
+                    <div class='kb-panel-title p-3'>
+                        <p class='m-0'>業種・職種の設定 <span id="errorOccupation" style="display: none; color: red;">一つ以上の項目を追加してください</span></p>
+                    </div>
+                    <div class='kb-panel-body p-0'>
+                        <p class='checkbox-list-title px-3 py-2 m-0'><small>営業・事務・企画</small></p>
+                        <div class='occupation-panel'>
+                        <div class='py-3 checkbox-list px-3' id="salelist">
+                            <span><input type='checkbox' name="occupation" value='営業' /><label>営業</label></span>
+                            <span><input type='checkbox' name="occupation" value='テレマーケティング' /><label>テレマーケティング</label></span>
+                            <span><input type='checkbox' name="occupation" value='カスタマーサポート' /><label>カスタマーサポート</label></span>
+                            <span><input type='checkbox' name="occupation" value='事業統括・運営' /><label>事業統括・運営</label></span>
+                            <span><input type='checkbox' name="occupation" value='経営企画・秘書' /><label>経営企画・秘書</label></span><br />
+                            <span><input type='checkbox' name="occupation" value='新規事業開発' /><label>新規事業開発</label></span>
+                            <span><input type='checkbox' name="occupation" value='財務' /><label>財務</label></span>
+                            <span><input type='checkbox' name="occupation" value='経理' /><label>経理</label></span>
+                            <span><input type='checkbox' name="occupation" value='人事' /><label>人事</label></span>
+                            <span><input type='checkbox' name="occupation" value='法務' /><label>法務</label></span>
+                            <span><input type='checkbox' name="occupation" value='知財・特許' /><label>知財・特許</label></span>
+                            <span><input type='checkbox' name="occupation" value='広報・ＩＲ' /><label>広報・ＩＲ</label></span><br />
+                            <span><input type='checkbox' name="occupation" value='総務' /><label>総務</label></span>
+                            <span><input type='checkbox' name="occupation" value='エグゼクティブ・役員' /><label>エグゼクティブ・役員</label></span>
+                        </div>
+                        <p class='checkbox-list-title px-3 py-2 m-0'><small>サービス、販売、運輸</small></p>
+                        <div class='py-3 checkbox-list px-3' id="servicelist">
+                            <span><input type='checkbox' name="occupation" value='飲食店' /><label>飲食店</label></span>
+                            <span><input type='checkbox' name="occupation" value='アミューズメント店' /><label>アミューズメント店</label></span>
+                            <span><input type='checkbox' name="occupation" value='学習塾・専門学校・各種スクール' /><label>学習塾・専門学校・各種スクール</label></span>
+                            <span><input type='checkbox' name="occupation" value='医療' /><label>医療</label></span>
+                            <span><input type='checkbox' name="occupation" value='薬剤' /><label>薬剤</label></span><br />
+                            <span><input type='checkbox' name="occupation" value='福祉' /><label>福祉</label></span>
+                            <span><input type='checkbox' name="occupation" value='理美容' /><label>理美容</label></span>
+                            <span><input type='checkbox' name="occupation" value='エステ・マッサージ' /><label>エステ・マッサージ</label></span>
+                            <span><input type='checkbox' name="occupation" value='旅行' /><label>旅行</label></span>
+                            <span><input type='checkbox' name="occupation" value='宿泊・ホテル' /><label>宿泊・ホテル</label></span>
+                            <span><input type='checkbox' name="occupation" value='冠婚葬祭' /><label>冠婚葬祭</label></span><br />
+                            <span><input type='checkbox' name="occupation" value='道路旅客運送' /><label>道路旅客運送</label></span>
+                            <span><input type='checkbox' name="occupation" value='道路貨物運送' /><label>道路貨物運送</label></span>
+                            <span><input type='checkbox' name="occupation" value='航空運送' /><label>航空運送</label></span>
+                            <span><input type='checkbox' name="occupation" value='鉄道運送' /><label>鉄道運送</label></span>
+                            <span><input type='checkbox' name="occupation" value='船舶運送' /><label>船舶運送</label></span>
+                            <span><input type='checkbox' name="occupation" value='倉庫業' /><label>倉庫業</label></span><br />
+                            <span><input type='checkbox' name="occupation" value='監視・保守' /><label>監視・保守</label></span>
+                            <span><input type='checkbox' name="occupation" value='警備・守衛' /><label>警備・守衛</label></span>
+                            <span><input type='checkbox' name="occupation" value='清掃' /><label>清掃</label></span>
+                            <span><input type='checkbox' name="occupation" value='設備メンテナンス' /><label>設備メンテナンス</label></span>
+                        </div>
+                        <p class='checkbox-list-title px-3 py-2 m-0'><small>クリエイティブ系</small></p>
+                        <div class='py-3 checkbox-list px-3' id="creativelist">
+                            <span><input type='checkbox' name="occupation" value='ディレクション系' /><label>ディレクション系</label></span>
+                            <span><input type='checkbox' name="occupation" value='コンテンツ制作系' /><label>コンテンツ制作系</label></span>
+                            <span><input type='checkbox' name="occupation" value='出版系' /><label>出版系</label></span>
+                            <span><input type='checkbox' name="occupation" value='印刷系' /><label>印刷系</label></span>
+                            <span><input type='checkbox' name="occupation" value='ＴＶ・映画・PV' /><label>ＴＶ・映画・PV</label></span><br />
+                            <span><input type='checkbox' name="occupation" value='イベント・ブライダル' /><label>イベント・ブライダル</label></span>
+                            <span><input type='checkbox' name="occupation" value='芸能' /><label>芸能</label></span>
+                            <span><input type='checkbox' name="occupation" value='自社Webサイト運営・コンテンツプロバイダ' /><label>自社Webサイト運営・コンテンツプロバイダ</label></span><br />
+                            <span><input type='checkbox' name="occupation" value='Webサイトコンサルティング・制作' /><label>Webサイトコンサルティング・制作</label></span>
+                            <span><input type='checkbox' name="occupation" value='ゲーム・マルチメディア関連' /><label>ゲーム・マルチメディア関連</label></span>
+                            <span><input type='checkbox' name="occupation" value='ファッションデザイン' /><label>ファッションデザイン</label></span><br />
+                            <span><input type='checkbox' name="occupation" value='空間デザイン' /><label>空間デザイン</label></span>
+                            <span><input type='checkbox' name="occupation" value='プロダクトデザイン' /><label>プロダクトデザイン</label></span>
+                        </div>
+                        <p class='checkbox-list-title px-3 py-2 m-0'><small>コンサルタント・金融・不動産</small></p>
+                        <div class='py-3 checkbox-list px-3' id="consultlist">
+                            <span><input type='checkbox' name="occupation" value='戦略系コンサルティングファーム・シンクタンク' /><label>戦略系コンサルティングファーム・シンクタンク</label></span>
+                            <span><input type='checkbox' name="occupation" value='金融機関系列・監査法人・税務事務所' /><label>金融機関系列・監査法人・税務事務所</label></span><br />
+                            <span><input type='checkbox' name="occupation" value='マーケティング会社・ブランドエージェンシー' /><label>マーケティング会社・ブランドエージェンシー</label></span>
+                            <span><input type='checkbox' name="occupation" value='法律事務所・ローファーム' /><label>法律事務所・ローファーム</label></span><br />
+                            <span><input type='checkbox' name="occupation" value='特許事務所・弁理士事務所' /><label>特許事務所・弁理士事務所</label></span>
+                            <span><input type='checkbox' name="occupation" value='司法書士事務所' /><label>司法書士事務所</label></span>
+                            <span><input type='checkbox' name="occupation" value='行政書士事務所' /><label>行政書士事務所</label></span>
+                            <span><input type='checkbox' name="occupation" value='組織人事コンサルティング' /><label>組織人事コンサルティング</label></span><br />
+                            <span><input type='checkbox' name="occupation" value='人材派遣・紹介' /><label>人材派遣・紹介</label></span>
+                            <span><input type='checkbox' name="occupation" value='通訳・翻訳' /><label>通訳・翻訳</label></span>
+                            <span><input type='checkbox' name="occupation" value='金融関連' /><label>金融関連</label></span>
+                            <span><input type='checkbox' name="occupation" value='不動産・プロパティマネジメント関連' /><label>不動産・プロパティマネジメント関連</label></span><br />
+                            <span><input type='checkbox' name="occupation" value='不動産・プロパティマネジメント関連' /><label>不動産・プロパティマネジメント関連</label></span>
+                            <span><input type='checkbox' name="occupation" value='不動産・プロパティマネジメント関連' /><label>不動産・プロパティマネジメント関連</label></span><br />
+                            <span><input type='checkbox' name="occupation" value='プロパティマネジメント関連' /><label>プロパティマネジメント関連</label></span>
+                        </div>
+                        <p class='checkbox-list-title px-3 py-2 m-0'><small>技術系（ITエンジニア）</small></p>
+                        <div class='py-3 checkbox-list px-3' id="engineerlist">
+                            <span><input type='checkbox' name="occupation" value='システムコンサルタント、システムアナリスト、プリセールス' /><label>システムコンサルタント、システムアナリスト、プリセールス</label></span>
+                            <span><input type='checkbox' name="occupation" value='システム開発（Web系）' /><label>システム開発（Web系）</label></span><br />
+                            <span><input type='checkbox' name="occupation" value='システム開発（オープン系）' /><label>システム開発（オープン系）</label></span>
+                            <span><input type='checkbox' name="occupation" value='システム開発（汎用機系）' /><label>システム開発（汎用機系）</label></span>
+                            <span><input type='checkbox' name="occupation" value='組込系ソフトウェア開発' /><label>組込系ソフトウェア開発</label></span><br />
+                            <span><input type='checkbox' name="occupation" value='パッケージソフト・ミドルウェア開発' /><label>パッケージソフト・ミドルウェア開発</label></span>
+                            <span><input type='checkbox' name="occupation" value='ネットワークインテグレーション' /><label>ネットワークインテグレーション</label></span>
+                            <span><input type='checkbox' name="occupation" value='通信インフラ設計・構築' /><label>通信インフラ設計・構築</label></span><br />
+                            <span><input type='checkbox' name="occupation" value='運用、監視、テクニカルサポート、保守' /><label>運用、監視、テクニカルサポート、保守</label></span>
+                            <span><input type='checkbox' name="occupation" value='社内SE、情報システム' /><label>社内SE、情報システム</label></span>
+                            <span><input type='checkbox' name="occupation" value='研究(ソフトウェア・ネットワーク)' /><label>研究(ソフトウェア・ネットワーク)</label></span>
+                        </div>
+                        <p class='checkbox-list-title px-3 py-2 m-0'><small>公務員・教諭</small></p>
+                        <div class='py-3 checkbox-list px-3' id="techlist">
+                            <span><input type='checkbox' name="occupation" value='国家公務員' /><label>国家公務員</label></span>
+                            <span><input type='checkbox' name="occupation" value='地方公務員' /><label>地方公務員</label></span>
+                            <span><input type='checkbox' name="occupation" value='教諭' /><label>教諭</label></span>
+                            <span><input type='checkbox' name="occupation" value='農業' /><label>農業</label></span>
+                            <span><input type='checkbox' name="occupation" value='林業' /><label>林業</label></span>
+                            <span><input type='checkbox' name="occupation" value='漁業' /><label>漁業</label></span>
+                            <span><input type='checkbox' name="occupation" value='水産' /><label>水産</label></span>
+                            <span><input type='checkbox' name="occupation" value='畜産・酪農' /><label>畜産・酪農</label></span>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='kb-panel my-4'>
+                    <div class='kb-panel-title p-3'>
+                        <p class='m-0'>役職の設定 <span id="errorPosition" style="display: none; color: red;">一つ以上の項目を追加してください</span></p>
+                    </div>
+                    <div class='kb-panel-body px-3'>
+                        <div class="position--wrap">
+                            <div class='flex flex-item-center'>
+                                <input type='text' class='kb-input position-input' />
+                                <button class='btn-tran mx-3 add-tab-btn position-btn' data-className='position-btn'>+追加</button>
+                            </div>
+                            <div class='result-tabs-list py-3 pt-4' id="positionlist">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='kb-panel my-4'>
+                    <div class='kb-panel-title p-3'>
+                        <p class='m-0'>チームの設定 <span id="errorTeam"style="display: none; color: red;">一つ以上の項目を追加してください</span></p>
+                    </div>
+                    <div class='kb-panel-body px-3'>
+                        <div class="team--wrap">
+                            <div class='flex flex-item-center'>
+                                <input type='text' class='kb-input team-input' />
+                                <button class='btn-tran mx-3 add-tab-btn team-btn' data-className='team-btn'>+追加</button>
+                            </div>
+                            <div class='result-tabs-list py-3 pt-4' id="teamlist">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='my-2 text-center'>
+                    <a class='submit-btn submit-setting-base-btn'>入力内容を保存する</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src='/static/ver2.1/js/varidate.js'></script>
+    <script src='/static/ver2.1/js/script.js'></script>
+    <!-- <script src='/static/ver2.1/js/setting_base.js'></script> -->
+    <script>
+        $(document).ready(function(){
+          var delete_position_list=[];
+          var delete_team_list=[];
+            $.ajax({
+                method:"GET",
+                url:'/settings/base/data',
+                success:function(data){
+                    var res=JSON.parse(data);
+                    let occupation=[];
+                     res.occupation.map(item=>{
+                         occupation.push(item.name);
+                    })
+                    $(".occupation-panel input").each(function(){
+                        occupation.map(list=>{
+                            if(list==$(this).val()){
+                                $(this).prop("checked",true);
+                            }
+                        })
+                    })
+
+                    let team=[];
+                     res.team.map(item=>{
+                        team.push(item.name);
+                    })
+                    var team_list_box=$('div.result-tabs-list#teamlist');
+                    res.team.map(item=>{
+                      team_list_box.append(`<span class='tab-item'>
+                                          <small>${item.name.trim()}</small>
+                                          <i class='${item.flag===1?'close-list disabled':'close-list'}' data-id='${item.id}' id="team_list">×</i>
+                                      </span>`);
+                    })
+                    $(".tab-item").css({
+                        "cursor":"pointer",
+                        "user-select":"none"
+                    })
+
+                    var list_box=$('div.result-tabs-list#positionlist');
+                    res.position.map(item=>{
+                      list_box.append(`<span class='tab-item'>
+                                          <small>${item.name.trim()}</small>
+                                          <i class='${item.flag===1?'close-list disabled':'close-list'}' data-id='${item.id}' id='position_list'>×</i>
+                                      </span>`);
+                    })
+                    $(".tab-item").css({
+                        "cursor":"pointer",
+                        "user-select":"none"
+                    })
+                }
+            })
+
+            $('.position-input').on("keyup keypress keydown", function () {
+                var position = input_varidate('.position-input', {
+                    maxLength: 100,
+                });
+                if (position !== true) {
+                    $('.position-btn').prop("disabled", true);
+                    input_errorElement('.position-input', position, '.position--wrap');
+                } else {
+                    $('.position-btn').removeAttr('disabled');
+                    input_errorElement('.position-input', '', '.position--wrap');
+                }
+            });
+
+            $('.team-input').on("keyup keypress keydown", function () {
+                var team = input_varidate('.team-input', {
+                    maxLength: 100,
+                });
+                if (team !== true) {
+                    $('.team-btn').prop("disabled", true);
+                    input_errorElement('.team-input', team, '.team--wrap');
+                } else {
+                    $('.team-btn').removeAttr('disabled');
+                    input_errorElement('.team-input', '', '.team--wrap');
+                }
+            });
+
+            $(".add-tab-btn").on("click",function(){
+                var title=$(this).parent().find("input").val();
+                $(this).parent().find("input").val("");
+                var list_box=$(this).parent().next(".result-tabs-list");
+                var myclassName=$(this).attr("data-className");
+                var clsName=`tab-item ${myclassName}`;
+                var trimtitle = title.trim()
+                if(trimtitle!=""){
+                    list_box.append(`<span class='${clsName}'><small>${trimtitle}</small><i class='close-list'>×</i></span>`);
+                    $(".tab-item").css({
+                        "cursor":"pointer",
+                        "user-select":"none"
+                    })
+                }
+                if ($('#positionlist').children().length > (100 - 1)) {
+                    $('.position-input').prop("disabled", true);
+                    $('.position-btn').prop("disabled", true);
+                    input_errorElement('.position-input', '最大数に達しました', '.position--wrap');
+                } else {
+                    $('.position-input').removeAttr('disabled');
+                    $('.position-btn').removeAttr('disabled');
+                    input_errorElement('.position-input', '', '.position--wrap');
+                }
+
+                if ($('#teamlist').children().length > (100 - 1)) {
+                    $('.team-input').prop("disabled", true);
+                    $('.team-btn').prop("disabled", true);
+                    input_errorElement('.team-input', '最大数に達しました', '.team--wrap');
+                } else {
+                    $('.team-input').removeAttr('disabled');
+                    $('.team-btn').removeAttr('disabled');
+                    input_errorElement('.team-input', '', '.team--wrap');
+                }
+            })
+            $(document).on("click",".close-list:not(.disabled)",function(){
+                if($(this).attr('data-id')!==undefined){
+                  if($(this).attr("id")=="position_list"){
+                    delete_position_list.push($(this).attr("data-id"));
+                  }else if($(this).attr("id")=="team_list"){
+                    delete_team_list.push($(this).attr("data-id"));
+                  }
+                }
+                $(this).closest(".tab-item").remove();
+
+                if ($(this).parents('#positionlist')) {
+                    $('.position-input').removeAttr('disabled');
+                    $('.position-btn').removeAttr('disabled');
+                    input_errorElement('.position-input', '', '.position--wrap');
+                }
+
+                if ($(this).parents('#teamlist')) {
+                    $('.team-input').removeAttr('disabled');
+                    $('.team-btn').removeAttr('disabled');
+                    input_errorElement('.team-input', '', '.team--wrap');
+                }
+
+            })
+            $(".submit-setting-base-btn").on("click",function(event){
+                o = document.getElementsByName('occupation')
+                var occupation = []
+                for (i=0; i<o.length; i++) {
+                    if (o[i].checked==true)	{
+                        occupation.push(o[i].value)
+                    }
+                }
+
+                //get team names list
+                var position = []
+                // p = document.getElementsByName('position')
+                // for (i=0; i<p.length; i++) {
+                //     if (p[i].checked==true)	{
+                //         position.push(p[i].value)
+                //     }
+                // }
+                $("#positionlist>span").each(function(){
+                    position.push($(this).find("small").text())
+                })
+
+                var team = []
+                $("#teamlist>span").each(function(){
+                    team.push($(this).find("small").text())
+                })
+
+                var data = {"occupationName": occupation, "teamname" : team, "positionname" : position};
+                if(occupation.length != 0 && team.length != 0 && position.length != 0){
+                    // ajax the JSON to the server
+                    data.delete_position_list=delete_position_list;
+                    data.delete_team_list = delete_team_list;
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/settings/base/data',
+                        data: JSON.stringify(data),
+                        success: function(data) {
+                            if(data['result'] == "ok"){
+                            //window.location.href = "/settings/base?status=ok";
+                            status_show('ok','内容を保存しました');
+                            window.location.href = "/settings/base";
+                            }
+                            if(data['result'] == "ng"){
+                            status_show("fail","内容の保存に失敗しました");
+                            }
+                        },
+                        contentType: "application/json",
+                        dataType: 'json'
+                    });
+                }
+                else {
+                    if(occupation.length == 0 ){
+                        status_show("fail", "業種・職種を入力してください");
+                        var list = document.getElementById("errorOccupation");
+                        list.style.display = "contents";
+                    }else{
+                        var list = document.getElementById("errorOccupation");
+                        list.style.display = "none";
+                    }
+                    if(position.length == 0 ){
+                        status_show("fail", "業種・職種を入力してください");
+                        var list = document.getElementById("errorPosition");
+                        list.style.display = "contents";
+                    }else{
+                        var list = document.getElementById("errorPosition");
+                        list.style.display = "none";
+                    }
+                    if(team.length == 0 ){
+                        status_show("fail", "業種・職種を入力してください");
+                        var list = document.getElementById("errorTeam");
+                        list.style.display = "contents";
+                    }else{
+                        var list = document.getElementById("errorTeam");
+                        list.style.display = "none";
+                    }
+
+                }
+
+
+                // stop link reloading the page
+                event.preventDefault();
+
+            })
+
+            $("#saletitle").on("click",function(){
+                var checkBox = document.getElementById("saletitle");
+                // Get the output text
+                var list = document.getElementById("salelist");
+                if (checkBox.checked == true){
+                    list.style.display = "block";
+                } else {
+                    list.style.display = "none";
+                }
+            })
+            $("#servicetitle").on("click",function(){
+                var checkBox = document.getElementById("servicetitle");
+                // Get the output text
+                var list = document.getElementById("servicelist");
+                if (checkBox.checked == true){
+                    list.style.display = "block";
+                } else {
+                    list.style.display = "none";
+                }
+            })
+            $("#creativetitle").on("click",function(){
+                var checkBox = document.getElementById("creativetitle");
+                // Get the output text
+                var list = document.getElementById("creativelist");
+                if (checkBox.checked == true){
+                    list.style.display = "block";
+                } else {
+                    list.style.display = "none";
+                }
+            })
+            $("#consulttitle").on("click",function(){
+                var checkBox = document.getElementById("consulttitle");
+                // Get the output text
+                var list = document.getElementById("consultlist");
+                if (checkBox.checked == true){
+                    list.style.display = "block";
+                } else {
+                    list.style.display = "none";
+                }
+            })
+            $("#engineertitle").on("click",function(){
+                var checkBox = document.getElementById("engineertitle");
+                // Get the output text
+                var list = document.getElementById("engineerlist");
+                if (checkBox.checked == true){
+                    list.style.display = "block";
+                } else {
+                    list.style.display = "none";
+                }
+            })
+            $("#techtitle").on("click",function(){
+                var checkBox = document.getElementById("techtitle");
+                // Get the output text
+                var list = document.getElementById("techlist");
+                if (checkBox.checked == true){
+                    list.style.display = "block";
+                } else {
+                    list.style.display = "none";
+                }
+            })
+
+            function status_show(status, message) {
+                if (status == "ok") {
+                    $(".kb-container").append(`<div class='status-container success'><p class='px-2'>${message}</p></div>`);
+                }
+                else {
+                    $(".kb-container").append(`<div class='status-container error'><p class='px-2'>${message}</p></div>`);
+                }
+                setTimeout(() => {
+                    $(".status-container").remove();
+                }, 2000)
+                $(".status-container").css({
+                    position: "fixed",
+                    top: "80px",
+                    width: $(".kb-container").outerWidth(),
+                    marginLeft: $(".kb-container").css("margin-left"),
+                    zIndex: 2,
+                    left: '0'
+                })
+                $(".status-container.success").css({
+                    background: "#4caf50"
+                })
+                $(".status-container.error").css({
+                    color: "#fff",
+                    background: "rgb(217, 82, 67)"
+                })
+            }
+        })
+    </script>
+</body>
+{% include './ver2.1/partials/footer.html' %}
+</html>

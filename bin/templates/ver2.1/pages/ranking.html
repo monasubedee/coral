@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KnowledgeBank</title>
+    <link rel='icon' href='/static/ver2.1/img/logo@3x.png' />
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css' />
+    <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+    <style>
+        .previousButton,
+        .nextButton {
+            visibility: hidden;
+        }
+
+        .kb-ranking-loading {
+            width: 40px;
+            margin: 40px auto;
+        }
+
+        @media screen and (max-width: 767px) {
+            .ranking-profile-container {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .kb-ranking-profile-wrap {
+                width: 100%;
+                justify-content: center;
+                margin: 0 0 1rem;
+            }
+        }
+    </style>
+    {% include './ver2.1/partials/ga_tag.html' %}
+</head>
+{% include './ver2.1/partials/header.html' %}
+{% include './ver2.1/partials/sidebar.html' %}
+
+<body>
+    <div>
+        <div class='kb-container'>
+            <div class='kb-ranking-wrap'>
+                <div class='kb-ranking'>
+                    <div class='text-center'>
+                        <h3>ランキング</h3>
+                        <img src='/static/ver2.1/img/996@3x.png' alt='' class='kb-ranking-logo my-4' />
+                    </div>
+                    <div class='flex flex-sb my-3 rankTarget-panel' data-index='0'>
+                        <div class='previousButton'>
+                            <a href='#' class='color-blue '><span class='pr-2 color-blue'>&lt;</span>前の期間</a>
+                        </div>
+                        <div class='ranking-date-container'>
+                            <p class='m-0'><span class="start-date"></span>〜<span class="end-date"></span>のランキング</p>
+                        </div>
+                        <div class='nextButton'>
+                            <a href='#' click="" class='color-blue'>次の期間<span class='pr-2'>&gt;</span></a>
+                        </div>
+                    </div>
+                    <div class='kb-ranking-loading' id="loading"></div>
+                    <!-- <div class='flex flex-sb my-3 ranking-date-container'>
+
+                    </div> -->
+                    <div class='kb-container-loadedAjax' style='opacity: 0;'>
+                        <div class='kb-panel flex flex-sb p-3 ranking-profile-container'>
+
+                        </div>
+                        <div class='kb-panel mt-5'>
+                            <div class='kb-tabs'>
+                                <div class='kb-tabs-list g g-3'>
+                                    <div class='px-4 text-center py-3 active' data-target='#learn-panel'>
+                                        <p class='m-0'>
+                                            <small class='dot dot-blue'>まなぶ</small>
+                                        </p>
+                                    </div>
+                                    <div class='px-4 text-center py-3' data-target='#accumulate-panel'>
+                                        <p class='m-0'>
+                                            <small class='dot dot-red'>ためる</small>
+                                        </p>
+                                    </div>
+                                    <div class='px-4 text-center py-3' data-target='#comment-panel'>
+                                        <p class='m-0'>
+                                            <small class='dot dot-orange'>コメント</small>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class='kb-tabs-panel p-3'>
+                                    <div class='learn-panel active' id='learn-panel'>
+
+                                    </div>
+                                    <div class='accumulate-panel' id='accumulate-panel'>
+
+                                    </div>
+                                    <div class='comment-panel' id='comment-panel'>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src='/static/ver2.1/js/script.js'></script>
+    <script src='/static/ver2.1/js/lottie.min.js'></script>
+    <script>
+        var animationTivel = lottie.loadAnimation({
+            container: document.getElementById('loading'),
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: '/static/ver2.1/json/loading.json'
+        });
+    </script>
+    <script>
+        var loadedAjax = {
+            manabu: false,
+            tameru: false,
+            comment: false,
+        }
+        var loadTimer;
+        startTimer();
+        function startTimer() {
+            loadTimer = setInterval(function () {
+                if (loadedAjax.manabu == true && loadedAjax.tameru == true && loadedAjax.comment == true) {
+                    clearInterval(loadTimer);
+                    $('#loading').hide();
+                    $(".kb-container-loadedAjax").css({
+                        "opacity": 1,
+                    })
+                }
+            }, 100);
+        }
+        $(document).ready(function () {
+            let activeTab=0;
+            let manabu={
+                totalLength:1,
+                activeIndex:-1,
+                setting:[],
+                lists:[]
+            }
+            let tameru={
+                totalLength:1,
+                activeIndex:-1,
+                setting:[],
+                lists:[]
+            }
+            let comment={
+                totalLength:1,
+                activeIndex:-1,
+                setting:[],
+                lists:[]
+            }
+            let rankingTab = location.search.replace('?', '');
+            let initial=true;
+            callManabuApi('','');
+            callTameruApi('','');
+            callCommentApi('', '');
+            async function callManabuApi(fromDate, toDate){
+               await $.ajax({
+                type: "POST",
+                url: '/ranking/manabuList',
+                headers:{"Content-type":"application/json"},
+                data: JSON.stringify({
+                    fromDate: fromDate,
+                    toDate: toDate
+                }),
+                success:async function(data){
+                    let result=JSON.parse(data).data[0];
+                    manabu.activeIndex+=1;
+                    const lists=result.lists[0]
+                    const setting=result.setting[0]
+                    manabu.setting.push(setting);
+                    manabu.lists.push(lists);
+                    if(rankingTab == 'learning'){
+                        initial ? await setProfile() : null;
+                        $(".start-date").text(setting.FromDate);
+                        $(".end-date").text(setting.ToDate);
+                        await setRankingStatus(setting)
+                        await checkLength(manabu)
+                        await learningList(lists.rankingManabuList)
+                        initial = false;
+                    }
+                    loadedAjax.manabu = true;
+                }
+                })
+            }
+            async function callTameruApi(fromDate, toDate){
+              await  $.ajax({
+                type: "POST",
+                url: '/ranking/tameruList',
+                headers:{"Content-type":"application/json"},
+                data: JSON.stringify({
+                    fromDate: fromDate,
+                    toDate: toDate
+                }),
+                success: async function(data){
+                    let result=JSON.parse(data).data[0];
+                    tameru.activeIndex+=1;
+                    const lists=result.lists[0]
+                    const setting=result.setting[0]
+                    tameru.setting.push(setting);
+                    tameru.lists.push(lists);
+                    if (rankingTab == 'accumulate') {
+                        initial ? await setProfile() : null;
+                        $(".start-date").text(setting.FromDate);
+                        $(".end-date").text(setting.ToDate);
+                        await setRankingStatus(setting)
+                        await checkLength(tameru)
+                        await learningList(lists.rankingTameruList)
+                        $(".kb-tabs-list>div[data-target='#accumulate-panel']").trigger('click');
+                        initial = false;
+                    }
+                    loadedAjax.tameru = true;
+                }
+                })
+            }
+            async function callCommentApi(fromDate, toDate){
+              await  $.ajax({
+                type: "POST",
+                url: '/ranking/commentList',
+                headers:{"Content-type":"application/json"},
+                data: JSON.stringify({
+                    fromDate: fromDate,
+                    toDate: toDate
+                }),
+                success: async function(data){
+                    let result=JSON.parse(data).data[0];
+                    comment.activeIndex+=1;
+                    const lists=result.lists[0]
+                    const setting=result.setting[0]
+                    comment.setting.push(setting);
+                    comment.lists.push(lists);
+                    if (rankingTab == 'comment') {
+                        initial ? await setProfile() : null;
+                        $(".start-date").text(setting.FromDate);
+                        $(".end-date").text(setting.ToDate);
+                        await setRankingStatus(setting)
+                        await checkLength(comment)
+                        await learningList(lists.rankingCommentList)
+                        $(".kb-tabs-list>div[data-target='#comment-panel']").trigger('click');
+                        initial = false;
+                    }
+                    loadedAjax.comment = true;
+                }
+                })
+            }
+            $(".nextButton>a").on("click", function (e) {
+                e.preventDefault();
+                if(activeTab===0){
+                    manabu.activeIndex-=1;
+                }
+                else if(activeTab===1){
+                    tameru.activeIndex-=1;
+                }
+                else{
+                    comment.activeIndex-=1;
+                }
+                resetData();
+            })
+            $(".previousButton>a").on("click", async function (e) {
+                e.preventDefault();
+                if(activeTab===0){
+                    if(manabu.activeIndex== manabu.lists.length-1){
+                        let fromDate=manabu.lists[manabu.lists.length-1].FromDate;
+                        let toDate=manabu.lists[manabu.lists.length-1].ToDate;
+                         await callManabuApi(fromDate, toDate);
+                    }
+                    else{
+                        manabu.activeIndex+=1;
+                        resetData()
+                    }
+                }
+                else if(activeTab===1){
+                    if(tameru.activeIndex== tameru.lists.length-1){
+                        let fromDate=tameru.lists[tameru.lists.length-1].FromDate;
+                        let toDate=tameru.lists[tameru.lists.length-1].ToDate;
+                        await callTameruApi(fromDate, toDate);
+                        await resetData()
+                    }
+                    else{
+                        tameru.activeIndex+=1;
+                        resetData();
+                    }
+                }
+                else{
+                    if(comment.activeIndex== comment.lists.length-1){
+                        let fromDate=comment.lists[comment.lists.length-1].FromDate;
+                        let toDate=comment.lists[comment.lists.length-1].ToDate;
+                        await callCommentApi(fromDate, toDate);
+                        await resetData();
+                    }
+                    else{
+                        comment.activeIndex+=1;
+                        resetData();
+                    }
+                }
+            })
+            $(".kb-tabs-list>div").on("click", function () {
+                activeTab = $(".kb-tabs-list>div").index($(this));
+                resetData();
+            })
+            function resetData(){
+                if(activeTab===0){
+                    setRankingStatus(manabu.setting[manabu.activeIndex])
+                    checkLength(manabu)
+                    learningList(manabu.lists[manabu.activeIndex].rankingManabuList)
+                }
+                else if(activeTab===1){
+                    setRankingStatus(tameru.setting[tameru.activeIndex])
+                    checkLength(tameru)
+                    tameruList(tameru.lists[tameru.activeIndex].rankingTameruList)
+                }
+                else{
+                    setRankingStatus(comment.setting[comment.activeIndex])
+                    checkLength(comment)
+                    commentList(comment.lists[comment.activeIndex].rankingCommentList)
+                }
+            }
+            async function setProfile(){
+                await $.ajax({
+                    type:"GET",
+                    url:'/ranking/getRankingInfo',
+                    success:function(data){
+                        let result=JSON.parse(data).data;
+                        manabu.totalLength=result.manabuCount;
+                        tameru.totalLength=result.tameruCount;
+                        comment.totalLength=result.commentCount;
+                        var profile = result.profileimage == null ? '/static/ver2.1/img/1104@3x.png' : result.profileimage;
+                            $(".ranking-profile-container").append(`
+                                <div class='flex flex-item-center kb-ranking-profile-wrap'>
+                                        <div class='kb-ranking-profile profile' style='background:url(${profile});background-size:cover;background-position:center'></div>
+                                            <div class='px-2'>
+                                                <p class='m-0'>${result.displayname}</p>
+                                            </div>
+                                        </div>
+                                    <div class='flex flex-item-center rankingStatus'>
+
+                                    </div>
+                                `)
+                            var btabslistHeight = 0;
+                            if ($(window).width() >= 994) {
+                                $(".kb-tabs-panel>div").each(function () {
+                                    if ($(this).outerHeight() >= btabslistHeight) {
+                                        btabslistHeight = $(this).outerHeight();
+                                        if (btabslistHeight != 0) {
+                                            $(".kb-tabs-panel>div").height(btabslistHeight);
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                })
+            }
+            function checkLength(data) {
+                if (data.activeIndex == 0 && data.totalLength>1) {
+                    $(".nextButton").css({ "visibility": "hidden" });
+                    $(".previousButton").css({ "visibility": "visible" });
+                }
+                else if (data.activeIndex == 0 && data.totalLength==1){
+                    $(".nextButton").css({ "visibility": "hidden" });
+                    $(".previousButton").css({ "visibility": "hidden" });
+                }
+                else if (data.activeIndex >= data.totalLength - 1) {
+                    $(".nextButton").css({ "visibility": "visible" });
+                    $(".previousButton").css({ "visibility": "hidden" });
+                }
+                else {
+                    $(".nextButton").css({ "visibility": "visible" });
+                    $(".previousButton").css({ "visibility": "visible" });
+                }
+            }
+            function setRankingStatus(list) {
+                $(".start-date").text(list.FromDate);
+                $(".end-date").text(list.ToDate);
+                var acc_img = '';
+                if (list.accumulateFlag == 0) {
+                    acc_img = '/static/ver2.1/img/arrow-gray.png';
+                }
+                else if (list.accumulateFlag < 0) {
+                    acc_img = '/static/ver2.1/img/arrow-blue.png';
+                }
+                else {
+                    acc_img = '/static/ver2.1/img/1013@3x.png';
+                }
+
+                var tam_img = '';
+                if (list.tameruFlag == 0) {
+                    tam_img = '/static/ver2.1/img/arrow-gray.png';
+                }
+                else if (list.tameruFlag < 0) {
+                    tam_img = '/static/ver2.1/img/arrow-blue.png';
+                }
+                else {
+                    tam_img = '/static/ver2.1/img/1013@3x.png';
+                }
+                var comm_img = '';
+                if (list.commentFlag == 0) {
+                    comm_img = '/static/ver2.1/img/arrow-gray.png';
+                }
+                else if (list.commentFlag < 0) {
+                    comm_img = '/static/ver2.1/img/arrow-blue.png';
+                }
+                else {
+                    comm_img = '/static/ver2.1/img/1013@3x.png';
+                }
+                $('.kb-ranking-loaded').show();
+                $('#loading').hide();
+                $(".rankingStatus").empty();
+                $(".rankingStatus").append(` <div class='kb-ranking-status px-4'>
+                                <p class='text-muted'>
+                                    <small class='dot dot-blue'>まなぶ</small>
+                                </p>
+                                <h1 class='accumulate-rank'><span>${list.accumulateRank}</span><img src=${acc_img} alt='' /></h1>
+                            </div>
+                            <div class='kb-ranking-status px-4'>
+                                <p class='text-muted'>
+                                    <small class='dot dot-red'>ためる</small>
+                                </p>
+                                <h1 class='tameru-rank'><span>${list.tameruRank}</span><img src=${tam_img} alt='' /></h1>
+                            </div>
+                            <div class='kb-ranking-status px-4'>
+                                <p class='text-muted'>
+                                    <small class='dot dot-orange'>コメント</small>
+                                </p>
+                                <h1 class='comment-rank'><span>${list.commentRank}</span><img src=${comm_img} alt='' /></h1>
+                            </div>`)
+            }
+            function learningList(data) {
+                $(".learn-panel").empty();
+                var img = '';
+                data.length === 0 ?
+                    $(".learn-panel").append(
+                        `<div class='text-center'>
+                        <p class='text-muted'>表示するデータがありません</p>
+                    </div>`
+                    ) :
+                    data.map((item, index) => {
+                        if (item.flag == 0) {
+                            img = '/static/ver2.1/img/arrow-gray.png';
+                        }
+                        else if (item.flag < 0) {
+                            img = '/static/ver2.1/img/arrow-blue.png';
+                        }
+                        else {
+                            img = '/static/ver2.1/img/1013@3x.png';
+                        }
+                        $(".learn-panel").append(`
+                            <div class='flex flex-sb rank-media'>
+                                <div class='flex flex-item-center flex-s'>
+                                    <span>${item.rank}</span>
+                                    <img src=${img} class='rank-arrow mx-3' alt='' />
+                                    <img src='' class='rank-profile mx-3' alt='' />
+                                    <span class='rank-name'>${item.userName == null ? 'Unknown' : item.userName}</span>
+                                </div>
+                                <div class='flex flex-item-center'>
+                                    <p class='m-0'>${item.score}</p>
+                                </div>
+                            </div>`);
+
+                        if (item.pictureImage == null) {
+                            $(".learn-panel .rank-media").eq(index).find(".rank-profile").attr("src", '/static/ver2.1/img/1104@3x.png');
+                        }
+                        else {
+                            $(".learn-panel .rank-media").eq(index).find(".rank-profile").attr("src", item.pictureImage);
+                        }
+                    })
+            }
+            function tameruList(data) {
+                $(".accumulate-panel").empty();
+                var img = '';
+                data.length === 0 ?
+                    $(".accumulate-panel").append(
+                        `<div class='text-center'>
+                                <p class='text-muted'>表示するデータがありません</p>
+                            </div>`
+                    ) :
+                    data.map((item, index) => {
+                        if (item.flag == 0) {
+                            img = '/static/ver2.1/img/arrow-gray.png';
+                        }
+                        else if (item.flag < 0) {
+                            img = '/static/ver2.1/img/arrow-blue.png';
+                        }
+                        else {
+                            img = '/static/ver2.1/img/1013@3x.png';
+                        }
+                        $(".accumulate-panel").append(`
+                            <div class='flex flex-sb rank-media'>
+                                <div class='flex flex-item-center flex-s'>
+                                    <span>${item.rank}</span>
+                                    <img src=${img} class='rank-arrow mx-3' alt='' />
+                                    <img src='' class='rank-profile mx-3' alt='' />
+                                    <span class='rank-name'>${item.userName == null ? 'Unknown' : item.userName}</span>
+                                </div>
+                                <div class='flex flex-item-center'>
+                                    <p class='m-0'>${item.score}</p>
+                                </div>
+                            </div>`);
+
+                        if (item.pictureImage == null) {
+                            $(".accumulate-panel .rank-media").eq(index).find(".rank-profile").attr("src", '/static/ver2.1/img/1104@3x.png');
+                        }
+                        else {
+                            $(".accumulate-panel .rank-media").eq(index).find(".rank-profile").attr("src", item.pictureImage);
+                        }
+                    })
+            }
+            function commentList(data) {
+                $(".comment-panel").empty();
+                var img = '';
+                data.length === 0 ?
+                    $(".comment-panel").append(
+                        `<div class='text-center'>
+                                <p class='text-muted'>表示するデータがありません</p>
+                            </div>`
+                    ) :
+                    data.map((item, index) => {
+                        if (item.flag == 0) {
+                            img = '/static/ver2.1/img/arrow-gray.png';
+                        }
+                        else if (item.flag < 0) {
+                            img = '/static/ver2.1/img/arrow-blue.png';
+                        }
+                        else {
+                            img = '/static/ver2.1/img/1013@3x.png';
+                        }
+
+                        $(".comment-panel").append(`
+                            <div class='flex flex-sb rank-media'>
+                                <div class='flex flex-item-center flex-s'>
+                                    <span>${item.rank}</span>
+                                    <img src=${img} class='rank-arrow mx-3' alt='' />
+                                    <img src='' class='rank-profile mx-3' alt='' />
+                                    <span class='rank-name'>${item.userName == null ? 'Unknown' : item.userName}</span>
+                                </div>
+                                <div class='flex flex-item-center'>
+                                    <p class='m-0'>${item.score}</p>
+                                </div>
+                            </div>`);
+
+                        if (item.pictureImage == null) {
+                            $(".comment-panel .rank-media").eq(index).find(".rank-profile").attr("src", '/static/ver2.1/img/1104@3x.png');
+                        }
+                        else {
+                            $(".comment-panel .rank-media").eq(index).find(".rank-profile").attr("src", item.pictureImage);
+                        }
+                    })
+            }
+
+        })
+    </script>
+</body>
+{% include './ver2.1/partials/footer.html' %}
+
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KnowledgeBank</title>
+    <link rel='icon' href='/static/ver2.1/img/logo@3x.png'/>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css' />
+    <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+   <style>
+       .red-placeholder-class::-webkit-input-placeholder {
+    color: red
+}
+   </style>
+{% include './ver2.1/partials/ga_tag.html' %}
+</head>
+
+<body>
+    <div class='kb-container-no-sb flex flex-item-center'>
+        <div class='kb-login-container'>
+            <div class='kb-secondary-logo py-3 text-center'>
+                <img src='/static/ver2.1/img/1076@3x.png' alt='' class='mb-2' />
+                <span class='text-muted'><small>ナレッジバンクへようこそ</small></span>
+            </div>
+            <div class='kb-panel' id='loginForm'>
+                <div class='kb-panel-body px-3'>
+                    <div class='my-3 email'>
+                        <label>メールアドレス</label>
+                        <input type='text' data-prop="name" class='kb-input form-data' />
+                    </div>
+                    <div class='my-3 password'>
+                        <label>パスワード</label>
+                        <input type='password' data-prop="password" class='kb-input form-data kb-input-email' />
+                    </div>
+                </div>
+            </div>
+            <div class='py-4'>
+                <a class='submit-btn submit-login-btn'>
+                    ログイン
+                </a>
+            </div>
+            <div class='text-center'>
+                <a href='/reset' class='display-inline color-blue'>パスワードを忘れた方</a>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src='/static/ver2.1/js/varidate.js'></script>
+    <script src='/static/ver2.1/js/script.js'></script>
+    <script>
+
+        $(document).ready(function () {
+
+            $(".submit-login-btn").on("click", function (event) {
+                event.preventDefault();
+                login();
+            })
+            $("#loginForm").on("keyup",function(e){
+                if(e.which==13){
+                  login();
+                }
+            })
+
+            function login(){
+                var error_obj = {
+                    email: false,
+                    password: false,
+                }
+
+                var email = input_varidate(".email input", {
+                    required: true,
+                    type: 'email',
+                    maxLength: 100,
+                    message: 'メールアドレス'
+                });
+
+                if(email !== true){
+                    input_errorElement('.email input', email, '.email');
+                    error_obj.email = false;
+                }else{
+                    input_errorElement('.email input','', '.email');
+                    error_obj.email = true;
+                }
+
+                var password = input_varidate(".password input", {
+                    required: true,
+                    type: 'half',
+                    maxLength: 50,
+                });
+                if (password !== true) {
+                    input_errorElement('.password input', password, '.password');
+                    error_obj.password = false;
+                } else {
+                    input_errorElement('.password input' , '' , '.password');
+                    error_obj.password = true;
+                }
+
+              if(error_obj.email== true && error_obj.password==true){
+
+              var data = {};
+              $(".form-data").each(function () {
+                  var prop = $(this).attr("data-prop");
+                  data[prop] = $(this).val();
+              });
+              // ajax the JSON to the server
+              $.ajax({
+                  type: 'POST',
+                  url: '/login',
+                  headers: { "Content-Type": "application/json" },
+                  data: JSON.stringify(data),
+                  success: function (data) {
+                    let user_data={
+                        profile:data.profilePicture,
+                        name:data.displayName,
+                        authority:data.authority
+                    }
+                    if(data.authentication == false){
+                        status_show('fail', '登録されていないメールアドレスです')
+                    }
+                    localStorage.setItem('ud',JSON.stringify(user_data));
+                    localStorage.setItem('userId',JSON.stringify(data.userId));
+                      if (data['result'] == "ok") {
+                          window.location.href = "/home";
+                      }
+                      if (data['result'] == "ng") {
+                        //   status_show("fail", data['message']);
+                          status_show("fail",'パスワードが違います');
+                      }
+                  },
+                  contentType: "application/json",
+                  dataType: 'json'
+              });
+            }
+              // }
+              // stop link reloading the page
+            }
+        })
+        function status_show(status,message){
+                if(status=="ok"){
+                    $(".kb-login-container").append(`<div class='status-container success'><p class='px-2'>${message}</p></div>`);
+
+                }
+                else{
+                    $(".kb-login-container").append(`<div class='status-container error'><p class='px-2'>${message}</p></div>`);
+                }
+                setTimeout(()=>{
+                    $(".status-container").remove();
+
+                },2000)
+                $(".status-container").css({
+                    position:"fixed",
+                    top:"0px",
+                    width:$(".kb-container-no-sb").outerWidth(),
+                    marginLeft:$(".kb-container-no-sb").css("margin-left"),
+                    zIndex:2,
+                    left:'0'
+                })
+                $(".status-container.success").css({
+                    background: "#4caf50"
+                })
+                $(".status-container.error").css({
+                    color: "#fff",
+                    background: "rgb(217, 82, 67)"
+                })
+            }
+    </script>
+</body>
+{% include './ver2.1/partials/footer.html' %}
+
+</html>

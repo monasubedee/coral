@@ -1,0 +1,29 @@
+.correct-answer {
+  width: 100%;
+  margin: 10px 0 30px;
+  padding: 16px 16px 18px;
+  background-color: #fff;
+  border: solid 1px #0db42d;
+  border-radius: 4px;
+  @at-root {
+    #{&}__head {
+      color: #0db42d;
+      font-weight: 500;
+      font-size: 1.2rem;
+      line-height: 1.5;
+      letter-spacing: normal;
+      text-align: left;
+    }
+    #{&}__item {
+      margin: 10px 0 0;
+      font-size: 1.5rem;
+      line-height: 1.6;
+    }
+    #{&}__icon {
+      width: 11.9px;
+      height: 9.2px;
+      margin: 0 0.3em 0.7px 0;
+      fill: #0db42d;
+    }
+  }
+}

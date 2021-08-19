@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KnowledgeBank</title>
+    <link rel='icon' href='/static/ver2.1/img/logo@3x.png' />
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css' />
+    <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+    {% include './ver2.1/partials/ga_tag.html' %}
+</head>
+<style>
+    .line-height-1 {
+        line-height: 1;
+    }
+
+    .bg-red {
+        background: red !important;
+    }
+
+    .bg-blue {
+        background: blue !important;
+    }
+
+    .kb-container-loading{
+        height: 100vh;
+        min-height: calc(100vh - 132px);
+        margin-top: 80px;
+        padding: 20px;
+        width: calc(100vw - 220px);
+        margin-left: 220px;
+    }
+
+    .kb-container-loading #loading{
+        width: 40px;
+        margin: 40px auto;
+    }
+</style>
+{% include './ver2.1/partials/header.html' %}
+{% include './ver2.1/partials/sidebar.html' %}
+
+<body>
+    <div class='kb-container-loading'>
+        <div id="loading"></div>
+    </div>
+    <div class='kb-container-loadedAjax' style="opacity: 0;">
+        <div class='kb-container kb-home-container'>
+
+            <div class='g g-2 my-4'>
+              <div class='kb-panel'>
+                <div class='kb-home-container__profile'>
+                  <div class='profile-data' style="display: flex;padding-top: 12px; padding-left: 12px;border-bottom: 1px solid #e9e9ef;">
+
+                  </div>
+
+                  <div class="manabu-tameru-progress-wrap" style="height: 358px;">
+                          <div class="px-3 manabu-tameru-progress">
+                          </div>
+                    </div>
+                </div>
+              </div>
+              <div class='kb-panel'>
+                <div class="js-chart chart">
+                    <div class="chart-filter">
+                        <div class="chart-filter-btn px-3">
+                            <span class="chart-filter-btn-text">目標1</span>
+                            <div class="chart-filter-list">
+                                <label>
+                                    <input type="radio" name="target" value="目標1">
+                                    <span class="ml-1">目標1</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="target" value="目標2">
+                                    <span class="ml-1">目標2</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="target" value="目標3">
+                                    <span class="ml-1">目標3</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="chart-filter-btn px-3">
+                            <span class="chart-filter-btn-text">すべての学習カテゴリー</span>
+                            <div class="chart-filter-list">
+                                <label>
+                                    <input type="radio" name="learnCat" value="すべて" checked>
+                                    <span class="ml-1">すべて</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="learnCat" value="ビジネスマナー">
+                                    <span class="ml-1">ビジネスマナー</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="learnCat" value="営業">
+                                    <span class="ml-1">営業</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="learnCat" value="企画書">
+                                    <span class="ml-1">企画書</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="learnCat" value="web用語">
+                                    <span class="ml-1">web用語</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="learnCat" value="挨拶">
+                                    <span class="ml-1">挨拶</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="chart-filter-btn px-3">
+                            <span class="chart-filter-btn-text">1ヶ月</span>
+                            <div class="chart-filter-list">
+                                <label>
+                                    <input type="radio" name="period" value="1ヶ月">
+                                    <span class="ml-1">1ヶ月</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="period" value="3ヶ月">
+                                    <span class="ml-1">3ヶ月</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="period" value="6ヶ月">
+                                    <span class="ml-1">6ヶ月</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-target pl-3 pt-3 pr-3">
+                        <!-- <div class="chart-target-graph">
+                            <div class="chart-target-graph-inner">
+                                <small class="text-muted">達成度</small>
+                                <p class="chart-target-graph-number">60%</p>
+                            </div>
+                            <svg viewBox="0 0 63.6619772368 63.6619772368">
+                                <circle cx="31.8309886184" cy="31.8309886184" r="15.9154943092" fill="rgba(0,0,0,0)" stroke="#2962f9" stroke-width="31.8309886184" stroke-dashoffset="25" stroke-dasharray="60,40" />
+                            </svg>
+                        </div> -->
+                        <div data-target="目標1" class="chart-target-wrap">
+                            <a class="chart-target-title" href="/target/edit/#target-id-1">目標1</a>
+                            <p class="chart-target-contents">2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。</p>
+                            <!-- <a href="/target/edit/" class="color-blue display-inline">もっと見る</a> -->
+                        </div>
+                        <div data-target="目標2" class="chart-target-wrap" style="display:none">
+                            <a class="chart-target-title" href="/target/edit/#target-id-2">目標2</a>
+                            <p class="chart-target-contents">2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。</p>
+                            <!-- <a href="/target/edit/" class="color-blue display-inline">もっと見る</a> -->
+                        </div>
+                        <div data-target="目標3" class="chart-target-wrap" style="display:none">
+                            <a class="chart-target-title" href="/target/edit/#target-id-3">目標3</a>
+                            <p class="chart-target-contents">2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。2020年12月中までに売上を20%増加させる。</p>
+                            <!-- <a href="/target/edit/" class="color-blue display-inline">もっと見る</a> -->
+                        </div>
+                    </div>
+
+                    <div class='flex flex-s flex-c py-3 px-3 chart-rate'>
+                      <div class='text-center'>
+                          <small class='text-muted'>総合評価</small>
+                          <div class="flex flex-c flex-item-center mt-1">
+                              <span class="chart-result">20%</span>
+                              <img src="/static/ver2.1/img/arrow-gray.png" alt='' class='rank-arrow mx-2' />
+                              <h2 class="my-0">68%</h2>
+                          </div>
+                      </div>
+                      <div class='text-center'>
+                          <small class='text-muted'>学んだ数(1ヵ月)</small>
+                          <div class="flex flex-c flex-item-center mt-1">
+                              <span class="chart-result">20%</span>
+                              <img src="/static/ver2.1/img/arrow-gray.png" alt='' class='rank-arrow mx-2' />
+                              <h2 class="my-0">68%</h2>
+                          </div>
+                      </div>
+                      <div class='text-center'>
+                          <small class='text-muted'>正答率</small>
+                          <div class="flex flex-c flex-item-center mt-1">
+                              <span class="chart-result">20%</span>
+                              <img src="/static/ver2.1/img/1013@3x.png" alt='' class='rank-arrow mx-2' />
+                              <h2 class="my-0">68%</h2>
+                          </div>
+                      </div>
+                      <div class='text-center'>
+                          <small class='text-muted'>ためた数(1ヵ月)</small>
+                          <div class="flex flex-c flex-item-center mt-1">
+                              <span class="chart-result">20%</span>
+                              <img src="/static/ver2.1/img/1013@3x.png" alt='' class='rank-arrow mx-2' />
+                              <h2 class="my-0">68%</h2>
+                          </div>
+                      </div>
+                  </div>
+                  <div class='p-3 chart-panel'>
+                      <canvas id="myChart"></canvas>
+                  </div>
+                  <div class='px-3 py-3'>
+                      <div class="chart-info"></div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class='g g-2 my-4'>
+                <div class='kb-panel'>
+                    <div class='kb-panel-title p-3 flex flex-item-center flex-sb'>
+                        <div>
+                            <p class='m-0'>アクティビティ</p>
+                        </div>
+                        <div>
+                            <p class='text-muted m-0'><small>最近のあなたのアクティビティ</small></p>
+                        </div>
+                    </div>
+                    <div class='kb-panel-body kb-activity-media--wrap'>
+                        <div class='kb-activity-media pl-5 pr-3' id="activity-list">
+                            <!-- <div class='pl-4 pr-3'>
+                                <img src='/static/ver2.1/img/1105@3x.png' alt='' class='kb-activity-icon' />
+                                <div class='bb py-3'>
+                                    <span class='text-muted'><small>10分前</small></span>
+                                    <p class="mb-0">先月のランキングで1位を取得しました。おめでとうございます。</p>
+                                </div>
+                            </div>
+                            <div class='pl-4 pr-3'>
+                                <img src='/static/ver2.1/img/1106@3x.png' alt='' class='kb-activity-icon' />
+                                <div class='bb py-3'>
+                                    <span class='text-muted'><small>10分前</small></span>
+                                    <p class="mb-0">先月のランキングで1位を取得しました。おめでとうございます。</p>
+                                </div>
+                            </div>
+                            <div class='pl-4 pr-3'>
+                                <img src='/static/ver2.1/img/1107@3x.png' alt='' class='kb-activity-icon' />
+                                <div class='bb py-3'>
+                                    <span class='text-muted'><small>10分前</small></span>
+                                    <p class="mb-0">Hidefumiからのまなびに正解しました</p>
+                                </div>
+                            </div>
+                            <div class='pl-4 pr-3'>
+                                <img src='/static/ver2.1/img/1105@3x.png' alt='' class='kb-activity-icon' />
+                                <div class='bb py-3'>
+                                    <span class='text-muted'><small>10分前</small></span>
+                                    <p class="mb-0">先月のランキングで1位を取得しました。おめでとうございます。</p>
+                                </div>
+                            </div>
+                            <div class='pl-4 pr-3'>
+                                <img src='/static/ver2.1/img/1105@3x.png' alt='' class='kb-activity-icon' />
+                                <div class='py-3'>
+                                    <span class='text-muted'><small>10分前</small></span>
+                                    <p class="mb-0">先月のランキングで1位を取得しました。おめでとうございます。</p>
+                                </div>
+                            </div>
+                            <div class='pl-4 pr-3'>
+                                <img src='/static/ver2.1/img/1107@3x.png' alt='' class='kb-activity-icon' />
+                                <div class='bb py-3'>
+                                    <span class='text-muted'><small>10分前</small></span>
+                                    <p class="mb-0">Hidefumiからのまなびに正解しました</p>
+                                </div>
+                            </div>
+                            <div class='pl-4 pr-3'>
+                                <img src='/static/ver2.1/img/1105@3x.png' alt='' class='kb-activity-icon' />
+                                <div class='bb py-3'>
+                                    <span class='text-muted'><small>10分前</small></span>
+                                    <p class="mb-0">先月のランキングで1位を取得しました。おめでとうございます。</p>
+                                </div>
+                            </div> -->
+                            <!-- <div class='pl-4 pr-3'>
+                                <img src='/static/ver2.1/img/1105@3x.png' alt='' class='kb-activity-icon' />
+                                <div class='py-3'>
+                                    <span class='text-muted'><small>10分前</small></span>
+                                    <p class="mb-0">先月のランキングで1位を取得しました。おめでとうございます。</p>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class='kb-panel'>
+                    <div class='kb-panel-title p-3 flex flex-item-center flex-sb  kb-ranking-title'>
+                        <div>
+                            <p class='m-0'>ランキング</p>
+                        </div>
+                        <!-- <div>
+                            <p class='text-muted m-0'><small>今週多くまなんだ人</small></p>
+                        </div> -->
+                    </div>
+                    <div class='kb-ranking'>
+                        <div class='kb-tabs'>
+                            <div class='kb-tabs-list g g-3'>
+                                <div class='px-4 text-center py-3 active' data-target='#learn-panel'>
+                                    <p class='m-0'>
+                                        <small>まなぶ</small>
+                                    </p>
+                                </div>
+                                <div class='px-4 text-center py-3' data-target='#accumulate-panel'>
+                                    <p class='m-0'>
+                                        <small>ためる</small>
+                                    </p>
+                                </div>
+                                <div class='px-4 text-center py-3' data-target='#comment-panel'>
+                                    <p class='m-0'>
+                                        <small>コメント</small>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class='kb-tabs-panel p-3'>
+                                <div class="learn-panel active" id="learn-panel">
+                                    <div class="flex flex-sb rank-media">
+                                        <div class="flex flex-item-center flex-s">
+                                            <span>1</span>
+                                            <img src="/static/ver2.1/img/1013@3x.png" class="rank-arrow mx-3" alt="">
+                                            <img src="/static/ver2.1/img/1104@3x.png" class="rank-profile mx-3" alt="">
+                                            <span class="rank-name">明日花 キララ</span>
+                                        </div>
+                                        <div class="flex flex-item-center">
+                                            <p class="m-0">3</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-sb rank-media">
+                                        <div class="flex flex-item-center flex-s">
+                                            <span>2</span>
+                                            <img src="/static/ver2.1/img/1013@3x.png" class="rank-arrow mx-3" alt="">
+                                            <img src="/static/ver2.1/img/1104@3x.png" class="rank-profile mx-3" alt="">
+                                            <span class="rank-name">菅田 将暉</span>
+                                        </div>
+                                        <div class="flex flex-item-center">
+                                            <p class="m-0">1</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-sb rank-media">
+                                        <div class="flex flex-item-center flex-s">
+                                            <span>3</span>
+                                            <img src="/static/ver2.1/img/1013@3x.png" class="rank-arrow mx-3" alt="">
+                                            <img src="/static/ver2.1/img/1104@3x.png" class="rank-profile mx-3" alt="">
+                                            <span class="rank-name">菅田 将暉</span>
+                                        </div>
+                                        <div class="flex flex-item-center">
+                                            <p class="m-0">1</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-sb rank-media">
+                                        <div class="flex flex-item-center flex-s">
+                                            <span>4</span>
+                                            <img src="/static/ver2.1/img/1013@3x.png" class="rank-arrow mx-3" alt="">
+                                            <img src="/static/ver2.1/img/1104@3x.png" class="rank-profile mx-3" alt="">
+                                            <span class="rank-name">菅田 将暉</span>
+                                        </div>
+                                        <div class="flex flex-item-center">
+                                            <p class="m-0">1</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-sb rank-media">
+                                        <div class="flex flex-item-center flex-s">
+                                            <span>5</span>
+                                            <img src="/static/ver2.1/img/1013@3x.png" class="rank-arrow mx-3" alt="">
+                                            <img src="/static/ver2.1/img/1104@3x.png" class="rank-profile mx-3" alt="">
+                                            <span class="rank-name">菅田 将暉</span>
+                                        </div>
+                                        <div class="flex flex-item-center">
+                                            <p class="m-0">1</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-center pb-3 pt-3">
+                                        <a href="/ranking?learning" class="color-blue display-inline">ランキングをすべて見る</a>
+                                    </div>
+                                </div>
+                                <div class='accumulate-panel' id='accumulate-panel'>
+                                    <div class="flex flex-sb rank-media">
+                                        <div class="flex flex-item-center flex-s">
+                                            <span>1</span>
+                                            <img src="/static/ver2.1/img/1013@3x.png" class="rank-arrow mx-3" alt="">
+                                            <img src="/static/ver2.1/img/1104@3x.png" class="rank-profile mx-3" alt="">
+                                            <span class="rank-name">小松 菜奈</span>
+                                        </div>
+                                        <div class="flex flex-item-center">
+                                            <p class="m-0">2</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-sb rank-media">
+                                        <div class="flex flex-item-center flex-s">
+                                            <span>2</span>
+                                            <img src="/static/ver2.1/img/1013@3x.png" class="rank-arrow mx-3" alt="">
+                                            <img src="/static/ver2.1/img/1104@3x.png" class="rank-profile mx-3" alt="">
+                                            <span class="rank-name">明日花 キララ</span>
+                                        </div>
+                                        <div class="flex flex-item-center">
+                                            <p class="m-0">1</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-center pb-3 pt-3">
+                                        <a href="/ranking?comment" class="color-blue display-inline">ランキングをすべて見る</a>
+                                    </div>
+                                </div>
+                                <div class="comment-panel" id="comment-panel">
+                                    <div class="flex flex-sb rank-media">
+                                        <div class="flex flex-item-center flex-s">
+                                            <span>1</span>
+                                            <img src="/static/ver2.1/img/1013@3x.png" class="rank-arrow mx-3" alt="">
+                                            <img src="/static/ver2.1/img/1104@3x.png" class="rank-profile mx-3" alt="">
+                                            <span class="rank-name">菅田 将暉</span>
+                                        </div>
+                                        <div class="flex flex-item-center">
+                                            <p class="m-0">2</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-sb rank-media">
+                                        <div class="flex flex-item-center flex-s">
+                                            <span>2</span>
+                                            <img src="/static/ver2.1/img/1013@3x.png" class="rank-arrow mx-3" alt="">
+                                            <img src="/static/ver2.1/img/1104@3x.png" class="rank-profile mx-3" alt="">
+                                            <span class="rank-name">明日花 キララ</span>
+                                        </div>
+                                        <div class="flex flex-item-center">
+                                            <p class="m-0">1</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-center pb-3 pt-3">
+                                        <a href="/ranking?comment" class="color-blue display-inline">ランキングをすべて見る</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='kb-panel'>
+                <div class='kb-panel-title p-3 flex flex-item-center flex-sb'>
+                    <p class='m-0'>お知らせ</p>
+                    <div>
+                        <p class='text-muted m-0'><small>ナレッジバンクからのお知らせ</small></p>
+                    </div>
+                </div>
+                <div class='kb-panel-body px-3'>
+                    <div class='kb-news'>
+                        <div class="kb-news">
+                            <div class="px-3 kb-notice">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src='/static/ver2.1/js/script.js'></script>
+    <script src='/static/ver2.1/js/lottie.min.js'></script>
+    <script src='/static/ver2.1/js/chart_progress.js'></script>
+    <script>
+        $(window).on('load resize',function(){
+            var ww = $(window).innerWidth();
+            if (ww <= 992) {
+                console.log('sp')
+                $('.manabu-tameru-progress-wrap').css({
+                    'height':'auto'
+                });
+            }
+            else {
+                console.log('pc')
+                //$('.manabu-tameru-progress-wrap').height(0);
+                //$('.manabu-tameru-progress-wrap').height($('.js-chart').height() - $('.profile-data').height());
+                $('.manabu-tameru-progress-wrap').css({
+                    'height':'auto'
+                });
+            }
+        })
+
+        $('.chart-filter-btn').hover(
+            function () {
+                $(this).children('.chart-filter-list').addClass('active');
+            },
+            function () {
+                $(this).children('.chart-filter-list').removeClass('active');
+            }
+        );
+
+        $('.chart-filter-list input').click(function () {
+            $(this).parents('.chart-filter-list').removeClass('active');
+            if($(this).val() == 'すべて'){
+                $(this).parents('.chart-filter-btn').find('.chart-filter-btn-text').text('全ての学習カテゴリー');
+            }else {
+                $(this).parents('.chart-filter-btn').find('.chart-filter-btn-text').text($(this).val());
+            }
+        });
+
+
+        $('.kb-ranking .kb-tabs-list>div').on("click", function () {
+            var target = $(this).attr("data-target");
+            if (target == '#learn-panel') {
+                $('.kb-ranking-title small').text('今週多くまなんだ人');
+            }
+            if (target == '#accumulate-panel') {
+                $('.kb-ranking-title small').text('今週多くためた人');
+            }
+            if (target == '#comment-panel') {
+                $('.kb-ranking-title small').text('今週多くコメントした人');
+            }
+        });
+
+        var animationTivel = lottie.loadAnimation({
+            container: document.getElementById('loading'),
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: '/static/ver2.1/json/loading.json'
+        });
+        var loadedAjax = {
+            news: false,
+            profile: false,
+            ranking: false,
+        }
+        var loadTimer;
+        startTimer();
+        function startTimer() {
+            loadTimer =setInterval(function () {
+                if (loadedAjax.news == true && loadedAjax.profile == true && loadedAjax.ranking == true) {
+                    clearInterval(loadTimer);
+                    $(".kb-container-loadedAjax").css({
+                        "opacity": 1,
+                    })
+                    $('.kb-container-loading').hide();
+                }
+                // else{
+                //     $(".kb-container-loadedAjax").css({
+                //         "opacity": 0,
+                //     })
+                // }
+            }, 100);
+        }
+
+            // ページの読み込み完了と同時に実行されるよう指定
+        $(document).ready(function () {
+            $.ajax({
+                method: 'get',
+                url: '/news/list',
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    if (result.result == 'ng') {
+                        $(".kb-notice").append(`
+                    <div class='text-center'>
+                        <p class='text-muted' style='margin:auto'>表示する通知データはありません</p>
+                    </div>
+                    `);
+                    }
+                    else {
+                        result.news.map((item, index) => {
+                            let title = item.title.replace(/\r?\n/g, '<br>');
+                            if (index < 5) {
+                                $('.kb-notice').append(`<div class="kb-notice-item">
+                                      <div class="kb-notice-item-date">
+                                          <p class='text-muted'>${item.date}</p>
+                                      </div>
+                                      <div class='px-4 kb-news-type'>
+                                          <p class='my-0'>${item.type}</p>
+                                      </div>
+                                      <div>
+                                          <a href='/news/detail?id=${item.id}' class='kb-notice-msg color-blue'>
+                                          <p class=''>
+                                              ${title}
+                                          </p>
+                                          </a>
+                                      </div>
+                                  </div>
+                                  `);
+                            }
+
+                        })
+
+                        $(".kb-notice").append(`<div>
+                                    <div class='text-center block py-2'>
+                                        <a href='/news' class='color-blue'>お知らせをすべて見る</a>
+                                    </div>
+                                </div>`)
+                    }
+                    loadedAjax.news = true;
+                }
+            })
+            $.ajax({
+                method: "get",
+                url: "/profile/get",
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    var profile = result.userProfile.data.profilePicture == '' ? '/static/ver2.1/img/1104@3x.png' : result.userProfile.data.profilePicture;
+                    var flag_con = result.record_count.data.created_question_flag;
+                    var img_name = '';
+                    if (flag_con == 0) {
+                        img_name = '/static/ver2.1/img/arrow-gray.png';
+                    }
+                    else if (flag_con < 0) {
+                        img_name = '/static/ver2.1/img/arrow-blue.png';
+                    }
+                    else {
+                        img_name = '/static/ver2.1/img/1013@3x.png';
+                    }
+
+                    var flag_con1 = result.record_count.data.total_answer_flag;
+                    var img_name1 = '';
+                    if (flag_con1 == 0) {
+                        img_name1 = '/static/ver2.1/img/arrow-gray.png';
+                    }
+                    else if (flag_con1 < 0) {
+                        img_name1 = '/static/ver2.1/img/arrow-blue.png';
+                    }
+                    else {
+                        img_name1 = '/static/ver2.1/img/1013@3x.png';
+                    }
+
+                    var flag_con2 = result.record_count.data.learning_day_flag;
+                    var img_name2 = '';
+                    if (flag_con2 == 0) {
+                        img_name2 = '/static/ver2.1/img/arrow-gray.png';
+                    }
+                    else if (flag_con1 < 0) {
+                        img_name2 = '/static/ver2.1/img/arrow-blue.png';
+                    }
+                    else {
+                        img_name2 = '/static/ver2.1/img/1013@3x.png';
+                    }
+
+                    $(".profile-data").append(`
+                        <div class=''>
+                            <div class='profile-img profile mb-2' style='background-image:url(${profile});background-size:cover;background-position:center;'>
+                             </div>
+                        </div>
+                        <div class='px-3'>
+                            <div>
+                                <div>
+                                <h4 class='m-0'>${result.userProfile.data.displayName}</h4>
+                                <p class='text-muted my-2'><i class='far fa-envelope mr-2'></i>${result.userProfile.data.username}</p>
+                                </div>
+                            </div>
+                            <div class='flex flex-s py-2'>
+                                <div>
+                                  <small class='text-muted'>チーム</small>
+                                  <p class='my-1 line-height-1'>${result.userProfile.data.team_name == null ? 'None' : result.userProfile.data.team_name}</p>
+                                </div>
+                                <div class='px-5'>
+                                  <small class='text-muted'>役職</small>
+                                  <p class='my-1 line-height-1'>${result.userProfile.data.position}</p>
+                                </div>
+                                <div>
+                                  <small class='text-muted'>入社日</small>
+                                  <p class='my-1 line-height-1'>${result.year}/${result.month}/${result.day}</p>
+                                </div>
+                            </div>
+                            <div class='flex flex-s py-3'>
+                                <div class='text-center pr-3'>
+                                    <small class='text-muted'>まなんだ数</small>
+                                    <h1 class='font-normal my-1'>${result.record_count.data.total_answer_count}</h1>
+                                    <!--<span>${result.record_count.data.total_answer_status} <img src=${img_name1} alt='' class='rank-arrow mx-2' /></span>-->
+                                </div>
+                                <div class='text-center px-3 bl br'>
+                                    <small class='text-muted'>ためた数</small>
+                                    <h1 class='font-normal my-1'>${result.record_count.data.created_question_count}</h1>
+                                    <!--<span>${result.record_count.data.created_question_status}<img src=${img_name} class='rank-arrow mx-2' alt='' /></span>-->
+                                </div>
+                                <div class='text-center pl-3'>
+                                    <small class='text-muted'>合計まなび日数</small>
+                                    <h1 class='my-1 font-normal'>${result.record_count.data.learning_day_count}</h1>
+                                    <!--<span>${result.record_count.data.learning_day_status} <img src=${img_name2} alt='' class='rank-arrow mx-2' /></span>-->
+                                </div>
+                            </div>
+                        </div>
+        `);
+
+                    loadedAjax.profile = true;
+                }
+            })// end ajax
+
+            var btabslistHeight = 0;
+            function kbtabspanelResize() {
+                if ($(window).width() >= 994) {
+                    $(".kb-tabs-panel>div").each(function () {
+                        if ($(this).height() >= btabslistHeight) {
+                            btabslistHeight = $(this).height();
+                            $(".kb-tabs-panel>div").height(btabslistHeight);
+                        }
+                    });
+                }
+            }
+            let tabTarget = 0;
+            let learning = [], comment = [], accumulate = -[];
+            $.ajax({
+                method: "get",
+                url: "/ranking/list?isHomePage=1",
+                success: function (data) {
+                    var panel_list = JSON.parse(data).data;
+                    accumulate = panel_list[0].tameruList;
+                    learning = panel_list[0].manabuList;
+                    comment = panel_list[0].commentList;
+                    setDate();
+                    if (accumulate[0].rankingTameruList.length > 0) {
+                        $(".accumulate-panel>div").remove();
+                        accumulateList(accumulate);
+                        $(".accumulate-panel").append(`<div class='text-center pb-3 pt-3'>
+                            <a href='/ranking?accumulate' class='color-blue display-inline'>さらに表示する</a>
+                        </div>`);
+                    }
+                    else {
+                        $(".accumulate-panel>div").remove();
+                        $(".accumulate-panel").append(
+                            `<div class='text-center'>
+                            <p class='text-muted'>表示するデータがありません</p>
+                        </div>`
+                        )
+                    }
+                    if (learning[0].rankingManabuList.length > 0) {
+                        $(".learn-panel>div").remove();
+                        learningList(learning);
+                        $(".learn-panel").append(`<div class='text-center pb-3 pt-3'>
+                            <a href='/ranking?learning' class='color-blue display-inline'>さらに表示する</a>
+                        </div>`);
+
+                    }
+                    else {
+                        $(".learn-panel>div").remove();
+                        $(".learn-panel").append(
+                            `<div class='text-center'>
+                            <p class='text-muted'>表示するデータがありません</p>
+                        </div>`
+                        )
+                    }
+                    if (comment[0].rankingCommentList.length > 0) {
+                        $(".comment-panel>div").remove();
+                        commentList(comment);
+                        $(".comment-panel").append(`<div class='text-center pb-3 pt-3'>
+                            <a href='/ranking?comment' class='color-blue display-inline'>さらに表示する</a>
+                        </div>`);
+
+                    }
+                    else {
+                        $(".comment-panel>div").remove();
+                        $(".comment-panel").append(
+                            `<div class='text-center'>
+                            <p class='text-muted'>表示するデータがありません</p>
+                        </div>`
+                        )
+                    }
+                    kbtabspanelResize();
+
+                    loadedAjax.ranking = true;
+                }
+            })
+            function setDate() {
+                let target = (tabTarget === 0 || tabTarget === 2) ? learning : accumulate;
+                var startDate = (target[0].FromDate).split(' ')[0].split('-');
+                var endDate = (target[0].ToDate).split(' ')[0].split('-');
+                $('.kb-ranking-title>p').remove();
+                $('.kb-ranking-title').append(`
+                <p class="my-0">
+                    <small class="text-muted">
+                        ${startDate[0]}年${startDate[1]}月${startDate[2]}日〜${endDate[0]}年${endDate[1]}月${endDate[2]}日
+                    </small>
+                </p>
+            `)
+            }
+            $(".kb-tabs-list>div").on("click", function () {
+                tabTarget = $(".kb-tabs-list>div").index($(this));
+                setDate();
+            })
+            function learningList(data) {
+                var img = '';
+                data[0].rankingManabuList.map((item, index) => {
+                    if (item.flag == 0) {
+                        img = '/static/ver2.1/img/arrow-gray.png';
+                    }
+                    else if (item.flag < 0) {
+                        img = '/static/ver2.1/img/arrow-blue.png';
+                    }
+                    else {
+                        img = '/static/ver2.1/img/1013@3x.png';
+                    }
+                    $(".learn-panel").append(`
+                        <div class='flex flex-sb rank-media'>
+                            <div class='flex flex-item-center flex-s'>
+                                <span>${item.rank}</span>
+                                <img src=${img} class='rank-arrow mx-3' alt='' />
+                                <img src='' class='rank-profile mx-3' alt='' />
+                                <span class='rank-name'>${item.userName == null ? 'Unknown' : item.userName}</span>
+                            </div>
+                            <div class='flex flex-item-center'>
+                                <p class='m-0'>${item.score}</p>
+                            </div>
+                        </div>`);
+                    if (item.pictureImage == null) {
+                        $(".learn-panel .rank-media").eq(index).find(".rank-profile").attr("src", '/static/ver2.1/img/1104@3x.png');
+                    }
+                    else {
+                        $(".learn-panel .rank-media").eq(index).find(".rank-profile").attr("src", item.pictureImage);
+                    }
+                })
+            }
+            function accumulateList(data) {
+                var img = '';
+                var itemcount = data.length;
+                data[0].rankingTameruList.map((item, index) => {
+                    if (item.flag == 0) {
+                        img = '/static/ver2.1/img/arrow-gray.png';
+                    }
+                    else if (item.flag < 0) {
+                        img = '/static/ver2.1/img/arrow-blue.png';
+                    }
+                    else {
+                        img = '/static/ver2.1/img/1013@3x.png';
+                    }
+                        $(".accumulate-panel").append(`
+                            <div class='flex flex-sb rank-media'>
+                                <div class='flex flex-item-center flex-s'>
+                                    <span>${item.rank}</span>
+                                    <img src=${img} class='rank-arrow mx-3' alt='' />
+                                    <img src='' class='rank-profile mx-3' alt='' />
+                                    <span class='rank-name'>${item.userName == null ? 'Unknown' : item.userName}</span>
+                                </div>
+                                <div class='flex flex-item-center'>
+                                    <p class='m-0'>${item.score}</p>
+                                </div>
+                            </div>`);
+
+                    if (item.pictureImage == null) {
+                        $(".accumulate-panel .rank-media").eq(index).find(".rank-profile").attr("src", '/static/ver2.1/img/1104@3x.png');
+                    }
+                    else {
+                        $(".accumulate-panel .rank-media").eq(index).find(".rank-profile").attr("src", item.pictureImage);
+                    }
+                })
+            }
+            function commentList(data) {
+                if ((typeof data) == 'object') {
+                    var img = '';
+                    data[0].rankingCommentList.map((item, index) => {
+                        if (item.flag == 0) {
+                            img = '/static/ver2.1/img/arrow-gray.png';
+                        }
+                        else if (item.flag < 0) {
+                            img = '/static/ver2.1/img/arrow-blue.png';
+                        }
+                        else {
+                            img = '/static/ver2.1/img/1013@3x.png';
+                        }
+                            $(".comment-panel").append(`
+                                <div class='flex flex-sb rank-media'>
+                                    <div class='flex flex-item-center flex-s'>
+                                        <span>${item.rank}</span>
+                                        <img src=${img} class='rank-arrow mx-3' alt='' />
+                                        <img src='' class='rank-profile mx-3' alt='' />
+                                        <span class='rank-name'>${item.userName == null ? 'Unknown' : item.userName}</span>
+                                    </div>
+                                    <div class='flex flex-item-center'>
+                                        <p class='m-0'>${item.score}</p>
+                                    </div>
+                                </div>`);
+
+                        if (item.pictureImage == null) {
+                            $(".comment-panel .rank-media").eq(index).find(".rank-profile").attr("src", '/static/ver2.1/img/1104@3x.png');
+                        }
+                        else {
+                            $(".comment-panel .rank-media").eq(index).find(".rank-profile").attr("src", item.pictureImage);
+                        }
+                    })
+                }
+            }
+        })
+
+        $.ajax({
+            method: "get",
+            url: "/activity/",
+            success: function (data) {
+                var activity_list = JSON.parse(data).data;
+                if (activity_list.length > 0) {
+                    activity_list.map((item, index) => {
+                      img='';
+                      if(item.type == 1){ //fav
+                        img = '/static/ver2.1/img/1105@3x.png';
+                      }else if(item.type == 2){ //feed
+                        img = '/static/ver2.1/img/1106@3x.png';
+                      }else if(item.type == 3){ //evaluate
+                        img = '/static/ver2.1/img/1107@3x.png';
+                      }else if(item.type == 4){ //issue delete by admin
+                        img = '/static/ver2.1/img/1108@3x.png';
+                      }else if(item.type == 5){ //issue draftFlag change by admin
+                        img = '/static/ver2.1/img/1109@3x.png';
+                      }else if(item.type == 9){ //new user register
+                        img = '/static/ver2.1/img/1110@3x.png';
+                      }
+                      $("#activity-list").append(`
+                        <div class='pl-4 pr-3'>
+                            <img src=${img} alt='' class='kb-activity-icon' />
+                            <div class='bb py-3'>
+                                <span class='text-muted'><small>${item.time}</small></span>
+                                <p class="mb-0">${item.text}</p>
+                            </div>
+                        </div>`);
+                    });
+                }
+                else {
+                    $("#activity-list").append(`
+                        <div class='pl-4 pr-3'>
+                          <center>
+                            <p class="mb-0">表示できるアクティビティがありません</p>
+                          </center>
+                        </div>
+                      `);
+                }
+            }
+        })
+    </script>
+</body>
+{% include './ver2.1/partials/footer.html' %}
+</html>

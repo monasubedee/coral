@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>KnowledgeBank</title>
+  <link rel='icon' href='/static/ver2.1/img/logo@3x.png' />
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css' />
+  <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-160620961-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-160620961-1');
+  </script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src='/static/ver2.1/js/script.js'></script>
+</head>
+
+<div class='kb-header flex flex-sb'>
+    <div class='kb-logo flex flex-item-center'>
+        <img src='/static/ver2.1/img/light-bulb@3x.png' alt='' class='ml-2 mr-1' />
+        <p id="output"></p>
+    </div>
+    <div class='mobile-sidebar-btn'>
+        <div class='flex flex-item-center'>
+            <button class='fas fa-bars'></button>
+        </div>
+    </div>
+    <div class='mobile-logo'>
+        <div>
+            <a href="/home" class="mobile-logo-link"><img src='/static/ver2.1/img/1076@3x.png' alt=''/></a>
+        </div>
+    </div>
+    <div class='kb-primary-menu flex flex-item-center'>
+        <a href='/manabu' class='kb-primary-menuitem flex flex-item-center'>
+            <img src='/static/ver2.1/img/pen-tool-1@3x.png' alt='' class='mr-2' />
+            <p class='color-blue'>今日のまなび</p>
+        </a>
+        <a href='/question' class='kb-primary-menuitem flex flex-item-center'>
+            <img src='/static/ver2.1/img/1251@3x.png' alt='' class='mr-2' />
+            <p class='color-blue'>課題をためる</p>
+        </a>
+        <div class='kb-primary-menuitem flex flex-item-center dropdown'>
+            <div class='dropdown-btn flex flex-item-center h-profile'>
+                <div style='background-image:url(/static/ver2.1/img/1104@3x.png);background-size:cover;background-position:center'  class='my-profile mr-1'></div>
+                <p></p>
+            </div>
+            <div class='dropdown-menu'>      
+                <a href='/profile' class='dropdown-menuitem'>ユーザー情報</a>
+                <a href='/target/edit' class='dropdown-menuitem'>目標と評価</a>
+                <a href='/logout' class='dropdown-menuitem logout'>ログアウト</a>
+                <div class='bb my-2'></div>
+                <a href='/settings/base' class='dropdown-menuitem'>ナレッジバンク設定</a>
+                <a href='/settings/member' class='dropdown-menuitem'>メンバー設定</a>
+                <a href='/settings/company' class='dropdown-menuitem'>企業情報設定</a>
+                <a href='/settings/news' class='dropdown-menuitem'>お知らせ管理</a>
+                <a href='/settings/event' class='dropdown-menuitem'>イベント設定</a>
+            </div>
+        </div>
+        <!-- <div class='kb-primary-menuitem flex flex-item-center'>
+            <div class='kb-noti flex flex-item-center'><span>8</span></div>
+            <img src='/static/ver2.1/img/notification@3x.png' alt='' class='mr-2' />
+        </div> -->
+    </div>
+</div>
+<script>
+  $('.dropdown').on("click", function(){
+      //$('.dropdown-menu').show();
+  })
+</script>

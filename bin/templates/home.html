@@ -1,0 +1,24 @@
+{%from "partials/header.html" import header with context%} {%from
+"partials/sidebar.html" import sidebar with context%}
+<!DOCTYPE html>
+<html lang="ja">
+  {% include 'partials/head.html' %}
+  <body>
+    <div class="_wrapper">
+      {{ header(title, avatorImage, logined) }}
+      <div class="_wrapper__content">
+        {{ sidebar(component_message, path) }}
+        <div class="home">
+          <div class="card">{{ profile }}</div>
+          <div class="card">{{ rankingAbstract }}</div>
+          <div class="card">{{ graphRecored }}</div>
+          <div class="card">{{ recordCount }}</div>
+          <div class="card">{{ rankingComments }}</div>
+          <div class="card">{{ rankingAccumulated }}</div>
+          <div class="card">{{ rankingLearn }}</div>
+          {% include './partials/footer.html' %}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

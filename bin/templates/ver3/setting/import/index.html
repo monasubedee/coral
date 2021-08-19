@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>KnowledgeBank</title>
+  <link rel='icon' href='/static/ver2.1/img/logo@3x.png' />
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css' />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+  <style>
+    .kb-panel-title button {
+      display: inline-block;
+      outline: none;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      font: 14px/100% Arial, Helvetica, sans-serif;
+      padding: 0.5em 2em 0.55em;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+      border-radius: 0.25rem;
+      color: black !important;
+      font-weight: bold;
+      border: solid 1px #d1d1d1;
+      background: white;
+      font-size: 14px;
+      padding: 10px 8px;
+      font-weight: normal;
+      text-shadow: none;
+    }
+
+    .kb-panel-title .addButton:hover:not([disabled]) {
+      text-decoration: none;
+      background: #dca728 !important;
+      border: solid 1px #916d18;
+    }
+
+    .kb-panel-title .addButton i {
+      color: #2962ff;
+    }
+
+    .kb-panel-title .deleteButton {
+      margin-left: auto;
+    }
+
+    .kb-panel-title .deleteButton i {
+      color: #fb5d51;
+      transform: rotate(45deg);
+    }
+
+    .kb-panel-title .deleteButton:hover:not([disabled]) {
+      text-decoration: none;
+      background: #dca728 !important;
+      border: solid 1px #916d18;
+    }
+
+    .kb-setting-import-container table th {
+      background: #fafafa;
+      font-size: 13px;
+      color: #8f9091;
+    }
+
+    .kb-setting-import-container table th p {
+      margin: 0;
+      display: inline-block;
+      position: relative;
+    }
+
+    .kb-setting-import-container table .fa-trash {
+      cursor: pointer;
+    }
+
+    .sort {
+      border-right: solid 3px transparent;
+      border-left: solid 3px transparent;
+      display: inline-block;
+      position: absolute;
+      left: calc(100% + 10px);
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      border-top: solid 5px #8f9091;
+    }
+
+    .sort.sort--desc {
+      border-top: 0;
+      border-bottom: solid 5px #8f9091;
+    }
+
+    .kb-container-loading {
+      padding: 20px;
+      width: calc(100vw - 220px);
+      display: flex;
+      justify-content: center;
+    }
+
+    .kb-container-loading #loading {
+      width: 40px;
+      position: fixed;
+      top: 50%;
+      z-index: 999;
+    }
+  </style>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  {% include './ver2.1/partials/ga_tag.html' %}
+</head>
+{% include './ver2.1/partials/header.html' %}
+{% include './ver2.1/partials/sidebar.html' %}
+
+<body>
+  <div>
+    <div class='kb-container'>
+      <div class="kb-container-loading" style="display: none;">
+        <div id='loading'>
+          <i class="fa fa-spinner" style="color: blue;font-size: 43px;"></i>
+        </div>
+      </div>
+      <div class='kb-setting-container kb-setting-import-container'>
+        <div class='kb-setting-top text-center text-center'>
+          <h3>
+            ナレッジバンク設定
+          </h3>
+          <p class='text-muted'><small>ナレッジバンクの様々な設定ができます</small></p>
+          <div class='flex flex-c py-3'>
+            <div class='p-3 px-4'>
+              <a href='/settings/base'>
+                <img src='/static/ver2.1/img/base.png' alt='' />
+                <p><small>基本設定</small></p>
+              </a>
+            </div>
+            <div class='p-3 px-4'>
+              <a href='/settings/event'>
+                <img src='/static/ver2.1/img/learn.png' alt='' />
+                <p><small>イベント設定</small></p>
+              </a>
+            </div>
+            <div class='p-3 px-4'>
+              <a href='/settings/import'>
+                <img src='/static/ver2.1/img/import_active.png' alt='' />
+                <p class='active'><small>ナレッジパック設定</small></p>
+              </a>
+            </div>
+            <div class='p-3 px-4'>
+              <a href='/settings/mail'>
+                <img src='/static/ver2.1/img/mail.png' alt='' />
+                <p><small>通知</small></p>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class='kb-panel'>
+          <div class='kb-panel-title p-3'>
+            <p class='m-0 flex flex-item-center'>ナレッジパック設定
+              <button class="addButton add-file ml-3" data-modal="#add-member-modal" id="get-file">
+                <!-- <i class="fas fa-plus mr-3"></i>ナレッジパックを追加 -->
+                <i class="fa fa-plus mr-3"></i>ナレッジパックを追加
+              </button>
+              <input type="file" id="save-zip-file" accept=".zip" style="display: none;">
+            </p>
+          </div>
+
+          <div class='kb-panel-body py-0'>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>
+                    <p>ID<span class="sort" data-target="id"></span></p>
+                  </th>
+                  <th>
+                    <p>名称<span class="sort" data-target="name"></span></p>
+                  </th>
+                  <th>
+                    <p>課題数<span class="sort" data-target="questions" data-number="true"></span></p>
+                  </th>
+                  <th>
+                    <p>導入日<span class="sort" data-target="date"></span></p>
+                  </th>
+                  <th>
+                    <p>提供元<span class="sort" data-target="provider"></span></p>
+                  </th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody class="kb-setting-packs" id='myTable'>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src='/static/ver2.1/js/script.js'></script>
+  <script>
+
+    // var packs = [
+    //   {
+    //     id: 'pkp00001',
+    //     name: '自社ナレッジ',
+    //     questions: 29,
+    //     date: '2020/01/29',
+    //     provider: '株式会社アイデアランプ',
+    //   },
+    //   {
+    //     id: 'pkp00002',
+    //     name: '自社ナレッジ',
+    //     questions: 59,
+    //     date: '2020/02/29',
+    //     provider: 'テストアイデアランプ',
+    //   },
+    //   {
+    //     id: 'pkp00003',
+    //     name: '自社ナレッジ',
+    //     questions: 642,
+    //     date: '2021/01/29',
+    //     provider: '株式会社アイデアランプ',
+    //   },
+    //   {
+    //     id: 'pkp00004',
+    //     name: '自社ナレッジ',
+    //     questions: 431,
+    //     date: '2020/04/29',
+    //     provider: 'アイデアランプ',
+    //   },
+    //   {
+    //     id: 'pkp00005',
+    //     name: '自社ナレッジ',
+    //     questions: 95,
+    //     date: '2020/03/29',
+    //     provider: '株式会社アイデアランプ',
+    //   },
+    // ];
+    // packs.sort(function (a, b) {
+    //   var nameA = a.name.toUpperCase(); // 大文字と小文字を無視する
+    //   var nameB = b.name.toUpperCase(); // 大文字と小文字を無視する
+    //   if (nameA < nameB) {
+    //     return -1;
+    //   }
+    //   if (nameA > nameB) {
+    //     return 1;
+    //   }
+
+    //   // names must be equal
+    //   return 0;
+    // });
+    // sort(
+    //   packs.sort(function (a, b) {
+    //     return a.id - b.id;
+    //   })
+    // )
+
+    function error() {
+      $("body").append("<div class='status-container error'><p class='px-2'>内容の保存に失敗しました</p></div>");
+      $(".status-container").css({
+        position: "fixed",
+        top: "80px",
+        width: $(".kb-container").outerWidth(),
+        marginLeft: $(".kb-container").css("margin-left"),
+        zIndex: 2,
+        left: '0'
+      })
+      $(".status-container.error").css({
+        background: "#d95243",
+        color: "#fff"
+      })
+      setTimeout(() => {
+        $(".status-container").remove();
+      }, 2000)
+    }
+
+    $('.add-file').on('click', function () {
+      $(this).next().click();
+
+    })
+
+
+    $('input[type=file]').on("change", function (e) {
+      var file = e.target.files[0].name;
+      dataFile = e.target.files[0];
+
+      $("#get-file").addClass("submitUpload");
+      $('.submitUpload').click();
+    });
+
+
+    $(document).on("click", ".submitUpload", function () {
+      $('.kb-container-loading').show();
+      let css = 'fa-spin';
+      $('.fa-spinner').show().addClass(css);
+      $('.kb-setting-container').css({
+        'opacity': '0.5'
+      })
+      var file = document.getElementById("save-zip-file").files[0];
+      var form = new FormData();
+      form.append("file", file);
+      $.ajax({
+        method: "POST",
+        url: '/question/questionCSV',
+        data: form,
+        processData: false,
+        contentType: false,
+        success: function (result) {
+          $('.kb-container-loading').hide();
+          $('.kb-setting-container').css({
+            'opacity': '1'
+          })
+          var data = JSON.parse(result);
+          if (data["result"] == "ok") {
+            getKnowledgeCount();
+            status_show('ok');
+            if (data.newCSVRecord.length > 0) {
+              data.newCSVRecord.map((record) => {
+                var value = JSON.stringify(localStorage.getItem('count'));
+                let id = record.id;
+                $('.kb-setting-packs').append(`
+                <tr group=${id}>
+                  <td>${record.pkpNumber}</td>
+                  <td>${record.name}</td>
+                  <td>${record.questionCount}</td>
+                  <td>${record.date}</td>
+                  <td>${record.companyName}</td>
+                  <td><i class="fas fa-trash pack_delete" data-tamerudelete='${id}' style="cursor:pointer"></i></td>
+                </tr>
+                `)
+
+              })
+              getKnowledgeCount();
+            }
+          }
+          if (data["result"] == 'ng') {
+
+            status_show('failed');
+          }
+        },
+        error: function (response) {
+          $('.kb-container-loading').hide();
+          $('.kb-setting-container').css({
+            'opacity': '1'
+          })
+          error();
+        }
+      });
+    });
+
+    getCsvFileList();
+
+    function getCsvFileList() {
+      $.ajax({
+        type: 'GET',
+        url: '/settings/get_CSVFileList',
+        success: function (result) {
+          let response = JSON.parse(result);
+          if (response.data.length > 0) {
+            response.data.map((item, index) => {
+              let id = item.id;
+              $('.kb-setting-packs').append(`
+                <tr group=${id}>
+                  <td>${item.pkpNumber}</td>
+                  <td>${item.name}</td>
+                  <td>${item.questionCount}</td>
+                  <td>${item.date}</td>
+                  <td>${item.companyName}</td>
+                  <td><i class="fas fa-trash pack_delete" data-tamerudelete='${id}' style="cursor:pointer"></i></td>
+                </tr>
+                `)
+
+            })
+
+          }
+          else {
+            $('.kb-panel-body').append(`
+             <div style="padding:20px;text-align:center">
+             <p>
+             <small>表示するデータがありません</small>
+             </p>
+             </div>
+
+            `)
+          }
+
+        }
+      })
+
+    }
+
+    function sort(target, order, number) {
+      if (number == "true") {
+        var sorted = packs.sort(function (a, b) {
+          return a[target] - b[target];
+        });
+      } else {
+        var sorted =
+          packs.sort(function (a, b) {
+            var nameA = a[target].toUpperCase(); // 大文字と小文字を無視する
+            var nameB = b[target].toUpperCase(); // 大文字と小文字を無視する
+            if (nameA < nameB) {
+              return -1;
+            }
+            if (nameA > nameB) {
+              return 1;
+            }
+            // names must be equal
+            return 0;
+          });
+      }
+      // $('.kb-setting-packs').html('');
+      // for (let i in sorted) {
+      //   var packItem = '\
+      //    <tr>\
+      //     <td>'+ sorted[i].id + '</td>\
+      //     <td>'+ sorted[i].name + '</td>\
+      //     <td>'+ sorted[i].questions + '</td>\
+      //     <td>'+ sorted[i].date + '</td>\
+      //     <td>'+ sorted[i].provider + '</td>\
+      //     <td><i class="fas fa-trash pack_delete"></i></td>\
+      //   </tr>';
+      //   if(order == 'asc'){
+      //     $('.kb-setting-packs').append(packItem);
+      //   }else{
+      //     $('.kb-setting-packs').prepend(packItem);
+      //   }
+      // }
+    }
+
+
+
+
+    $(document).on("click", ".pack_delete", function () {
+      var tamerudelete = $(this).attr("data-tamerudelete");
+      $("#attention").find(".submit-btn").attr('data-tamerudelete', tamerudelete);
+      $("#attention").show();
+    });
+
+    $(document).on("click", ".tameru_delete--cancel", function () {
+      $("#attention").hide();
+    })
+
+    $(document).on("click", ".tameru_delete--confirm", function () {
+      let id = $(this).attr("data-tamerudelete");
+      $.ajax({
+        type: 'POST',
+        url: '/settings/csvFileDelete',
+        headers: { "Content-Type": "application/json" },
+        data: JSON.stringify({ "id": id }),
+        success: function (res) {
+          let result = JSON.parse(res);
+          $("#attention").hide();
+          if (result["result"] == "ok") {
+            var count = $("#myTable").children("tr").length;
+            getKnowledgeCount();
+            if (count == 1) {
+              // $(`table tr[group=${id}]`).remove();
+              $('.kb-panel-body').append(`
+             <div style="padding:20px;text-align:center">
+             <p>
+             <small>表示するデータがありません</small>
+             </p>
+             </div>
+
+            `)
+            }
+
+            if (count > 0) {
+              $(`table tr[group=${id}]`).remove();
+              status_show('ok');
+            }
+
+          }
+          if (result['result'] == "ng") {
+            status_show('failed');
+            window.location.href = "/settings/import";
+          }
+
+        }
+      })
+    })
+
+    function getKnowledgeCount() {
+      $.ajax({
+        method: "Get",
+        url: '/knowledge_count',
+        success: function (data) {
+          $("#output").text(JSON.parse(data).data+" Knowledge!");
+        }
+      })
+
+    }
+
+    function status_show(status) {
+      if (status == "ok") {
+        $("body").append("<div class='status-container success'><p class='px-2'>内容を保存しました</p></div>");
+
+      }
+      else {
+        $("body").append("<div class='status-container fail'><p class='px-2'>内容の保存に失敗しました</p></div>");
+      }
+      setTimeout(() => {
+        $(".status-container").remove();
+      }, 2000)
+      $(".status-container").css({
+        position: "fixed",
+        top: "80px",
+        width: $(".kb-container").outerWidth(),
+        marginLeft: $(".kb-container").css("margin-left"),
+        zIndex: 20,
+        left: '0'
+      })
+      $(".status-container.success").css({
+        background: "#4caf50"
+      })
+      $(".status-container.fail").css({
+        background: "#fef3f2"
+      })
+    }
+    sort('id', 'asc');
+    $('.sort').on('click', function () {
+      if ($(this).hasClass('sort--desc')) {
+        var order = "desc";
+      } else {
+        var order = "asc";
+      }
+      $('.sort').each(function () {
+        $(this).removeClass('sort--desc');
+      });
+      if (order == "asc") {
+        $(this).addClass('sort--desc');
+      }
+      sort($(this).attr('data-target'), order, $(this).attr('data-number'));
+    });
+  </script>
+  <div class="modal" id="attention" style="display: none;">
+    <div class="flex flex-item-center">
+      <div class="modal-dialog">
+        <div class="kb-panel">
+          <div class="kb-panel-title p-3">
+            <p class="m-0">このパックを削除してもよろしいですか?</p>
+            <i class="fas fa-times modal-close" data-modal="#edit-member-modal"></i>
+          </div>
+          <div class="kb-panel-body px-3">
+            <div class="flex flex-c py-3">
+              <a class="btn-tran btn-tran-modal tameru_delete--cancel mx-2">キャンセル</a>
+              <button class="submit-btn mx-2 tameru_delete--confirm"> 削除する </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+{% include './ver2.1/partials/footer.html' %}
+
+</html>

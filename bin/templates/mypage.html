@@ -1,0 +1,452 @@
+{%from "./partials/header.html" import header with context%}
+<!DOCTYPE html>
+<html lang="ja">
+  {% include './partials/head.html' %}
+  <body>
+    <div class="_wrapper">
+      {{ header("マイページ", avatorImage, "true") }}
+      <div class="_content--smaller--white">
+        <div class="_content--navigation">
+          <div class="navigation-button" onclick="location.href='/home'">
+            <svg class="navigation-button__icon" viewbox="0 0 5.547 9.679">
+              <path
+                d="M764.6 703.842l-4.486 4.486 4.486 4.486"
+                transform="translate(-759.411 -703.488)"
+              ></path>
+            </svg>
+            <span class="navigation-button__text">Back</span>
+          </div>
+        </div>
+        <div class="mypage">
+          <div class="mypage__user-detail">
+            <button
+              class="mypage__user-detail__edit"
+              onclick="location.href='/mypage/edit'"
+            >
+              <img
+                src="/static/img/icon/edit.svg"
+                alt="プロフィールを編集する"
+                class="mypage__user-detail__edit-icon"
+              />
+            </button>
+            <div class="mypage__user-detail__imageWrapper">
+              <img
+                src="{{ avatorImage }}"
+                alt=""
+                class="mypage__user-detail__image"
+              />
+            </div>
+            <p class="mypage__user-detail__occupation">{{ data.occupation }}</p>
+            <p class="mypage__user-detail__name">{{ data.displayName }}</p>
+            <p class="mypage__user-detail__hire-date">
+              {{ data.hiredYear }}年入社
+            </p>
+            <div class="mypage__user-detail__basic-profile">
+              <p class="mypage__user-detail__basic-profile__birth-date">
+                <span class="mypage__user-detail__basic-profile__text">{{
+                  data.birthDate
+                }}</span>
+              </p>
+              <p class="mypage__user-detail__basic-profile__gender">
+                <span class="mypage__user-detail__basic-profile__text">{{
+                  data.gender
+                }}</span>
+              </p>
+              <p class="mypage__user-detail__basic-profile__country">
+                <span class="mypage__user-detail__basic-profile__text"
+                  ><svg
+                    width="9"
+                    height="12"
+                    class="mypage__user-detail__basic-profile__marker"
+                    viewbox="0 0 9 12"
+                  >
+                    <path
+                      d="M4.038 11.758C.632 6.821 0 6.314 0 4.5a4.5 4.5 0 0 1 9 0c0 1.814-.632 2.321-4.038 7.258a.563.563 0 0 1-.925 0zM4.5 6.375A1.875 1.875 0 1 0 2.625 4.5 1.875 1.875 0 0 0 4.5 6.375z"
+                    ></path></svg
+                  >{{ data.country }}</span
+                >
+              </p>
+              <div>
+                <svg
+                  width="12"
+                  height="12"
+                  class="mypage__user-detail__basic-profile__earth"
+                  viewbox="0 0 12 12.002"
+                >
+                  <path
+                    d="M8.143 11.678C7.792 9.517 6.964 8 6 8s-1.789 1.517-2.14 3.678zM3.678 14a15.167 15.167 0 0 0 .08 1.549h4.484A15.167 15.167 0 0 0 8.322 14a15.167 15.167 0 0 0-.08-1.549H3.758A15.167 15.167 0 0 0 3.678 14zm7.857-2.323a6.014 6.014 0 0 0-3.823-3.425 8.167 8.167 0 0 1 1.21 3.426zM4.288 8.252a6.01 6.01 0 0 0-3.821 3.426H3.08a8.134 8.134 0 0 1 1.208-3.426zm7.506 4.2H9.019c.051.508.08 1.028.08 1.549s-.029 1.041-.08 1.549h2.773A5.95 5.95 0 0 0 12 14a6.053 6.053 0 0 0-.206-1.547zM2.9 14c0-.52.029-1.041.08-1.549H.208a5.867 5.867 0 0 0 0 3.1h2.773A16.567 16.567 0 0 1 2.9 14zm.956 2.323C4.211 18.485 5.038 20 6 20s1.791-1.517 2.142-3.678zm3.855 3.426a6.02 6.02 0 0 0 3.823-3.426h-2.61a8.167 8.167 0 0 1-1.21 3.428zM.467 16.324a6.014 6.014 0 0 0 3.823 3.427 8.167 8.167 0 0 1-1.21-3.426H.467z"
+                    transform="translate(0 -8)"
+                  ></path>
+                </svg>
+                <ul class="mypage__user-detail__basic-profile__language__list">
+                  {% for language in data.languageSet %}
+                  <li>
+                    <span class="mypage__user-detail__basic-profile__text">{{
+                      language
+                    }}</span>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+
+            <!-- roles -->
+            <ul class="mypage__user-detail__rolelist">
+              {% for role in data.roles %}
+              <li class="mypage__user-detail__rolelist__item">{{ role }}</li>
+              {% endfor %}
+            </ul>
+
+            <!-- skillSet -->
+            <h3 class="mypage__user-detail__profile-detail-head">
+              スキルセット
+            </h3>
+            <ul class="mypage__user-detail__skillset">
+              {% for skill in data.skillSet %}
+              <li class="mypage__user-detail__skillset__item">{{ skill }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          <h2 class="mypage__head">
+            <svg
+              width="16"
+              height="14"
+              class="mypage__icon--goal"
+              viewbox="0 0 16 14"
+            >
+              <path
+                d="M2 34H0a7 7 0 0 0 7 7v4.5a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V41a7 7 0 0 0-7-7zm12-2a6.994 6.994 0 0 0-6.116 3.6 8.012 8.012 0 0 1 1.844 3.362A7 7 0 0 0 16 32z"
+                transform="translate(0 -32)"
+              ></path>
+            </svg>
+            なりたい姿
+          </h2>
+          <div class="mypage__user-detail--less-padding">
+            <p class="mypage__goal">{{ data.goal }}</p>
+          </div>
+          <h2 class="mypage__head">
+            <svg
+              width="16"
+              height="12"
+              class="mypage__icon--stats"
+              viewbox="0 0 16 12"
+            >
+              <path
+                d="M3.677 70.677a.5.5 0 0 0 .707 0L6 69.061l2.647 2.647a.5.5 0 0 0 .707 0l3.446-3.446.922.922a.75.75 0 0 0 1.28-.53V65.5a.5.5 0 0 0-.5-.5h-3.156a.75.75 0 0 0-.53 1.28l.922.922L9 69.939l-2.647-2.646a.5.5 0 0 0-.707 0l-2.323 2.323a.5.5 0 0 0 0 .707l.353.353zM15.5 74.5h-14v-10A.5.5 0 0 0 1 64H.5a.5.5 0 0 0-.5.5V75a1 1 0 0 0 1 1h14.5a.5.5 0 0 0 .5-.5V75a.5.5 0 0 0-.5-.5z"
+                transform="translate(0 -64)"
+              ></path>
+            </svg>
+            スタッツ
+          </h2>
+          <div class="mypage__stats">
+            <div class="mypage__user-detail--less-padding">
+              <dl>
+                <div class="mypage__stats__define">
+                  <dt class="mypage__stats__title">累計チャレンジ回数</dt>
+                  <dd class="mypage__stats__description">
+                    {{ data.totalAnswerCount }}回
+                  </dd>
+                </div>
+                <div class="mypage__stats__define">
+                  <dt class="mypage__stats__title">累計正答率</dt>
+                  <dd class="mypage__stats__description">
+                    {{ data.totalCorrectRate }}%
+                  </dd>
+                </div>
+                <div class="mypage__stats__define">
+                  <dt class="mypage__stats__title">最高連続正答数</dt>
+                  <dd class="mypage__stats__description">
+                    {{ data.totalConsecutiveCorrectCount }}問
+                  </dd>
+                </div>
+                <div class="mypage__stats__define">
+                  <dt class="mypage__stats__title">最高連続ログイン日数</dt>
+                  <dd class="mypage__stats__description">
+                    {{ data.totalConsecutiveLoginDayCount }}日
+                  </dd>
+                </div>
+                <div class="mypage__stats__define">
+                  <dt class="mypage__stats__title">累計問題作成数</dt>
+                  <dd class="mypage__stats__description">
+                    {{ data.totalCreateQuestionCount }}問
+                  </dd>
+                </div>
+                <div class="mypage__stats__define">
+                  <dt class="mypage__stats__title">
+                    デイリーチャレンジクリア回数
+                  </dt>
+                  <dd class="mypage__stats__description">
+                    {{ data.totalDailyChallengeSuccessCount }}回
+                  </dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+
+          <!-- clipped questions -->
+          <h2 class="mypage__head">
+            <svg
+              width="16"
+              height="12"
+              class="mypage__icon--stats"
+              viewbox="0 0 16 12"
+            >
+              <path
+                d="M3.677 70.677a.5.5 0 0 0 .707 0L6 69.061l2.647 2.647a.5.5 0 0 0 .707 0l3.446-3.446.922.922a.75.75 0 0 0 1.28-.53V65.5a.5.5 0 0 0-.5-.5h-3.156a.75.75 0 0 0-.53 1.28l.922.922L9 69.939l-2.647-2.646a.5.5 0 0 0-.707 0l-2.323 2.323a.5.5 0 0 0 0 .707l.353.353zM15.5 74.5h-14v-10A.5.5 0 0 0 1 64H.5a.5.5 0 0 0-.5.5V75a1 1 0 0 0 1 1h14.5a.5.5 0 0 0 .5-.5V75a.5.5 0 0 0-.5-.5z"
+                transform="translate(0 -64)"
+              ></path>
+            </svg>
+            クリップした問題
+          </h2>
+          <div class="mypage__question-list">
+            <div class="mypage__user-detail--less-padding">
+              <form method="GET">
+                <div class="mypage__question-list__search">
+                  <label class="mypage__question-list__search__select-wrapper">
+                    <select
+                      name=""
+                      id=""
+                      class="mypage__question-list__search__select"
+                    >
+                      <option selected value="">すべて</option>
+                      <option value="">お気に入り？</option>
+                      <option value="">解答済み？</option>
+                      <option value="">作成済み？</option>
+                    </select>
+                  </label>
+                  <label class="mypage__question-list__search__input-wrapper">
+                    <svg
+                      width="11.9"
+                      height="11.9"
+                      class="mypage__question-list__search__icon"
+                      viewbox="0 0 11.943 11.943"
+                    >
+                      <path
+                        d="M11.861,11.234,8.852,8.225a.277.277,0,0,0-.2-.082h-.24a4.8,4.8,0,1,0-.271.273v.238a.287.287,0,0,0,.082.2l3.009,3.009a.28.28,0,0,0,.4,0l.231-.231A.28.28,0,0,0,11.861,11.234ZM4.852,8.957A4.105,4.105,0,1,1,8.957,4.852,4.1,4.1,0,0,1,4.852,8.957Z"
+                      ></path>
+                    </svg>
+                    <input
+                      value=""
+                      name=""
+                      class="mypage__question-list__search__input"
+                    />
+                  </label>
+                </div>
+              </form>
+
+              <ol class="mypage__question-list__list">
+                {% for entry in questionsClipped %}
+                <li class="mypage__question-list__list__item">
+                  {% if entry.correct %}
+                  <div class="mypage__question-list__list__judge--correct">
+                    正答済
+                  </div>
+                  {% else %}
+                  <div class="mypage__question-list__list__judge--incorrect">
+                    不正解
+                  </div>
+                  {% endif %}
+                  <p class="mypage__question-list__list__question-text">
+                    {{ entry.questionText }}
+                  </p>
+                  <svg
+                    class="mypage__question-list__list__fav fav-button"
+                    viewbox="0 0 17.69 16.932"
+                    data-question-id=""
+                    data-user-id=""
+                  >
+                    <path
+                      d="M28.4.576l-2.164 4.378-4.831.7a1.059 1.059 0 0 0-.585 1.805l3.5 3.406-.827 4.811a1.057 1.057 0 0 0 1.53 1.124l4.322-2.272 4.321 2.272a1.058 1.058 0 0 0 1.534-1.119l-.827-4.811 3.5-3.406a1.059 1.059 0 0 0-.585-1.805l-4.831-.7L30.294.576a1.059 1.059 0 0 0-1.894 0z"
+                      transform="translate(-20.5 .013)"
+                    ></path>
+                  </svg>
+                </li>
+                {% endfor %}
+              </ol>
+              <button class="mypage__question-list__list__more-button">
+                もっと表示する
+              </button>
+            </div>
+          </div>
+
+          <!-- answered questions -->
+          <h2 class="mypage__head">
+            <svg
+              width="16"
+              height="12"
+              class="mypage__icon--stats"
+              viewbox="0 0 16 12"
+            >
+              <path
+                d="M3.677 70.677a.5.5 0 0 0 .707 0L6 69.061l2.647 2.647a.5.5 0 0 0 .707 0l3.446-3.446.922.922a.75.75 0 0 0 1.28-.53V65.5a.5.5 0 0 0-.5-.5h-3.156a.75.75 0 0 0-.53 1.28l.922.922L9 69.939l-2.647-2.646a.5.5 0 0 0-.707 0l-2.323 2.323a.5.5 0 0 0 0 .707l.353.353zM15.5 74.5h-14v-10A.5.5 0 0 0 1 64H.5a.5.5 0 0 0-.5.5V75a1 1 0 0 0 1 1h14.5a.5.5 0 0 0 .5-.5V75a.5.5 0 0 0-.5-.5z"
+                transform="translate(0 -64)"
+              ></path>
+            </svg>
+            解答した問題
+          </h2>
+          <div class="mypage__question-list">
+            <div class="mypage__user-detail--less-padding">
+              <form method="GET">
+                <div class="mypage__question-list__search">
+                  <label class="mypage__question-list__search__select-wrapper">
+                    <select
+                      name=""
+                      id=""
+                      class="mypage__question-list__search__select"
+                    >
+                      <option selected value="">すべて</option>
+                      <option value="">お気に入り？</option>
+                      <option value="">解答済み？</option>
+                      <option value="">作成済み？</option>
+                    </select>
+                  </label>
+                  <label class="mypage__question-list__search__input-wrapper">
+                    <svg
+                      width="11.9"
+                      height="11.9"
+                      class="mypage__question-list__search__icon"
+                      viewbox="0 0 11.943 11.943"
+                    >
+                      <path
+                        d="M11.861,11.234,8.852,8.225a.277.277,0,0,0-.2-.082h-.24a4.8,4.8,0,1,0-.271.273v.238a.287.287,0,0,0,.082.2l3.009,3.009a.28.28,0,0,0,.4,0l.231-.231A.28.28,0,0,0,11.861,11.234ZM4.852,8.957A4.105,4.105,0,1,1,8.957,4.852,4.1,4.1,0,0,1,4.852,8.957Z"
+                      ></path>
+                    </svg>
+                    <input
+                      value=""
+                      name=""
+                      class="mypage__question-list__search__input"
+                    />
+                  </label>
+                </div>
+              </form>
+
+              <ol class="mypage__question-list__list">
+                {% for entry in questionsAnswered %}
+                <li class="mypage__question-list__list__item">
+                  {% if entry.correct %}
+                  <div class="mypage__question-list__list__judge--correct">
+                    正答済
+                  </div>
+                  {% else %}
+                  <div class="mypage__question-list__list__judge--incorrect">
+                    不正解
+                  </div>
+                  {% endif %}
+                  <p class="mypage__question-list__list__question-text">
+                    {{ entry.questionText }}
+                  </p>
+                  <svg
+                    class="mypage__question-list__list__fav fav-button"
+                    viewbox="0 0 17.69 16.932"
+                    data-question-id=""
+                    data-user-id=""
+                  >
+                    <path
+                      d="M28.4.576l-2.164 4.378-4.831.7a1.059 1.059 0 0 0-.585 1.805l3.5 3.406-.827 4.811a1.057 1.057 0 0 0 1.53 1.124l4.322-2.272 4.321 2.272a1.058 1.058 0 0 0 1.534-1.119l-.827-4.811 3.5-3.406a1.059 1.059 0 0 0-.585-1.805l-4.831-.7L30.294.576a1.059 1.059 0 0 0-1.894 0z"
+                      transform="translate(-20.5 .013)"
+                    ></path>
+                  </svg>
+                </li>
+                {% endfor %}
+              </ol>
+              <button class="mypage__question-list__list__more-button">
+                もっと表示する
+              </button>
+            </div>
+          </div>
+          <!-- answered questions -->
+          <h2 class="mypage__head">
+            <svg
+              width="16"
+              height="12"
+              class="mypage__icon--stats"
+              viewbox="0 0 16 12"
+            >
+              <path
+                d="M3.677 70.677a.5.5 0 0 0 .707 0L6 69.061l2.647 2.647a.5.5 0 0 0 .707 0l3.446-3.446.922.922a.75.75 0 0 0 1.28-.53V65.5a.5.5 0 0 0-.5-.5h-3.156a.75.75 0 0 0-.53 1.28l.922.922L9 69.939l-2.647-2.646a.5.5 0 0 0-.707 0l-2.323 2.323a.5.5 0 0 0 0 .707l.353.353zM15.5 74.5h-14v-10A.5.5 0 0 0 1 64H.5a.5.5 0 0 0-.5.5V75a1 1 0 0 0 1 1h14.5a.5.5 0 0 0 .5-.5V75a.5.5 0 0 0-.5-.5z"
+                transform="translate(0 -64)"
+              ></path>
+            </svg>
+            作成した問題
+          </h2>
+          <div class="mypage__question-list">
+            <div class="mypage__user-detail--less-padding">
+              <form method="GET">
+                <div class="mypage__question-list__search">
+                  <label class="mypage__question-list__search__select-wrapper">
+                    <select
+                      name=""
+                      id=""
+                      class="mypage__question-list__search__select"
+                    >
+                      <option selected value="">すべて</option>
+                      <option value="">お気に入り？</option>
+                      <option value="">解答済み？</option>
+                      <option value="">作成済み？</option>
+                    </select>
+                  </label>
+                  <label class="mypage__question-list__search__input-wrapper">
+                    <svg
+                      width="11.9"
+                      height="11.9"
+                      class="mypage__question-list__search__icon"
+                      viewbox="0 0 11.943 11.943"
+                    >
+                      <path
+                        d="M11.861,11.234,8.852,8.225a.277.277,0,0,0-.2-.082h-.24a4.8,4.8,0,1,0-.271.273v.238a.287.287,0,0,0,.082.2l3.009,3.009a.28.28,0,0,0,.4,0l.231-.231A.28.28,0,0,0,11.861,11.234ZM4.852,8.957A4.105,4.105,0,1,1,8.957,4.852,4.1,4.1,0,0,1,4.852,8.957Z"
+                      ></path>
+                    </svg>
+                    <input
+                      value=""
+                      name=""
+                      class="mypage__question-list__search__input"
+                    />
+                  </label>
+                </div>
+              </form>
+
+              <ol class="mypage__question-list__list">
+                {% for entry in questionsCreated %}
+                <li class="mypage__question-list__list__item">
+                  <a
+                    href="/question/detail/{{ entry.questionId }}"
+                    class="mypage__question-list__list__item"
+                  >
+                    {% if entry.correct %}
+                    <div class="mypage__question-list__list__judge--correct">
+                      正答済
+                    </div>
+                    {% else %}
+                    <div class="mypage__question-list__list__judge--incorrect">
+                      不正解
+                    </div>
+                    {% endif %}
+                    <p class="mypage__question-list__list__question-text">
+                      {{ entry.questionText }}
+                    </p>
+                    <svg
+                      class="mypage__question-list__list__fav fav-button"
+                      viewbox="0 0 17.69 16.932"
+                      data-question-id=""
+                      data-user-id=""
+                    >
+                      <path
+                        d="M28.4.576l-2.164 4.378-4.831.7a1.059 1.059 0 0 0-.585 1.805l3.5 3.406-.827 4.811a1.057 1.057 0 0 0 1.53 1.124l4.322-2.272 4.321 2.272a1.058 1.058 0 0 0 1.534-1.119l-.827-4.811 3.5-3.406a1.059 1.059 0 0 0-.585-1.805l-4.831-.7L30.294.576a1.059 1.059 0 0 0-1.894 0z"
+                        transform="translate(-20.5 .013)"
+                      ></path>
+                    </svg>
+                  </a>
+                </li>
+                {% endfor %}
+              </ol>
+              <button class="mypage__question-list__list__more-button">
+                もっと表示する
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% include './partials/footer.html' %}
+    </div>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+@mixin hover() {
+  @include mediaQuery("pc") {
+    &:hover {
+      @content;
+    }
+  }
+}

@@ -1,0 +1,329 @@
+{%from "./partials/header.html" import header with context%}
+<!DOCTYPE html>
+<html lang="ja">
+  {% include './partials/head.html' %}
+
+  <body>
+    <div class="_wrapper">
+      {{ header("プロフィール編集", avatorImage, "true") }}
+
+      <div class="_content--smaller--white">
+        <div class="_content--navigation">
+          <div class="navigation-button">
+            <svg class="navigation-button__icon" viewbox="0 0 5.547 9.679">
+              <path
+                d="M764.6 703.842l-4.486 4.486 4.486 4.486"
+                transform="translate(-759.411 -703.488)"
+              ></path>
+            </svg>
+            <span class="navigation-button__text">Back</span>
+          </div>
+        </div>
+        <div class="profile-edit">
+          <h2 class="profile-edit__head">プロフィール写真</h2>
+          <div class="profile-edit__image-wrapper">
+            {% if avatorImage %}
+            <img
+              src="{{ avatorImage }}"
+              aria-hidden="true"
+              class="profile-edit__icon"
+            />
+            {% else %}
+            <img
+              src="/static/img/default_icon.svg"
+              aria-hidden="true"
+              class="profile-edit__icon"
+            />
+            {% endif %}
+            <button class="profile-edit__add-picture">
+              <img src="/static/img/icon/camera.svg" alt="アイコンを変更する" />
+            </button>
+            <input id="fileImage" name="profilePicture" type="file" accept="image/png,image/jpeg" class="profile-edit__input-file" />
+
+          </div>
+
+          <p data-name="" class="create__error" style="margin-bottom:28px;text-align:center;"  id= "fileSizeError" aria-hidden="true">
+             Image file size is too big </p>
+          <script type="text/javascript">
+              var uploadField = document.getElementById("fileImage");
+
+              uploadField.onchange = function() {
+                  if(this.files[0].size > 1000000){
+                     this.value = "";
+                     document.getElementById('fileSizeError').setAttribute('aria-hidden', 'false');
+                  }
+                  else{
+                    document.getElementById('fileSizeError').setAttribute('aria-hidden', 'true');
+                  }
+              };
+          </script>
+          <div class="profile-edit__input-wrapper">
+            <h2 class="profile-edit__head">
+              名前<span class="profile-edit__require">*</span>
+            </h2>
+            <input
+              type="text"
+              class="profile-edit__input"
+              name="displayName"
+              value="{{ data.displayName }}"
+            />
+          </div>
+          <div class="profile-edit__input-wrapper">
+            <h2 class="profile-edit__head">
+              役職
+            </h2>
+            <div class="profile-edit__select-wrapper">
+              <label class="profile-edit__select-label--hire-year">
+                <select name="occupationId" class="profile-edit__select">
+                  {% for occupation in occupations %}
+                  <option value="{{ occupation.id }}"{{ " selected" if data.occupationId == occupation.id else "" }}>{{occupation.label}}</option>
+                  {% endfor %}
+                </select></label>
+            </div>
+            </div>
+          </div>
+
+          <div class="profile-edit__input-wrapper">
+            <h2 class="profile-edit__head">
+              生年月日<span class="profile-edit__require">*</span>
+            </h2>
+            <div class="profile-edit__select-wrapper">
+              <label class="profile-edit__select-label--birth-year">
+                <select
+                  name="birthYear"
+                  class="profile-edit__select"
+                  data-birth-date="{{ data.birthDate }}"
+                >
+                </select
+              ></label>
+              <label class="profile-edit__select-label--birth-month">
+                <select
+                  name="birthMonth"
+                  class="profile-edit__select"
+                  data-birth-date="{{ data.birthDate }}"
+                >
+                  <option value="1">1月</option>
+                  <option value="2">2月</option>
+                  <option value="3">3月</option>
+                  <option value="4">4月</option>
+                  <option value="5">5月</option>
+                  <option value="6">6月</option>
+                  <option value="7">7月</option>
+                  <option value="8">8月</option>
+                  <option value="9">9月</option>
+                  <option value="10">10月</option>
+                  <option value="11">11月</option>
+                  <option value="12">12月</option>
+                </select></label
+              >
+              <label class="profile-edit__select-label--birth-day">
+                <select
+                  name="birthDay"
+                  class="profile-edit__select"
+                  data-birth-date="{{ data.birthDate }}"
+                >
+                  <option value="1">1日</option>
+                  <option value="2">2日</option>
+                  <option value="3">3日</option>
+                  <option value="4">4日</option>
+                  <option value="5">5日</option>
+                  <option value="6">6日</option>
+                  <option value="7">7日</option>
+                  <option value="8">8日</option>
+                  <option value="9">9日</option>
+                  <option value="10">10日</option>
+                  <option value="11">11日</option>
+                  <option value="12">12日</option>
+                  <option value="13">13日</option>
+                  <option value="14">14日</option>
+                  <option value="15">15日</option>
+                  <option value="16">16日</option>
+                  <option value="17">17日</option>
+                  <option value="18">18日</option>
+                  <option value="19">19日</option>
+                  <option value="20">20日</option>
+                  <option value="21">21日</option>
+                  <option value="22">22日</option>
+                  <option value="23">23日</option>
+                  <option value="24">24日</option>
+                  <option value="25">25日</option>
+                  <option value="26">26日</option>
+                  <option value="27">27日</option>
+                  <option value="28">28日</option>
+                  <option value="29">29日</option>
+                  <option value="30">30日</option>
+                  <option value="31">31日</option>
+                </select></label
+              >
+            </div>
+
+              <h2 class="profile-edit__head">
+                入社日<span class="profile-edit__require">*</span>
+              </h2>
+              <div class="profile-edit__select-wrapper">
+                <label class="profile-edit__select-label--hire-year">
+                  <select name="hireYear" class="profile-edit__select" data-hire-date="{{ data.hireDate }}"> </select></label>
+                <label class="profile-edit__select-label--hire-month">
+                  <select name="hireMonth" class="profile-edit__select" data-hire-date="{{ data.hireDate }}">
+                    <option value="1">1月</option>
+                    <option value="2">2月</option>
+                    <option value="3">3月</option>
+                    <option value="4">4月</option>
+                    <option value="5">5月</option>
+                    <option value="6">6月</option>
+                    <option value="7">7月</option>
+                    <option value="8">8月</option>
+                    <option value="9">9月</option>
+                    <option value="10">10月</option>
+                    <option value="11">11月</option>
+                    <option value="12">12月</option>
+                  </select></label>
+                <label class="profile-edit__select-label--birth-day">
+                  <select name="hireDay" class="profile-edit__select" data-hire-date="{{ data.hireDate }}">
+                    <option value="1">1日</option>
+                    <option value="2">2日</option>
+                    <option value="3">3日</option>
+                    <option value="4">4日</option>
+                    <option value="5">5日</option>
+                    <option value="6">6日</option>
+                    <option value="7">7日</option>
+                    <option value="8">8日</option>
+                    <option value="9">9日</option>
+                    <option value="10">10日</option>
+                    <option value="11">11日</option>
+                    <option value="12">12日</option>
+                    <option value="13">13日</option>
+                    <option value="14">14日</option>
+                    <option value="15">15日</option>
+                    <option value="16">16日</option>
+                    <option value="17">17日</option>
+                    <option value="18">18日</option>
+                    <option value="19">19日</option>
+                    <option value="20">20日</option>
+                    <option value="21">21日</option>
+                    <option value="22">22日</option>
+                    <option value="23">23日</option>
+                    <option value="24">24日</option>
+                    <option value="25">25日</option>
+                    <option value="26">26日</option>
+                    <option value="27">27日</option>
+                    <option value="28">28日</option>
+                    <option value="29">29日</option>
+                    <option value="30">30日</option>
+                    <option value="31">31日</option>
+                  </select></label>
+              </div>
+
+              <p class="create__error" data-name="hiredYear" data-reason="required" aria-hidden="true">
+                選択してください
+              </p>
+              <div class="profile-edit__multi-column">
+                <div class="profile-edit__multi-column-item">
+                  <h2 class="profile-edit__head">
+                    性別<span class="profile-edit__require">*</span>
+                  </h2>
+                  <div class="profile-edit__select-wrapper">
+                    <label class="profile-edit__select-label--gender">
+                      <select
+                        name="gender"
+                        class="profile-edit__select"
+                      >
+                        <option value="1"{%if data.gender == 1 %} selected{% endif %}>男性</option>
+                        <option value="2"{%if data.gender == 2 %} selected{% endif %}>女性</option>
+                      </select>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="profile-edit__multi-column">
+              <div class="profile-edit__multi-column-item">
+                <h2 class="profile-edit__head">出身地<span class="profile-edit__require">*</span></h2>
+                <div class="profile-edit__select-wrapper">
+                  <label class="profile-edit__select-label--hire-year">
+                    <select name="countryId" class="profile-edit__select" >
+                      {% for country in countries %}
+                      <option value="{{ country.id }}"{{ " selected" if country.id == data.countryId else ""}}>{{
+                                        country.label
+                                      }}</option>
+                      {% endfor %}
+                    </select></label>
+                </div>
+              </div>
+            </div>
+            <div class="profile-edit__input-wrapper">
+              <h2 class="profile-edit__head">
+                言語<span class="profile-edit__require">*</span>
+              </h2>
+              <div class="create__description__topic">
+                <input type="text" list="languageList" multiple placeholder="言語を追加する" name="language"
+                  class="profile-edit__language" /><button type="button" class="profile-edit__add-language">
+                  <span class="create__description__topic__button__icon"></span>
+                </button>
+                <datalist id="languageList">
+                  {% for language in languageSet %}
+                  <option value="{{ language.label }}" data-language-id="{{ language.id }}"></option>
+                  {% endfor %}
+                </datalist>
+              </div>
+              <ul class="profile-edit__language-list" aria-hidden="false">
+                {% for language in data.languageSet %}
+                <li class="create__description__topic-item">{{language}}<button class="create__description__topic-remove profile-edit__delete-language"></button><input type="hidden" name="languageSet" value="{{language}}"></li>
+                {% endfor %}
+              </ul>
+            </div>
+            <!-- <h2 class="profile-edit__head">
+              ロール
+            </h2>
+            <div class="create__description__topic">
+              <input placeholder="ロールを追加する" name="role" class="profile-edit__role" /><button type="button"
+                class="profile-edit__add-role">
+                <span class="create__description__topic__button__icon"></span>
+              </button>
+            </div>
+            <ul class="profile-edit__role-list" aria-hidden="true">
+
+            </ul>
+            <h2 class="profile-edit__head">
+              スキルセット
+            </h2>
+            <div class="create__description__topic">
+              <input placeholder="スキルセットを追加する" name="skill" class="create__description__topic__input" /><button type="button"
+                class="profile-edit__add-skill">
+                <span class="create__description__topic__button__icon"></span>
+              </button>
+            </div>
+            <ul class="profile-edit__skill-list" aria-hidden="true">
+
+            </ul> -->
+            <h2 class="mypage__head">
+              <svg width="16" height="14" class="mypage__icon--goal" viewbox="0 0 16 14">
+                <path
+                  d="M2 34H0a7 7 0 0 0 7 7v4.5a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V41a7 7 0 0 0-7-7zm12-2a6.994 6.994 0 0 0-6.116 3.6 8.012 8.012 0 0 1 1.844 3.362A7 7 0 0 0 16 32z"
+                  transform="translate(0 -32)"></path>
+              </svg>
+              なりたい姿
+            </h2>
+            <textarea name="goal" class="profile-edit__textarea"></textarea>
+            <button type="button" class="button--light--arrow profile-edit__submit">
+              編集する<svg direction="next" color="#fff" class="button--arrow__arrow" viewBox="0 0 5.547 9.679">
+                <path d="M764.6 703.842l-4.486 4.486 4.486 4.486" transform="translate(-759.411 -703.488)"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {% include './partials/footer.html' %}
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"
+    ></script>
+    <script src="//cdn.jsdelivr.net/npm/ramda@latest/dist/ramda.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js"></script>
+    <script src="/static/js/profile_edit.js"></script>
+  </body>
+</html>

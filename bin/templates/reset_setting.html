@@ -1,0 +1,64 @@
+{%from "./partials/header.html" import header with context%}
+<!DOCTYPE html>
+<html lang="ja">
+  {% include './partials/head.html' %}
+  <body>
+    {{ header(title, avatorImage, logined) }}
+    <div class="_content--smaller--white">
+      {% if logined == 'true' %}
+      <div class="_content--navigation">
+        <div class="navigation-button" onclick="location.href='/home'">
+          <svg class="navigation-button__icon" viewbox="0 0 5.547 9.679">
+            <path
+              d="M764.6 703.842l-4.486 4.486 4.486 4.486"
+              transform="translate(-759.411 -703.488)"
+            ></path>
+          </svg>
+          <span class="navigation-button__text">Back</span>
+        </div>
+      </div>
+      {% else %}
+      <div class="_content--navigation">
+        <div class="navigation-button" onclick="location.href='/login'">
+          <svg class="navigation-button__icon" viewbox="0 0 5.547 9.679">
+            <path
+              d="M764.6 703.842l-4.486 4.486 4.486 4.486"
+              transform="translate(-759.411 -703.488)"
+            ></path>
+          </svg>
+          <span class="navigation-button__text">Back</span>
+        </div>
+      </div>
+      {% endif %}
+
+      <div class="reset-pass">
+        <h2 class="reset-pass__headline">
+          新しく設定するパスワードを入力してください
+        </h2>
+        <form method="POST" action="/reset/setting">
+          <h3 class="reset-pass__input-title">パスワード</h3>
+          <input
+            type="password"
+            name="userPass"
+            placeholder="英数字を含む8桁以上"
+            class="reset-pass__input"
+          />
+
+          <button type="submit" class="button--arrow">
+            パスワードを変更する<svg
+              class="button--arrow__arrow"
+              viewbox="0 0 5.547 9.679"
+            >
+              <path
+                d="M764.6 703.842l-4.486 4.486 4.486 4.486"
+                transform="translate(-759.411 -703.488)"
+              ></path>
+            </svg>
+          </button>
+          <input type="hidden" name="token" value="{{ token }}" />
+        </form>
+      </div>
+    </div>
+    {% include './partials/footer.html' %}
+  </body>
+</html>

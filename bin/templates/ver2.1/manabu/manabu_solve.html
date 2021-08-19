@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>KnowledgeBank</title>
+  <link rel='icon' href='/static/ver2.1/img/logo@3x.png' />
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css' />
+  <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+  <style>
+    .question-wrapper {
+      margin-bottom: 20px;
+    }
+
+    .reply-commit * {
+      box-sizing: border-box;
+    }
+
+    .comment-btn {
+      width: auto;
+      height: auto;
+      padding: 12px 10px;
+      border: 1px solid gray;
+      border-radius: .25rem;
+    }
+
+    .comment {
+      padding: 20px 10px;
+    }
+
+    input {
+      width: 80%;
+      height: 40px;
+      padding: 8px;
+      margin-right: 10px;
+      border: 1px solid gray;
+      border-radius: .25rem;
+    }
+
+    .submit-btn {
+      padding: 13px 40px;
+      border: 0;
+      border-radius: .25rem;
+      background: blue;
+      color: white;
+      margin: 20px 0px;
+      border: solid 1px blue;
+    }
+
+    .modal .submit-btn {
+      margin: 0px;
+    }
+
+    .choice__container {
+      width: 100% !important;
+    }
+
+    .kb-manabu-solve-container .choose-list button {
+      height: auto !important;
+      padding: 15px 10px;
+    }
+
+    .comment-error {
+      display: none;
+    }
+
+    .manabu-comment-media>div:first-child {
+      width: 146px;
+      flex-shrink: 0;
+    }
+
+    .manabu-comment-media>div:last-child {
+      margin-left: auto;
+      margin-right: 30px;
+      cursor: pointer;
+    }
+
+    .kb-manabu-notice {
+      transition: 0.6s;
+      position: fixed;
+      right: -100%;
+      z-index: 1;
+      top: 85px;
+      padding: 15px 20px;
+      display: flex;
+    }
+
+    .kb-manabu-notice p {
+      font-size: 13px;
+      margin: 0;
+      margin: 0 0 0 5px;
+    }
+
+    .kb-container .manabu-break-btn .btn-tran {
+      max-width: 250px;
+      padding: 13px 40px;
+      background-color: #fff;
+      width: 100%;
+    }
+
+    /* .comment_delete {
+      color: gray;
+      cursor: not-allowed !important;
+    } */
+
+    .comment_delete.deleteable {
+      color: black;
+      cursor: pointer !important;
+    }
+    .comment_delete.deleteable:hover {
+      opacity: 0.4;
+    }
+  </style>
+  {% include './ver2.1/partials/ga_tag.html' %}
+</head>
+
+
+{% include './ver2.1/partials/header.html' %}
+{% include './ver2.1/partials/sidebar.html' %}
+
+<body>
+  <div class="kb-manabu-notice kb-manabu-notice-favorite kb-panel">
+    <img src='/static/img/like1.png' class='icon-md' />
+    <p>この問題にお気に入りしました</p>
+  </div>
+  <div class="kb-manabu-notice kb-manabu-notice-rating kb-panel">
+    <img src='/static/img/star-on@3x.png' class='icon-md' />
+    <p>この問題に評価しました</p>
+  </div>
+  <div class="kb-manabu-notice kb-manabu-notice-comment kb-panel">
+    <img src='/static/img/comment.svg' class='icon-md' />
+    <p>この問題にコメントしました</p>
+  </div>
+  <!-- if completed -->
+     {% if questionData == None %}
+     <div>
+         <div class='kb-container flex flex-item-center'>
+             <div class='kb-manabu-solve-container text-center'>
+                 <h3>今週の目標を達成しました！</h3>
+                 <p class='text-muted'><small>この調子でどんどんまなびを深めましょう。</small></p>
+                 <img src='/static/ver2.1/img/1453.png' alt='' />
+                 <div class='text-center my-4'>
+                     <a href='' id='' class='submit-manabu1 submit-btn'>次のまなび</a>
+                 </div>
+                 <div class='manabu-break-btn text-center my-4'>
+                     <a href="/manabu" class="btn-tran display-inline">まなびおわる</a>
+                 </div>
+                 <div class='text-center'>
+                   <a href='/home' class='color-blue display-inline'>ホームに戻る</a>
+                 </div>
+             </div>
+         </div>
+     </div>
+  <!-- else -->
+  {% else %}
+  <div>
+    <div class='kb-container flex flex-item-center'>
+      <div style="width: 100%;">
+        <div class='flex flex-item-center'>
+          <div class='kb-manabu-solve-container'>
+            <div class='kb-panel kb-manabu-question g g-3-2'>
+              <div class="flex flex-item-center">
+                <div style='width:100%'>
+                  <div class='p-5 flex flex-item-center' style='width:100%'>
+                    <div style='margin:auto;'>
+                      <div class='text-center'>
+                        {% if questionData.questionPictureURL %}
+                        <img class="kb-manabu-question-img" src="{{questionData.questionPictureURL}}">
+                        {% else %}
+                        <img src='/static/ver2.1/img/2019-05-09-18-55-55@3x.png' alt='' />
+                        {% endif %}
+                      </div>
+                      <p class="lh-1.9">
+                        {{questionData.questionText|n2br}}
+                      </p>
+                    </div>
+                  </div>
+                  <p class='text-muted px-5'><small>正答率 {{questionData.correctRate}}%</small></p>
+                </div>
+              </div>
+              <div class='right flex flex-item-center p-3'>
+                <div class="choice__container">
+                  {% if questionData.questionType == 2 %}
+                  <p class='text-center'>正しいものをすべて選べ</p>
+                  {% else %}
+                  <p class='text-center'>正しいものを１つ選べ</p>
+                  {% endif %}
+                  <div class='choose-list px-4'>
+
+                    {% if questionData.questionType == 2 %}
+                    {% for data in answerData %}
+                    <button class="choice__button--select" data-ans_id={{data.answerId}}
+                      data-que_id={{questionData.questionId}} autofocus="true">{{data.label}}</button>
+                    {% endfor %}
+                    <button type="submit" class="submit-btn choice__button--submit"
+                      data-que_id={{questionData.questionId}} autofocus="true">回答する</button>
+                    {% endif %}
+                    {% if questionData.questionType == 1 %}
+                    {% for data in answerData %}
+                    <button type="submit" class="choice__button" data-ans_id={{data.answerId}}
+                      data-que_id={{questionData.questionId}} autofocus="true">{{data.label}}</button>
+                    {% endfor %}
+                    {% endif %}
+                    {% if questionData.questionType == 3 %}
+                    {% for data in answerData %}
+                    <button type="submit" class="choice__button data{{data.label}}" data-ans_id={{data.answerId}}
+                      data-que_id={{questionData.questionId}} autofocus="true">
+                      {% if data.label == 'YES' or data.label == 'Yes' %}
+                      <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21">
+                        <g id="楕円形_190" data-name="楕円形 190" fill="none" stroke-width="4">
+                          <circle cx="10.5" cy="10.5" r="10.5" stroke="none" />
+                          <circle cx="10.5" cy="10.5" r="8.5" fill="none" />
+                        </g>
+                      </svg>
+                      {% endif %}
+                    </button>
+                    {% endfor %}
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class='manabu-solve-return'>
+              <div class='text-center my-4'>
+                <a href='' id='' class='submit-manabu submit-btn'>次のまなび</a>
+              </div>
+              <div class='kb-panel my-4'>
+                <div class='kb-panel-title p-3'>
+                  <p class='m-0'>解説</p>
+                </div>
+                <div class='kb-panel-body flex flex-s manabu-solve-explain'>
+                  <div class='px-4 text-center'>
+                    <img src='/static/ver2.1/img/1432@3x.png' alt='' />
+                  </div>
+                  <div class='px-3'>
+                    <p class='text-muted' id='explain_text'>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class='kb-panel my-4'>
+                <div class='kb-panel-title p-3 flex flex-sb flex-item-center'>
+                  <div>
+                    <p class='m-0'>この問題のレビュー</p>
+                  </div>
+                  <div>
+                    <img src='/static/img/like2.png' alt='' class='icon-md favorite' data-value=false />
+                  </div>
+                </div>
+                <div class='kb-panel-body px-3'>
+                  <div class='star-list rating'>
+                    <img src='/static/ver2.1/img/star.png' class='icon-md' alt='' />
+                    <img src='/static/ver2.1/img/star.png' class='icon-md' alt='' />
+                    <img src='/static/ver2.1/img/star.png' class='icon-md' alt='' />
+                    <img src='/static/ver2.1/img/star.png' class='icon-md' alt='' />
+                    <img src='/static/ver2.1/img/star.png' class='icon-md' alt='' />
+                  </div>
+                  <div class='py-3 px-4 comment_row'>
+                    <div class="ques_comment-wrap">
+                      <div class="flex flex-s">
+                        <textarea class='kb-input ques_comment'></textarea>
+                        <button class='btn-tran ml-3' id="comment">コメント</button>
+                      </div>
+                    </div>
+                    <!-- <p class='my-2 error-txt comment-error'><small>Please add comment first!</small></p> -->
+                    <div class="comment-lists">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class='text-center my-4'>
+                <a href='' id='' class='submit-manabu submit-btn'>次のまなび</a>
+              </div>
+              <div class='manabu-break-btn text-center my-4'>
+                <a href="/manabu" class="btn-tran display-inline">まなびおわる</a>
+              </div>
+              <div class='text-center my-4'>
+                <a href='/home' class='color-blue display-inline'>ホームに戻る</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class='manabu-break-btn manabu-break-btn-hide text-center my-4'>
+          <a href="/manabu" class="btn-tran display-inline">まなびおわる</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src='/static/ver2.1/js/varidate.js'></script>
+  <script src='/static/ver2.1/js/script.js'></script>
+  <script>
+    $(".submit-manabu1").click(function(){
+        console.log(".submit-manabu1 click")
+        $.ajax({
+          type: 'GET',
+          url: '/manabu/solve?completeFlag=1',
+          async: false,
+          success: function (data) {
+        }
+      });
+    });
+
+    $(document).ready(function () {
+      $.ajax({
+        type: 'GET',
+        url: '/manabu/getChallenge',
+        success: function (data) {
+          let result = JSON.parse(data);
+          var manabu = result.data.manabu[0];
+          var tameru = result.data.tameru[0];
+          var ary = [manabu, tameru];
+          ary.map((data, index) => {
+            if (index == 0) {
+              var goalNum = data.label.replace(/[^0-9]/g, '');
+              var nowPer = data.achieved_rate;
+              var nowNum = goalNum - (goalNum / 100 * nowPer);
+            }
+          });
+        }
+      });
+    });
+
+    $(document).ready(function () {
+      var id = [];
+
+      $(".choice__button--select").click(function () {
+        var ans_id = $(this).attr("data-ans_id");
+        if (!$(this).hasClass('select')) {
+          id.push(parseInt(ans_id));
+          $(this).addClass('select');
+          $(this).css({
+            backgroundColor: '#2962ff',
+            color: "#fff"
+          });
+        } else {
+          $(this).removeClass('select');
+          id.some(function (v, i) {
+            if (v == ans_id) id.splice(i, 1);
+          });
+          $(this).css({
+            backgroundColor: '#fff',
+            color: "#373943"
+          });
+        }
+      });
+
+      $(".choice__button,.choice__button--submit").click(function () {
+        if ($(this).hasClass('choice__button') == true) {
+          id.push(parseInt($(this).attr("data-ans_id")));
+        }
+        var questionId = parseInt($(this).attr("data-que_id"));
+
+        var obj = {
+          "userId": 1,
+          "questionId": questionId,
+          "answers": id,
+          "elapsedTime": 10
+        }
+        function notice(target) {
+          $('.kb-manabu-notice').css('right', 'calc(-100%)');
+          $('.kb-manabu-notice-' + target).css('right', 'calc(0% + 5px)');
+          noticeDlay = setTimeout(function () {
+            $('.kb-manabu-notice-' + target).css('right', 'calc(-100%)');
+          }, 3000);
+        }
+        var qId = '';
+        var xhr = new XMLHttpRequest();
+        var url = "/manabu/result";
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+          if (this.readyState === 4 && this.status === 200) {
+            var json = JSON.parse(this.responseText);
+            var q_id = json.data.questionId;
+            qId = q_id;
+            for (var i = 0; i < json.data.answerList.length; i++) {
+              var con = json.data.answerList[i].correctFlag;
+              if (con == true || con == "True") {
+                $(".choose-list").find("button").eq(i).css({
+                  'border': '2px solid #0db42d',
+                  'color': "#0db42d",
+                  'stroke': "#0db42d",
+                })
+                $(".choose-list").find("button").eq(i).addClass("true-icon")
+              }
+              else {
+                $(".choose-list").find("button").eq(i).css({
+                  'border': '2px solid #fb5d51',
+                  "color": "#fb5d51",
+                  'stroke': "#fb5d51",
+                })
+              }
+            }
+            $(".kb-manabu-question").css({
+              "position": "relative"
+            })
+            if (json.data.favState == true) {
+              $(".favorite").attr({
+                "src": '/static/img/like1.png',
+                "data-value": true
+              })
+            }
+            else {
+              $(".favorite").attr({
+                "src": '/static/img/like2.png',
+                "data-value": false
+              });
+            }
+            if (json.data.ratingState > 0) {
+              for (var i = 0; i < json.data.ratingState; i++) {
+                $(".rating img").eq(i).attr("src", '/static/img/star-on@3x.png');
+              }
+            }
+
+            if (json.data.correct == true) {
+
+              $(".kb-manabu-question").append("<div class='kb-manabu-solve-alert flex flex-item-center'>" +
+                "<div class='flex flex-s flex-item-center p-4'>" +
+                "<div><i class='fas fa-check' style='color:#0db42d'></i></div>" +
+                "<div><h2 class='m-0 mx-3' style='color:#0db42d'>正解！</h2></div>" +
+                "</div>" +
+                "</div>");
+
+              setTimeout(() => {
+                $(".kb-manabu-solve-alert").remove();
+                $(".manabu-break-btn-hide").hide();
+                $(".manabu-solve-return").slideToggle();
+              }, 1500)
+
+            }
+            else {
+
+              $(".kb-manabu-question").append("<div class='kb-manabu-solve-alert flex flex-item-center'>" +
+                "<div class='flex flex-s flex-item-center p-4'>" +
+                "<div><i class='fas fa-times' style='color:#d95243;font-size:1.5rem'></i></div>" +
+                "<div><h2 class='m-0 mx-3' style='color:#d95243'>不正解</h2></div>" +
+                "</div>" +
+                "</div>");
+
+              setTimeout(() => {
+                $(".kb-manabu-solve-alert").remove();
+                $(".manabu-break-btn-hide").hide();
+                $(".manabu-solve-return").slideToggle();
+              }, 1500)
+
+            }
+            $('.choose-list button').attr('disabled', 'disabled');
+            $('#explain_text').text(json.data.descriptionText);
+
+            $(".kb-manabu-solve-alert").css({
+              "position": "absolute",
+              "top": "0",
+              "left": "0",
+              "color": "white",
+              "width": "100%",
+              "height": "100%"
+            })
+            $(".kb-manabu-solve-alert>div").css({
+              "width": "auto",
+              "border-radius": ".25rem",
+              "height": "auto",
+              "padding": "10px",
+              "margin": "auto",
+              "background": "rgba(0,0,0,0.8)"
+            })
+            $(".kb-manabu-solve-alert>div img").css({
+              "height": "25px"
+            })
+            var index;
+            var noticeDlay;
+            $(".rating img").on("click", function () {
+              index = $(".rating img").index($(this));
+              notice('rating')
+              var limit = $(".rating img").length;
+              for (var i = 0; i < limit; i++) {
+                if (i <= index) {
+                  $(".rating img").eq(i).attr("src", '/static/img/star-on@3x.png');
+                }
+                else {
+                  $(".rating img").eq(i).attr("src", '/static/img/star-off@3x.png');
+                }
+              }
+              $.ajax({
+                type: "POST",
+                url: '/manabu/rate',
+                headers: { "Content-Type": "application/json" },
+                data: JSON.stringify({
+                  "userId": 0,
+                  "questionId": q_id,
+                  "rating": index + 1
+                }),
+                success: function (result) {
+                  console.log(result);
+                }
+              })
+            });
+            $(".favorite").on("click", function () {
+              let status = '';
+              if ($(this).attr("src") == '/static/img/like2.png') {
+                $(this).attr("src", '/static/img/like1.png');
+                $(this).attr("data-value", true);
+                notice('favorite')
+                status = "true";
+              }
+              else {
+                $(this).attr("src", '/static/img/like2.png');
+                $(this).attr("data-value", false);
+                $('.kb-manabu-notice-favorite').css('right', 'calc(-100%)');
+                clearTimeout(noticeDlay);
+                status = "false";
+              }
+              $.ajax({
+                type: "POST",
+                url: '/manabu/favorite',
+                headers: { "Content-Type": "application/json" },
+                data: JSON.stringify({
+                  "userId": 0,
+                  "questionId": q_id,
+                  "fav": status
+                }),
+                success: function (result) {
+                  console.log(result);
+                }
+              })
+            })
+
+            getComment(q_id);
+
+            var ques_comments = [];
+
+            $(".submit-manabu").on("click", function (e) {
+              e.preventDefault();
+              window.location.href = "/manabu/solve";
+            });
+
+            $(document).on("click", "#comment", function (e) {
+              e.preventDefault();
+
+              var date = new Date();
+              var month = (date.getMonth() + 1) >= 10 ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1);
+              var day = date.getDate() >= 10 ? date.getDate() : '0' + date.getDate();
+              var custom_format = `${date.getFullYear()}年${month}月${day}日`;
+              let q_comment = $('.ques_comment').val().replace(/\r?\n/g, '<br>');
+
+
+              var comment = input_varidate('.ques_comment', {
+                required: true,
+                maxLength: 1000,
+                message: 'コメント'
+              });
+              if (comment == true) {
+                input_errorElement('.ques_comment', '', '.ques_comment-wrap');
+                notice('comment')
+                $(".comment-error").hide();
+                ques_comments.push($('.ques_comment').val())
+                $('.ques_comment').val('');
+              } else {
+                input_errorElement('.ques_comment', comment, '.ques_comment-wrap');
+                $(".comment-error").show();
+              }
+              if (q_comment.trim() !== "") {
+                $.ajax({
+                  type: "POST",
+                  url: '/manabu/comment',
+                  headers: { "Content-Type": "application/json" },
+                  data: JSON.stringify({
+                    "userId": 0,
+                    "questionId": qId,
+                    "comment": q_comment
+                  }),
+                  success: function (result) {
+                    getComment(questionId)
+                  }
+                })
+              }
+            });
+          }
+        };
+        xhr.send(JSON.stringify(obj));
+        $(document).on('click', '#delete-comment', function (e) {
+          let id = $(this).attr("data-delete");
+          $.ajax({
+            method: "DELETE",
+            url: '/manabu/comment',
+            headers: { "Content-Type": "application/json" },
+            data: JSON.stringify({
+              "id": id
+            }),
+            success: function (data) {
+              console.log(qId);
+              if (JSON.parse(data).result.result === "ok") {
+                getComment(qId)
+                $("#attention").hide();
+                notice("comment-delete");
+              }
+            }
+          });
+        });
+      })
+      function getComment(q_id) {
+        $.ajax({
+          method: "GET",
+          url: `/manabu/getComment?id=${q_id}`,
+          success: function (data) {
+            var d = JSON.parse(data);
+            console.log("data is", d.data);
+            $(".manabu-comment-media").remove();
+            if (d.data === null) {
+
+            }
+            else {
+              d.data.map((item, index) => {
+                $('.comment-lists').addClass('mt-4').append(`<div class='flex flex-s py-3 manabu-comment-media'>
+                       <div>
+                         <p class='m-0 pr-3 text-muted'>${item.tsCreate.replace((/[/-]/g), ".")}</p>
+                       </div>
+                       <div>
+                         <p class='m-0'>${item.comment.replace(/\r?\n/g, '<br>')}</p>
+                       </div>
+                       <div></div>
+                       </div>`)
+                  if(item.flag===1){
+                    $(".comment-lists .manabu-comment-media").eq(index).find("div:last-child").append(`
+                          <p class="fas fa-trash comment_delete deleteable my-0" data-id=${item.id} style="cursor:pointer"></p>
+                    `);
+                  }
+              })
+              if ($(".comment-lists>div").length > 4) {
+                $('.comment-lists').css({ "height": "200px", "overflow": "auto" });
+              }
+              else {
+                $('.comment-lists').css({ "height": "auto", "overflow": "auto" });
+              }
+            }
+          }
+        })
+      }
+      $(".no-regular-input").on("input", function () {
+        var c = this.selectionStart,
+          r = /[]+/g,
+          v = $(this).val();
+        if (r.test(v)) {
+          $(this).val(v.replace(r, ''));
+          c--;
+        }
+        this.setSelectionRange(c, c);
+
+        $(document).on('click', '.comment_delete.deleteable', function (e) {
+          $("#attention").show();
+          $("#delete-comment").attr("data-delete",$(this).attr("data-id"));
+        });
+        $(document).on('click', '.cancel', function (e) {
+          $("#attention").hide();
+        });
+
+      })
+      $(document).on('input', '.ques_comment', function (e) {
+        var lineHeight = parseInt($(this).css('lineHeight'));
+        var lines = ($(this).val() + '\n').match(/\n/g).length;
+        $(this).height(lineHeight * lines);
+      });
+
+      $(document).on('click', '.comment_delete.deleteable', function (e) {
+        $("#attention").show();
+        $("#delete-comment").attr("data-delete", $(this).attr("data-id"));
+      });
+      $(document).on('click', '.cancel', function (e) {
+        $("#attention").hide();
+      });
+
+    })
+  </script>
+  <div class="modal" id="attention" style="display: none;">
+    <div class="flex flex-item-center">
+      <div class="modal-dialog">
+        <div class="kb-panel">
+          <div class="kb-panel-title p-3">
+            <p class="m-0">このコメントを削除してもよろしいですか?</p>
+            <i class="fas fa-times modal-close" data-modal="#edit-member-modal"></i>
+          </div>
+          <div class="kb-panel-body px-3">
+            <p>
+              <small class="text-muted">※一度削除を行うと元に戻すことができません。</small>
+            </p>
+            <div class="flex flex-c py-3">
+              <a class="btn-tran btn-tran-modal cancel mx-2">キャンセル</a>
+              <button class="submit-btn mx-2" id='delete-comment'> 削除する </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+{% include './ver2.1/partials/footer.html' %}
+
+</html>

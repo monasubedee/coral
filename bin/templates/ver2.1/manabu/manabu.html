@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KnowledgeBank</title>
+    <link rel='icon' href='/static/ver2.1/img/logo@3x.png' />
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css' />
+    <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+    {% include './ver2.1/partials/ga_tag.html' %}
+</head>
+<style>
+    .bg-red {
+        background: red !important;
+    }
+
+    .bg-blue {
+        background: blue !important;
+    }
+
+    table th {
+        min-width: 150px;
+    }
+    table td{
+        vertical-align: top;
+    }
+
+    .view-more {
+        cursor: pointer;
+    }
+    .answer img{
+        width:22px;
+         margin: 15px 10px;
+    }
+</style>
+{% include './ver2.1/partials/header.html' %}
+{% include './ver2.1/partials/sidebar.html' %}
+
+<body>
+    <div>
+        <div class='kb-container kb-manabu-container'>
+            <div class='text-center'>
+                <h3>まなぶ</h3>
+                <img src='/static/ver2.1/img/1273@3x.png' alt='' class='kb-manabu-logo my-4' />
+                <button class='submit-btn my-3 start-learn-today'>
+                    今日のまなびをはじめる
+                </button>
+                <!-- <p>{{statsChallenge}}</p>
+                <p>{{graphRecord}}</p>
+                <p>{{recordCount}}</p>
+                <p>{{userProfile}}</p> -->
+            </div>
+            <div class="kb-panel my-4">
+                <div class="kb-panel-body px-3">
+                    <div class="overflow-auto show-header-for-none" style="display: none;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="favorite">お気に入り</th>
+                                    <th class="date">お気に入りに<br>登録した日付</th>
+                                    <th class="question">問題文</th>
+                                    <th class="anser">回答</th>
+                                    <th class="explanation">解説</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <div class="text-center">
+                            <p><small> 該当する問題がありません </small></p>
+                        </div>
+                    </div>
+                    <div class="overflow-auto search_result">
+                        <table class="table-header">
+                            <thead>
+                                <tr>
+                                    <th class="favorite">お気に入り</th>
+                                    <th class="date">お気に入りに<br>登録した日付</th>
+                                    <th class="question">問題文</th>
+                                    <th class="anser">回答</th>
+                                    <th class="explanation">解説</th>
+                                </tr>
+                            </thead>
+                            <tbody class="tameru-data-table" data-index="0"></tbody>
+                        </table>
+                        <div class="text-center viewmoreContainer">
+                            <a class="display-inline color-blue view-more bt pt-3">さらに表示する</a>
+                            <a class="display-inline  no-result bt pt-3" style="display: none;">該当する問題がありません</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script> -->
+    <script src='/static/ver2.1/js/script.js'></script>
+    <!-- <script src='/static/ver2.1/js/chart.js'></script> -->
+    <!-- <script src='/static/ver2.1/js/chart_progress.js'></script> -->
+    <script>
+        $(document).ready(function () {
+            $(".start-learn-today").on("click", function () {
+                window.location = "/manabu/solve"
+            });
+            let ud = JSON.parse(localStorage.getItem('ud'))
+            let pageNum = 1;
+            let currentPageCount = 0;
+            setTableData();
+            $(".view-more").on("click", function () {
+                pageNum += 1;
+                setTableData();
+            })
+            let deleteId = 0;
+            $(document).on("click", ".remove_favorite", function () {
+                $("#attention").show()
+                deleteId = $(this).attr("data-id");
+            })
+            $(document).on("click", ".cancel", function () {
+                $("#attention").hide();
+            })
+            $(document).on("click", ".confirm-delete", function () {
+                $.ajax({
+                    method: "POST",
+                    url: '/manabu/unfav',
+                    headers: { "Content-Type": "application/json" },
+                    data: JSON.stringify({
+                        "questionId": deleteId
+                    }),
+                    success:function(result){
+                        if(JSON.parse(result).result=="ok"){
+                            $("#attention").hide();
+                            window.location.reload();
+                        }
+                    }
+                })
+            })
+            function setTableData() {
+                $.ajax({
+                    method: "POST",
+                    url: "/question/favQuestionList",
+                    headers: { "Content-Type": "application/json" },
+                    data: JSON.stringify({
+                        "pageNum": pageNum
+                    }),
+                    success: function (result) {
+                        let data = JSON.parse(result);
+                        if (data.data.length === 0) {
+                            $(".view-more").remove();
+                            $(".no-result").show();
+                        }
+                        else {
+                            currentPageCount += data.data.length;
+                            if (currentPageCount === data.questionsCount) {
+                                $(".viewmoreContainer").remove();
+                            }
+                            data.data.map((list, index) => {
+                                $(".tameru-data-table").append(`
+                                <tr>
+                                    <td class="favorite">
+                                        <div class='py-3'>
+                                            <img src="/static/img/like1.png" alt=""
+                                                class="icon-md remove_favorite" data-value="false" data-id=${list.questionId}>
+                                        </div>
+                                    </td>
+                                    <td class="date">
+                                        <div>
+                                            <p>${list.favoriteDate}</p>
+                                        </div>
+                                    </td>
+                                    <td class="question">
+                                        <div class='problemStatement'>
+                                            <p class="">${list.problemStatement.replace(/\r?\n/g, '<br>')}</p>
+
+                                        </div>
+                                    </td>
+                                    <td class="anser">
+                                        <div class='answer'>
+                                        </div>
+                                    </td>
+                                    <td class="explanation">
+                                        <div class='commentary'>
+                                            <p class="">${list.commentary.replace(/\r?\n/g, '<br>')}</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `);
+                            if(list.questionType===5 && list.correctAnswers[0].toLowerCase()==="no"){
+                                $(".tameru-data-table tr").eq(index).find(".answer").append(`<img src='/static/ver2.1/img/cross.svg' alt=''/>`)
+                            }
+                            else if(list.questionType===5 && list.correctAnswers[0].toLowerCase()==="yes"){
+                                $(".tameru-data-table tr").eq(index).find(".answer").append(`<img src='/static/ver2.1/img/circle.svg' alt=''/>`)
+                            }
+                            else{
+                                list.correctAnswers.map(answer => {
+                                    $(".tameru-data-table tr").eq(index).find(".answer").append(`<p>${answer}</p>`)
+                                })
+                            }
+                            if(list.questionPicture.length > 0){
+                                $(".tameru-data-table tr").eq(index).find(".problemStatement").append(`<img src='${list.questionPicture[0]}' alt='' style='width:auto;max-width:100%;' />`)
+                            }
+                                // if (list.questionPicture !== 0) {
+                                //     $(".tameru-data-table tr").eq(index).find(".problemStatement").append(`<img src='${list.questionPicture}'  alt='' style='width:auto;max-width:100%;'/>`);
+                                // }
+
+                                // list.commentary.map(comment => {
+                                //     $(".tameru-data-table tr").eq(index).find(".commentary").append(`<p>${comment.replace(/\r?\n/g, '<br>')}</p>`)
+                                // })
+                            })
+                        }
+                    }
+                })
+            }
+        })
+        // $(document).ready(function(){
+        //     $.ajax({
+        //       method:"get",
+        //       url:"/profile/get",
+        //       success:function(data){
+        //           var result=JSON.parse(data);
+        //           //var profile=result.userProfile.data.profilePicture
+        //           var profile=result.userProfile.data.profilePicture==''?'/static/ver2.1/img/1104@3x.png':result.userProfile.data.profilePicture;
+        //           var flag_con=result.record_count.data.created_question_flag;
+        //           var img_name='';
+        //           if(flag_con==0){
+        //             img_name='/static/ver2.1/img/arrow-gray.png';
+        //           }
+        //           else if(flag_con<0){
+        //               img_name='/static/ver2.1/img/arrow-blue.png';
+        //           }
+        //           else{
+        //             img_name='/static/ver2.1/img/1013@3x.png';
+        //           }
+
+        //           var flag_con1=result.record_count.data.total_answer_flag;
+        //           var img_name1='';
+        //           if(flag_con1==0){
+        //             img_name1='/static/ver2.1/img/arrow-gray.png';
+        //           }
+        //           else if(flag_con1<0){
+        //               img_name1='/static/ver2.1/img/arrow-blue.png';
+        //           }
+        //           else{
+        //             img_name1='/static/ver2.1/img/1013@3x.png';
+        //           }
+
+        //           var flag_con2=result.record_count.data.learning_day_flag;
+        //           var img_name2='';
+        //           if(flag_con2==0){
+        //             img_name2='/static/ver2.1/img/arrow-gray.png';
+        //           }
+        //           else if(flag_con1<0){
+        //               img_name2='/static/ver2.1/img/arrow-blue.png';
+        //           }
+        //           else{
+        //             img_name2='/static/ver2.1/img/1013@3x.png';
+        //           }
+
+        //           $(".manabu-profile").append(`
+        //                   <div class='px-4'>
+        //                       <div class='profile-img profile' style='background-image:url(${profile});background-size:cover;background-position:center;'>
+        //                        </div>
+        //                   </div>
+        //                   <div class='px-3'>
+        //                       <div>
+        //                         <div>
+        //                           <h4 class='m-0'>${result.userProfile.data.displayName}</h4>
+        //                           <p class='text-muted my-2'><i class='far fa-envelope mr-2'></i>${result.userProfile.data.username}</p>
+        //                             </div>
+        //                         </div>
+        //                       <div class='flex flex-s py-2'>
+        //                           <div>
+        //                               <small class='text-muted'>入社日</small>
+        //                               <p class='my-1'>${result.year}/${result.month}/${result.day}</p>
+        //                           </div>
+        //                           <div class='px-5'>
+        //                               <small class='text-muted'>チーム</small>
+        //                               <p class='my-1'>${result.userProfile.data.team_name==null?'None':result.userProfile.data.team_name}</p>
+        //                           </div>
+        //                           <div>
+        //                               <small class='text-muted'>役職</small>
+        //                               <p class='my-1'>${result.userProfile.data.position}</p>
+        //                           </div>
+        //                       </div>
+        //                       <div class='flex flex-s py-3'>
+        //                           <div class='text-center pr-3'>
+        //                               <small class='text-muted'>知識をまなんだ数</small>
+        //                               <h1 class='font-normal my-1'>${result.record_count.data.created_question_count}</h1>
+        //                               <span>${result.record_count.data.created_question_status}<img src=${img_name} class='rank-arrow ml-2' alt='' /></span>
+        //                           </div>
+        //                           <div class='text-center px-3 bl br'>
+        //                               <small class='text-muted'>知識をためた数</small>
+        //                               <h1 class='font-normal my-1'>${result.record_count.data.total_answer_count}</h1>
+        //                               <span>${result.record_count.data.total_answer_status} <img src=${img_name1} alt='' class='rank-arrow ml-2' /></span>
+        //                           </div>
+        //                           <div class='text-center pl-3'>
+        //                               <small class='text-muted'>合計まなび日数</small>
+        //                               <h1 class='my-1 font-normal'>${result.record_count.data.learning_day_count}</h1>
+        //                               <span>${result.record_count.data.learning_day_status} <img src=${img_name2} alt='' class='rank-arrow ml-2' /></span>
+        //                           </div>
+        //                       </div>
+        //                   </div>`);
+        //   }
+
+        // })//
+        // })
+    </script>
+    <div class="modal" id="attention" style="display: none;">
+        <div class="flex flex-item-center">
+            <div class="modal-dialog">
+                <div class="kb-panel">
+                    <div class="kb-panel-title p-3">
+                        <p class="m-0">この課題のお気に入り登録を解除してもよろしいですか?</p>
+                        <i class="fas fa-times modal-close" data-modal="#edit-member-modal"></i>
+                    </div>
+                    <div class="kb-panel-body px-3">
+                        <p>
+                            <small class="text-muted">※解除すると、お気に入りに登録した課題一覧には表示されなくなります。</small>
+                        </p>
+                        <div class="flex flex-c py-3">
+                            <a class="btn-tran btn-tran-modal cancel mx-2">キャンセル</a>
+                            <button class="submit-btn mx-2 confirm-delete"> 解除する </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% include './ver2.1/partials/footer.html' %}
+
+</html>

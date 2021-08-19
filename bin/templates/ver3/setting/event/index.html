@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>KnowledgeBank</title>
+  <link rel='icon' href='/static/ver2.1/img/logo@3x.png'/>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css' />
+  <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+<style>
+  .kb-setting-event-stop{
+    background-color: #fafafa;
+  }
+  .kb-panel-title .addButton:hover:not([disabled]) {
+    text-decoration: none;
+    background: #dca728 !important;
+    border: solid 1px #916d18;
+  }
+  .kb-panel-title .addButton i{
+    color: #2962ff;
+  }
+  .kb-panel-title .deleteButton{
+    margin-left: auto;
+  }
+  .kb-panel-title .deleteButton i{
+    color: #fb5d51;
+    transform: rotate(45deg);
+  }
+  .kb-panel-title .deleteButton:hover:not([disabled]) {
+    text-decoration: none;
+    background: #dca728 !important;
+    border: solid 1px #916d18;
+  }
+  .kb-setting-event-container .event-form>div>div:first-child{
+    width: 140px;
+  }
+  .kb-setting-event-container .event-form>div>div:last-child{
+    width: calc(100% - 140px);
+  }
+  .event-complete{
+    background-color: #fafafa;
+    cursor: pointer;
+  }
+  .kb-setting-container .btn-tran.kb-setting-event-add{
+    background: transparent;
+    border-color: #2962ff;
+    max-width: 250px;
+    width: 100%;
+  }
+  .kb-event-complete-profile{
+    width: 200px;
+    flex-shrink: 0;
+  }
+  .kb-event-complete-profile .profile-img{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+  }
+  .kb-event-complete-bar{
+    width: 100%;
+    height: 6px;
+    border-radius: 40px;
+    background-color: #f4f4f7;
+  }
+  .kb-event-complete-percentage{
+    height: 6px;
+    border-radius: 40px;
+    position: relative;
+    background-color: #2962ff;
+  }
+  .kb-event-complete-percentage span{
+    content: attr(data-percentage);
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    height: 35px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+    font-size: 13px;
+  }
+  .kb-event-complete-percentage span.complete{
+    background-color: #2962ff;
+    color: #fff;
+  }
+  .kb-event-complete-percentage span.complete:before{
+    content: "";
+    width: 12px;
+    height: 12px;
+    background-image: url('/static/ver2.1/img/crown.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0 5px 0 0;
+  }
+  .kb-setting-event-btn{
+    display: inline-block;
+    outline: none;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font: 14px/100% Arial, Helvetica, sans-serif;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    border-radius: 0.25rem;
+    font-weight: bold;
+    border: solid 1px #d1d1d1;
+    background: white;
+    font-size: 14px;
+    font-weight: normal;
+    text-shadow: none;
+    padding: 10px;
+    width: auto;
+    color: #373943;
+  }
+  .kb-setting-event-delete{
+    background-color: #fafafa;
+  }
+  .kb-setting-event-save{
+    padding: 10px 20px;
+    width: auto;
+  }
+  .slider:after{
+    content: "停止中";
+  }
+  input:checked+.slider:after{
+    content: "実施中";
+  }
+  .kb-container-loading {
+    padding: 20px;
+    width: calc(100vw - px);
+    display: flex;
+    justify-content: center;
+  }
+
+  .kb-container-loading #loading {
+    width: 40px;
+    position: fixed;
+    top: 50%;
+    z-index: 999;
+  }
+
+  input[name="event-period"]+div input{
+    color: -internal-light-dark(rgb(84, 84, 84), rgb(170, 170, 170))!important;
+    cursor: default;
+    background-color: -internal-light-dark(rgb(235, 235, 228), rgb(45, 45, 45))!important;
+  }
+
+
+</style>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+{% include './ver2.1/partials/ga_tag.html' %}
+</head>
+{% include './ver2.1/partials/header.html' %}
+{% include './ver2.1/partials/sidebar.html' %}
+<body>
+  <div>
+    <div class='kb-container'>
+      <div class='kb-setting-container kb-setting-event-container'>
+        <div class="kb-setting-top text-center text-center">
+          <div class="kb-container-loading" style="display: none;">
+            <div id='loading'>
+              <i class="fa fa-spinner" style="color: blue;font-size: 43px;"></i>
+            </div>
+          </div>
+          <div class="loading">
+
+          <h3>ナレッジバンク設定</h3>
+          <p class="text-muted"><small>ナレッジバンクの様々な設定ができます</small></p>
+          </div>
+          <div class="loading">
+          <div class="flex flex-c py-3">
+              <div class="p-3 px-4">
+                  <a href="/settings/base">
+                      <img src="/static/ver2.1/img/base.png" alt="">
+                      <p><small>基本設定</small></p>
+                  </a>
+              </div>
+              <div class="p-3 px-4">
+                  <a href="/settings/event">
+                      <img src="/static/ver2.1/img/learn_active.png" alt="">
+                      <p class="active"><small>イベント設定</small></p>
+                  </a>
+              </div>
+              <div class="p-3 px-4">
+                  <a href="/settings/import">
+                      <img src="/static/ver2.1/img/import.png" alt="">
+                      <p><small>ためる設定</small></p>
+                  </a>
+              </div>
+              <div class="p-3 px-4">
+                  <a href="/settings/mail">
+                      <img src="/static/ver2.1/img/mail.png" alt="">
+                      <p><small>通知</small></p>
+                  </a>
+              </div>
+          </div>
+        </div>
+        </div>
+        <div class="loading">
+        <div class="kb-setting-event-list">
+
+        </div>
+        <div class="my-3 text-center kb-setting-event-add-wrap">
+          <button class="btn-tran kb-setting-event-add color-blue">+ 新規追加</button>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src='/static/ver2.1/js/varidate.js'></script>
+  <script src='/static/ver2.1/js/script.js'></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <!-- <script src='/static/ver2.1/js/datepicker-ja.js'></script> -->
+  <script>
+   
+
+    // $(window).on('load',function(){
+    //   $('.kb-setting-event-item').each(function(){
+    //     if(!$(this).hasClass('kb-setting-event-stop')){
+    //       $(this).find('.event-form input').prop('disabled', true);
+    //       $(this).find('.event-form select').prop('disabled', true);
+    //     }
+    //   })
+    //   $('.kb-event-period').each(function () {
+    //     if (!$(this).prop("checked")) {
+    //       $(this).next().find('input,select').prop('disabled', true);
+    //     }
+    //   })
+    // })
+
+
+
+
+    $(document).on('change', '.kb-setting-event-toggle', function () {
+      if ($(this).prop("checked")) {
+        $(this).parents('.kb-setting-event-item').removeClass('.kb-setting-event-stop');
+        $(this).parents('.kb-setting-event-item').find('.event-form input').prop('disabled', true);
+        $(this).parents('.kb-setting-event-item').find('.event-form select').prop('disabled', true);
+      }else{
+        $(this).parents('.kb-setting-event-item').addClass('.kb-setting-event-stop');
+        $(this).parents('.kb-setting-event-item').find('.event-form input').prop('disabled', false);
+        $(this).parents('.kb-setting-event-item').find('.event-form select').prop('disabled', false);
+        $(this).parents('.kb-setting-event-item').find('.kb-event-period').each(function () {
+          if (!$(this).prop("checked")) {
+            $(this).next().find('input,select').prop('disabled', true);
+          }
+        })
+      }
+    })
+    $(document).on('change', '.kb-event-period', function () {
+      var target = $(this).attr('name');
+      $('.kb-event-period[name="' + target + '"]').next().find('input,select').prop('disabled', true);
+      $('.kb-event-period[name="' + target + '"]:checked').next().find('input,select').prop('disabled', false);
+    })
+
+
+
+    $(document).on('click', '.datepicker', function () {
+      $(this).datepicker();
+      $(this).datepicker("show");
+
+    })
+
+
+    $(document).on('change', '.kb-setting-event-targetType', function () {
+      if ($(this).val() == 'manabu') {
+        $(this).siblings('p').find('.kb-setting-event-targetText').text('%以上の正解をする')
+      }else if ($(this).val() == 'tameru') {
+        $(this).siblings('p').find('.kb-setting-event-targetText').text('門以上をためる')
+      }
+    })
+
+
+    getEventList();
+
+    function getEventList(){
+      $('.kb-container-loading').show();
+        let css = 'fa-spin';
+        $('.fa-spinner').show().addClass(css);
+        $('.loading').css({
+          'opacity': '0.5'
+        })
+      
+      $.ajax({
+          type: 'GET',
+          url:'/settings/event/list',
+          headers: { "Content-Type": "application/json" },
+          success: function (data) {
+
+          let result = JSON.parse(data);
+          console.log('event result is',result);
+          eventCount = result.data.length
+          if(eventCount == 0){
+            console.log("event count is",eventCount);
+            $('.kb-container-loading').hide();
+              $('.loading').css({
+                  'opacity': '1'
+              })
+
+          }
+          result.data.map((event,i) => {
+          if(event.flag == 1){
+            $('.kb-setting-event-list').append(`
+            <div class='kb-panel kb-setting-event-item kb-setting-event-stop my-4' id=${event.id} count=${eventCount}>
+              <div class='kb-panel-title p-3'>
+                <div class='m-0 flex flex-item-center flex-sb'>
+                  <div class="flex flex-item-center" style="width:100%">
+                    <span class="kb-setting-event-number">.</span>
+                    <input type="text" id="event_name-${event.id}"  class="kb-input kb-input-md form-data-ans event-name"  placeholder="イベント名を入力してください" style="max-width:400px">
+                  </div>
+                <div class="flex flex-item-center item" style="flex-shrink:0;" data-id=${event.id}>
+                    <label class="switch mr-2">
+                      <input type="checkbox" class="kb-setting-event-toggle toggle" value=${event.flag} style="display: none;">
+                      <div class="slider round"> </div>
+                    </label>
+                    <button class='kb-setting-event-btn kb-setting-event-delete mr-2' data-id=${event.id}>削除</button>
+                    <a class="submit-btn kb-setting-event-save" style="width:auto" id=${i} data-id=${event.id}>保存</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class='kb-panel-body p-0'>
+                <div class="event-form p-3">
+                  <div class="flex flex-s">
+                    <div>
+                      <p><small><b>ナレッジパック</b></small></p>
+                    </div>
+                    <div class="my-2">
+                      <select name="pack"${i} pack_id=${event.knowledgePackId} event=${event.id} id="knowledgePack-${event.id}" style="width:50%;" class="kb-setting-event-pack event-pack${i} lg">
+                        <option value="" disabled>ナレッジパックを選択してください</option>
+                        
+                      </select>
+                    </div>
+                  </div>
+                  <div class="flex flex-s my-2">
+                    <div>
+                      <p><small><b>達成条件</b></small></p>
+                    </div>
+                    <div class="my-2 flex flex-item-center">
+                      <select name="" id="targetType-${event.id}" class="kb-setting-event-targetType type${event.id} mr-3">
+                        <option value="manabu">まなぶ</option>
+                        <option value="tameru">ためる</option>
+                      </select>
+                      <input type="number" id='correctrate-${event.id}' class="kb-input mr-2" value=${event.achievement.correctRate ? event.achievement.correctRate : ''}>
+                      <p class="m-0 text-muted"><small class="kb-setting-event-targetText">%以上の正解をする</small></p>
+                    </div>
+                  </div>
+                  <div class="flex flex-item-center my-2">
+                    <div>
+                      <p><small><b>役職</b></small></p>
+                    </div>
+                    <div class='flex position${i}' flag=${event.flag}>
+                      <label class="flex mr-4">
+                        <input class="tag-checkbox-position${i} tag-all" value="0" name="position${i}"  type='checkbox' />
+                        <span class="my-0 ml-2">すべて</span>
+
+                      </label>
+
+                    </div>
+                  </div>
+                  <div class="flex flex-item-center my-2">
+                    <div>
+                      <p><small><b>チーム</b></small></p>
+                    </div>
+                    <div class='flex team${i}' flag_team=${event.flag}>
+                      <label class="flex mr-2">
+                        <input class="tag-checkbox-team${i} tag-all"  value='0' name="team${i}" type='checkbox'  />
+                        <span class="my-0 ml-1">すべて</span>
+                      </label>
+
+                    </div>
+                  </div>
+                  <div class="flex my-2">
+                    <div>
+                      <p class="my-2"><small><b>期間</b></small></p>
+                    </div>
+                    <div>
+                      <div class='flex flex-item-center'>
+                        <input type="radio" id='event_period period' class="kb-event-period mr-2" name="event-period-${event.id}" value="interval">
+                        <div class='flex flex-item-center' style="width: 100%">
+                          <input type="text"  class="kb-input mr-2 datepicker fromdate-${event.id}" value=${event.period.data.from_date ? event.period.data.from_date : ''}>
+                          <small class="mr-2">から</small>
+                          <input type="text" class="kb-input mr-2 datepicker todate-${event.id}" value=${event.period.data.to_date ? event.period.data.to_date : ''}>
+                          <small class="mr-2">まで</small>
+                        </div>
+                      </div>
+                      <div class='flex flex-item-center mt-4'>
+                        <input type="radio" id='event_period period' class="kb-event-period period mr-2" name="event-period-${event.id}" value="period">
+                        <div class='flex flex-item-center' style="width: 100%">
+                          <select name="" id="period_type-${event.id}" class="mr-2">
+                            <option value="0">毎日</option>
+                            <option value="1">毎週</option>
+                          </select>
+                          <label class="flex mr-2">
+                            <input type='checkbox' name='exclude_weekends-${event.id}' class='mon' id="exclude_weekends-${event.id}"  />
+                            <span class="my-0 ml-1">土日除く</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="event-complete p-3">
+                  <div class="flex flex-c flex-item-center color-blue">
+                    <i class="fas fa-medal"></i>
+                    <p class="ml-1 my-0"><small>参加者の達成状況</small></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `)
+
+          $('.kb-container-loading').hide();
+              $('.loading').css({
+                  'opacity': '1'
+              });
+
+
+          //$("#knowledgePack-53 option[value='1']").attr("selected","selected");
+
+          //$(`#knowledgePack-${event.id} option[value='1']`).attr("selected","selected");
+
+           //$(`#knowledgePack-${event.id} option[value="自社ナレッジ"]`).attr("selected", "selected");
+
+          // $(`#knowledgePack-${event.id}`).val("自社ナレッジ");
+
+            
+          //  if(event.knowledgePackId == null){
+          // console.log("m null is being called")
+          // $(`#knowledgePack-${event.id} option[value=null]`).attr("selected", "selected");
+
+          // }
+          // else{
+          //   console.log("m not null is being called")
+          // $(`#knowledgePack-${event.id} option[value=${event.knowledgePackId}]`).attr("selected", "selected");
+          // }
+
+        
+
+          $(`#targetType-${event.id} option[value=${event.achievement.type}]`).attr("selected", "selected");
+          $(`input[name=event-period-${event.id}][value=${event.period.type} ]`).prop('checked', true);
+          $(`#period_type-${event.id} option[value=${event.period.data.period_type}]`).attr("selected", "selected");
+          $(`#event_name-${event.id}`).val(event.name ? event.name : '');
+          
+
+          if(event.period.data.is_exclude_weekends == 0){
+            $(`#exclude_weekends-${event.id}`).prop('checked',true);
+          }
+          else{
+            $(`#exclude_weekends-${event.id}`).prop('checked',false);
+
+          }
+
+          if(event.period.type == 'interval'){
+            $('#period_type-'+event.id).attr('disabled',true);
+            $(`#exclude_weekends-${event.id}`).attr('disabled',true);
+           // $(`input[name=event-period-${event.id}][value=period]`).attr('disabled', true);
+
+          }
+          else{
+            
+        $(`.fromdate-${event.id}`).attr('disabled',true);
+        $(`.todate-${event.id}`).attr('disabled',true);
+        //$(`input[name=event-period-${event.id}][value=interval]`).attr('disabled', true);
+          }
+
+         
+
+
+        }
+        else{
+          var packCount = event.knowledgePackName ? (event.knowledgePackName) :'';
+
+          $('.kb-setting-event-list').append(`
+            <div class='kb-panel kb-setting-event-item-${event.id} my-4'>
+              <div class='kb-panel-body p-0'>
+                <div class="event-form p-3">
+                  <div class="flex flex-s">
+                    <div>
+                      <p><small><b>ナレッジパック</b></small></p>
+                    </div>
+                    <div class="my-2">
+                      <select name="pack" id="knowledgePack-${event.id}" class="kb-setting-event-pack-disable lg" disabled style="width:50%;" data-prop="knowledgePackId">
+                        <option value="${event.knowledgePackId}">${event.knowledgePackName == null ? 'なし' : event.knowledgePackName}&nbsp;&nbsp;${packCount} </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="flex flex-s my-2">
+                    <div>
+                      <p><small><b>達成条件</b></small></p>
+                    </div>
+                    <div class="my-2 flex flex-item-center">
+                      <select name="" id="" class="mr-3 kb-setting-event-targetType" data-prop="achievementType${i}" disabled>
+                        <option value="manabu">まなぶ</option>
+                        <option value="tameru">ためる</option>
+                      </select>
+                      <input type="number" disabled class="kb-input mr-2" value=${event.achievement.correctRate} >
+                      <p class="m-0 text-muted"><small class="kb-setting-event-targetText">%以上の正解をする</small></p>
+                    </div>
+                  </div>
+                  <div class="flex flex-item-center my-2">
+                    <div>
+                      <p><small><b>役職</b></small></p>
+                    </div>
+                    <div class='flex position${i}' id="position${i}" flag=${event.flag} >
+                      <label class="flex mr-4">
+                        <input class="tag-checkbox-position${i} tag-all" value="0"  name="position${i}" disabled  type='checkbox' />
+                        <span class="my-0 ml-2">すべて</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="flex flex-item-center my-2">
+                    <div>
+                      <p><small><b>チーム</b></small></p>
+                    </div>
+                    <div class='flex team${i}' flag_team=${event.flag} >
+                      <label class="flex mr-2">
+                        <input class="tag-checkbox-team${i} tag-all" value="0" name="team${i}" disabled  type='checkbox' />
+                        <span class="my-0 ml-1">すべて</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="flex my-2">
+                    <div>
+                      <p class="my-2"><small><b>期間</b></small></p>
+                    </div>
+                    <div class="">
+                      <div class='flex flex-item-center'>
+                        <input type="radio" class="kb-event-period mr-2" disabled name="event-period-${event.id}" value="interval">
+                        <div class='flex flex-item-center' style="width: 100%">
+                          <input type="text" class="kb-input mr-2 datepicker" disabled value=${event.period.data.from_date ? event.period.data.from_date: ''}>
+                          <small class="mr-2">から</small>
+                          <input type="text" class="kb-input mr-2 datepicker" disabled  value=${event.period.data.to_date ? event.period.data.to_date: ''}>
+                          <small class="mr-2">まで</small>
+                        </div>
+                      </div>
+                      <div class='flex flex-item-center mt-4'>
+                        <input type="radio" class="kb-event-period mr-2" disabled name="event-period-${event.id}" value="period">
+                        <div class='flex flex-item-center' style="width: 100%">
+                          <select name="" id="period_type-${event.id}" disabled class="mr-2" data-prop="periodType${i}">
+                            <option value="0">毎日</option>
+                            <option value="1">毎週</option>
+                          </select>
+                          <label class="flex mr-2">
+                            <input type='checkbox' id="exclude_weekends-${event.id}" disabled class="checkbox_check"  />
+                            <span class="my-0 ml-1">土日除く</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="event-complete p-3">
+                  <div class="flex flex-c flex-item-center color-blue">
+                    <i class="fas fa-medal"></i>
+                    <p class="ml-1 my-0"><small>参加者の達成状況</small></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+       
+      `)
+
+      $('.kb-container-loading').hide();
+      $('.loading').css({
+          'opacity': '1'
+       })
+
+
+      $(`select[data-prop=achievementType${i}] option[value=${event.achievement.type}]`).prop("selected", true);
+      $(`input[name=event-period-${event.id}][value=${event.period.type} ]`).prop('checked', true);
+      //$(`select[data-prop=periodType${i}] option[value=${event.period.data.period_type}]`).prop("selected", true);
+      $(`#period_type-${event.id} option[value=${event.period.data.period_type}]`).attr("selected", "selected");
+     // $(`#knowledgePack-${event.id} option[value=${event.knowledgePackId}]`).attr("selected", "selected");
+
+
+      if(event.period.data.is_exclude_weekends == 0){
+            $(`#exclude_weekends-${event.id}`).prop('checked',true);
+          }
+      else{
+        $(`#exclude_weekends-${event.id}`).prop('checked',false);
+
+      }
+    
+    }
+
+      $(`.tag-checkbox-position${i}`).on('click', function () {
+        if (this.checked) {
+          $(`.position${i}`).each(function () {
+            this.checked = true;
+          });
+        } else {
+          $(`.position${i}`).each(function () {
+            this.checked = false;
+          });
+        }
+      });
+
+      $(`.position${i}`).on('click', function () {
+        if ($(`.position${i}:checked`).length == $(`.position${i}`).length - 1) {
+          $(`.tag-checkbox-position${i}`).prop('checked', true);
+        } else {
+          $(`.tag-checkbox-position${i}`).prop('checked', false);
+        }
+       
+      });
+
+
+      $(`.tag-checkbox-team${i}`).on('click', function () {
+        if (this.checked) {
+          $(`.team${i}`).each(function () {
+            this.checked = true;
+          });
+        } else {
+          $(`.team${i}`).each(function () {
+            this.checked = false;
+          });
+        }
+      });
+
+      $(`.team${i}`).on('click', function () {
+        if ($(`.team${i}:checked`).length == $(`.team${i}`).length - 1) {
+          $(`.tag-checkbox-team${i}`).prop('checked', true);
+        } else {
+          $(`.tag-checkbox-team${i}`).prop('checked', false);
+        }
+      });
+
+        $(`#target_type option[value=${event.achievement.type}]`).attr("selected", "selected");
+       // $("input[name=event-period-2][value=" + event.period.type + "]").attr('checked', 'checked');
+       // $(`input.kb-setting-event-toggle[value=${event.flag}]`).prop('checked', true);
+       if(event.flag == 1){
+
+
+         $(`input.kb-setting-event-toggle[value=${event.flag}]`).prop('checked',false);
+     
+       }
+       else if(event.flag == 0){
+
+        $(`input.kb-setting-event-toggle[value=${event.flag}]`).prop('checked',true);
+
+       }
+
+      
+        })
+
+
+        $.ajax({
+          type: 'GET',
+          url:'/settings/base/data',
+          headers: { "Content-Type": "application/json" },
+          success: function (data) {
+           let base_result = JSON.parse(data);
+        
+           for(var i=0; i<eventCount; i++){
+            base_result.position.forEach(async function(pos) {
+              var flag_value = $('.position' +i).attr('flag');
+
+              if(flag_value == 1){
+                $('.position'+i).append(`
+                    <label class="flex mr-2">
+                                <input class="tag-checkbox position${i}" name='position${i}'  type="checkbox" value="${pos.id}"/>
+                                <span class="my-0 ml-1">${pos.name}</span>
+                      </label>
+                `)
+              }
+              else if(flag_value == 0){
+                $('.position'+i).append(`
+                    <label class="flex mr-2">
+                                <input class="tag-checkbox position${i}" name='position${i}' disabled  type="checkbox" value="${pos.id}"/>
+                                <span class="my-0 ml-1">${pos.name}</span>
+                      </label>
+                `)
+              }
+                
+                 
+            })
+
+            base_result.team.forEach(async function(team) {
+              var flag_team_value = $('.team' +i).attr('flag_team');
+              if(flag_team_value == 1){
+                $('.team'+i).append(`
+                <label class="flex mr-2">
+                            <input class="tag-checkbox team${i}" name='team${i}' type="checkbox"  value="${team.id}"/>
+                            <span class="my-0 ml-1">${team.name}</span>
+                </label>`);
+              }
+              else if(flag_team_value == 0){
+                $('.team'+i).append(`
+                <label class="flex mr-2">
+                            <input class="tag-checkbox team${i}" name='team${i}' disabled type="checkbox"  value="${team.id}"/>
+                            <span class="my-0 ml-1">${team.name}</span>
+                </label>`);
+              }
+             
+             
+            });
+         
+           }
+
+           result.data.map((event,i) => {
+            var team_ids = event.team.split(',');
+           
+            $.each(team_ids, function(index, value) {
+              prop_name = "team"+i;
+              $('input[name="'+prop_name+'"][value="'+value+'"]').prop("checked", true);
+            
+            });
+         
+            var position_ids = event.position.split(',');
+            
+            $.each(position_ids, function(index, value) {
+              prop_name = "position"+i
+              $('input[name="'+prop_name+'"][value="'+value+'"]').prop("checked", true);
+            });
+           })
+          }
+        });
+
+
+        $.ajax({
+          type: 'GET',
+          url:'/settings/knowledgePack',
+          headers: { "Content-Type": "application/json" },
+          success: function (data) {
+
+           let result = JSON.parse(data);
+           console.log("knowledgepack event list", result);
+       
+           if(result.result == 'ok'){
+           
+             result.data.map((pack) => (
+              $('.kb-setting-event-pack').append(`
+              <option value=${pack.id}>${pack.name}&nbsp;&nbsp;(${pack.count})</option>
+             `)
+             ))
+             $('.kb-setting-event-pack').append(`
+              <option value='null'>なし</option>
+             `)
+           }
+
+        var i;
+        var num = $('.kb-setting-event-item').attr('count');
+        for(i = 0;i< num; i++){
+          var pack = $('.event-pack'+i).attr('event');
+          console.log("pack is", pack);
+
+        var p_id = $('.event-pack'+i).attr('pack_id');
+
+        console.log("p id is", p_id);
+
+        $(`#knowledgePack-${pack} option[value=${p_id}]`).attr("selected", "selected");
+
+        }    
+          }
+        });
+    
+      }
+  })}
+
+   
+
+    $(document).on('change', '.kb-setting-event-pack', function () {
+      if ($(this).val() == '自社ナレッジ' || $(this).val() == '') {
+        $(this).parents('.kb-setting-event-item').find('.kb-setting-event-targetType option[value="tameru"]').prop('disabled', false);
+      }else{
+        $(this).parents('.kb-setting-event-item').find('.kb-setting-event-targetType').val('manabu');
+        $(this).parents('.kb-setting-event-item').find('.kb-setting-event-targetType option[value="tameru"]').prop('disabled', true);
+        $(this).parents('.kb-setting-event-item').find('.kb-setting-event-targetText').text('%以上の正解をする')
+      }
+    })
+
+    $(this).parents('kb-setting-event-item').find('.kb-setting-event-pack').val();
+
+    var onClickCount = 0;
+    $('.kb-setting-event-add').on('click',function(){      
+      onClickCount++;
+     var itemNum = $('.kb-setting-event-item').length + onClickCount;
+     $('.kb-setting-event-list').append(`
+        <div class='kb-panel kb-setting-event-item my-4' num=${itemNum} >
+          <div class='kb-panel-title p-3'>
+            <div class='m-0 flex flex-item-center flex-sb'>
+              <div class="flex flex-item-center" style="width:100%">
+                <span class="kb-setting-event-number">.</span>
+                <input type="text" id="event_name-${itemNum}" class="kb-input kb-input-md form-data-ans" placeholder="イベント名を入力してください" style="max-width:400px">
+              </div>
+            <div class="flex flex-item-center item-two" style="flex-shrink:0;" data-id=${itemNum}>
+                <label class="switch mr-2">
+                  <input type="checkbox" class="kb-setting-event-toggle" style="display: none;">
+                  <div class="slider round"> </div>
+                </label>
+                <button class='kb-setting-event-btn kb-setting-event-delete mr-2' data-id=${itemNum}>削除</button>
+                <a class="submit-btn  kb-setting-event-save" style="width:auto"  num=${itemNum} id=${itemNum} data-id=${itemNum}>保存</a>
+              </div>
+            </div>
+          </div>
+
+          <div class='kb-panel-body p-0'>
+            <div class="event-form p-3">
+              <div class="flex flex-s">
+                <div>
+                  <p><small><b>ナレッジパック</b></small></p>
+                </div>
+                <div class="my-2">
+                  <select name="pack"  id="knowledgePack-${itemNum}" style="width:50%;" class="kb-setting-event-pack-${itemNum} lg">
+                    <option value="" disabled>ナレッジパックを選択してください</option>
+      
+                  </select>
+                </div>
+              </div>
+              <div class="flex flex-s my-2">
+                <div>
+                  <p><small><b>達成条件</b></small></p>
+                </div>
+                <div class="my-2 flex flex-item-center">
+                  <select name="" id="targetType-${itemNum}" class="kb-setting-event-targetType type${itemNum} mr-3">
+                    <option value="manabu">まなぶ</option>
+                    <option value="tameru">ためる</option>
+                  </select>
+                  <input type="number" id='correctrate-${itemNum}' class="kb-input mr-2">
+                  <p class="m-0 text-muted"><small class="kb-setting-event-targetText">%以上の正解をする</small></p>
+                </div>
+              </div>
+              <div class="flex flex-item-center my-2">
+                <div>
+                  <p><small><b>役職</b></small></p>
+                </div>
+                <div class='flex position-add${itemNum}'>
+                  <label class="flex mr-4">
+                    <input class="tag-checkbox-position-add${itemNum} tag-all" value="0" name="position-add${itemNum}" type='checkbox'/>
+                    <span class="my-0 ml-2">すべて</span>
+                  </label>
+
+                </div>
+              </div>
+              <div class="flex flex-item-center my-2">
+                <div>
+                  <p><small><b>チーム</b></small></p>
+                </div>
+               
+
+                <div class='flex team-add${itemNum}'>
+                  <label class="flex mr-2">
+                    <input class="tag-checkbox-team-add${itemNum} tag-all" value="0" name="team-add${itemNum}" type='checkbox'/>
+                    <span class="my-0 ml-1">すべて</span>
+                  </label>
+
+                </div>
+
+              </div>
+              <div class="flex my-2">
+                <div>
+                  <p class="my-2"><small><b>期間</b></small></p>
+                </div>
+                <div>
+                  <div class='flex flex-item-center'>
+                    <input type="radio" class="kb-event-period mr-2" name="event-period-${itemNum}" value="interval">
+                    <div class='flex flex-item-center' style="width: 100%">
+                      <input type="text" id='datefrom' class="kb-input mr-2 datepicker fromdate" disabled>
+                      <small class="mr-2">から</small>
+                      <input type="text" id='dateto' class="kb-input mr-2 datepicker todate" disabled>
+                      <small class="mr-2">まで</small>
+                    </div>
+                  </div>
+                  <div class='flex flex-item-center mt-4'>
+                    <input type="radio" class="kb-event-period mr-2" name="event-period-${itemNum}" value="period" checked>
+                    <div class='flex flex-item-center' style="width: 100%">
+                      <select name="" id='period_type-${itemNum}' class="mr-2">
+                        <option value="0">毎日</option>
+                        <option value="1">毎週</option>
+                      </select>
+                      <label class="flex mr-2">
+                        <input type='checkbox' name='exclude_weekends-${itemNum}' id="exclude_weekends-${itemNum}" class="checkbox_check"${itemNum} checked/>
+                        <span class="my-0 ml-1">土日除く</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="event-complete p-3">
+              <div class="flex flex-c flex-item-center color-blue">
+                <i class="fas fa-medal"></i>
+                <p class="ml-1 my-0"><small>参加者の達成状況</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `)
+
+      $(`.tag-checkbox-position-add${itemNum}`).on('click', function () {
+        if (this.checked) {
+          $(`.position-add${itemNum}`).each(function () {
+            this.checked = true;
+          });
+        } else {
+          $(`.position-add${itemNum}`).each(function () {
+            this.checked = false;
+          });
+        }
+      });
+
+      $(`.position-add${itemNum}`).on('click', function () {
+        if ($(`.position-add${itemNum}:checked`).length == $(`.position-add${itemNum}`).length - 1) {
+          $(`.tag-checkbox-position-add${itemNum}`).prop('checked', true);
+        } else {
+          $(`.tag-checkbox-position-add${itemNum}`).prop('checked', false);
+        }
+      });
+
+     $(`.tag-checkbox-team-add${itemNum}`).on('click',function(){
+       if(this.checked){
+         $(`.team-add${itemNum}`).each(function(){
+           this.checked = true;
+         });
+       }
+       else{
+         $(`.team-add${itemNum}`).each(function(){
+           this.checked = false;
+         });
+       }
+     });
+
+     $(`.team-add${itemNum}`).on('click', function () {
+        if ($(`.team-add${itemNum}:checked`).length == $(`.team-add${itemNum}`).length - 1) {
+          $(`.tag-checkbox-team-add${itemNum}`).prop('checked', true);
+        } else {
+          $(`.tag-checkbox-team-add${itemNum}`).prop('checked', false);
+        }
+      });
+   
+      // if($('.kb-setting-event-list>div').length >= 5){
+      //   $(this).hide();
+      // }
+
+      $.ajax({
+          type: 'GET',
+          url:'/settings/base/data',
+          headers: { "Content-Type": "application/json" },
+          success: function (data) {
+           let base_result = JSON.parse(data);
+           base_result.position.map((position,i) => {
+              $('.position-add'+itemNum).append(`
+             <label class="flex mr-2">
+                            <input class="tag-checkbox position-add${itemNum}" name='position-add${itemNum}' type="checkbox" value="${position.id}"/>
+                            <span class="my-0 ml-1">${position.name}</span>
+              </label>
+             `)   
+           })
+           base_result.team.map((team,i) => {
+              $('.team-add'+itemNum).append(`
+             <label class="flex mr-2">
+                            <input class="tag-checkbox team-add${itemNum}" name='team-add${itemNum}' type="checkbox" value="${team.id}"/>
+                            <span class="my-0 ml-1">${team.name}</span>
+              </label>
+             `)      
+           })
+      }})
+
+
+        $.ajax({
+          type: 'GET',
+          url:'/settings/knowledgePack',
+          headers: { "Content-Type": "application/json" },
+          success: function (data) {
+
+           let result = JSON.parse(data);
+           console.log("knowledgepack", result);
+           if(result.result == 'ok'){
+           
+             result.data.map((pack) => (
+              $('.kb-setting-event-pack-'+itemNum).append(`
+              <option value=${pack.id}>${pack.name}&nbsp;&nbsp;(${pack.count})</option>
+             `)
+             ))
+             $('.kb-setting-event-pack-'+itemNum).append(`
+              <option value='null'>なし</option>
+             `)
+           }
+          }
+        });
+    });
+   
+    
+
+    $(document).on("click", ".kb-setting-event-delete", function () {
+      $(this).parents('.kb-setting-event-item').addClass('delete');
+      $("#delete-event").attr("data-delete",$(this).attr("data-id"));
+      $("#attention").show();
+    });
+
+    $(document).on("click", ".event_delete--confirm", function () {
+      let id = $(this).attr("data-delete");
+      $('.kb-setting-event-item.delete').remove();
+      $('.kb-setting-event-add').show();
+      $("#attention").hide();
+      if(id){
+        $.ajax({
+            method: "DELETE",
+            url: '/settings/event',
+            headers: { "Content-Type": "application/json" },
+            data: JSON.stringify({
+              "id":id
+            }),
+            success: function (res) {
+
+              var data = JSON.parse(res);
+              if (data.result == "ok") {
+                status_show("ok");
+              }else {
+                status_show("error")
+              }
+            },
+           error: function(){
+            console.log('this error happens')
+           }
+
+          })
+      }
+      else{
+        location.reload();
+      }
+     
+    
+    })
+    $(document).on("click", ".event_delete--cancel", function () {
+      $('.kb-setting-event-item.delete').removeClass('delete');
+      $("#attention").hide();
+    })
+    $(document).on("click", ".event-complete", function () {
+      $("#complete").show();
+      $('.kb-event-complete-percentage').each(function () {
+        var percentage = $(this).children('span').text();
+        $(this).css('width', percentage);
+      });
+    })
+    $(document).on("click", ".kb-setting-event-save", function () {
+
+      var id = $(this).attr('data-id');
+      var index =$(this).parent('.item').attr('data-id');
+
+      var obj = {
+        name:'',
+        flag:'',
+        knowledgePackId:'',
+        position:[],
+        team:[],
+        achievement:{
+          type:'',
+          correctRate:''
+        },
+        period:{
+          type:'',
+          data:{}
+        }
+
+      }
+      var positionId=[];
+      var teamId=[];
+      var teamArray='';
+      var positionArray='';
+
+      obj.id =parseInt(id);
+
+      // if(id ){
+      //   alert("start")
+
+        if(id==index){
+          var i = $(this).attr('data-id');
+          var index = $(this).attr('id');
+         //var ind = $(this).parent('.item-two').attr('data-id');
+          
+          var eventId = 'event_name-'+i;
+          var rateId = 'correctrate-'+i;
+         obj.name = $('#'+ eventId).val();
+         obj.knowledgePackId = $(`#knowledgePack-${i}`).find(":selected").val();
+        
+
+      obj.flag = $('input.kb-setting-event-toggle').is(':checked') ? 0 : 1;
+      obj.achievement.type = $('.type'+i).find(":selected").val();
+      obj.achievement.correctRate = $('#'+rateId).val();
+
+      $(`input[name=position${index}]:checked`).each(function () {
+          positionId.push(this.value);
+          var unique = positionId.filter(function(itm, i, a) {
+             return i == a.indexOf(itm);
+           });
+          positionArray = unique.toString();
+        });
+
+        $(`input[name=team${index}]:checked`).each(function () {
+          teamId.push(this.value);
+          var uniqueTeam = teamId.filter(function(itm, i, a) {
+             return i == a.indexOf(itm);
+           });
+          teamArray = uniqueTeam.toString();
+        });
+        obj.position = positionArray;
+        obj.team = teamArray;
+
+      var radioValue = $('input[name=event-period-'+i+']:checked').val();
+
+      console.log("i is",i);
+    
+      if(radioValue == 'interval'){
+        obj.period.type=radioValue;
+        obj.period.data.from_date=$(`.fromdate-${i}`).val();
+        obj.period.data.to_date=$(`.todate-${i}`).val();
+      }
+      else{
+        obj.period.type=radioValue;
+        obj.period.data.period_type= $('#period_type-'+i).find(":selected").val();
+        obj.period.data.is_exclude_weekends= $('input[name=exclude_weekends-'+i).is(':checked') ? 0 : 1;//exclude_weekends-${event.id}
+
+      }
+
+        console.log('update obj is',obj);
+
+        $.ajax({
+          method: "PUT",
+          url: '/settings/event',
+          headers: { "Content-Type": "application/json" },
+          data: JSON.stringify(obj),
+          success: function (res) {
+           var data = JSON.parse(res);
+           if(data.result == 'ok'){
+             status_show('ok');
+             location.reload();
+           }
+           else{
+             status_show('error');
+           }
+
+      }
+    })
+        }
+  // }
+    else{
+
+    
+      var eventId = 'event_name-'+id;
+      var rateId = 'correctrate-'+id;
+     
+      obj.name = $('#'+ eventId).val();
+     obj.knowledgePackId = $(`#knowledgePack-${id}`).find(":selected").val(); 
+     console.log("obj is", obj.knowledgePackId);
+
+      obj.flag = $('input.kb-setting-event-toggle').is(':checked') ? 0 : 1;
+      obj.achievement.type = $('.type'+id).find(":selected").val();
+      obj.achievement.correctRate = $('#'+rateId).val();
+
+      $(`input[name=position-add${id}]:checked`).each(function () {
+          positionId.push(this.value);
+          var unique = positionId.filter(function(itm, i, a) {
+             return i == a.indexOf(itm);
+           });
+          positionArray = unique.toString();
+        });
+
+        $(`input[name=team-add${id}]:checked`).each(function () {
+          teamId.push(this.value);
+          var uniqueTeam = teamId.filter(function(itm, i, a) {
+             return i == a.indexOf(itm);
+           });
+          teamArray = uniqueTeam.toString();
+        });
+        obj.position = positionArray;
+        obj.team = teamArray;
+
+      var radioValue = $('input[name=event-period-'+id+']:checked').val();
+    
+      if(radioValue == 'interval'){
+        obj.period.type=radioValue;
+        obj.period.data.from_date=$('.fromdate').val();
+        obj.period.data.to_date=$('.todate').val();
+
+      }
+      else{
+        obj.period.type=radioValue;
+        obj.period.data.period_type= $('#period_type-'+id).find(":selected").val();
+        obj.period.data.is_exclude_weekends= $('input.checkbox_check'+id).is(':checked') ? 0 : 1;
+        obj.period.data.is_exclude_weekends= $('input[name=exclude_weekends-'+id).is(':checked') ? 0 : 1;
+
+      }
+
+      // obj.flag = $('input.kb-setting-event-toggle').is(':checked') ? 0 : 1;
+      // alert(obj.flag)
+      // obj.name=$('#event_name').val();
+      // obj.knowledgePackId = $('#knowledgePack').find(":selected").val();
+
+      // obj.achievement.type = $('#targetType').find(":selected").val();
+      // obj.achievement.correctRate = $('#rate').val();
+
+      // $(`input[name="position"]:checked`).each(function () {
+      //     positionId.push(this.value);
+      //     var unique = positionId.filter(function(itm, i, a) {
+      //        return i == a.indexOf(itm);
+      //      });
+      //     positionArray = unique.toString();
+      //   });
+
+      //   $(`input[name=team]:checked`).each(function () {
+      //     teamId.push(this.value);
+      //     var uniqueTeam = teamId.filter(function(itm, i, a) {
+      //        return i == a.indexOf(itm);
+      //      });
+      //     teamArray = uniqueTeam.toString();
+      //   });
+      //   obj.position = positionArray;
+      //   obj.team = teamArray;
+
+
+      //   var radioValue = $('input[name="event-period-2"]:checked').val();
+      // if(radioValue == 'interval'){
+      //   obj.period.type=radioValue;
+      //   obj.period.data.from_date=$('#datefrom').val();
+      //   obj.period.data.to_date=$('#dateto').val();
+      // }
+      // else{
+      //   obj.period.type=radioValue;
+      //   obj.period.data.period_type= $('#period_type').find(":selected").val();
+      //   obj.period.data.is_exclude_weekends= $('input.checkbox_check').is(':checked') ? 0 : 1;
+
+      // }
+      console.log(obj);
+
+        $.ajax({
+            method: "POST",
+            url: '/settings/event',
+            headers: { "Content-Type": "application/json" },
+            data: JSON.stringify(obj),
+            success: function (res) {
+              var data = JSON.parse(res);
+             
+              if (data.result == "ok") {
+                status_show("ok");
+                location.reload();
+              }else {
+                status_show("error")
+              }
+            },
+           error: function(){
+            console.log('this error happens')
+           }
+
+          })        
+      }
+
+    })
+
+
+    function status_show(status) {
+        if (status == "ok") {
+            $("body").append("<div class='status-container success'><p class='px-2'>内容を保存しました</p></div>");
+
+        } else {
+            if(status == "error"){
+                $("body").append("<div class='status-container error'><p class='px-2'>入力内容に不備があります</p></div>");
+            }else{
+                $("body").append("<div class='status-container fail'><p class='px-2'>内容の保存に失敗しました</p></div>");
+            }
+        }
+        setTimeout(() => {
+            $(".status-container").remove();
+        }, 2000)
+        $(".status-container").css({
+                position:"fixed",
+                top:"80px",
+                width:$(".kb-container").outerWidth(),
+                marginLeft:$(".kb-container").css("margin-left"),
+                zIndex:2,
+                left:'0'
+            })
+        $(".status-container.success").css({
+            background: "#4caf50"
+        })
+        $(".status-container.fail").css({
+            background: "#fef3f2"
+        })
+        $(".status-container.error").css({
+            color:"#fff",
+            background: "rgb(217, 82, 67)"
+        })
+    }
+  </script>
+  <div class="modal" id="attention" style="display: none;">
+      <div class="flex flex-item-center">
+          <div class="modal-dialog">
+              <div class="kb-panel">
+                  <div class="kb-panel-title p-3">
+                      <p class="m-0">このイベントを削除してもよろしいですか?</p>
+                      <i class="fas fa-times modal-close event_delete--cancel"></i>
+                  </div>
+                  <div class="kb-panel-body px-3">
+                      <div class="flex flex-c py-3">
+                          <a class="btn-tran btn-tran-modal event_delete--cancel mx-2">キャンセル</a>
+                          <button id='delete-event' class="submit-btn mx-2 event_delete--confirm"> 削除する </button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="modal" id="complete" style="display: none;">
+      <div class="flex flex-item-center">
+          <div class="modal-dialog">
+              <div class="kb-panel">
+                  <div class="kb-panel-title p-3">
+                      <p class="m-0">イベント達成状況</p>
+                      <i class="fas fa-times modal-close event_delete--cancel"></i>
+                  </div>
+                  <div class="kb-panel-body p-0">
+                    <p class="m-0 p-3" style="background-color: #fafafa;"><small><b>個⼈情報保護研修</b></small></p>
+                    <div class="p-3">
+                      <div>
+                        <div class="kb-event-complete flex flex-item-center my-3">
+                          <div class="kb-event-complete-profile flex flex-item-center">
+                            <div class="profile-img" data-original="" style="background-image:url('https://kai-you.net/images/a/2020/02/752x/eac25ad955004660953af4a1a220b26f.jpg?20200206191209');background-position:center;background-size:cover"></div>
+                            <p class="my-0 ml-3"><small>明日花 キララ</small></p>
+                          </div>
+                          <div class="kb-event-complete-bar">
+                            <div class="kb-event-complete-percentage"><span>60%</span></div>
+                          </div>
+                        </div>
+
+                        <div class="kb-event-complete flex flex-item-center my-3">
+                          <div class="kb-event-complete-profile flex flex-item-center">
+                            <div class="profile-img" data-original="" style="background-image:url('data:image/jpeg;base64,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');background-position:center;background-size:cover"></div>
+                            <p class="my-0 ml-3"><small>菅田 将暉</small></p>
+                          </div>
+                          <div class="kb-event-complete-bar">
+                            <div class="kb-event-complete-percentage"><span class="complete">達成!</span></div>
+                          </div>
+                        </div>
+
+                        <div class="kb-event-complete flex flex-item-center my-3">
+                          <div class="kb-event-complete-profile flex flex-item-center">
+                            <div class="profile-img" data-original="" style="background-image:url('data:image/jpeg;base64,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');background-position:center;background-size:cover"></div>
+                            <p class="my-0 ml-3"><small>小松 菜奈</small></p>
+                          </div>
+                          <div class="kb-event-complete-bar">
+                            <div class="kb-event-complete-percentage"><span>20%</span></div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</body>
+{% include './ver2.1/partials/footer.html' %}
+
+</html>

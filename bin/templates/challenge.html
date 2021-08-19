@@ -1,0 +1,194 @@
+{%from "./partials/header.html" import header with context%}
+<!DOCTYPE html>
+<html lang="ja">
+  {% include './partials/head.html' %}
+  <body>
+    <div class="_wrapper">
+      {{ header("challenge", avatorImage, "true") }}
+      <div class="_content--smaller--blue">
+        <div class="_content--challenge">
+          <div class="_content--navigation">
+            <div class="navigation-button" onclick="location.href='/home'">
+              <svg class="navigation-button__icon" viewbox="0 0 5.547 9.679">
+                <path
+                  d="M764.6 703.842l-4.486 4.486 4.486 4.486"
+                  transform="translate(-759.411 -703.488)"
+                ></path>
+              </svg>
+              <span class="navigation-button__text">Back</span>
+            </div>
+            <div class="timelimit">
+              <div class="timelimit__progress">
+                <div class="timelimit__progress-fill"></div>
+              </div>
+              <span class="timelimit__time">2:00</span>
+            </div>
+          </div>
+
+          <div class="question">
+            <div class="question__image-wrapper">
+              {% if questionData.questionPictureId == 0 %}
+              <img
+                src="/static/img/challenge/question_default.jpg"
+                srcset="
+                  /static/img/challenge/question_default.jpg    1x,
+                  /static/img/challenge/question_default@2x.jpg 2x,
+                  /static/img/challenge/question_default@3x.jpg 3x
+                "
+                aria-hidden="true"
+                class="question__image"
+              />
+              {% else %}
+              <img
+                src="{{ questionPictureImage }}"
+                aria-hidden="true"
+                class="question__image"
+              />
+              {% endif %}
+            </div>
+            <h2 class="question__head">
+              問題
+              <span class="question__correct-rate"
+                >正答率 {{ questionData.correctRate }}%</span
+              >
+            </h2>
+            <p class="question__text">{{ questionData.questionText }}</p>
+          </div>
+          <!-- ここはコンポーネント化 択一 -->
+          {% if questionData.questionType == 1 %}
+          <form class="challenge--correct-one" method="POST" action="/result">
+            <h3 class="challenge__head">
+              正しいものを一つ選んで解答しよう
+            </h3>
+            {% for answer in answerData %}
+            <label class="challenge__radio-label"
+              ><input
+                name="answerId"
+                class="challenge__radio"
+                type="radio"
+                value="{{ answer.answerId }}"
+              />
+              <div class="challenge__radio-text">{{ answer.label }}</div>
+            </label>
+            {% endfor %}
+            <button type="submit" class="button--arrow">
+              解答する<svg
+                direction="next"
+                color="#fff"
+                class="button--arrow__arrow"
+                viewbox="0 0 5.547 9.679"
+              >
+                <path
+                  d="M764.6 703.842l-4.486 4.486 4.486 4.486"
+                  transform="translate(-759.411 -703.488)"
+                ></path>
+              </svg>
+            </button>
+            <input
+              type="hidden"
+              name="questionId"
+              value="{{ questionData.questionId }}"
+            />
+          </form>
+          {% endif %}
+          <!-- ここまでコンポーネント化 -->
+
+          <!-- ここはコンポーネント化 全て-->
+          {% if questionData.questionType == 2 %}
+          <form class="challenge--correct-all" method="POST" action="/result">
+            <h3 class="challenge__head">
+              正しいものをすべて選んで解答しよう
+            </h3>
+            {% for answer in answerData %}
+            <label class="challenge__radio-label"
+              ><input
+                name="answerId"
+                class="challenge__radio"
+                type="checkbox"
+                value="{{ answer.answerId }}"
+              />
+              <div class="challenge__radio-text">{{ answer.label }}</div>
+            </label>
+            {% endfor %}
+            <button type="submit" class="button--arrow">
+              解答する<svg
+                direction="next"
+                color="#fff"
+                class="button--arrow__arrow"
+                viewbox="0 0 5.547 9.679"
+              >
+                <path
+                  d="M764.6 703.842l-4.486 4.486 4.486 4.486"
+                  transform="translate(-759.411 -703.488)"
+                ></path>
+              </svg>
+            </button>
+            <input
+              type="hidden"
+              name="questionId"
+              value="{{ questionData.questionId }}"
+            />
+          </form>
+          {% endif %}
+          <!-- ここまでコンポーネント化 -->
+
+          <!-- ここはコンポーネント化 YES NO-->
+          {% if questionData.questionType == 3 %}
+          <form class="challenge" method="POST" action="/result">
+            <h3 class="challenge__head">
+              正しいものをすべて選んで解答しよう
+            </h3>
+            <div class="challenge--yes-no__wrapper">
+              <label class="challenge--yes-no__radio-label"
+                ><input
+                  name="answerId"
+                  class="challenge__radio"
+                  type="radio"
+                  value="0"
+                />
+                <div class="challenge--yes-no__radio-text">YES</div>
+              </label>
+              <label class="challenge--yes-no__radio-label"
+                ><input
+                  name="answerId"
+                  class="challenge__radio"
+                  type="radio"
+                  value="1"
+                />
+                <div class="challenge--yes-no__radio-text">NO</div>
+              </label>
+            </div>
+            <button type="submit" class="button--arrow">
+              解答する<svg
+                direction="next"
+                color="#fff"
+                class="button--arrow__arrow"
+                viewbox="0 0 5.547 9.679"
+              >
+                <path
+                  d="M764.6 703.842l-4.486 4.486 4.486 4.486"
+                  transform="translate(-759.411 -703.488)"
+                ></path>
+              </svg>
+            </button>
+            <input
+              type="hidden"
+              name="questionId"
+              value="{{ questionData.questionId }}"
+            />
+          </form>
+          {% endif %}
+          <!-- ここまでコンポーネント化 -->
+        </div>
+      </div>
+      {% include './partials/footer.html' %}
+      <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"
+      ></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js"></script>
+      <script src="/static/js/challenge.js?ver=2"></script>
+    </div>
+  </body>
+</html>

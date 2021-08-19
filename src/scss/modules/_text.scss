@@ -1,0 +1,48 @@
+@import "../functions/media_query_helper";
+.text {
+  @at-root {
+    #{&}__rate {
+      display: inline-block;
+      height: 11px;
+      margin: 0 11px 0 0;
+      color: #373943;
+      font-size: 11px;
+      font-family: HiraKakuPro-W3;
+      line-height: 1.45;
+      text-align: left;
+    }
+    #{&}__exa-sentence {
+      height: 120px;
+      margin: 0 auto 30px;
+      color: #373943;
+      font-weight: normal;
+      font-size: 16px;
+      font-family: HiraKakuPro-W3;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.63;
+      letter-spacing: normal;
+      text-align: left;
+      @include mediaQuery() {
+        height: auto;
+        font-size: 13px;
+      }
+    }
+    #{&}__modal {
+      margin: 44px auto;
+      color: #fff;
+      font-size: 28px;
+      font-family: HiraKakuPro-W3;
+      @include mediaQuery() {
+        margin: 33px auto;
+      }
+      &:before {
+        display: block;
+        display: inline-block;
+        width: 40px;
+        margin: 0 25px 0 0;
+        content: url("../img/check-regular@3x.png");
+      }
+    }
+  }
+}

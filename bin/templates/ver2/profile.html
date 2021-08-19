@@ -1,0 +1,464 @@
+{%from "./ver2/partials/sidebar.html" import sidebar with context%}
+<!DOCTYPE html>
+<html lang="ja">
+{% include './partials/head.html' %}
+<style>
+    .__marin-left-for-web {
+        margin-left: 0px;
+    }
+
+    .__side-bar-hide-for-mobile {
+        display: none;
+    }
+
+    @media only screen and (min-width:1000px) {
+        .__marin-left-for-web {
+            margin-left: 30%;
+        }
+
+        .__side-bar-hide-for-mobile {
+            display: block;
+        }
+        .profile__left-to-right-align-card-2,.profile__left-to-right-align-card-2-b{
+            width:100% !important;
+            padding:10px;
+        }
+        .profile__left-to-right-align-card-2 textarea,.profile__left-to-right-align-card-2-b textarea{
+            margin:0;
+            width:100% !important;
+        }
+    }
+
+    .flex {
+        display: flex;
+        flex-flow: row wrap;
+    }
+
+    .flex-s {
+        justify-content: flex-start;
+    }
+
+    .profile__center-align-hexagon .flex>div {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .profile-status p {
+        font-size: 14px;
+        margin: 8px 0px;
+    }
+
+    .profile-status>div p:first-child {
+        color: #8f9091;
+        font-size: 0.6em;
+    }
+
+    .profile-status {
+        padding-left: 30px;
+    }
+
+    .profile-status>div {
+        padding: 10px 30px 10px 0px;
+    }
+
+    .profile__rank_activity {
+        padding-left: 30px;
+        padding-top:10px;
+    }
+
+    .profile__rank_activity img {
+        display: inline-block;
+        margin:0;
+    }
+    .card-title{
+        padding:10px 0px;
+    }
+    .profile__rank_activity>div {
+        text-align: center;
+        margin-bottom:10px;
+    }
+    @media(max-width:800px){
+
+        .profile__left-to-right-align-card-2,.profile__left-to-right-align-card-2-b{
+            width:100% !important;
+            padding:10px;
+        }
+        .profile__left-to-right-align-card-2 textarea,.profile__left-to-right-align-card-2-b textarea{
+            margin:0;
+            width:100% !important;
+        }
+        .profile__left-to-right-align-card-2 p,.profile__left-to-right-align-card-2-b p{
+            margin:0;
+            margin-bottom:10px;
+            padding:0;
+            text-align:left !important;
+        }
+    }
+    @media(max-width:400px){
+        .profile__rank_activity{
+            padding:5px;
+        }
+        .profile__rank_activity>div:first-child{
+        padding-right:5px !important;
+        }
+        .profile__rank_activity>div:nth-child(2){
+            padding-left:5px !important;
+            padding-right:5px;
+        }
+        .profile__rank_activity>div:last-child{
+            padding-left:5px !important;
+        }
+        .profile__left-to-right-align-card-2,.profile__left-to-right-align-card-2-b{
+            width:100% !important;
+            padding:10px;
+        }
+        .profile__left-to-right-align-card-2 textarea,.profile__left-to-right-align-card-2-b textarea{
+            margin:0;
+            width:100% !important;
+        }
+        .profile__left-to-right-align-card-2 p,.profile__left-to-right-align-card-2-b p{
+            margin:0;
+            margin-bottom:10px;
+            padding:0;
+            text-align:left !important;
+        }
+    }
+    .profile__rank_activity p{
+        margin:8px 0px;
+        white-space: nowrap !important;
+        text-overflow: ellipsis !important;
+        overflow:hidden !important;
+        width:100%;
+        line-height:1.2;
+    }
+    .profile__rank_activity small {
+        color: #8f9091;
+        font-size: 0.6em;
+    }
+    .profile__rank_activity>div p:first-child{
+        color: #8f9091;
+        margin-top:0;
+        font-size: 12px;
+    }
+    .br{
+        border-right:1px solid #d7d7df;
+    }
+    .profile__rank_activity>div:first-child{
+        padding-right:15px;
+    }
+    .profile__rank_activity>div:last-child{
+        padding-left:15px;
+    }
+    .profile__text-input-card-3{
+        margin-top:0;
+    }
+    .profile__left-to-right-align-card-2 p,.profile__left-to-right-align-card-2-b p{
+        margin:0;
+        margin-bottom:10px;
+        padding:0;
+        text-align:center;
+    }
+    .profile__left-to-right-align-card-2-b,.profile__left-to-right-align-card-2{
+        margin-top:20px;
+    }
+    .profile__left-to-right-align-card-2,.profile__left-to-right-align-card-2-b,
+    .profile__left-to-right-align-card-2 *,.profile__left-to-right-align-card-2-b *{
+        box-sizing:border-box !important;
+            -webkit-box-sizing:border-box !important;
+            -moz-box-sizing:border-box !important;
+    }
+    @media(max-width:800px){
+        .profile__left-to-right-align-card-2{
+            padding:10px;
+        }
+    }
+</style>
+
+<head>
+
+</head>
+<div class="__marin-left-for-web">
+
+    <body class="profile">
+        <div class="__side-bar-hide-for-mobile">
+            {% include './ver2/partials/sidebar.html' %}
+            <div style="clear: both"> </div>
+        </div>
+        <div class="profile__center-align">
+            <text class="profile__profile-title-text">プロフィール</text>
+            <text class="profile__profile-subtitle-text">KnowledgeBankで使用する、名前、写真などの基本情報</text>
+        </div>
+        <div class="profile__center-align-image">
+            <div class="profile__card">
+                <div class="profile__left-to-right-align-card-1">
+                    <div class="profile__center-align-image">
+                        <div class="profile__image-picker-frame"></div>
+                        <div class="profile__pencil-color">
+                            <img src="/static/img/homever2/pencil-edit-button.png" class="profile__edit-pencil" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="profile__center-align-profile-data">
+                            <div style="padding:10px 0px;">
+                                <p class="profile__profile-name">{{userProfile.data.displayName}}</p>
+                            </div>
+                            <div class="profile__left-to-right-align">
+                                <img src="/static/img/homever2/mail.png" alt="Avatar"
+                                    style=" width:12px;height:9.1px; padding-left:30px;margin: 0px;">
+                                <p class="profile__email-icon">{{userProfile.data.username}}</p>
+                            </div>
+                            <div class="profile__web-view">
+                                <div class="profile__left-to-right-align-data-profile">
+                                    <div class="profile__left-to-right-align">
+                                        <div class="flex flex-s profile-status">
+                                            <div>
+                                                <p>入社日</p>
+                                                <p>{{year}}/{{month}}/{{day}}</p>
+                                            </div>
+                                            <div>
+                                                <p>チーム</p>
+                                                <p>{{userProfile.data.team_name}}</p>
+                                            </div>
+                                            <div>
+                                                <p>役職</p>
+                                                <p>{{userProfile.data.position}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="profile__mobile-view">
+                                <div style="display: flex;justify-content: center;padding-left:30px;">
+                                    <div class="profile__top-to-bottom-align">
+                                        <div class="flex flex-s profile-status">
+                                            <div>
+                                                <p>入社日</p>
+                                                <p>{{year}}/{{month}}/{{day}}</p>
+                                            </div>
+                                            <div>
+                                                <p>チーム</p>
+                                                <p>{{userProfile.data.team_name}}</p>
+                                            </div>
+                                            <div>
+                                                <p>役職</p>
+                                                <p>{{userProfile.data.position}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class=" profile__rank_activity flex flex-s">
+                                <div class="br">
+                                    <p>知識をまなんだ数</p>
+                                    <h1>1,532</h1>
+                                    <p>
+                                        <small>24</small>
+                                        <img src='/static/img/homever2/up-arrow.png' alt='' />
+                                    </p>
+                                </div>
+                                <div style='padding:0px 15px;' class="br">
+                                    <p>知識をまなんだ数</p>
+                                    <h1>1,532</h1>
+                                    <p>
+                                        <small>24</small>
+                                        <img src='/static/img/homever2/up-arrow.png' alt='' />
+                                    </p>
+                                </div>
+                                <div>
+                                    <p>知識をまなんだ数</p>
+                                    <h1>1,532</h1>
+                                    <p>
+                                        <small>24</small>
+                                        <img src='/static/img/homever2/up-arrow.png' alt='' />
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile__center-align-hexagon" style="padding:15px;">
+                    <div class="flex flex-s">
+                        <div>
+                            <div class="profile__hexagon-blue">
+                                <span>
+                                    <img src="/static/img/homever2/pork.png" alt="Avatar" style=" width:30.4px;height:25px;padding-left: 15px;margin:0px;
+                                padding-top: 6px;">
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="profile__hexagon-pink">
+                                <span>
+                                    <img src="/static/img/homever2/hands.png" alt="Avatar" style=" width:30.4px;height:30px;padding-left: 15px;margin:0px;
+                                padding-top: 6px;">
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="profile__hexagon-green1">
+                                <span>
+                                    <img src="/static/img/homever2/launch.png" alt="Avatar" style=" width:30px;height:30px;padding-left: 15px;margin:0px;
+                                padding-top: 6px;">
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="profile__hexagon-green2">
+                                <span>
+                                    <img src="/static/img/homever2/test-tubes.png" alt="Avatar" style=" width:23px;height:35px;padding-left: 21px;margin:0px;
+                                padding-top: 6px;">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile__center-align">
+            <div class="profile__card-3">
+                <div>
+                    <div class="card-title">
+                        <p class="profile__paragraph-title">パーソナルデータ</p>
+                    </div>
+                    <div class="profile__border-line"></div>
+                    <div class="profile__left-to-right-align-card-2">
+                        <p class="profile__card-2-label">生年月日</p>
+                        <div class="profile__card-2-date-align">
+                            <div class="profile__left-to-right-align">
+                                <select id="yearselect" class="profile__select-input-card-2-mobile">
+                                    <option value="1993">1993</option>
+                                    <option value="1994">1994</option>
+                                    <option value="1940">1940</option>
+                                </select>
+                                <p>年</p>
+
+                                <select id="monthselect" class="profile__select-input-card-2-mobile">
+                                    <option value="12">12</option>
+                                    <option value="11">11</option>
+                                    <option value="10">10</option>
+                                    <option value="9">9</option>
+                                    <option value="8">8</option>
+                                    <option value="7">7</option>
+                                    <option value="6">6</option>
+                                    <option value="5">5</option>
+                                    <option value="4">4</option>
+                                    <option value="3">3</option>
+                                    <option value="2">2</option>
+                                    <option value="1">1</option>
+
+                                </select>
+                                <p>月</p>
+                                <select id="dayselect" class="profile__select-input-card-2-mobile">
+                                    <option value="01">1</option>
+                                    <option value="02">2</option>
+                                    <option value="03">3</option>
+                                    <option value="04">4</option>
+                                    <option value="05">5</option>
+                                    <option value="06">6</option>
+                                    <option value="07">7</option>
+                                    <option value="08">8</option>
+                                    <option value="09">9</option>
+
+                                </select>
+                                <p>日</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile__left-to-right-align-card-2">
+                        <p class="profile__card-2-label">性別</p>
+                        <div style="display: flex; justify-content: flex-start;">
+                            <select id="genderselect" class="profile__select-input-card-2">
+                                <option value="Male">男性</option>
+                                <option value="Female">女性</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="profile__left-to-right-align-card-2">
+                        <p class="profile__card-2-label">出身地</p>
+                        <div style="display: flex; justify-content: flex-start; margin-bottom: 35px;">
+                            <input type="text" name="thirdInput" value="{{userProfile.data.birthplace}}"
+                                class="profile__text-input-card-2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="profile__center-align">
+
+
+            <div class="profile__card-3">
+                <div style="padding-bottom: 8px">
+                    <div class="card-title">
+                        <p class="profile__paragraph-title">スキルセット</p>
+                    </div>
+                    <div class="profile__border-line"></div>
+                    <div class="profile__left-to-right-align-card-2">
+                        <p class="profile__card-2-label">スキル</p>
+                        <!-- Microsoft Office
+ Javascript
+ PHP
+ Ruby on rails -->
+                        <textarea name="comment1" class="profile__text-input-card-3">
+{% for s in userProfile.data.skillSet %}{{s}}{%endfor%}
+                        </textarea>
+                    </div>
+                    <div class="profile__left-to-right-align-card-2-b te">
+                        <p class="profile__card-2-label">性別</p>
+                        <!-- 日本語
+ 中国語
+ 英語 -->
+                        <textarea name="comment2" class="profile__text-input-card-3">
+{% for l in userProfile.data.languageSet %}{{l}}{%endfor%}
+                    </textarea>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="profile__center-align">
+            <div class="profile__card-3">
+                <div>
+                    <div class="card-title">
+                        <p class="profile__paragraph-title">なりたい姿</p>
+                    </div>
+                    <div class="profile__border-line"></div>
+                    <p class="profile__sub-title">未来はどんな自分になりたい？</p>
+                    <p class="profile__sub-title">自由に記入してください。</p>
+                    <div style="display: flex; justify-content: center; margin-bottom: 35px;">
+                        <textarea name="comment1"
+                            class="profile__text-input-card-4">  {{userProfile.data.goal}}</textarea>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div align="middle">
+            <button type="button" class="profile__summit-button">
+                <p style="color: #ffffff;">入力内容を保存する</p>
+            </button>
+        </div>
+
+        <script type="text/javascript">
+            function loadfun() {
+                console.log("{{bday}}")
+                console.log("{{bmonth}}")
+                document.getElementById("dayselect").value = "{{bday}}";
+                document.getElementById("monthselect").value = "{{bmonth}}";
+                document.getElementById("yearselect").value = "{{byear}}";
+                document.getElementById("genderselect").value = "{{userProfile.data.gender}}";
+            }
+            window.onload = loadfun;
+        </script>
+    </body>
+</div>
+{% include './ver2/partials/footer.html' %}
+
+
+</html>

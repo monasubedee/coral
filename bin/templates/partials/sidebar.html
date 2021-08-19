@@ -1,0 +1,49 @@
+{% macro sidebar(message,path) %}
+<div class="sidebar">
+  <a
+    class="sidebar__menu"
+    aria-current="{{ 'true' if path.startswith('/home') else 'false' }}"
+    href="/home"
+    ><i class="sidebar__icon fa fa-home"></i>ホーム</a
+  >
+  <a
+    class="sidebar__menu"
+    aria-current="{{ 'true' if path.startswith('/tameru') else 'false' }}"
+    href="/tameru"
+    ><i class="sidebar__icon fa fa-circle"></i>ためる</a
+  >
+  <a
+    class="sidebar__menu"
+    aria-current="{{ 'true' if path.startswith('/manabu') else 'false' }}"
+    href="/manabu"
+    ><i class="sidebar__icon fa fa-pencil"></i>まなぶ</a
+  >
+  <a
+    class="sidebar__menu"
+    aria-current="{{ 'true' if path.startswith('/knowledge') else 'false' }}"
+    href="/knowledge"
+    ><i class="sidebar__icon fa fa-archive"></i>ナレッジ</a
+  >
+  <a
+    class="sidebar__menu"
+    aria-current="{{ 'true' if path.startswith('/news') else 'false' }}"
+    href="/news"
+    ><i class="sidebar__icon fa fa-info-circle"></i>おしらせ</a
+  >
+
+  <div class="sidebar__textbox">
+    <p class="sidebar__textbox-text">
+      {{ message.greeting_message }}
+      {{ message.cheer_message }}
+    </p>
+  </div>
+
+  <div class="sidebar__sidebar-img">
+    <img src="{{ message.imgSrc }}" srcset="{{message.imgSrcSet}}" />
+  </div>
+  <div class="sidebar__logo-img">
+    <p class="sidebar__logo-img-text">Powered by</p>
+    <img src="/static/img/logo_name_horizonal.png" />
+  </div>
+</div>
+{% endmacro %}

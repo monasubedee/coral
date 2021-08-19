@@ -1,0 +1,11 @@
+@import "../functions/media_query_helper";
+.choice-card {
+  width: 300px;
+  background-color: #dcdde6;
+  @include mediaQuery {
+    display: grid;
+    width: auto;
+    padding: 20px 0 10px;
+    background-color: #dcdde6;
+  }
+}

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KnowledgeBank</title>
+    <link rel='icon' href='/static/ver2.1/img/logo@3x.png' />
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css' />
+    <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+{% include './ver2.1/partials/ga_tag.html' %}
+</head>
+{% include './ver2.1/partials/header.html' %}
+{% include './ver2.1/partials/sidebar.html' %}
+
+<body>
+    <div>
+        <div class='kb-container'>
+            <div class='kb-hogehoge'>
+                <div class='text-center'>
+                    <h3>お知らせ</h3>
+                    <p class='text-muted my-3'><small>ナレッジバンクからのお知らせ</small></p>
+                </div>
+                <div class='mt-5'>
+                    <div class='kb-panel mt-3'>
+                        <div class='kb-panel-title px-3 py-2'>
+                            <div class='flex flex-sb pb-3'>
+                                <div class='flex flex-item-center'>
+                                    <p class='text-muted m-0'><small
+                                            class="dateformat">{{message.notices[message.index].date}}</small>
+                                    </p>
+                                </div>
+                                <div class='message-type kb-news-type'>
+                                    <p class=''>{{message.notices[message.index].type}}</p>
+                                </div>
+                            </div>
+                            <div class='message-title'>
+                                <p class='m-0'>
+                                    {{message.notices[message.index].title|n2br}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class='kb-panel-body px-4'>
+                            <p class='text-muted message-des'>
+                                <small>
+                                    {{message.notices[message.index].des|n2br}}
+                                </small>
+                            </p>
+                        </div>
+                        <div id='newsIndex' class="index-hidden" style="color:white;">{{message.index}}</div>
+                        <!--for indexing list-->
+                    </div>
+                    <div class='flex flex-sb mt-4 rankTarget-panel' data-index={{message.index}}>
+                        <div class='previousButton'>
+                            <a href='' class='color-blue'><span class='pr-2'>&lt;</span>前の記事</a>
+                        </div>
+                        <div>
+                            <a href='/news' class='pr-2 pl-2 color-blue'>一覧に戻る</a>
+                        </div>
+                        <div class='nextButton'>
+                            <a href='' class='color-blue'>次の記事<span class='pl-2'>&gt;</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src='/static/ver2.1/js/script.js'></script>
+    <script>
+        $(document).ready(function () {
+            $(".index-hidden").css({ "visibility": "hidden" });
+            $(".nextButton").css({ "visibility": "hidden" });
+            $(".previousButton").css({ "visibility": "hidden" });
+            myFunction();
+            checkLength(msgIndex);
+        })
+
+        function myFunction() {
+            $.ajax({
+                method: 'get',
+                url: '/news/list',
+                success: function (data) {
+                    newsData = JSON.parse(data);
+                    newsList = newsData.news;
+                    if (msgIndex == newsList.length - 1) {
+                        $(".nextButton").css({ "visibility": "visible" });
+                        $(".previousButton").css({ "visibility": "hidden" });
+                    }
+                    checkLength(msgIndex);
+                }
+            })
+        }
+        msgIndex = parseInt(document.getElementById('newsIndex').innerHTML);
+        $(".previousButton>a").on("click", function (e) {
+            e.preventDefault();
+            msgIndex++;
+            checkLength(msgIndex);
+            setNewsDetails(msgIndex);
+        })
+        $(".nextButton>a").on("click", function (e) {
+            e.preventDefault();
+            msgIndex--;
+            checkLength(msgIndex);
+            setNewsDetails(msgIndex);
+        })
+        function checkLength(index) {
+            if (index == 0) {
+                $(".nextButton").css({ "visibility": "hidden" });
+                $(".previousButton").css({ "visibility": "visible" });
+            }
+            else if (index >= newsList.length - 1) {
+                $(".nextButton").css({ "visibility": "visible" });
+                $(".previousButton").css({ "visibility": "hidden" });
+            }
+            else {
+                $(".nextButton").css({ "visibility": "visible" });
+                $(".previousButton").css({ "visibility": "visible" });
+            }
+        }
+        function setNewsDetails(index) {
+            $('.dateformat').text(newsData.news[index].date);
+            $(".message-title>p").text(newsData.news[index].title)
+            $(".message-type>p").text(newsData.news[index].type)
+            $(".message-des>small").text(newsData.news[index].des)
+            checkLength(msgIndex);
+        }
+    </script>
+</body>
+{% include './ver2.1/partials/footer.html' %}
+</html>

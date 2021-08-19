@@ -1,0 +1,42 @@
+.q-and-a-button {
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  width: 100%;
+  @at-root {
+    #{&}__button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin: 0 5px 0 0;
+      padding: 16px;
+      color: #fff;
+      font-size: 1.6rem;
+      text-align: center;
+      text-decoration: none;
+      background-color: #3f67ff;
+      border-radius: 4px;
+    }
+    #{&}__button__icon--pen {
+      width: 20.8px;
+      height: 20.8px;
+      margin: 0 8.2px 0 0;
+      fill: #fff;
+      stroke: #fff;
+    }
+    #{&}__button__icon--note {
+      width: 15.3px;
+      height: 20.6px;
+      margin: 0 8.7px 0 0;
+      fill: #fff;
+      stroke: #fff;
+    }
+    #{&}__button__text {
+      display: block;
+      color: #fff;
+      font-size: 1.4rem;
+      text-align: center;
+    }
+  }
+}

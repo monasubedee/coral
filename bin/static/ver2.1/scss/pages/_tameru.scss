@@ -1,0 +1,500 @@
+.kb-tameru-container {
+  overflow: scroll;
+
+  .kb-tameru-logo {
+    height:100px;
+    width:auto;
+  }
+  button {
+    @include button($color: white, $text-color: black);
+    font-size: 14px;
+    padding: 10px 8px;
+    font-weight: normal;
+    text-shadow: none;
+  }
+  .submit-btn {
+    @include button($color: #2762FB, $text_color: white);
+    width: 100%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+  .tameru-form {
+    & > div {
+      @include respond-to('small'){
+        flex-flow:wrap;
+      }
+      & > div {
+        width: 100%;
+
+        .filling-anser{
+          display: none;
+        }
+
+        .question-type-media-thumb-wrap{
+          margin-top: 1.5rem;
+          &:first-child{
+            margin-top: 0!important;
+          }
+        }
+        .question-type-media-thumb{
+          @include respond-to('small'){
+            flex-flow:wrap;
+          }
+          &>div{
+            &:first-child{
+              width: 100%;
+            }
+            .question-type-thumb-filed{
+              width:100%;
+            }
+            input{
+              width:100% !important;
+            }
+
+            @include respond-to('small'){
+              width:100%;
+              margin-bottom:10px;
+              .px-3{
+                padding:0 !important;
+              }
+            }
+          }
+        }
+        &:first-child {
+          flex-shrink: 0;
+          @include respond-to('small'){
+            width:100%;
+          }
+          width: 130px;
+
+          &.tags_heading{
+            width: 200px;
+          }
+        }
+        // &:last-child {
+        //   @include respond-to('small'){
+        //     width:100%;
+        //   }
+        //   width: calc(100% - 150px);
+        // }
+      }
+      .switch{
+        margin: 0;
+      }
+    }
+    .kb-input {
+      width: 200px;
+      display: block;
+      max-width: 100%;
+    }
+    .kb-textarea-md {
+      height: 140px;
+    }
+    .kb-input-small {
+      max-width: 80px;
+      display: inline-block;
+    }
+    textarea.kb-input-md {
+      width: 100%;
+      line-height: 1.5;
+    }
+  }
+
+  .tameru-table-search{
+    position: sticky;
+    top: 0px;
+    background-color: #fafbfd;
+    z-index: 10;
+    // position: absolute;
+    // top: 0;
+    // right: 0;
+    // width: 100%;
+    // z-index: 1;
+
+    // &.active{
+    //   padding: 20px;
+    //   position: fixed;
+    // }
+  }
+  // .search_result{
+  //   & table{
+  //     // table-layout: fixed;
+  //     width: 100%;
+
+  //     @include respond-to('small'){
+  //       width: 1200px;
+  //     }
+
+  //     & tr th {
+  //       position: sticky;
+  //       top: 48px;
+  //       z-index: 1;
+
+  //       @include respond-to('small'){
+  //         top: 0;
+  //       }
+  //     }
+  //   }
+  // }
+  .tameru-tags-list {
+    span {
+      display: inline-block;
+      margin-right: 10px;
+      position: relative;
+      background: #e9e9ef;
+      padding: 8px;
+      font-size: 12px;
+      border-radius: 0.25rem;
+      margin-bottom: 10px;
+      &.closeable {
+        padding-right: 25px;
+      }
+      .close {
+        position: absolute;
+        top: calc(50% - 7.5px);
+        right: 5px;
+        border-radius: 100%;
+        width: 15px;
+        height: 15px;
+        cursor: pointer;
+        font-size: 12px;
+        line-height: 1.1;
+        color: black;
+        background: rgb(206, 204, 204);
+        font-style: normal;
+        text-align: center;
+        padding: 2px 1px 0px 0px;
+      }
+    }
+  }
+  & .kb-tameru{
+    &-table {
+      background-color: #fff;
+      display: block;
+      overflow-x: scroll;
+      position: relative;
+      min-width: 0;
+      padding: 74px 0 0 0;
+
+      & thead{
+        display: block;
+        min-width: 1400px;
+      }
+
+      &-head{
+        position: absolute;
+        top: 30px;
+        left: 0;
+        width: 100%;
+        z-index: 5;
+
+        &--sticky{
+          @extend .kb-tameru-table-head;
+        }
+      }
+
+      & tbody{
+        display: block;
+        min-width: 1400px;
+      }
+
+      & tr{
+        display: flex;
+        width: 100%;
+      }
+      p {
+        margin: 0;
+      }
+      td {
+        padding: 20px 15px;
+        vertical-align: top;
+        display: block;
+        &.kb-tameru-table-delete{
+          padding-right: 2%;
+        }
+      }
+      &-status {
+        width: 7%;
+      }
+      &-date {
+        width: 9%;
+
+        & p{
+          word-break: keep-all;
+        }
+      }
+      &-account {
+        width: 15%;
+      }
+      &-question {
+        width: 20%;
+        &--account{
+          width: 35%;
+        }
+      }
+      &-position {
+        width: 9%;
+      }
+      &-team {
+        width: 9%;
+      }
+      &-category {
+        width: 9%;
+      }
+      &-comment {
+        width: 8%;
+      }
+      &-star {
+        width: 4%;
+      }
+      &-edit {
+        width: 4%;
+        text-align: center;
+        & i{
+          cursor: pointer;
+          &:hover{
+            opacity: 0.4;
+          }
+        }
+      }
+      &-delete {
+        width: 6%;
+        text-align: center;
+        padding-right: 2%;
+        & i{
+          cursor: pointer;
+          &:hover{
+            opacity: 0.4;
+          }
+        }
+      }
+    }
+  }
+  .kb-panel {
+    .kb-panel-title {
+      &.bg {
+        background: #e9e9ef;
+        border-top-right-radius: 0.25rem;
+        border-top-left-radius: 0.25rem;
+      }
+    }
+    button {
+      height: 40px;
+    }
+  }
+  .search {
+    position: relative;
+    input {
+      width: 300px;
+      width: 300px;
+      border: 1px solid gray;
+      padding: 8px;
+      height: 35px;
+      padding-left: 30px;
+      border-radius: 0.25rem;
+    }
+    button {
+      position: absolute;
+      top: 0px;
+      width: auto;
+      font-weight: normal;
+      border: 0;
+      background: none;
+      height: 100%;
+      left: 0px;
+    }
+  }
+  .question-upload{
+    & .questionText-textarea-wrap{
+      position:relative;
+      i.fa-image{
+        position:absolute;
+        bottom:10px;
+        right:10px;
+        font-size:20px;
+        color:gray;
+        cursor:pointer;
+        &:hover{
+          transform:scale(1.3,1.3);
+          color:black;
+        }
+      }
+    }
+  }
+  .question-upload-preview{
+    width:100%;
+    height:auto;
+    &>div{
+      position:relative;
+      button{
+        position:absolute;
+        top:6px;
+        right:-8px;
+        width:20px;
+        height:20px;
+        border-radius:50%;
+        border:none;
+        font-size:10px;
+        background:#e9e9ef !important;
+        color:red !important;
+        padding:0;
+        box-shadow:0px 0px 1px rgba(0,0,0,0.8);
+      }
+      img{
+        height:100px;
+        width:auto;
+        border-radius:.25rem;
+        margin:10px 0px;
+      }
+    }
+  }
+  .tameru-table-list-search{
+    button{
+      background:#cfcfd1;
+    }
+  }
+  @include respond-to('medium'){
+    .g-3-1{
+      grid-template-columns: 1fr;
+    }
+  }
+  @include respond-to('small'){
+    .tameru-table-search{
+      flex-flow:wrap;
+      &>div{
+        width:100%;
+        display:flex;
+        justify-content: center;
+        &:last-child{
+          margin-top:10px;
+        }
+      }
+      .search{
+        input{
+          margin:auto;
+        }
+      }
+    }
+    .tameru-table-list-search{
+      flex-flow:wrap;
+      select{
+        width:100%;
+        max-width:300px;
+      }
+      button{
+        width:100%;
+        max-width:300px;
+        margin-left:120px;
+      }
+      &>div{
+        width:100%;
+        display:flex;
+        justify-content: flex-start;
+        &>label{
+          width:120px;
+        }
+      }
+      .mx-4{
+        margin:10px 0px !important;
+      }
+      .mx-3{
+        margin:10px 0px !important;
+      }
+    }
+  }
+  .tameru-create-area-wrap{
+    position: relative;
+
+    & .btn-tran{
+      color: #000;
+      justify-content: center;
+      height: 40px;
+      background-color: #fff;
+      cursor: pointer;
+
+      & i{
+        color: gray;
+      }
+    }
+  }
+  .tameru-create-area{
+    position: absolute;
+    width: 100%;
+  }
+  .tameru-often-tabs-item{
+    display: inline-block;
+    margin-right: 10px;
+    position: relative;
+    background: #e9e9ef;
+    padding: 8px;
+    font-size: 12px;
+    border-radius: 0.25rem;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  .required{
+    position:relative;
+    padding-left:10px;
+    &:before{
+      position:absolute;
+      top:calc(50% - 10px);
+      left:0;
+      font-size:20px;
+      color:red;
+      content:'*'
+    }
+  }
+}
+
+.scrollbar {
+  width: 100%;
+  height: 10px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+
+  &--wrap{
+    padding: 10px 0 10px 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    background-color: #fff;
+  }
+
+  &--inner {
+    min-width: 1400px;
+    height: 1px;
+  }
+}
+.scrollbox {
+
+  // &--inner {
+  //   width: 500px;
+  //   height: 200px;
+  //   margin-bottom: 5px;
+  //   background-color: #F9F8F6;
+  // }
+}
+.scrollbox .txt {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+/* スクロールバーのスタイル */
+.scrollbar::-webkit-scrollbar,
+.scrollbox::-webkit-scrollbar {
+  height: 10px;
+}
+.scrollbar::-webkit-scrollbar-track,
+.scrollbox::-webkit-scrollbar-track {
+  border-radius: 5px;
+}
+.scrollbar::-webkit-scrollbar-thumb,
+.scrollbox::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #e7e7e7;
+}
+
+.kb-tameru-container .tameru-data-table{
+  opacity: 0;
+}

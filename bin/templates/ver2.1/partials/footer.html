@@ -1,0 +1,50 @@
+<div class='kb-footer'>
+    <div class='flex flex-sb p-3'>
+      <div class='flex flex-item-center'>
+        <p class='m-0 text-muted'><small>©<script>document.write(new Date().getFullYear())</script> Knowledgebank. All rights reserved.</small></p>
+      </div>
+      <div class='flex flex-item-center'>
+        <ul>
+          <li>
+             <a href='/contact' class="text-muted contact" target="_blank">管理者へ連絡する</a>
+            </li>
+          <li><a href='/policy' class='text-muted policy' target="_blank">利用規約とポリシー</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(document).ready(function(){
+    //   $(document).on("click",".contact",function(e){
+    //     e.preventDefault();
+    //     if(localStorage.getItem("ud") && localStorage.getItem("ud")!="")
+    //       window.location.href='/contact/';
+    //     else {
+    //       window.open('/contact/unlogin', '_blank')
+    //     }
+    //   })
+    //   $(document).on("click", ".policy", function (e) {
+    //     e.preventDefault();
+    //     if (localStorage.getItem("ud") && localStorage.getItem("ud") != "")
+    //       window.location.href = '/policy/';
+    //     else {
+    //       window.open('/policy/unlogin', '_blank')
+    //     }
+    //   })
+    //   $(document).on("click", ".mobile-logo-link", function (e) {
+    //     e.preventDefault();
+    //     if (localStorage.getItem("ud") && localStorage.getItem("ud") != "")
+    //       window.location.href = '/home';
+    //     else {
+    //       window.location.href = '/introduction';
+    //     }
+    //   })
+    // })
+    // if (localStorage.getItem("ud") && localStorage.getItem("ud") != "")
+    //   $(".kb-logo").prepend('<a href="/home"><img src="/static/ver2.1/img/logo__idealump.png" class="logo" alt="" /></a>');
+    // else {
+    //   $(".kb-logo").prepend('<a href="/introduction"><img src="/static/ver2.1/lp/img/logo.svg" class="logo" alt="" /></a>');
+    // }
+    $(".kb-logo:not(.split)").prepend('<a href="/home"><img src="/static/ver2.1/img/logo__idealump.png" class="logo" alt="" /></a>');
+    });
+</script>

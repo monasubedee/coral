@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KnowledgeBank</title>
+    <link rel='icon' href='/static/ver2.1/img/logo@3x.png'/>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css' />
+    <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+{% include './ver2.1/partials/ga_tag.html' %}
+</head>
+
+<body>
+    <div class='kb-container-no-sb flex flex-item-center'>
+        <div class='kb-pwd-reminder-container'>
+            <div class='kb-secondary-logo py-3 text-center'>
+                <img src='/static/ver2.1/img/1076@3x.png' alt='' class='mb-2' />
+                <span class='text-muted'><small>ナレッジバンクへようこそ</small></span>
+            </div>
+            <div class='kb-panel'>
+                <div class='kb-panel-title p-3'>
+                    <p class='m-0'>パスワードの再設定</p>
+                </div>
+                <div class='kb-panel-body px-3'>
+                    <div class='my-3 email'>
+                        <label>メールアドレス</label>
+                        <input type='text' data-prop="mail" class='kb-input form-data'
+                            placeholder="taro@knowlegebank.jp" />
+                    </div>
+                </div>
+            </div>
+            <div class='py-4'>
+                <a href='#' class='submit-btn submit-passreset-btn'>リクエストメールを送信する</a>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src='/static/ver2.1/js/varidate.js'></script>
+    <script src='/static/ver2.1/js/script.js'></script>
+    <script>
+        $(document).ready(function () {
+            $(".submit-passreset-btn").on("click", function (event) {
+                var error_obj = {
+                    email: false,
+                }
+
+                var email = input_varidate(".email input", {
+                    required: true,
+                    type: 'email',
+                    maxLength: 100,
+                    message: 'メールアドレス'
+                });
+
+                if (email !== true) {
+                    input_errorElement('.email input', email, '.email');
+                    error_obj.email = false;
+                } else {
+                    input_errorElement('.email input', '', '.email');
+                    error_obj.email = true;
+                }
+
+                if (error_obj.email == true) {
+                    var data = {};
+                    $(".form-data").each(function () {
+                        var prop = $(this).attr("data-prop");
+                        data[prop] = $(this).val();
+                    });
+                    // ajax the JSON to the server
+                    $.ajax({
+                        type: 'POST',
+                        url: '/reset/confirm',
+                        headers: { "Content-Type": "application/json" },
+                        data: JSON.stringify(data),
+                        success: function (data) {
+                            if (data['result'] == "ok") {
+                                window.location.href = "/reset/confirm";
+                                //status_show('ok');
+                            }
+                            if (data['result'] == "ng") {
+                                status_show("fail");
+                                // window.location.href = "/reset";
+                                //status_show("fail");
+                            }
+                        },
+                        contentType: "application/json",
+                        dataType: 'json'
+                    });
+
+                }
+                // }
+                // stop link reloading the page
+                event.preventDefault();
+            })
+
+            function status_show(status) {
+                if (status == "ok") {
+                    $("body").append("<div class='status-container success'><p class='px-2'>送信しました</p></div>");
+                }
+                else {
+                    $("body").append("<div class='status-container fail'><p class='px-2'>登録されていないメールアドレスです</p></div>");
+                }
+                setTimeout(() => {
+                    $(".status-container").remove();
+                }, 2000)
+                $(".status-container").css({
+                    position: "fixed",
+                    top: "80px",
+                    width: $(".kb-container").outerWidth(),
+                    marginLeft: $(".kb-container").css("margin-left"),
+                    zIndex: 2,
+                    left: '0',
+                    width: '100%',
+                    top: 0
+                })
+                $(".status-container.success").css({
+                    background: "#4caf50"
+                })
+                $(".status-container.fail").css({
+                    color: "#fff",
+                    background: "rgb(217, 82, 67)"
+                })
+            }
+        })
+    </script>
+</body>
+{% include './ver2.1/partials/footer.html' %}
+
+</html>

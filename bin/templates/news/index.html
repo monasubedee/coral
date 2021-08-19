@@ -1,0 +1,93 @@
+
+{%from "./ver2/partials/head.html" import header with context%}
+<!doctype html>
+<html lang="ja">
+  {% include './partials/head.html' %}
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>お知らせ</title>
+      <link href="css/style.css" rel="stylesheet" type="text/css">
+      <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
+      <script src="js/main.js"></script>
+</head>
+<style>
+.content__news {
+  /* display: block; */
+  margin: 0px auto 80px 240px;}
+</style>
+<body>
+
+	<div class="container">
+      {% include './ver2/partials/sidebar.html' %}
+		<h2 class="heading">お知らせ</h2>
+		<div class="content__wrapper">
+
+			<div class="article__wrapper">
+
+				<div class="heading__text">ナレッジバンクからのお知らせ</div>
+
+				<img src="/static/img/img__news.png" alt="setting" srcset="/static/img/img__news.png 1x, /static/img/img__news@2x.png 2x">
+				<div class="spacer"></div>
+
+				<div class="content__news">
+          {% for p in news.news %}
+            <p class="content__date">{{p.date}}</p>
+            <div class="content__badge-left">{{p.type}}</div>
+            <a class="content__news-title" href="/news/detail?id={{p.id}}">{{p.title}}</a>
+            <hr class="news__line2">
+          {% endfor %}
+          <!-- <p class="content__date">2019/07/20 19:41</p>
+					<!-- <p class="content__date">2019/07/20 19:41</p>
+					<div class="content__badge-left">管理者</div>
+					<a class="content__news-title" href="#">データ損失防止、そしてオフラインのバックアッププロバイダーに対応しました。</a>
+					<hr class="news__line2">
+
+					<p class="content__date">2019/07/20 19:41</p>
+					<div class="content__badge-left">システム</div>
+					<a class="content__news-title" href="#">システムのお知らせが入りますよ</a>
+					<hr class="news__line2">
+
+					<p class="content__date">2019/07/20 19:41</p>
+					<div class="content__badge-left">管理者</div>
+					<a class="content__news-title" href="#">管理者からのお知らせですよ</a>
+					<hr class="news__line2">
+
+					<p class="content__date">2019/07/20 19:41</p>
+					<div class="content__badge-left">管理者</div>
+					<a class="content__news-title" href="#">データ損失防止、そしてオフラインのバックアッププロバイダーに対応しました。</a>
+					<hr class="news__line2">
+
+					<p class="content__date">2019/07/20 19:41</p>
+					<div class="content__badge-left">管理者</div>
+					<a class="content__news-title" href="#">データ損失防止、そしてオフラインのバックアッププロバイダーに対応しました。</a>
+					<hr class="news__line2">
+
+					<p class="content__date">2019/07/20 19:41</p>
+					<div class="content__badge-left">システム</div>
+					<a class="content__news-title" href="#">システムのお知らせが入りますよ</a>
+					<hr class="news__line2">
+
+					<p class="content__date">2019/07/20 19:41</p>
+					<div class="content__badge-left">管理者</div>
+					<a class="content__news-title" href="#">管理者からのお知らせですよ</a>
+					<hr class="news__line2">
+
+					<p class="content__date">2019/07/20 19:41</p>
+					<div class="content__badge-left">管理者</div>
+					<a class="content__news-title" href="#">データ損失防止、そしてオフラインのバックアッププロバイダーに対応しました。</a> -->
+
+
+					<hr class="news__line2">
+					<div class="btn_wrapper"><button type="submit" class="content__show-more" autofocus="true">さらに表示する</button></div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+  {% include './ver2/partials/footer.html' %}
+</body>
+</html>

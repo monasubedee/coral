@@ -1,0 +1,35 @@
+.kb-notice {
+  font-size: 14px;
+  & > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 12px 0px;
+
+    @include respond-to('small'){
+      display: block;
+    }
+  }
+  &-item{
+    border-bottom: 1px solid #e9e9ef;
+    @include respond-to('small'){
+      flex-wrap: wrap;
+
+      & a{
+        width: 100%;
+      }
+    }
+
+    &-date{
+      width: 150px;
+      flex-shrink: 0;
+    }
+
+    & .kb-news-type{
+      flex-shrink: 0;
+    }
+  }
+  .kb-notice-msg {
+    color: #2962ff;
+  }
+}

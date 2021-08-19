@@ -1,0 +1,36 @@
+.footer {
+  width: 100%;
+  padding: 40px 0 15px;
+  background-color: #f5f6fa;
+  @at-root {
+    #{&}--more-padding {
+      width: 100%;
+      padding: 40px 0 71px;
+      background-color: #f5f6fa;
+    }
+    #{&}__logo-wrapper {
+      text-align: center;
+    }
+    #{&}__link-wrapper {
+      display: flex;
+      justify-content: center;
+      margin: 28px 0 20px;
+    }
+    #{&}__link {
+      margin: 0 16px;
+      color: #020b3c;
+      font-size: 1.2rem;
+    }
+    #{&}__copyright {
+      display: block;
+      margin: 0 0 48px;
+      color: #a4b0c8;
+      font-size: 1.1rem;
+      -webkit-letter-spacing: normal;
+      -moz-letter-spacing: normal;
+      -ms-letter-spacing: normal;
+      letter-spacing: normal;
+      text-align: center;
+    }
+  }
+}

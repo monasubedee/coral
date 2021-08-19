@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KnowledgeBank</title>
+    <link rel='icon' href='/static/ver2.1/img/logo@3x.png'/>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css'/>
+    <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+{% include './ver2.1/partials/ga_tag.html' %}
+</head>
+{% include './ver2.1/partials/header.html' %}
+{% include './ver2.1/partials/sidebar.html' %}
+<body>
+    <div>
+        <div class='kb-container kb-setting-news'>
+            <div class='text-center'>
+                <h3>お知らせ管理</h3>
+                <p><small>ナレッジバンクからのお知らせ</small></p>
+            </div>
+            <div>
+                <div class='my-2'>
+                    <a href='/settings/news/create' class='link-btn'>
+                        <i class='fas fa-plus mr-2 color-blue'></i>
+                        新規追加
+                    </a>
+                </div>
+                <div class='kb-panel px-3'>
+                    <div class='py-3 overflow-auto'>
+                        <table class='setting-news-table'>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <p>公開設定</p>
+                                    </th>
+                                    <th>
+                                        <p>日付</p>
+                                    </th>
+                                    <th>
+                                        <p>タイトル</p>
+                                    </th>
+                                    <th>
+                                        <p>本文</p>
+                                    </th>
+                                    <th>
+                                        <p>投稿者</p>
+                                    </th>
+                                    <th>
+                                        <p>編集</p>
+                                    </th>
+                                    <th>
+                                        <p>削除</p>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="setting_news_tbody">
+                              {% for p in news.news %}
+                                <tr class='bb'>
+                                    <td>
+                                        <p>{{p.isPublished}}</p>
+                                    </td>
+                                    <td style="word-break: keep-all;">
+                                        <p class='text-muted'>{{p.date}}</p>
+                                    </td>
+                                    <td>
+                                        <p class=''>{{p.title}}</p>
+                                    </td>
+                                    <td>
+                                        <p class=''>
+                                            {{p.des}}
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p>{{p.username}}</p>
+                                    </td>
+                                    <td style='text-align:center;'>
+                                        <i class='fas fa-pencil-alt setting_news_row' style='cursor:pointer;' data-id={{p.id}}></i>
+                                    </td>
+                                    <td style='text-align:center;'>
+                                        <p class='fas fa-trash notice_delete' style='cursor:pointer;' data-value='{{p.id}}'></p>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="editModal" class="modal hide fade" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+           <h3>お知らせ管理</h3>
+
+      </div>
+      <div id="editDetails" class="modal-body"></div>
+      <div id="editItems" class="modal-body"></div>
+      <div class="modal-footer">
+          <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src='/static/ver2.1/js/script.js'></script>
+    <script type="text/javascript">
+
+      $(document).ready(function(){
+        $(".setting-news-table th input[type='checkbox']").on("click",function(){
+            if($(this).prop("checked")==true){
+              $(".setting-news-table td input[type='checkbox']").prop("checked","checked");
+            }
+            else{
+              $(".setting-news-table td input[type='checkbox']").prop("checked",false);
+            }
+
+        })
+
+
+
+        $('.notice_delete').on('click', function () {
+            $("#attention").attr('data-value', '');
+            // var that = $(this);
+            var notice_id = $(this).attr('data-value');
+            $("#attention").attr('data-value', notice_id);
+            $("#attention").show();
+        });
+        $(document).on("click", ".notice_delete--cancel", function () {
+            $("#attention").attr('data-value', '');
+            $("#attention").hide();
+        })
+        $('.notice_delete--confirm').on('click',function(){
+            var notice_id = $("#attention").attr('data-value');
+            var that = $('.notice_delete[data-value=' + notice_id + ']');
+            $.ajax({
+                type: 'GET',
+                url: '/settings/news_deletebyId?id='+notice_id,
+                data: {},
+                success: function(data) {
+                    var data=JSON.parse(data);
+                    $("#attention").hide();
+                    if(data["result"] == "ok"){
+                    that.closest("tr").remove();
+                    status_show('ok');
+                    //window.location.href = "/settings/news";
+                        }
+                        if(data["result"] == "ng"){
+                    status_show('failed');
+                    //window.location.href = "/settings/news";
+                        }
+                // if (enable == 0){
+                //   window.location.href = "/api/admin/new_staff";
+                // }else{
+                //   window.location.href = "/api/admin/staff";
+                // }
+                }
+            });
+        })
+        function status_show(status){
+            if(status=="ok"){
+                $("body").append("<div class='status-container success'><p class='px-2'>内容を保存しました</p></div>");
+
+            }
+            else{
+                $("body").append("<div class='status-container fail'><p class='px-2'>内容の保存に失敗しました</p></div>");
+            }
+            // setTimeout(() => {
+            //   $(".status-container").remove();
+            // }, 3000)
+            $(".status-container").css({
+                position:"fixed",
+                top:"80px",
+                width:$(".kb-container").outerWidth(),
+                marginLeft:$(".kb-container").css("margin-left"),
+                zIndex:2,
+                left:'0'
+            })
+            $(".status-container.success").css({
+                background: "#4caf50"
+            })
+            $(".status-container.fail").css({
+                background:"#fef3f2"
+            })
+        }
+
+        $(".setting_news_row").on("click",function(){
+          var id=$(this).attr("data-id");
+          window.location.href=`/settings/news/edit?id=${id}`;
+        })
+
+      })
+
+
+    </script>
+    <div class="modal" id="attention" style="display: none;">
+        <div class="flex flex-item-center">
+            <div class="modal-dialog">
+                <div class="kb-panel">
+                    <div class="kb-panel-title p-3">
+                        <p class="m-0">このお知らせを削除してもよろしいですか？</p>
+                        <i class="fas fa-times modal-close" data-modal="#edit-member-modal"></i>
+                    </div>
+                    <div class="kb-panel-body px-3">
+                        <div class="flex flex-c py-3">
+                            <a href="/settings/news" class="btn-tran btn-tran-modal notice_delete--cancel mx-2">キャンセル</a>
+                            <button class="submit-btn mx-2 notice_delete--confirm"> 削除する </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% include './ver2.1/partials/footer.html' %}
+</html>

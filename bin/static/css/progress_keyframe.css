@@ -1,0 +1,45 @@
+@-webkit-keyframes progressDailyChallenge {
+  from {
+    -webkit-transform: translate3d(-100%, 0, 0);
+            transform: translate3d(-100%, 0, 0);
+  }
+  to {
+    -webkit-transform: translate3d(var(--progress-challenge), 0, 0);
+            transform: translate3d(var(--progress-challenge), 0, 0);
+  }
+}
+
+@keyframes progressDailyChallenge {
+  from {
+    -webkit-transform: translate3d(-100%, 0, 0);
+            transform: translate3d(-100%, 0, 0);
+  }
+  to {
+    -webkit-transform: translate3d(var(--progress-challenge), 0, 0);
+            transform: translate3d(var(--progress-challenge), 0, 0);
+  }
+}
+
+@-webkit-keyframes progressDailyCorrect {
+  from {
+    -webkit-transform: translate3d(-100%, 0, 0);
+            transform: translate3d(-100%, 0, 0);
+  }
+  to {
+    -webkit-transform: translate3d(var(--progress-correct), 0, 0);
+            transform: translate3d(var(--progress-correct), 0, 0);
+  }
+}
+
+@keyframes progressDailyCorrect {
+  from {
+    -webkit-transform: translate3d(-100%, 0, 0);
+            transform: translate3d(-100%, 0, 0);
+  }
+  to {
+    -webkit-transform: translate3d(var(--progress-correct), 0, 0);
+            transform: translate3d(var(--progress-correct), 0, 0);
+  }
+}
+
+/*# sourceMappingURL=maps/progress_keyframe.css.map */

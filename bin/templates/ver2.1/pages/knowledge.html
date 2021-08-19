@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ナレッジ</title>
+  <link rel='icon' href='/static/ver2.1/img/logo@3x.png' />
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css' />
+  <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+  <style>
+    .error-wrapper__404{
+      display: block;
+      margin: auto;
+    }
+
+    .text__error-article {
+      font-family: HiraKakuPro-W3;
+      font-size: 16px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.13;
+      letter-spacing: normal;
+      text-align: center;
+      color: #373943;
+    }
+
+    .spacer {
+      padding: 0 0 20px 0;
+    }
+  </style>
+</head> {% include './ver2.1/partials/header.html' %} {% include './ver2.1/partials/sidebar.html' %}
+
+<body>
+  <div>
+    <div class='kb-container flex flex-c flex-item-center'>
+        <div>
+          <img src="/static/img/img__404.png" srcset="/static/img/img__404.png 1x, /static/img/img__404@2x.png 2x" alt="404" class="error-wrapper__404">
+          <h1>Coming Soon</h1>
+          <div class="text__error-article">このページは準備中です。</div>
+          <div class="spacer"></div>
+          <div class="spacer"></div>
+          <div class="spacer"></div>
+          <div class="text-center my-4">
+            <a href="/home" class="color-blue display-inline">ホームに戻る</a>
+          </div>
+        </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src='/static/ver2.1/js/script.js'></script>
+</body> {% include './ver2.1/partials/footer.html' %}
+
+</html>
+
+
+<!DOCTYPE html>
+<html lang="ja">

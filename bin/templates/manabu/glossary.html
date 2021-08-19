@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>solve</title>
+	<link href="/static/css/style.css" rel="stylesheet" type="text/css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.raty.js"></script>
+	<script type="text/javascript">
+	$(function() {
+			$('#default').raty();
+		});
+	</script>
+<script type="text/javascript" src="js/main.js"></script>
+
+</head>
+
+<body>
+
+	<div class="container">
+		<div class="question-wrapper">
+
+			<div class="question-card">
+				<img src="/static/img/documentman.png" srcset="/static/img/documentman.png 1x, /static/img/documentman@2x.png 2x" alt="image">
+				<div class="text__exa-sentence">
+					無線LANの暗号化方式であり、WEPでは短い時間で暗号が解読されてしまう問題が報告されたことから、より暗号強度を高めるために利用が推奨されているものはどれか？
+				</div>
+				<div class="text__rate">正答率</div><div class="text__rate">75.2%</div>
+			</div>
+
+			<div class="choice-card">
+				<div class="question-text">正しいものを１つ選べ</div>
+				<button type="submit" class="choice__button-incorrect" autofocus="true">ESSID</button>
+				<button type="submit" class="choice__button-incorrect" autofocus="true">S/MIME</button>
+				<button type="submit" class="choice__button-incorrect" autofocus="true">HTTPS</button>
+				<button type="submit" class="choice__button-correct" autofocus="true">WPA2</button>
+			</div>
+		</div>
+
+		<div class="content__explanation">
+			<div class="article__title">解説</div>
+			<hr class="news__line3">
+			<div class="content__explanation-inner">
+				<img src="/static/img/img__glossary.png" srcset="/static/img/img__glossary.png 1x, /static/img/img__glossary@2x.png 2x" alt="explanation">
+					<div class="explanation__text">
+					会議の相手や資料などを画面に表示しながら会議を行うことで、出張による費用や時間を削減するのは、テレビ会議システムやWeb会議システムである。
+					</div>
+			</div>
+		</div>
+
+		<div class="content">
+			<div class="content__review-inner">
+			<div class="review__title">この問題のレビュー</div>
+
+			<button class="content__like" >
+				<img src="/static/img/like2.svg"  data-anime-click="like" class="like"  alt="">
+			</div>
+
+
+			<hr class="news__line3">
+			<div class="review__star-inner">
+				<div id="default" class="reviw__star"></div>
+			</div>
+			<div class="review__comment-inner">
+				<input class="form-comment" aria-invalid="">
+				<div class="review__comment" data-target="">コメント</div>
+			</div>
+		</div>
+
+		<div class="btn_wrapper"><button type="submit" class="contact__button" data-anime-hover="buttons">次のまなび</button></div>
+
+	</div>
+
+</body>
+</html>
+

@@ -1,0 +1,21 @@
+.fav-button {
+  flex: 0 0 auto;
+  width: 17.7px;
+  height: 16.9px;
+  margin: 1px 0 0 20px;
+  transform: scale(1);
+  transform-origin: center;
+  transition: transform 100ms ease-in-out;
+  fill: #dcdde6;
+  &[data-faved="true"] #{&}__star {
+    fill: #f2db28;
+  }
+  #{&}__star {
+    width: 17.7px;
+    transform: scale(1);
+    transform-origin: center;
+    transition: transform 100ms ease-in-out;
+    fill: none;
+    stroke: #a4b0c8;
+  }
+}

@@ -1,0 +1,19 @@
+.error-wrapper {
+  display: flow-root;
+  width: 406px;
+  margin: 80px auto 0;
+  @at-root {
+    #{&}__back {
+      display: block;
+      margin: 0 auto;
+      text-align: center;
+    }
+    #{&}--500 {
+      display: inline-block;
+      float: right;
+    }
+    #{&}--404 {
+      margin: 110px auto 0;
+    }
+  }
+}

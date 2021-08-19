@@ -1,0 +1,48 @@
+.button {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  color: #fff;
+  font-size: 1.6rem;
+  text-align: center;
+  text-decoration: none;
+  background-color: #020b3c;
+  border-radius: 4px;
+  @at-root {
+    #{&}--light--arrow {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      color: #fff;
+      font-size: 1.6rem;
+      text-align: center;
+      background-color: #3f67ff;
+      border-radius: 4px;
+    }
+    #{&}--arrow {
+      position: relative;
+      display: block;
+      width: 100%;
+      margin: 20px 0 0;
+      padding: 16px;
+      color: #fff;
+      color: #fff;
+      font-size: 1.6rem;
+      text-align: center;
+      background-color: #020b3c;
+      border-radius: 4px;
+    }
+    #{&}--arrow__arrow {
+      position: absolute;
+      top: 0;
+      right: 30px;
+      bottom: 0;
+      width: 4.5px;
+      height: 9px;
+      margin: auto 0;
+      transform: rotateY(180deg);
+      fill: none;
+      stroke: #fff;
+    }
+  }
+}

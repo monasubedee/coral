@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <defs>
+        <style>
+            .cls-1{fill:#afb42b}.cls-2{fill:none}.cls-3{fill:#fff}
+        </style>
+    </defs>
+    <g id="グループ_1107" data-name="グループ 1107" transform="translate(-290 -891)">
+        <circle id="楕円形_65" cx="12" cy="12" r="12" class="cls-1" data-name="楕円形 65" transform="translate(290 891)"/>
+        <g id="flag" transform="translate(296.75 897)">
+            <path id="パス_315" d="M23.381 21.935v4.673a.936.936 0 0 1-.938.935H14V21h8.443a.936.936 0 0 1 .938.935z" class="cls-2" data-name="パス 315" transform="translate(-12.598 -17.927)"/>
+            <ellipse id="楕円形_72" cx=".935" cy=".935" class="cls-2" data-name="楕円形 72" rx=".935" ry=".935" transform="translate(.467 .467)"/>
+            <path id="パス_316" d="M17.844 10.578h-7.662a1.407 1.407 0 1 0-1.245.152v8.051a.469.469 0 1 0 .938 0v-.7h7.969a1.408 1.408 0 0 0 1.406-1.406v-4.691a1.408 1.408 0 0 0-1.406-1.406zm-8.438-1.64a.469.469 0 1 1-.469.469.469.469 0 0 1 .469-.469zm8.906 7.734a.469.469 0 0 1-.469.469H9.875v-5.625h7.969a.469.469 0 0 1 .469.469z" class="cls-3" data-name="パス 316" transform="translate(-8 -8)"/>
+        </g>
+    </g>
+</svg>

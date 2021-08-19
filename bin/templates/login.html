@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+  {% include './partials/head.html' %}
+  <body>
+    <div class="login">
+      <h1 class="login__head">
+        <img src="/static/img/1076.png" alt="knowledge Bank" />
+      </h1>
+      <h2 class="login__sub-head">ナレッジバンクへようこそ</h2>
+      <form method="POST" action="/login">
+        <div class="login__content">
+          <label for="mail" class="login__input-label">
+            <span class="login__text">メールアドレス</span>
+            <input
+              type="text"
+              class="login__input"
+              id="mail"
+              name="mail"
+              required
+            />
+          </label>
+          <p style="color: #d84f3f; font-size: 1.2rem;" id="loginError">
+            {{ message }}
+          </p>
+          <label for="pass" class="login__input-label">
+            <span class="login__text">パスワード</span>
+            <input
+              type="password"
+              class="login__input"
+              id="pass"
+              name="pass"
+              required
+            />
+          </label>
+        </div>
+        <button class="login__button" type="submit" data-anime-hover="buttons">
+          ログイン
+        </button>
+      </form>
+      <div class="login__reset">
+        <a class="login__reset__link" href="/pwd_reminder"
+          >パスワードを忘れた方</a
+        >
+      </div>
+    </div>
+    <footer class="footerver2--full">
+      <div>
+        <p class="footerver2__left-footer">
+          ©<script>document.write(new Date().getFullYear())</script> Knowledgebank. All rights reserved.
+        </p>
+        <a href="https://idealump.com/privacypolicy"
+          ><p class="footerver2__right-footer">プライバシーポリシー</p></a
+        >
+        <a href="/contact"
+          ><p class="footerver2__right-footer">管理者へ連絡する</p></a
+        >
+        <div style="clear: both;"></div>
+      </div>
+    </footer>
+  </body>
+</html>

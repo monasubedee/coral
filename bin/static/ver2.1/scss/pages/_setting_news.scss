@@ -1,0 +1,24 @@
+.kb-setting-news {
+  a{
+    &.link-btn {
+      @include button($color: white, $text-color: black);
+      font-size: 14px;
+      padding: 9px 8px;
+      display:inline-block;
+      font-weight: normal;
+      text-shadow: none;
+      max-width:100px;
+    }
+  }
+
+}
+.notice_delete{
+  &:hover{
+    opacity: 0.4;
+  }
+}
+.setting_news_row{
+  &:hover{
+    opacity: 0.4;
+  }
+}

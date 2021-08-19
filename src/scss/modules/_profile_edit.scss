@@ -1,0 +1,205 @@
+.profile-edit {
+  $parent: #{&};
+  @at-root {
+    #{&}__head {
+      margin: 0 0 10px;
+      color: #a4b0c8;
+      font-weight: normal;
+      font-size: 1.2rem;
+      line-height: 2.5;
+      letter-spacing: normal;
+      text-align: left;
+    }
+    #{&}__require {
+      margin-left: 3px;
+      color: #d84f3f;
+      font-size: 1.5rem;
+      line-height: 2;
+    }
+    #{&}__error {
+      display: none;
+      color: #d84f3f;
+      font-size: 1.6rem;
+      line-height: 1.88;
+      &[aria-hidden="false"] {
+        display: block;
+      }
+    }
+    #{&}__image-wrapper {
+      position: relative;
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 28px;
+      background-color: #fff;
+      border: 1px #ccc solid;
+      border-radius: 50%;
+    }
+    #{&}__icon {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center;
+    }
+    #{&}__add-picture {
+      position: absolute;
+      right: -6px;
+      bottom: -3px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 32px;
+      height: 32px;
+      background-color: #020b3c;
+      border-radius: 50%;
+    }
+    #{&}__input-file {
+      display: none;
+    }
+    #{&}__input-wrapper {
+      margin: 0 0 28px;
+    }
+    #{&}__input {
+      display: block;
+      width: 100%;
+      padding: 13px;
+      color: #000;
+      font-size: 1.6rem;
+      background-color: #fff;
+      border: solid 1px #dcdde6;
+      border-radius: 4px;
+      &::placeholder {
+        color: #a4b0c8;
+      }
+    }
+    #{&}__select-wrapper {
+      display: flex;
+    }
+    %profile-edit__select-label {
+      position: relative;
+      width: 100%;
+      background-color: #fff;
+      &:before {
+        position: absolute;
+        top: 0;
+        right: 15px;
+        bottom: 0;
+        z-index: 1;
+        display: block;
+        width: 0;
+        height: 0;
+        margin: auto 0;
+        border-width: 6.6px 6.4px 0;
+        border-style: solid;
+        border-color: #020b3c transparent transparent;
+        content: "";
+      }
+    }
+    #{&}__select-label--birth-year,
+    #{&}__select-label--hire-year {
+      @extend %profile-edit__select-label;
+      flex: 1 0 124px;
+      width: 124px;
+      margin: 0 10px 0 0;
+    }
+    #{&}__select-label--birth-month,
+    #{&}__select-label--hire-month {
+      @extend %profile-edit__select-label;
+      flex: 1 0 106px;
+      width: 106px;
+      margin: 0 10px 0 0;
+    }
+    #{&}__select-label--birth-day,
+    #{&}__select-label--hire-day {
+      @extend %profile-edit__select-label;
+      flex: 1 0 106px;
+      width: 106px;
+      margin: 0 10px 0 0;
+    }
+    #{&}__select-label--hire-year {
+      @extend %profile-edit__select-label;
+      width: 100%;
+      margin: 0 10px 0 0;
+    }
+    #{&}__select-label--gender {
+      @extend %profile-edit__select-label;
+      width: 100%;
+    }
+    #{&}__select {
+      width: 100%;
+      padding: 12px;
+      color: #020b3c;
+      font: inherit;
+      font-size: 1.5rem;
+      letter-spacing: normal;
+      text-overflow: "";
+      vertical-align: middle;
+      background: none transparent;
+      border: solid 1px #dcdde6;
+      border-radius: 4px;
+      outline: none;
+      appearance: button;
+    }
+    #{&}__multi-column {
+      display: block;
+    }
+    #{&}__multi-column-item {
+      display: inline-block;
+      flex: 0 0 33%;
+      width: 33%;
+    }
+    #{&}__language,
+    #{&}__role,
+    #{&}__skill {
+      flex: 1 1 auto;
+      width: 100%;
+      padding: 13px;
+      color: #000;
+      font-size: 1.6rem;
+      background-color: #fff;
+      border: solid 1px #dcdde6;
+      border-radius: 4px;
+      border-radius: 4px 0 0 4px;
+    }
+    #{&}__add-language,
+    #{&}__add-role,
+    #{&}__add-skill {
+      display: block;
+      flex: 0 0 48px;
+      width: 48px;
+      height: 48px;
+      padding: 13px;
+      color: #fff;
+      font-size: 1.6rem;
+      text-align: center;
+      background-color: #f5f6fa;
+      border: solid 1px #dcdde6;
+      border-left: none;
+      border-radius: 0 4px 4px 0;
+    }
+    #{&}__role-list,
+    #{&}__skill-list,
+    #{&}__language-list {
+      &[aria-hidden="true"] {
+        display: none;
+      }
+      display: flex;
+      flex-wrap: wrap;
+      margin: 10px 0 0;
+    }
+    #{&}__textarea {
+      width: 100%;
+      min-height: 164px;
+      margin: 0 0 10px;
+      padding: 13px;
+      color: #000;
+      font-size: 1.6rem;
+      background-color: #fff;
+      border: solid 1px #dcdde6;
+      border-radius: 4px;
+      resize: none;
+    }
+  }
+}

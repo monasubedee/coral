@@ -1,0 +1,38 @@
+.description {
+  @at-root {
+    #{&}__headline {
+      color: #020b3c;
+      font-weight: 500;
+      font-size: 1.6rem;
+      line-height: 1.88;
+      letter-spacing: normal;
+      text-align: center;
+    }
+    #{&}__wrapper {
+      position: relative;
+      width: 100%;
+      margin: 10px 0;
+      padding: 16px 16px 18px;
+      background-color: #fff;
+      border: solid 1px #dcdde6;
+      border-radius: 4px;
+    }
+
+    #{&}__image-wrapper {
+      width: 100%;
+      margin: 0 0 14px;
+      text-align: center;
+    }
+    #{&}__image {
+      max-width: 80%;
+    }
+    #{&}__paragraph {
+      margin: 20px 0 0;
+      font-size: 1.5rem;
+      font-family: Noto Sans JP;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+  }
+}

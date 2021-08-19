@@ -1,0 +1,105 @@
+.kb-sidebar {
+    left:0px;
+    top:80px;
+    position:fixed;
+    width:220px;
+    background:white;
+    overflow: 'auto';
+    box-shadow:0px 0px 1px rgba(0,0,0,0.4);
+    z-index:9999;
+    overflow-y: scroll;
+    -ms-overflow-style: none;    /* IE, Edge 対応 */
+    scrollbar-width: none;       /* Firefox 対応 */
+    &::-webkit-scrollbar {  /* Chrome, Safari 対応 */
+      display:none;
+    }
+      @include respond-to('medium'){
+        display:none;
+        top:0;
+        height:100%;
+    }
+  .sidebar-close{
+    position:absolute;
+    top:12px;
+    display:none;
+    right:17px;
+    font-size:19px;
+    @include respond-to('medium'){
+      display:block;
+    }
+    &:hover{
+      transform:scale(1.2,1.2);
+      color:rgb(141, 23, 23);
+    }
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+    li {
+      list-style: none;
+      cursor:pointer;
+      display: flex;
+      width:100%;
+      align-items: center;
+      &.active{
+        border-right:2px solid #2962ff !important;
+      }
+      a{
+        padding: 13px 30px;
+        margin:0;
+        font-size: 13px;
+
+        &:hover{
+          background-color: #e9e9ef;
+        }
+      }
+      img {
+        width: auto;
+        height: 15px;
+        margin-right: 12px;
+      }
+    }
+  }
+  img {
+    width: 100%;
+    height: auto;
+    &.arrow-icon {
+      width: 60%;
+    }
+  }
+}
+.kb-arrow-icon-msg {
+  padding: 10px 10px;
+  .arrow_box {
+    position: relative;
+    padding: 8px;
+    border-radius: 0.25rem;
+    background: #ffffff;
+    font-size: 12px;
+    border: 1px solid #e9e9ef;
+  }
+  .arrow_box:after,
+  .arrow_box:before {
+    top: 100%;
+    left: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+  }
+
+  .arrow_box:after {
+    border-color: rgba(255, 255, 255, 0);
+    border-top-color: #ffffff;
+    border-width: 15px;
+    margin-left: -15px;
+  }
+  .arrow_box:before {
+    border-color: rgba(233, 233, 239, 0);
+    border-top-color: #e9e9ef;
+    border-width: 16px;
+    margin-left: -16px;
+  }
+}

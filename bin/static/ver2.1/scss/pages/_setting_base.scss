@@ -1,0 +1,26 @@
+.result-tabs-list {
+  span {
+    position: relative;
+    font-size: 14px;
+    padding-right: 20px;
+    color: #2e79dc;
+    margin-right: 25px;
+    display: inline-flex;
+
+    i {
+      position: absolute;
+      top: calc(50% - 7.5px);
+      right: 0px;
+      border-radius: 100%;
+      width: 15px;
+      height: 15px;
+      font-size: 12px;
+      line-height: 1.1;
+      color: black;
+      background: rgb(206, 204, 204);
+      font-style: normal;
+      text-align: center;
+      padding: 2px 1px 0px 0px;
+    }
+  }
+}

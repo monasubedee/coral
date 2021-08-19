@@ -1,0 +1,67 @@
+{%from "./ver2/partials/sidebar.html" import sidebar with context%}
+
+<html lang="ja">
+
+<head>
+
+    <style>
+        .__summit-button {
+            width: 95%;
+            height: 46px;
+            border-radius: 4px;
+            background-color: #2962ff;
+            margin-top: 40px;
+            margin-bottom: 127px;
+
+        }
+        @media only screen and (min-width:1000px) {
+            .__summit-button {
+                width: 220px;
+                margin-bottom: 100px;
+
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    {% include './partials/head.html' %}
+
+    {% include './ver2/partials/sidebar.html' %}
+
+    <h1 align="middle" style="margin-top: 50px;
+    font-family: HiraKakuPro-W3;
+  font-size: 28px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: center;
+  color: #373943;">お問い合わせ</h1>
+    <h1 align="middle" style="margin-top: 50px;-webkit-text-stroke: 1px rgba(0, 0, 0, 0);
+    font-family: HiraKakuPro-W3;
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.69;
+    letter-spacing: normal;
+    text-align: center;
+    color: #373943;">{{message.message}}</h1>
+    <a href="/contact/ver2" align="middle" style="margin-top: 70px; display:block;
+    font-family: HiraKakuPro-W3;
+  font-size: 13px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.77;
+  letter-spacing: normal;
+  text-align: center;
+  color: #2962ff;">トップへ戻る</a>
+
+</body>
+{% include './ver2/partials/footer.html' %}
+
+</html>

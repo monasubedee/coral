@@ -1,0 +1,39 @@
+.result {
+  position: relative;
+
+  @at-root {
+    #{&}__fav {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+    }
+    #{&}__head {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      font-size: 3.5rem;
+    }
+    #{&}__correct-circle {
+      display: inline-block;
+      width: 42px;
+      height: 42px;
+      margin: 0 11px 0 0;
+      border: solid 8px #d84f3f;
+      border-radius: 50%;
+    }
+    #{&}__incorrect-cross {
+      width: 42px;
+      height: 42px;
+      margin: 0 11px 0 0;
+      fill: #3f67ff;
+    }
+    #{&}__paragraph {
+      margin: 8px 0 20px;
+      color: #a4b0c8;
+      font-size: 1.2rem;
+      line-height: 1.5;
+      text-align: center;
+    }
+  }
+}

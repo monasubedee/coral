@@ -1,0 +1,27 @@
+.top {
+  padding: 78px 10px 84px;
+  text-align: center;
+  @at-root {
+    #{&}__logo-wrapper {
+      width: 52%;
+      height: auto;
+      margin: 0 auto;
+    }
+    #{&}__head {
+      margin: 30px 0 0;
+      color: #020b3c;
+      font-size: 2.2rem;
+      line-height: 1.5;
+      text-align: center;
+    }
+    #{&}__head2 {
+      margin: 20px 0 40px;
+      color: #a4b0c8;
+      font-size: 1.2rem;
+      line-height: 1.83;
+    }
+    #{&}__login {
+      margin: 20px 0 0;
+    }
+  }
+}

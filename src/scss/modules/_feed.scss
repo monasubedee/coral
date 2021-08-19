@@ -1,0 +1,85 @@
+@keyframes fadeToast {
+  from {
+    display: none;
+    opacity: 0;
+  }
+  1% {
+    display: flex;
+    opacity: 0;
+  }
+  51% {
+    opacity: 1;
+  }
+  to {
+    display: none;
+    opacity: 0;
+  }
+}
+
+.feed {
+  @at-root {
+    #{&}__toast {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      width: 320px;
+      height: 46px;
+      margin: auto;
+      color: #fff;
+      font-size: 1.6rem;
+      line-height: 1.88;
+      text-align: center;
+      background-color: #2e2e2e;
+      border: solid 1px #1c1c1c;
+      border-radius: 4px;
+      opacity: 0;
+      &[aria-hidden="false"] {
+        display: flex;
+        animation-name: fadeToast;
+        animation-duration: 3000ms;
+        animation-play-state: running;
+        animation-timing-function: ease;
+        animation-iteration-count: 1;
+        animation-direction: alternate;
+        animation-fill-mode: forwards;
+      }
+    }
+    #{&}__body {
+      display: flex;
+      align-items: stretch;
+      margin: 0 0 30px;
+    }
+    #{&}__input {
+      width: calc(100% - 95px);
+      min-height: 46px;
+      padding: 13px;
+      color: #020b3c;
+      font-size: 1.5rem;
+      line-height: 2;
+      letter-spacing: normal;
+      text-align: left;
+      background-color: #dcdde6;
+      border: solid 1px #dcdde6;
+      border-radius: 4px;
+      resize: none;
+    }
+    #{&}__submit {
+      display: block;
+      flex: 0 0 86px;
+      width: 86px;
+      margin: 0 0 0 9px;
+      padding: 0;
+      color: #fff;
+      font-size: 1.6rem;
+      text-align: center;
+      background-color: #3f67ff;
+      border-radius: 4px;
+    }
+  }
+}

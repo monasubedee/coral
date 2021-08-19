@@ -1,0 +1,14 @@
+@import "../functions/media_query_helper";
+
+.Separator {
+  display: block;
+  width: 355px;
+  height: 3px;
+  margin: 40px auto 80px;
+  background-color: #b0bec5;
+  border-radius: 10px;
+  @include mediaQuery() {
+    width: auto;
+    margin: 20px 38px 70px;
+  }
+}

@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KnowledgeBank</title>
+    <link rel='icon' href='/static/ver2.1/img/logo@3x.png' />
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css' />
+    <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-160620961-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-160620961-1');
+    </script>
+</head>
+<style>
+    .line-height-1 {
+        line-height: 1;
+    }
+
+    .bg-red {
+        background: red !important;
+    }
+
+    .bg-blue {
+        background: blue !important;
+    }
+
+    .kb-container-loading {
+        height: 100vh;
+        min-height: calc(100vh - 132px);
+        margin-top: 80px;
+        padding: 20px;
+        width: calc(100vw - 220px);
+        margin-left: 220px;
+    }
+
+    .kb-container-loading #loading {
+        width: 40px;
+        margin: 40px auto;
+    }
+
+    .red::placeholder {
+        /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: red;
+        opacity: 1;
+        /* Firefox */
+    }
+
+    .red:-ms-input-placeholder {
+        /* Internet Explorer 10-11 */
+        color: red;
+    }
+
+    .red::-ms-input-placeholder {
+        /* Microsoft Edge */
+        color: red;
+    }
+</style>
+{% include './ver2.1/partials/header.html' %}
+{% include './ver2.1/partials/sidebar.html' %}
+
+<body>
+    <div class='kb-container-loading'>
+        <div id="loading"></div>
+    </div>
+    <div class='kb-container-loadedAjax' style="opacity: 0;">
+        {% include './ver3/partials/target_noti.html' %}
+        <div class='kb-container kb-home-container'>
+            <div class="kb-target-container">
+                <div class="text-center">
+                    <h3>目標と評価</h3>
+                    <p class="text-muted">
+                        <small>目標の作成・閲覧と自己評価、他者評価を行います</small>
+                    </p>
+                </div>
+                <div class='kb-panel pt-4'>
+                    <div class="kb-panel-title">
+                        <div class="flex flex-s profile-data">
+                            <div class="px-4 mb-2">
+                                <div class="profile-img profile profile-update" id="profile" data-original=""
+                                    style="background-image:url('https://amd.c.yimg.jp/amd/20200609-00010009-flash-000-1-view.jpg');background-position:center;background-size:cover">
+                                </div>
+                            </div>
+                            <div class="px-3">
+                                <div>
+                                    <div>
+                                        <h4 class="m-0" id="username">明日花 キララ</h4>
+                                        <p class="text-muted my-2"><i class="far fa-envelope mr-2"></i><span
+                                                id="email">asukakirara@gmail.com</span></p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-s py-2">
+                                    <div>
+                                        <small class="text-muted">入社日</small>
+                                        <p class="my-1 line-height-1"><b id="hiredate">1993/11/17</b></p>
+                                        <!--id="hiredate"-->
+                                    </div>
+                                    <div class="px-5">
+                                        <small class="text-muted">チーム</small>
+                                        <p class="my-1 line-height-1"><b id="team">ディレクター</b></p>
+                                    </div>
+                                    <div>
+                                        <small class="text-muted">役職</small>
+                                        <p class="my-1 line-height-1"><b id="position">社員</b></p>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-s py-3">
+                                    <div class="text-center pr-3">
+                                        <small class="text-muted">知識をまなんだ数</small>
+                                        <h1 class="font-normal my-1" id="total_answer_count">1,532</h1>
+                                    </div>
+                                    <div class="text-center px-3 bl br">
+                                        <small class="text-muted">知識をためた数</small>
+                                        <h1 class="font-normal my-1" id="created_question_count">1,200</h1>
+                                    </div>
+                                    <div class="text-center pl-3">
+                                        <small class="text-muted">合計まなび日数</small>
+                                        <h1 class="font-normal my-1" id="learning_day_count">610</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="kb-target__setting">
+                    <div class="kb-target__setting__header">
+                        <p class="kb-target__setting__heading">目標設定</p>
+                        <button class="kb-target__setting__add js-target-add">
+                            <i class="fas fa-plus mr-3"></i>目標を追加する
+                        </button>
+                    </div>
+
+                    <div class="kb-target__setting__list">
+                        <!-- will bind data here if exists -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class='modal kb-target__modal' id='idNumber'>
+            <div class='flex flex-item-center'>
+                <div class='modal-dialog'>
+                    <div class='kb-panel'>
+                        <div class='kb-panel-title p-3'>
+                            <p class='m-0'>自己評価する</p>
+                            <i class='fas fa-times modal-close'></i>
+                        </div>
+                        <div class='kb-panel-body px-3'>
+                            <div class="kb-target__setting__data">
+                                <p class="kb-target-data__heading kb-target-heading"></p>
+                                <span class='flex flex-item-center'>
+                                    <select id="target-select-options" class="mr-2 target-select">
+                                    </select><label>％</label>
+                                </span>
+                            </div>
+                            <div class="kb-target__setting__contents kb-target__contents mt-3"> </div>
+                            <div class="kb-target__modal__evaluation mt-3">
+                                <div class="kb-target__modal__evaluation__item px-3">
+                                    <p class="topic-one-text"></p>
+                                    <span class='flex flex-item-center'>
+                                        <select id="topic-one-select-options" class="mr-2 topic-one-select">
+                                        </select><label>％</label>
+                                    </span>
+                                </div>
+                                <div class="kb-target__modal__evaluation__item px-3">
+                                    <p class="topic-two-text"></p>
+                                    <span class='flex flex-item-center'>
+                                        <select id="topic-two-select-options" class="mr-2 topic-two-select">
+                                        </select><label>％</label>
+                                    </span>
+                                </div>
+                                <div class="kb-target__modal__evaluation__item px-3">
+                                    <p class="topic-three-text"></p>
+                                    <span class='flex flex-item-center'>
+                                        <select id="topic-three-select-options" class="mr-2 topic-three-select">
+                                        </select><label>％</label>
+                                    </span>
+                                </div>
+                                <div class="kb-target__modal__evaluation__item px-3">
+                                    <p class="topic-four-text"></p>
+                                    <span class='flex flex-item-center'>
+                                        <select id="topic-four-select-options" class="mr-2 topic-four-select">
+                                        </select><label>％</label>
+                                    </span>
+                                </div>
+                                <div class="kb-target__modal__evaluation__item px-3">
+                                    <p class="topic-five-text"></p>
+                                    <span class='flex flex-item-center'>
+                                        <select id="topic-five-select-options" class="mr-2 topic-five-select">
+                                        </select><label>％</label>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class='text-center mt-4'>
+                                <button class='submit-btn ratingDetail-submit'> 評価する </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="attention" style="display: none;">
+        <div class="flex flex-item-center">
+            <div class="modal-dialog">
+                <div class="kb-panel">
+                    <div class="kb-panel-title p-3">
+                        <p class="m-0">この目標を削除してもよろしいですか?</p>
+                        <i class="fas fa-times modal-close" data-modal="#edit-member-modal"></i>
+                    </div>
+                    <div class="kb-panel-body px-3">
+                        <div class="flex flex-c py-3">
+                            <a class="btn-tran btn-tran-modal target_delete--cancel mx-2">キャンセル</a>
+                            <button class="submit-btn mx-2 tameru_delete--confirm"> 削除する </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src='/static/ver3/js/script.js'></script>
+    <script src='/static/ver2.1/js/lottie.min.js'></script>
+    <script src='/static/ver2.1/js/chart_progress.js'></script>
+    <script src='/static/ver3/js/target.js'></script>
+    <script src='/static/ver3/test/js/common.js'></script>
+</body>
+{% include './ver2.1/partials/footer.html' %}
+<script>
+    $(document).ready(function () {
+
+        bindExistingData();
+
+        $.ajax({
+            method: "get",
+            url: "/profile/get",
+            success: function (data) {
+                var result = JSON.parse(data);
+                var profile = result.userProfile.data.profilePicture == '' ? '/static/ver2.1/img/1104@3x.png' : result.userProfile.data.profilePicture;
+                var flag_con = result.record_count.data.created_question_flag;
+                var img_name = '';
+                if (flag_con == 0) {
+                    img_name = '/static/ver2.1/img/arrow-gray.png';
+                }
+                else if (flag_con < 0) {
+                    img_name = '/static/ver2.1/img/arrow-blue.png';
+                }
+                else {
+                    img_name = '/static/ver2.1/img/1013@3x.png';
+                }
+
+                var flag_con1 = result.record_count.data.total_answer_flag;
+                var img_name1 = '';
+                if (flag_con1 == 0) {
+                    img_name1 = '/static/ver2.1/img/arrow-gray.png';
+                }
+                else if (flag_con1 < 0) {
+                    img_name1 = '/static/ver2.1/img/arrow-blue.png';
+                }
+                else {
+                    img_name1 = '/static/ver2.1/img/1013@3x.png';
+                }
+
+                var flag_con2 = result.record_count.data.learning_day_flag;
+                var img_name2 = '';
+                if (flag_con2 == 0) {
+                    img_name2 = '/static/ver2.1/img/arrow-gray.png';
+                }
+                else if (flag_con1 < 0) {
+                    img_name2 = '/static/ver2.1/img/arrow-blue.png';
+                }
+                else {
+                    img_name2 = '/static/ver2.1/img/1013@3x.png';
+                }
+                $("#username").text(result.userProfile.data.displayName);
+                $("#email").text(result.userProfile.data.username);
+                $("#hiredate").text(result.year + "/" + result.month + "/" + result.day);
+                $("#team").text(result.userProfile.data.team_name == null ? 'None' : result.userProfile.data.team_name);
+                $("#position").text(result.userProfile.data.position);
+                $("#total_answer_count").text(result.record_count.data.total_answer_count);
+                $("#created_question_count").text(result.record_count.data.created_question_count);
+                $("#learning_day_count").text(result.record_count.data.learning_day_count);
+                document.getElementById("profile").style.backgroundImage = "url(" + profile + ")";
+                loadedAjax.profile = true;
+            }
+        });// end ajax
+
+        function bindExistingData() {
+            $.ajax({
+                method: "GET",
+                url: "/target/self",
+                success: function (result) {
+                    let data = result;
+                    if (data.data.length === 0) {
+                        // $(".view-more").remove();
+                        // $(".no-result").show();
+                    }
+                    else {
+                        // length = data.data.length;
+                        // console.log(data.data);
+                        data.data.map((list, index) => {
+                            let str = list.targetText;
+                            if(str.includes('\n') || str.includes('↵')){
+                                str = str.replace(/(?:\r\n|\r|\n)/g, '<br>');
+                            }
+                            else{
+                                str = list.targetText;
+                            }
+
+                            $(".kb-target__setting__list").append(`
+                            <div class='kb-target__setting__item' id="target-id-1">
+                                <div class='kb-panel mt-3'>
+                                    <div class="kb-panel-title">
+                                        <div class="kb-target__setting__data">
+                                            <p class="kb-target-data__heading">目標${index + 1}
+                                                <i class="js-target-delete far fa-trash-alt" data-targetId='${list.id}'></i>
+                                            </p>
+                                            <ul class="kb-target-data__evaluation">
+                                                <li>総合評価<span>0%</span></li>
+                                                <li>自己評価<span>0%</span></li>
+                                                <li>他者評価<span>0%</span></li>
+                                            </ul>
+                                            <a class="kb-target-data__button  kb-target-evaluation" data-target='${list.targetText}' data-rating='${JSON.stringify(list.ratingDetail)}' data-index='${index + 1}' data-targetId='${list.id}'>評価する</a>
+                                        </div>
+                                    </div>
+                                    <div class="kb-panel-title py-3 px-3">
+                                        <div class="kb-target__setting__contents">
+                                          ${str}
+                                        </div>
+                                    </div>
+                                    <div class="kb-target__setting__category">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-muted">学習カテゴリー
+                                                        <i class="far fa-question-circle"></i>
+                                                    </th>
+                                                    <td class="text-muted">回答数</td>
+                                                    <td class="text-muted">正答数</td>
+                                                    <td class="text-muted">正答率</td>
+                                                    <td class="text-muted">自己評価</td>
+                                                    <td class="text-muted">他者評価</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th>WEBディレクション</th>
+                                                    <td>20</td>
+                                                    <td>20</td>
+                                                    <td>60%</td>
+                                                    <td>60%</td>
+                                                    <td>60%</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>挨拶</th>
+                                                    <td>10</td>
+                                                    <td>10</td>
+                                                    <td>10%</td>
+                                                    <td>10%</td>
+                                                    <td>10%</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>ロジカルシンキング研修</th>
+                                                    <td>30</td>
+                                                    <td>30</td>
+                                                    <td>40%</td>
+                                                    <td>40%</td>
+                                                    <td>40%</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>システムの基礎</th>
+                                                    <td>20</td>
+                                                    <td>20</td>
+                                                    <td>80%</td>
+                                                    <td>80%</td>
+                                                    <td>80%</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>営業の基礎</th>
+                                                    <td>10</td>
+                                                    <td>10</td>
+                                                    <td>0%</td>
+                                                    <td>0%</td>
+                                                    <td>0%</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                      `);
+
+                        })
+                    }
+                }
+            })
+        }
+
+        // add option element for idNumber modal
+        $(document).ready(function () {
+            for (var i = 0; i <= 100; i++) {
+                $('#target-select-options').append("<option value=" + i + ">" + i + "</option>");
+                $('#topic-one-select-options').append("<option value=" + i + ">" + i + "</option>");
+                $('#topic-two-select-options').append("<option value=" + i + ">" + i + "</option>");
+                $('#topic-three-select-options').append("<option value=" + i + ">" + i + "</option>");
+                $('#topic-four-select-options').append("<option value=" + i + ">" + i + "</option>");
+                $('#topic-five-select-options').append("<option value=" + i + ">" + i + "</option>");
+            }
+        });
+
+        //global variable for topic words
+        var topic_one_text = '';
+        var topic_two_text = '';
+        var topic_three_text = '';
+        var topic_four_text = '';
+        var topic_five_text = '';
+
+        $(document).on("click", ".kb-target-evaluation", function () {
+            let targetId = $(this).attr("data-targetId");
+            $("#idNumber").find('button.submit-btn').attr('data-targetId', targetId);
+
+            let targetText = $(this).attr("data-target");
+            let targetIndex = $(this).attr("data-index");
+            let ratingDetail = $(this).attr("data-rating");
+
+            //get and parsing ratingDetail json data
+            ratingDetail = JSON.parse(ratingDetail)
+            let target_rating = ratingDetail['target']
+            let topic_rating = ratingDetail['topic']
+
+            //bind target rating
+            $('.target-select').val(target_rating);
+
+            // document.getElementById("targetText").value;
+            //assign topic word and rating
+            var i = 0;
+            for (key in topic_rating) {
+                if (i == 0) {
+                    $('.topic-one-text').text(key);
+                    $('.topic-one-select').val(topic_rating[key]);
+                    topic_one_text = key;
+                } else if (i == 1) {
+                    $('.topic-two-text').text(key);
+                    $('.topic-two-select').val(topic_rating[key]);
+                    topic_two_text = key;
+                } else if (i == 2) {
+                    $('.topic-three-text').text(key);
+                    $('.topic-three-select').val(topic_rating[key]);
+                    topic_three_text = key;
+                } else if (i == 3) {
+                    $('.topic-four-text').text(key);
+                    $('.topic-four-select').val(topic_rating[key]);
+                    topic_four_text = key;
+                } else if (i == 4) {
+                    $('.topic-five-text').text(key);
+                    $('.topic-five-select').val(topic_rating[key]);
+                    topic_five_text = key;
+                }
+                i++;
+            }
+            $('.kb-target-heading').text("目標" + targetIndex);
+            $('.kb-target__contents').html(targetText.replace(/(?:\r\n|\r|\n)/g, '<br>'));
+            $('#idNumber').show();
+        });
+
+        $(document).on("click", ".js-target-delete", function () {
+            let targetId = $(this).attr("data-targetId");
+            $("#attention").find('button.submit-btn').attr('data-targetId', targetId);
+            $("#attention").show();
+        });
+
+        $(document).on("click", ".target-submit", function () {
+
+            let targetText = document.getElementById("targetText").value;
+            let error = false;
+
+
+            if (targetText == '' || targetText.length == 0) {
+
+                $('.js-target-textarea').css({
+                    border: '1px solid red'
+
+                });
+                $('#targetText').addClass('red');
+                error = true;
+            }
+            else {
+                $('.js-target-textarea').css({
+                    border: '1px solid #c9cad0'
+                });
+                $('#targetText').removeClass('red');
+                error = false;
+            }
+
+            obj = {
+                'targetText': targetText,
+                'userId': 1
+            }
+            if (error) {
+
+            }
+            else {
+                $.ajax({
+                    type: 'POST',
+                    url: '/target/',
+                    headers: { "Content-Type": "application/json" },
+                    //data: JSON.stringify(data),
+                    data: JSON.stringify(obj),
+                    success: function (result) {
+                        result = JSON.parse(result)
+                        $("#attention").hide();
+                        if (result["result"] == "ok") {
+                            status_show('ok');
+                            window.location.href = "/target/edit";
+                        }
+                        if (result["result"] == "ng") {
+                            status_show('failed');
+                            window.location.href = "/target/edit";
+                        }
+                    }
+                });
+
+            }
+
+
+        });
+
+        $(document).on("click", ".ratingDetail-submit", function () {
+
+            var targetId = $(this).attr("data-targetId")
+
+            //prepare ratingDetail json data
+            var topic_rating_json = {}
+            topic_rating_json[topic_one_text] = parseInt($('.topic-one-select').val())
+            topic_rating_json[topic_two_text] = parseInt($('.topic-two-select').val())
+            topic_rating_json[topic_three_text] = parseInt($('.topic-three-select').val())
+            topic_rating_json[topic_four_text] = parseInt($('.topic-four-select').val())
+            topic_rating_json[topic_five_text] = parseInt($('.topic-five-select').val())
+
+            var rating_detail = {}
+            rating_detail["target"] = parseInt($('.target-select').val())
+            rating_detail["topic"] = topic_rating_json
+
+            obj = {
+                'ratingDetail': rating_detail,
+                'targetId': targetId
+            }
+
+            $.ajax({
+                type: 'PUT',
+                url: '/target/ratingDetail',
+                headers: { "Content-Type": "application/json" },
+                //data: JSON.stringify(data),
+                data: JSON.stringify(obj),
+                success: function (result) {
+                    result = JSON.parse(result)
+                    $("#idNumber").hide();
+                    if (result["result"] == "ok") {
+                        status_show('ok');
+                        window.location.href = "/target/edit";
+                    }
+                    if (result["result"] == "ng") {
+                        status_show('failed');
+                        window.location.href = "/target/edit";
+                    }
+                }
+            });
+
+        });
+
+        $(document).on("click", ".tameru_delete--confirm", function () {
+            //get targetId
+            let target_id = $(this).attr("data-targetId");
+            //check targetId, if it is null, assume it was not registered case, and delete this UI component
+            if (target_id == null) {
+                $("#attention").hide();
+                $('.kb-target__setting__list').find(".kb-target__setting__item").last().remove();
+                return
+            }
+            //if targetId exist, call delete target API
+            obj = {
+                'id': target_id
+            }
+            $.ajax({
+                type: 'DELETE',
+                url: '/target/',
+                headers: { "Content-Type": "application/json" },
+                //data: JSON.stringify(data),
+                data: JSON.stringify(obj),
+                success: function (result) {
+                    result = JSON.parse(result)
+                    $("#attention").hide();
+                    if (result["result"] == "ok") {
+                        status_show('ok');
+                        window.location.href = "/target/edit";
+                    }
+                    if (result["result"] == "ng") {
+                        status_show('failed');
+                        window.location.href = "/target/edit";
+                    }
+                }
+            });
+        });
+
+        function status_show(status) {
+            if (status == "ok") {
+                $("body").append("<div class='status-container success'><p class='px-2'>内容を保存しました</p></div>");
+            }
+            else {
+                $("body").append("<div class='status-container fail'><p class='px-2'>内容の保存に失敗しました</p></div>");
+            }
+            // setTimeout(() => {
+            //   $(".status-container").remove();
+            // }, 3000)
+            $(".status-container").css({
+                position: "fixed",
+                top: "80px",
+                width: $(".kb-container").outerWidth(),
+                marginLeft: $(".kb-container").css("margin-left"),
+                zIndex: 20,
+                left: '0'
+            })
+            $(".status-container.success").css({
+                background: "#4caf50"
+            })
+            $(".status-container.fail").css({
+                background: "#fef3f2"
+            })
+        }
+
+        $(".kb-logo:not(.split)").prepend('<a href="/home"><img src="/static/ver2.1/img/logo__idealump.png" class="logo" alt="" /></a>');
+    });
+</script>
+
+</html>

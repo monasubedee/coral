@@ -1,0 +1,258 @@
+.tamerulistver2 {
+    background-color: #fafbfd; 
+    margin-left: 240px;
+    padding-top: 74px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom: 40px;
+    @at-root {
+        #{&}__header{
+            text-align: center;
+        }
+        #{&}__title {
+            font-family: HiraKakuPro-W3;
+            font-size: 28px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1;
+            letter-spacing: normal;
+            text-align: center;
+            color: #373943;
+        }
+        #{&}__subtitle {
+            padding-top: 10px;
+            font-family: HiraKakuPro-W3;
+            font-size: 13px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.38;
+            letter-spacing: normal;
+            text-align: center;
+            color: #8f9091;
+        }
+        #{&}__img {
+            padding-top: 20px;
+        }
+        #{&}__list {
+            padding-top: 20px;
+            display: flow-root;
+        }
+        #{&}__left {
+            float: left;
+        }
+        #{&}__right {
+            float: right;
+        }
+        #{&}__content {
+            float: left;
+            font-family: HiraKakuPro-W3;
+            font-size: 20px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.3;
+            letter-spacing: normal;
+            text-align: left;
+            color: #373943;
+        }
+        #{&}__challangeicon {
+            color: blue;
+            padding-right: 3px;
+        }
+        #{&}__challange {
+            float: right;
+            font-family: HiraKakuPro-W3;
+            font-size: 13px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            letter-spacing: normal;
+            color: #373943;
+            border: 1px solid #c9cad0;
+            padding: 6px;
+            margin-left: 20px;
+            border-radius: 4px;
+        }
+        #{&}__tameru {
+            padding-bottom: 40px;
+        }
+        #{&}__filterlist {
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            background-color: #f5f6fa;
+            padding: 20px;
+        }
+        #{&}__filterTable {
+            width: 100%;
+        }
+        #{&}__filtername {
+            font-size: 13px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.38;
+            letter-spacing: normal;
+            text-align: left;
+            color: #373943;
+        }
+        #{&}__filterbox{
+            width: 180px;
+            height: 36px;
+            border-radius: 4px;
+            border: solid 1px #c9cad0;
+            background-color: #ffffff;
+            margin-top: 10px;
+            float: left;
+        }
+        #{&}__filter-searchbox{
+            width: 102px;
+            height: 36px;
+            border-radius: 4px;
+            border: solid 1px #d1d2d8;
+            background-color: #fafafa;
+            margin-top: 10px;
+            vertical-align: bottom;
+        }
+        #{&}__table {
+            background-color: #ffffff;
+            padding: 20px;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+        #{&}__searchtext {
+            font-size: 13px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.38;
+            letter-spacing: normal;
+            text-align: left;
+            color: #373943;
+            padding-bottom: 20px;
+        }
+        #{&}__tableheader {
+            width: 1046px;
+            height: 46px;
+            -webkit-backdrop-filter: blur(30px);
+            backdrop-filter: blur(30px);
+            background-color: #f5f6fa;
+        }
+        #{&}__tableheader > th {
+            width: 65px;
+            height: 13px;
+            font-family: HiraKakuPro-W3;
+            font-size: 13px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.38;
+            letter-spacing: normal;
+            text-align: left;
+            color: #8f9091;
+            text-align: left;
+            vertical-align: middle;
+        }
+        #{&}__tabletxt, #{&}__table-system {
+            padding-left: 20px;
+        }
+
+        #{&}__table-system, #{&}__table-date, #{&}__table-comment {
+            font-family: Helvetica-Light;
+            font-size: 13px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.38;
+            letter-spacing: normal;
+            text-align: left;
+            color: #8f9091;
+        }
+        #{&}__table-problem {
+            font-family: HiraKakuPro-W3;
+            font-size: 13px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.69;
+            letter-spacing: normal;
+            text-align: left;
+            color: #2962ff;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        #{&}__table-problemtag {
+            border-radius: 4px;
+            background-color: #edf0f5;
+            border: 1px solid #eeeeee;
+            width: fit-content;
+            padding: 0px 5px;
+            display: -webkit-inline-box;
+            color: #373943;
+            margin: 5px 0px;
+            font-size: 11px;
+        }
+        #{&}__icon {
+            font-size: 13px;
+            padding-left: 5px;
+            vertical-align: middle;
+        }
+        #{&}__tableicon {
+            color: #dcdde6;
+            font-size: 13px;
+            margin-right: 6px;
+        }
+        #{&}__tableiconcolor {
+            font-size: 13px;
+            margin-right: 6px;
+            color: #f3ba18;
+        }
+        #{&}__table-rating{
+            font-family: Roboto;
+            font-size: 18px;
+            font-weight: bold;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1;
+            letter-spacing: normal;
+            text-align: left;
+            color: #373943;
+        }
+        #{&}__table-rateicon {
+            text-align: center;
+        }
+        #{&}__tableborder{
+            border-bottom: 1px solid #eeeeee;
+        }
+        #{&}__tablefooter {
+            -webkit-text-stroke: 1px rgba(0, 0, 0, 0);
+            font-family: HiraKakuPro-W3;
+            font-size: 13px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.23;
+            letter-spacing: normal;
+            text-align: center;
+            color: #2962ff;
+            padding-top: 20.5px;
+            padding-bottom: 10px;
+        }
+        #tamerulistver2__searchInput {
+            background-image: url('https://www.w3schools.com/css/searchicon.png');
+            background-position: 10px 6px;
+            background-repeat: no-repeat;
+            width: 100%;
+            font-size: 13px;
+            padding: 6px 0px 6px 33px;
+            border: 1px solid #c9cad0;
+            margin-bottom: 12px;
+            border-radius: 4px;
+            background-size: 17px;
+        }
+    }
+}
+
+
+

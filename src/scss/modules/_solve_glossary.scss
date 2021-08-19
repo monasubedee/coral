@@ -1,0 +1,203 @@
+// .glossaryver2 {
+
+// @at-root {
+// #{&}__center-align {
+//     align-self: center;
+//     align-items: center;
+//     display: flex;
+//     flex-direction: column;
+// }
+
+// #{&}__vertical-align {
+//     align-items: center;
+//     display: flex;
+//     flex-direction: row;
+// }
+
+// #{&}__card {
+//     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+//     margin-top: 75px;
+//     margin-bottom: -50px;
+//     width: 45%;
+//     border-radius: 6px;
+//     border-color: grey;
+//     border-width: 1px;
+//     backdrop-filter: blur(30px);
+//     box-shadow: 0 1.2px 0.5px 0 rgba(0, 0, 0, 0.2);
+//     border: 1px solid whitesmoke;
+// }
+
+// #{&}__card-3 {
+//     margin-top: 75px;
+//     width: 45%;
+//     border-radius: 6px;
+//     border-color: grey;
+//     border-width: 1px;
+//     backdrop-filter: blur(30px);
+//     box-shadow: 0 1.2px 0.5px 0 rgba(0, 0, 0, 0.2);
+//     border: 1px solid whitesmoke
+// }
+
+// #{&}__paragraph {
+//     padding-left: 30px;
+//     padding-right: 30px;
+//     padding-top: 24px;
+
+//     font-family: HiraKakuPro-W3;
+//     font-size: 16px;
+//     font-weight: normal;
+//     font-style: normal;
+//     font-stretch: normal;
+//     line-height: 1.63;
+//     letter-spacing: normal;
+//     text-align: left;
+//     color: #373943;
+// }
+
+// #{&}__percentage {
+//     padding-left: 30px;
+//     padding-right: 30px;
+//     padding-top: 24px;
+//     padding-bottom: 30px;
+//     font-family: HiraKakuPro-W3;
+//     font-size: 16px;
+//     font-weight: normal;
+//     font-style: normal;
+//     font-stretch: normal;
+//     line-height: 1.63;
+//     letter-spacing: normal;
+//     text-align: left;
+//     color: #373943;
+// }
+
+// #{&}__paragraph-title {
+//     padding-left: 20px;
+//     padding-right: 20px;
+//     font-family: HiraKakuPro-W6;
+//     font-size: 16px;
+//     font-weight: normal;
+//     font-style: normal;
+//     font-stretch: normal;
+//     line-height: 1.75;
+//     letter-spacing: normal;
+//     text-align: left;
+//     color: #373943;
+// }
+
+// #{&}__border-line {
+//     width: 100%;
+//     height: 0;
+//     border: solid 0.5px #dcdde6;
+// }
+
+// #{&}__button-border-red {
+//     width: 200px;
+//     height: 40px;
+//     border-radius: 4px;
+//     border: solid 1px #d95243;
+//     background-color: #ffffff;
+//     margin-bottom: 10px;
+//     word-wrap: break-word;
+//     max-width: 100%;
+
+// }
+
+// #{&}__button-border-green {
+//     width: 200px;
+//     height: 40px;
+//     border-radius: 4px;
+//     border: solid 1px #0db42d;
+//     background-color: #ffffff;
+//     word-wrap: break-word;
+//     max-width: 100%;
+// }
+
+// #{&}__title-for-button {
+//     width: 130px;
+//     height: 13px;
+//     text-align: center;
+//     font-family: HiraKakuPro-W6;
+//     font-size: 13px;
+//     font-weight: normal;
+//     font-style: normal;
+//     font-stretch: normal;
+//     line-height: 1.38;
+//     letter-spacing: normal;
+//     text-align: left;
+//     color: #373943;
+//     padding-top: 111px;
+//     padding-bottom: 20px;
+// }
+
+// #{&}__summit-button {
+//     width: 220px;
+//     height: 46px;
+//     border-radius: 4px;
+//     background-color: #2962ff;
+//     margin-top: 40px;
+//     margin-bottom: 100px;
+// }
+
+// #{&}__input-summit-button {
+//     width: 76px;
+//     height: 40px;
+//     margin-left: 15px;
+//     margin-right: 40px;
+//     margin-top: 15px;
+//     margin-bottom: 30px;
+//     border-radius: 4px;
+//     border: solid 1px #d1d2d8;
+//     background-color: #fafafa;
+// }
+
+// #{&}__ul-style {
+//     list-style-image: none;
+//     list-style-type: none;
+//     padding-inline-start: 50px;
+//     /* padding-inline-end: 50px; */
+//     padding-left: 15%;
+//     padding-right: 15%;
+
+// }
+
+// #{&}__text-input {
+//     width: 534px;
+//     height: 36px;
+//     border-radius: 4px;
+//     margin-left: 40px;
+//     margin-top: 15px;
+//     margin-bottom: 30px;
+//     border: solid 1px #c9cad0;
+//     background-color: #ffffff;
+// }
+
+// #{&}__card-align-right {
+//     background-color: #fafafa;
+//     width: 120%;
+
+
+// }
+
+// #{&}__formButtonfront {
+//     border: 1px solid gray;
+//     border-radius: 7%;
+//     font-size: 0.875;
+//     word-wrap: break-word;
+//     width: 600px;
+//     max-width: 100%;
+// }
+
+
+// /* On mouse-over, add a deeper shadow */
+// /* .card:hover {
+// box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+// } */
+
+// /* Add some padding inside the card container */
+// .container {
+//     /* padding-top:20px; */
+//     width: 50%,
+// }
+// }
+
+// }

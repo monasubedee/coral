@@ -1,0 +1,33 @@
+.kb-news {
+  & > div {
+    width: 100%;
+  }
+  .kb-news-logo {
+    height: 120px;
+  }
+  .btn-tran{
+    min-width:80px;
+  }
+  a{
+    display:inline-block;
+  }
+
+  &-type{
+    @include respond-to('small'){
+      padding: 0!important;
+    }
+    p {
+      min-width: 70px;
+      padding: 2px 10px;
+      text-align: center;
+      border: solid 1px #dcdde6;
+      border-radius: 2px;
+      font-size: 11px;
+      color: #525355;
+
+      @include respond-to('small'){
+        display: inline-block;
+      }
+    }
+  }
+}

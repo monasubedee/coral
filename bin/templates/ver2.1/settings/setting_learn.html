@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KnowledgeBank</title>
+    <link rel='icon' href='/static/ver2.1/img/logo@3x.png'/>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css'/>
+    <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+{% include './ver2.1/partials/ga_tag.html' %}
+</head>
+{% include './ver2.1/partials/header.html' %}
+{% include './ver2.1/partials/sidebar.html' %}
+<body>
+    <div>
+        <div class='kb-container'>
+            <div class='kb-setting-container'>
+                <div class='kb-setting-top text-center text-center'>
+                    <h3>ナレッジバンク設定</h3>
+                    <p class='text-muted'><small>ナレッジバンクの様々な設定ができます</small></p>
+                    <div class='flex flex-c py-3'>
+                        <div class='p-3 px-4'>
+                            <a href='/settings/base'>
+                                <img src='/static/ver2.1/img/base.png' alt='' />
+                                <p><small>基本設定</small></p>
+                            </a>
+                        </div>
+                        <div class='p-3 px-4'>
+                            <a href='/settings/learn'>
+                                <img src='/static/ver2.1/img/learn_active.png' alt='' />
+                                <p class='active'><small>学習設定</small></p>
+                            </a>
+                        </div>
+                        <div class='p-3 px-4'>
+                            <a href='/settings/import'>
+                                <img src='/static/ver2.1/img/import.png' alt='' />
+                                <p><small>ナレッジパック設定</small></p>
+                            </a>
+                        </div>
+                        <div class='p-3 px-4'>
+                            <a href='/settings/mail'>
+                                <img src='/static/ver2.1/img/mail.png' alt='' />
+                                <p><small>通知</small></p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class='kb-panel'>
+                    <div class='kb-panel-title p-3'>
+                        <p class='m-0'>学習設定</p>
+                    </div>
+                    <div class='kb-panel-body py-0'>
+                        <div class='learn-panel postion-panel'>
+                        </div>
+                    </div>
+                </div>
+                <div class='learn-panel text-center py-4'>
+                    <a href='' class='submit-btn'>入力内容を保存する</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src='/static/ver2.1/js/script.js'></script>
+    <script>
+      $(document).ready(function () {
+        $.ajax({
+          method:"GET",
+          url:'/settings/get_LearningSetting',
+          success:function(data){
+              var res=JSON.parse(data);
+              var panel=$('div.postion-panel');
+              // var content=$('div.postion-content-panel');
+              for (i=0; i<res.data.length; i++){
+                // var j = i-1
+
+                panel.append(`<div class='learn-title px-3 py-2'><label id="postionName">${res.data[i].positionName}</label></div>`)
+                panel.append(`<div class='px-4 py-3'>
+                                  <div class='dot dot-blue flex flex-s flex-item-center my-3 learn-content'>
+                                    <div class='pl-3 content__studytime' data-position=${res.data[i].positionId}>
+                                        <select id="dayType1${i}" name="pref_id" class="form__freq dayType dayTypem${i}">
+                                          <option value="毎週" selected="">毎週</option>
+                          								<option value="毎月">毎月</option>
+                                        </select>
+                                    </div>
+                                    <div class='px-4'>
+                                        <select id="weeklyType1${i}" name="pref_id" class="form__week week weeklyType weeklyTypem${i}">
+
+                                        </select>
+                                        <select name="pref_id" class="form__week day daym${i} hide" id="day1${i}">
+
+                          							</select>
+                                        <label class='px-3'>に学習スタート</label>
+                                    </div>
+                                    <div>
+
+                                      <select id="count" name="pref_id" class="form__question count countm${i}">
+
+                                      </select>
+                                        <label class='px-3 text' id='kind' value='問まなぶ'>問まなぶ</label>
+                                    </div>
+                                </div>
+
+                                <div class='dot dot-red flex flex-s flex-item-center learn-content'>
+                                    <div class='pl-3' data-position=${res.data[i].positionId}>
+                                      <select name="pref_id" id="dayType2${i}" class="form__freq dayType dayTypet${i}">
+                                        <option value="毎週" selected="" data-foo="毎週">毎週</option>
+                                        <option value="毎月" data-foo="毎月">毎月</option>
+                                      </select>
+                                    </div>
+                                    <div class='px-4'>
+                                      <select id="weeklyType2${i}" name="pref_id" class="form__week week weeklyType weeklyTypet${i}">
+                                      </select>
+                                      <select name="pref_id" class="form__week day dayt${i} hide" id="day2${i}">
+
+                                      </select>
+                                        <label class='px-3'>に学習スタート</label>
+                                    </div>
+                                    <div>
+                                      <select id="count" name="pref_id" class="form__question count countt${i}">
+
+                                      </select>
+                                        <label class='px-3 text' id="kind" value="問ためる">問ためる</label>
+                                    </div>
+                                </div>
+                              </div>`)
+              }
+              for(var i=0;i<10;i++){
+                if(i==0){
+                  $(".count").append(`
+                        <option value='${(i+1)*10}'>${(i+1)*10}</option>
+                    `)
+                }
+                else{
+                  $(".count").append(`
+                        <option value='${(i+1)*10}'>${(i+1)*10}</option>
+                    `)
+                }
+              }
+              var weeklist=['月曜日','火曜日','水曜日','木曜日','金曜日','土曜日','日曜日'];
+
+              for(var i=0;i<7;i++){
+                $(".week").append(`
+                      <option value='${i}'>${weeklist[i]}</option>
+                  `)
+              }
+              for(var i=0;i<31;i++){
+                $(".day").append(`
+                      <option value='${(i+1)}'>${(i+1)}</option>
+                  `)
+              }
+
+              for (i=0; i<res.data.length; i++){
+
+                $(`.dayTypem${i} option[value='${res.data[i].manabu.dayType}']`).attr("selected", true);
+                setMonth_day($(`.dayTypem${i}`));
+
+                $(`.dayTypet${i} option[value='${res.data[i].tameru.dayType}']`).attr("selected", true);
+                setMonth_day($(`.dayTypet${i}`));
+
+                $(`.countm${i} option[value='${res.data[i].manabu.count}']`).attr("selected", true);
+                $(`.countt${i} option[value='${res.data[i].tameru.count}']`).attr("selected", true);
+
+                if (res.data[i].manabu.dayType == '毎週'){
+                  $(`.weeklyTypem${i} option[value='${res.data[i].manabu.startDay}']`).attr("selected", true);
+                }else{
+                  $(`.daym${i} option[value='${res.data[i].manabu.startDay}']`).attr("selected", true);
+                }
+                if (res.data[i].tameru.dayType == '毎週'){
+                  $(`.weeklyTypet${i} option[value='${res.data[i].tameru.startDay}']`).attr("selected", true);
+                }else{
+                  $(`.dayt${i} option[value='${res.data[i].tameru.startDay}']`).attr("selected", true);
+                }
+              }
+          }
+        })
+      })
+      $(document).on("change",".dayType",function(){
+        setMonth_day($(this));
+      })
+      function setMonth_day(ele){
+        var val = ele.val();
+        var day=ele.closest(".learn-content").find(".day");
+        var weeklyType=ele.closest(".learn-content").find(".weeklyType");
+        if (val == "毎週") { weeklyType.show(); day.hide(); }
+        else if (val == "毎月") {
+          weeklyType.hide(); day.show();
+        }
+      }
+
+      function get_all_learn() {
+        var ele = $(".learn-content");
+        var ary = [];
+        let i = 0;
+        let day = '';
+        ele.each(function () {
+          i++;
+          var obj = {
+            challengeKind: i % 2 === 0 ? "問ためる" : "問まなぶ",
+            dayType: $(this).find("select").eq(0).val(),
+            startDay: '',
+            companyPosition: parseInt($(this).children().attr("data-position")),
+            count: parseInt($(this).find("select").eq(3).val()),
+          }
+          if ($(this).find("select").eq(1).css("display") == "block" ||
+            $(this).find("select").eq(1).css("display") == "inline-block") {
+            day = $(this).find("select").eq(1).val();
+          }
+          else {
+            day = $(this).find("select").eq(2).val()
+          }
+          obj.startDay = day;
+          ary.push(obj);
+        })
+        return ary;
+      }
+      $(".submit-btn").on("click",function(e){
+        e.preventDefault();
+        callfunctions();
+      })
+      function callfunctions() {
+
+        var data = get_all_learn();
+        var learn_data = JSON.stringify({"userId":'',"learn_setting":data});
+
+        var xhr = new XMLHttpRequest();
+        var url = "/settings/learn";
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+          if (this.readyState === 4 && this.status === 200) {
+            var json = JSON.parse(this.responseText);
+            if(json['result'] == "ok"){
+              status_show('ok');
+              //  window.location.href = "/settings/learn?status=ok";
+            }
+            if(json['result'] == "ng"){
+              status_show('failed');
+              //  window.location.href = "/settings/learn?status=failed";
+            }
+          }
+        };
+        xhr.send(learn_data);
+      }
+      $(document).ready(function () {
+        $("#close_redirect").on("click",function(){
+          window.location.href='/settings/learn';
+        })
+      });
+      function status_show(status) {
+      if (status == "ok") {
+        $("body").append("<div class='status-container success'><p class='px-2'>内容を保存しました</p></div>");
+
+      }
+      else {
+        $("body").append("<div class='status-container fail'><p class='px-2'>内容の保存に失敗しました</p></div>");
+      }
+      setTimeout(() => {
+        $(".status-container").remove();
+      }, 3000)
+      $(".status-container").css({
+        position: "fixed",
+        top: "80px",
+        width: $(".kb-container").outerWidth(),
+        marginLeft: $(".kb-container").css("margin-left"),
+        zIndex: 2,
+        left: '0'
+      })
+      $(".status-container.success").css({
+        background: "#4caf50"
+      })
+      $(".status-container.fail").css({
+        background: "#fef3f2"
+      })
+    }
+    </script>
+</body>
+{% include './ver2.1/partials/footer.html' %}
+</html>

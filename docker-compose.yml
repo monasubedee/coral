@@ -1,0 +1,38 @@
+version: "2"
+services:
+  coral_container:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - KNOWLEDGE_BANK_API_HOST=http://172.25.113.1:81
+      - CORAL_HOST=0.0.0.0
+      - CORAL_PORT=5000
+    command: bash -c "cd bin && python app.py"
+    volumes:
+      - ./bin:/coral/bin:consistent
+    networks:
+      mynet:
+        ipv4_address: 172.25.114.2
+        aliases:
+          - coral_container-app
+
+  nginx:
+    ports:
+      - "80:80"
+    container_name: coral_nginx_server
+    depends_on:
+      - coral_container
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    image: nginx
+    networks:
+      mynet:
+        ipv4_address: 172.25.114.3
+
+networks:
+  mynet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.114.0/24

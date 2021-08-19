@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KnowledgeBank</title>
+    <link rel='icon' href='/static/ver2.1/img/logo@3x.png' />
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css' />
+    <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+    {% include './ver2.1/partials/ga_tag.html' %}
+</head>
+{% include './ver2.1/partials/header.html' %}
+{% include './ver2.1/partials/sidebar.html' %}
+<style>
+    .display-none {
+        display: none !important;
+    }
+
+    .tameru-tabs-list span {
+        padding: 5px;
+        background: #ccc;
+        margin: 0px 10px 10px 0px;
+        display: inline-block;
+        border-radius: .25rem;
+    }
+
+    .tameru-tabs-list span>label {
+        display: inline-block;
+        margin-right: 5px;
+    }
+
+    .tameru-tabs-list i {
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        font-size: 1rem;
+        text-align: center;
+        display: inline-block;
+        font-style: normal;
+        cursor: pointer;
+        background: rgba(0, 0, 0, 0.12);
+    }
+
+    .tameru-tabs-list i:hover {
+        color: red;
+
+    }
+</style>
+
+<body>
+    <div>
+        <div class='kb-container kb-tameru-container'>
+            <div class='text-center tameru-create-header'>
+                <h3>ためる</h3>
+                <img src='/static/ver2.1/img/1092@3x.png' alt='' class='kb-tameru-logo my-4' />
+            </div>
+            <div class='g g-3-1'>
+                <div>
+                    <div class='kb-panel'>
+                        <div class='kb-panel-title p-3'>
+                            <p class='m-0'>課題</p>
+                        </div>
+                        <div class='kb-panel-body tameru-form px-3'>
+                            <div class='flex flex-s my-4 input-required'>
+                                <div>
+                                    <p>課題内容</p>
+                                </div>
+                                <div class="question-upload">
+                                    <div class="questionText-wrap">
+                                        <div class="questionText-textarea-wrap">
+                                            <textarea class='kb-textarea-md form-data problemStatement'
+                                                data-prop='questionText' placeholder='課題内容を入力してください'></textarea>
+                                            <i class="far fa-image" title="登録できる画像は1つのみです。"></i>
+                                            <input type='file' hidden accept='image/*' />
+                                        </div>
+                                    </div>
+                                    <div class="question-upload-preview flex flex-s">
+                                    </div>
+                                    <div class="text-right"><small class="text-muted">登録できる画像は1つのみです。</small></div>
+                                </div>
+                            </div>
+                            <div class='flex flex-s  my-4 input-required'>
+                                <div>
+                                    <p class='m-0'>回答</p>
+                                </div>
+                                <div>
+                                    <select class='md form-data question-type-select' data-prop='questionType'>
+                                        <option value='1' selected>択一式</option>
+                                        <option value="2">正しいものをすべて選ぶ</option>
+                                        <option value="3">○ × 式</option>
+                                    </select>
+                                    <div class='question-type-media'>
+
+                                    </div>
+                                    <div class="mt-4">
+                                        <button class='btn-tran add-question-type-media'><i
+                                                class='fas fa-plus mr-2'></i>回答を追加</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='kb-panel my-4'>
+                        <div class='kb-panel-title p-3'>
+                            <p class='m-0'>解説</p>
+                        </div>
+                        <div class='kb-panel-body tameru-form description-text px-3 input-required'>
+                            <div class='flex flex-s my-4'>
+                                <div>
+                                    <p class='m-2'>解説</p>
+                                </div>
+                                <div class="descriptionText-wrap">
+                                    <textarea class="form-data descriptionText cmt_msg" data-prop='descriptionText'
+                                        placeholder="解説を入力してください"></textarea>
+                                    <textarea hidden class='cmt_msg_hidden' id='hidden_text_data' hidden
+                                        name='comment_msg_hidden' placeholder="解説を入力してください"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='kb-panel my-4'>
+                        <div class='kb-panel-title p-3'>
+                            <p class='m-0'>タグの追加</p>
+                        </div>
+
+                        <div class='kb-panel-body tameru-form assignment-settings px-3'>
+                            <div class='flex flex-s my-4 input-required'>
+                                <div class="tags_heading">
+                                    <p class='m-2'>役職タグの追加</p>
+                                </div>
+                                <div>
+                                    <div class="tameru-tabs-list">
+
+                                    </div>
+
+                                    <select class='md form-data' data-prop='companypositionId'>
+                                        {% for optionitem in position %}
+                                        <option value='{{optionitem.name}}' data-value={{optionitem.id}} selected>
+                                            {{optionitem.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <button class='btn-tran ml-3 add-tabs-list'>
+                                        <i class='fas fa-plus mr-2'></i>
+                                        追加
+                                    </button>
+                                    <p class="m-0 color-red error-txt"><small></small></p>
+                                </div>
+                            </div>
+                            <div class='flex flex-s my-4 input-required'>
+                                <div class="tags_heading">
+                                    <p class='m-2'>チームタグの追加</p>
+                                </div>
+                                <div>
+                                    <div class='tameru-tabs-list'>
+
+                                    </div>
+                                    <select class='md form-data' data-prop='companyteamId'>
+                                        {% for optionitem in team %}
+                                        <option value='{{optionitem.name}}' data-value={{optionitem.id}} selected>
+                                            {{optionitem.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <button class='btn-tran ml-3 add-tabs-list'>
+                                        <i class='fas fa-plus mr-2'></i>
+                                        追加
+                                    </button>
+                                    <p class="m-0 color-red error-txt"><small></small></p>
+                                </div>
+                            </div>
+                            <div class='flex flex-s my-4 input-required'>
+                                <div class="tags_heading">
+                                    <p class='m-2'>カテゴリタグの追加</p>
+                                </div>
+                                <div class="tameru-about">
+                                    <div class="topic--wrap">
+                                        <div class='tameru-tabs-list'>
+
+                                        </div>
+                                        <div class='flex flex-s flex-item-center'>
+                                            <input type='text' class='kb-input kb-input-md form-data' data-prop='topic'
+                                                placeholder='入力してください' id="topic" />
+                                            <button class='btn-tran ml-3 input-add-tabs-list topic--btn'>
+                                                <i class='fas fa-plus mr-2'></i>
+                                                追加
+                                            </button>
+                                        </div>
+                                        <p class="m-0 color-red error-txt"><small></small></p>
+                                    </div>
+                                    <!-- <div class="mt-2">
+                                        <small class="tameru-often-heading text-muted">よく使われているタグ：</small>
+                                        <div class='flex flex-s tameru-often-tabs mt-1'>
+                                            <span class=" tameru-often-tabs-item">タグ1</span>
+                                            <span class="tameru-often-tabs-item">タグ2</span>
+                                            <span class="tameru-often-tabs-item">タグ3</span>
+                                        </div>
+                                    </div> -->
+                                </div>
+                            </div>
+                            <div><small class="text-muted">追加ボタンを押すことでタグの追加ができます。</small></div>
+                        </div>
+                    </div>
+                    <div class='kb-panel my-4 comment-container'>
+                        <div class='kb-panel-title p-3'>
+                            <p class='m-0'>この課題につけられたコメント</p>
+                        </div>
+                        <div class='kb-panel-body tameru-form comment-panel description-text px-3'>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="tameru-create-area-wrap">
+                    <div class=" tameru-create-area">
+                        <div class='kb-panel'>
+                            <div class='kb-panel-title p-3'>
+                                <p class='m-0'>公開設定</p>
+                            </div>
+                            <div class='kb-panel-body text-center px-3'>
+                                <select class='full form-data flag-status' data-prop='draftFlag'>
+                                    <option value="1">下書き</option>
+                                    <option value="0">公開</option>
+                                </select>
+                                <a class='submit-btn mt-4 add-tameru-create-btn'>入力内容を保存する</a>
+                                <a href='' class="display-none color-blue">プレビュー</a>
+                            </div>
+                        </div><a class="btn-tran mt-4 tameru-delete-btn"><i
+                                class="fas fa-trash remove-question-type mr-2"></i>この課題を削除する</a>
+                        <a href="/question/" class="btn-tran mt-3 tameru-cancel-btn">編集をキャンセルする</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src='/static/ver2.1/js/varidate.js'></script>
+    <script src='/static/ver2.1/js/script.js'></script>
+    <script>
+        $(document).ready(function () {
+            $(".input-required").each(function () {
+                console.log("m being called");
+                $(this).closest('.input-required').children("div").eq(0).find("p").addClass("required");
+            });
+
+            addDefault();
+
+            var yesNo = function (load) {
+                $(".question-type-media").empty();
+                $(".question-type-media").append(`
+                    <div class="question-type-media-thumb-wrap">
+                        <div class='flex flex-sb flex-item-center mt-4 question-type-media-thumb'>
+                            <div class='flex flex-sb flex-item-center'>
+                                <div>
+                                    <input type="text" disabled="disabled" class='kb-input kb-input-md form-data-ans' data-prop='label' value="Yes" style='display:none'><img src="/static/ver2.1/img/circle.svg" alt="○" style='height:2rem'>
+                                </div>
+                                <div class='px-3'>
+                                    <label class="switch">
+                                        <input type="checkbox" class="form-data-ans"  data-prop='correctFlag' id="togBtn" />
+                                        <div class="slider round"> </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="question-type-media-thumb-wrap">
+                        <div class='flex flex-sb flex-item-center mt-4 question-type-media-thumb'>
+                            <div class='flex flex-sb flex-item-center'>
+                                <div>
+                                    <input type="text" disabled="disabled" class='kb-input kb-input-md form-data-ans' data-prop='label' value="No" style='display:none'><i class='fas fa-times' style='color:#d95243;font-size:2.3rem;margin:0 0.1em;'></i>
+                                </div>
+                                <div class='px-3'>
+                                    <label class="switch">
+                                        <input type="checkbox" class="form-data-ans"  data-prop='correctFlag' id="togBtn" />
+                                        <div class="slider round"> </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `);
+                if (load !== true) {
+                    $(".question-type-media>div:first-child").find(".switch input").click();
+                }
+            }
+
+            $(".question-type-select").on("change", function () {
+                $(".question-type-media").empty();
+                if (parseInt($(".question-type-select").val()) > 2) {
+
+                    yesNo();
+                }
+                else {
+                    addDefault();
+                }
+            })
+
+            function addDefault() {
+                for (var i = 0; i <= 3; i++) {
+                    $(".question-type-media").append(`
+                                <div class='question-type-media-thumb-wrap'>
+                                    <div class='flex flex-sb flex-item-center mt-4 question-type-media-thumb'>
+                                        <div class='flex flex-s'>
+                                            <div class='question-type-thumb-filed'>
+                                                <input type='text' class='kb-input kb-input-md form-data-ans' data-prop='label' placeholder='書き込んでください' />
+                                            </div>
+                                        </div>
+                                        <div class='flex flex-sb flex-item-center'>
+                                            <div class='px-3'>
+                                                <label class="switch">
+                                                    <input type="checkbox" class="form-data-ans"  data-prop='correctFlag' id="togBtn" />
+                                                    <div class="slider round"> </div>
+                                                </label>
+                                            </div>
+                                            <div class='px-3 text-muted'>
+                                                <i class='fas fa-trash remove-question-type'></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `);
+                }
+                $(".add-question-type-media").hide();
+                $(".question-type-media>div:first-child").find(".switch input").click();
+            }
+            $(".add-tabs-list").on("click", function () {
+                if ($(this).prev("select").val() != null) {
+                    var id = $(this).prev("select")[0].selectedIndex;
+                    console.log("selected id is", id);
+                    var value = $(this).prev("select").find("option:selected").attr("data-value");
+                    console.log("selected tag is", value);
+                    $(this).parent().find(".tameru-tabs-list").append(`<span class='closeable mb-2' data-value='${value}' data-index=${id}>${$(this).prev("select").val()}<i class='close'>x</i></span>`);
+                    $(this).prev("select").find("option:selected").prop("disabled", true);
+                }
+            })
+            $(".input-add-tabs-list").on("click", function () {
+                if (!$(this).hasClass('disabled')) {
+                    var value = $(this).prev("input").val();
+                    console.log('value is', value);
+                    if (value.trim() != "") {
+                        let dataValue = JSON.stringify(value);
+                        $(this).parent().prev(".tameru-tabs-list").append(`<span class='closeable input-closeable mb-2' data-value='${dataValue}'><label>${$(this).prev("input").val()}</label><i class='close'>x</i></span>`);
+                        $(this).prev("input").val("")
+                    }
+                }
+            })
+            $(".tameru-often-tabs-item").on("click", function () {
+                var value = $(this).text();
+                if (value.trim() != "") {
+                    let dataValue = JSON.stringify(value);
+                    $(this).parents('.tameru-about').find(".tameru-tabs-list").append(`<span class='closeable input-closeable mb-2' data-value='${dataValue}'><label>${value}</label><i class='close'>x</i></span>`);
+                    // $(this).hide();
+                }
+            })
+            $(document).on("click", ".closeable.input-closeable", function () {
+                $(this).remove();
+            })
+            $(document).on("click", ".closeable", function () {
+                var index = parseInt($(this).attr("data-index"));
+                $(this).closest(".tameru-tabs-list").next("select").find("option").eq(index).attr("disabled", false);
+                $(this).remove();
+            })
+            $(".add-question-type-media").on("click", function () {
+                if ($(".question-type-media>div").length < 4) {
+                    $(".question-type-media").append(`
+                                <div class='question-type-media-thumb-wrap'>
+                                    <div class='flex flex-sb flex-item-center mt-4 question-type-media-thumb'>
+                                        <div class='flex flex-s'>
+                                            <div class='question-type-thumb-filed'>
+                                                <input type='text' class='kb-input kb-input-md form-data-ans' data-prop='label' placeholder='書き込んでください' />
+                                            </div>
+                                        </div>
+                                        <div class='flex flex-sb flex-item-center'>
+                                            <div class='px-3'>
+                                            <label class="switch">
+                                                <input type="checkbox" class="form-data-ans" data-prop='correctFlag' id="togBtn" />
+                                                <div class="slider round"> </div>
+                                            </label>
+                                            </div>
+                                            <div class='px-3 text-muted'>
+                                                <i class='fas fa-trash remove-question-type'></i>
+                                            </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+                    `);
+                }
+                if ($(".question-type-media>div").length >= 4) {
+                    $(this).hide();
+                }
+            }).on("mouseenter", function () {
+                if ($(".question-type-media>div").length == 4) {
+                    $(this).css({
+                        "cursor": "not-allowed"
+                    })
+                }
+                else {
+                    $(this).css({
+                        "cursor": "pointer"
+                    })
+                }
+            })
+            $(document).on("click", ".switch input", function () {
+                if (parseInt($(".question-type-select").val()) == 1 || parseInt($(".question-type-select").val()) == 3) {
+                    $(".switch .form-data-ans").prop("checked", false);
+                    $(this).prop("checked", true);
+                }
+                else if (parseInt($(".question-type-select").val()) == 2) {
+                    if ($(".switch .form-data-ans:checked").length == 0) {
+                        var totallength = $(".question-type-media>div").length;
+                        var index = $(".question-type-media>div").index($(this).closest(".question-type-media-thumb"))
+                        if (index == 0) {
+                            $(this).closest(".question-type-media-thumb").next().find(".switch input").click()
+                        }
+                        else if (index == totallength - 1) {
+                            $(this).closest(".question-type-media-thumb").prev().find(".switch input").click()
+                        }
+                        else {
+                            $(this).closest(".question-type-media-thumb").prev().find(".switch input").click()
+                        }
+                    }
+                }
+            })
+
+            $(document).on("click", ".remove-question-type", function () {
+                if ($(this).closest(".question-type-media").find(".question-type-media-thumb-wrap").length > 2) {
+                    $(this).closest(".question-type-media-thumb-wrap").remove();
+                }
+                if ($(".switch input:checked").length == 0) {
+                    $(".question-type-media>div:first-child").find(".switch input").click();
+                }
+                if ($(".question-type-media>div").length <= 4) {
+                    $(".add-question-type-media").show();
+                }
+            })
+            $(".question-upload .fa-image").on("click", function () {
+                $(".question-upload input[type=file]").click();
+
+            })
+            $(".question-upload input[type=file]").on("change", function (e) {
+                $(".question-upload-preview").empty();
+                var file = e.target.files[0];
+                console.log('file is', file);
+                var fr = new FileReader();
+                fr.onload = function (e) {
+                    $(".question-upload-preview").append(`
+                        <div>
+                        <img src=${e.target.result} alt=''/>
+                        <button><i class="fas fa-times"></i></button>
+                        </div>
+                    `)
+                }
+                fr.readAsDataURL(file)
+            })
+            $(document).on("click", ".question-upload-preview button", function () {
+                $(".question-upload-preview").empty();
+            })
+            let url = getUrl();
+
+            let global_data = '';
+            if (url == "edit") {
+                let qid = JSON.parse(localStorage.getItem("tameru_edit"));
+                $.ajax({
+                    method: "POST",
+                    url: '/question/tameruByQuestionId',
+                    headers: { "Content-Type": "application/json" },
+                    data: JSON.stringify({
+                        "questionId": qid
+                    }),
+                    success: function (result) {
+                        console.log('result is', result);
+                        global_data = result.data[0];
+                        let data = global_data;
+                        getComment();
+                        if (data.draftFlag == '公開済み') {
+                            $(".flag-status option").eq(1).prop("selected", true);
+                        }
+                        else {
+                            $(".flag-status option").eq(0).prop("selected", true);
+                        }
+                        $(".problemStatement").val(data.problemStatement);
+                        $(".descriptionText").val(data.descriptionText);
+                        if (data.questionPicture != 0) {
+                            $(".question-upload-preview").append(`
+                        <div>
+                        <img src=${data.questionPicture} alt=''/>
+                        <button><i class="fas fa-times"></i></button>
+                        </div>
+                    `)
+                        }
+                        if (data.taglist.length > 0) {
+                            data.taglist.map(item => {
+                                $("input[data-prop=topic]").parent().prev().append(`
+                            <span class='closeable input-closeable mb-2' data-value='${item}'><label>${item}</label><i class='close'>x</i></span>
+                          `);
+                            })
+                        }
+                        if (data.team.length > 0) {
+                            data.team.map(item => {
+                                $("select[data-prop=companyteamId]").prev().append(`
+                        <span class="closeable mb-2" data-value=${item.id} data-index=${item.id - 1}>${item.name}<i class="close">x</i></span>
+                        `)
+                                $("select[data-prop=companyteamId]").find(`option[data-value='${item.id}']`).prop("disabled", true);
+                            })
+                        }
+                        if (data.position.length > 0) {
+                            data.position.map(item => {
+                                $("select[data-prop=companypositionId]").prev().append(`
+                        <span class="closeable mb-2" data-value=${item.id} data-index=${item.id - 1}>${item.name}<i class="close">x</i></span>
+                        `)
+                                $("select[data-prop=companypositionId]").find(`option[data-value=${item.id}]`).prop("disabled", true);
+                            })
+                        }
+                        $(`select[data-prop=questionType] option[value=${data.questionType}]`).prop("selected", true);
+                        //   if(data.questionType==3){
+                        //     $(".add-question-type-media").hide();
+                        //   }
+                        $(".question-type-media").empty();
+                        data.answers.map((item, index) => {
+                            if (data.questionType == 3) {
+                                if (index == 0) {
+                                    yesNo(true);
+                                }
+                            } else {
+                                $(".question-type-media").append(`
+                                <div class="question-type-media-thumb-wrap">
+                                    <div class='flex flex-sb flex-item-center mt-4 question-type-media-thumb'>
+                                        <div class='flex flex-s'>
+                                            <div class='question-type-thumb-filed'>
+                                                <input type="text" class='kb-input kb-input-md form-data-ans' data-prop='label' placeholder='書き込んでください'>
+                                            </div>
+                                        </div>
+                                        <div class='flex flex-sb flex-item-center'>
+                                            <div class='px-3'>
+                                            <label class="switch">
+                                                <input type="checkbox" class="form-data-ans" data-prop='correctFlag' id="togBtn" />
+                                                <div class="slider round"> </div>
+                                            </label>
+                                            </div>
+                                            <div class='px-3 text-muted'>
+                                                <i class='fas fa-trash remove-question-type'></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `);
+                            }
+                            $('input.form-data-ans').each(function () {
+                                var lineHeight = parseInt($(this).css('lineHeight'));
+                                var lines = ($(this).val() + '\n').match(/\n/g).length;
+                                $(this).height(lineHeight * lines);
+                            })
+                            $(".question-type-media>div").eq(index).find("input[data-prop=label]").val(item.label);
+                            if (item.correctFlag.toLowercase == "true" || item.correctFlag == true || item.correctFlag == "True")
+                                $(".question-type-media>div").eq(index).find(".switch .form-data-ans").prop("checked", true);
+
+                            if ($(".question-type-media>div").length < 4) {
+                                $(".add-question-type-media").show();
+                            } else {
+                                $(".add-question-type-media").hide();
+                            }
+                            if (data.questionType == 3) {
+                                $(".add-question-type-media").hide();
+                            }
+                        })
+                    }
+                })
+
+
+            }
+            else {
+                $(".comment-container").remove();
+                $('.tameru-delete-btn').hide();
+            }
+            $(document).on("click", ".tameru_delete--confirm", function () {
+                let data = global_data.questionId;
+                $.ajax({
+                    type: 'POST',
+                    url: '/question/delete',
+                    headers: { "Content-Type": "application/json" },
+                    data: JSON.stringify(data),
+                    success: function (result) {
+                        $("#attention").hide();
+                        if (result["result"] == "ok") {
+                            status_show('ok');
+                            setTimeout(() => {
+                                window.location.href = "/question";
+                            }, 2000)
+                        }
+                        if (result["result"] == "ng") {
+                            status_show('failed');
+                            window.location.href = "/question";
+                        }
+                    }
+                });
+            })
+
+            function getComment() {
+                $.ajax({
+                    type: 'GET',
+                    url: `/question/getCommentData?questionId=${global_data.questionId}`,
+                    success: function (result) {
+                        let data = result.data;
+                        if (data.length === 0) {
+                            $(".comment-panel").append(`
+                                <div class='flex flex-c my-4'>
+                                    <p>表示するコメントがありません.</p>
+                                </div>
+                                `);
+                        }
+                        data.map(item => {
+                            console.log("comment item is", item);
+                            if (item.deleteFlag === 0) {
+                                $(".comment-panel").append(`
+                                <div class='flex flex-s my-4'>
+                                    <div>
+                                        <p class='my-2'><small class="text-muted">${item.date}</small></p>
+                                        <p class='my-2'>${item.userName}</p>
+                                    </div>
+                                    <div>
+                                        <p class='my-2'>${item.commentText}</p>
+                                    </div>
+                                </div>
+                                `);
+                            }
+                            else {
+                                $(".comment-panel").append(`
+                                <div class='flex flex-s my-4'>
+                                    <div>
+                                        <p class='my-2'><small class="text-muted">${item.date}</small></p>
+                                        <p class='my-2'>${item.userName}</p>
+                                    </div>
+                                    <div>
+                                        <p class='my-2 text-muted'>${item.commentText}</p>
+                                    </div>
+                                </div>
+                                `)
+                            }
+                        })
+                    }
+                });
+            }
+            $(document).on("click", ".tameru_delete--cancel", function () {
+                $("#attention").hide();
+            })
+
+            function getUrl() {
+                let hash = window.location.href.split("/");
+                let url = hash[hash.length - 1];
+                return url;
+            }
+
+            function error() {
+                $(".kb-tameru-container").append("<div class='status-container error'><p class='px-2'>入力内容に不備があります</p></div>");
+                $(".status-container").css({
+                    position: "fixed",
+                    top: "80px",
+                    width: $(".kb-container").outerWidth(),
+                    marginLeft: $(".kb-container").css("margin-left"),
+                    zIndex: 2,
+                    left: '0'
+                })
+                $(".status-container.error").css({
+                    background: "#d95243",
+                    color: "#fff"
+                })
+            }
+
+            $('#topic').on("keyup keypress keydown", function () {
+                var topicVari = input_varidate('#topic', {
+                    maxLength: 100,
+                    message: 'カテゴリタグ'
+                });
+
+                if (topicVari !== true) {
+                    $('.topic--btn').addClass('disabled');
+                    input_errorElement('#topic', topicVari, '.topic--wrap');
+                } else {
+                    $('.topic--btn').removeClass('disabled');
+                    input_errorElement('#topic', '', '.topic--wrap');
+                }
+            });
+
+
+            $(".tameru-delete-btn").on("click", function () {
+                $("#attention").show();
+            });
+
+            $(".add-tameru-create-btn").on("click", function () {
+                document.getElementById("hidden_text_data").value = $(".cmt_msg").val().replace(/\n/g, "<br>");
+                $(".status-container").remove();
+                var draftFlag = '下書き';
+                if ($('[data-prop="draftFlag"]').val() == 0) {
+                    draftFlag = '公開';
+                };
+
+                var error_obj = {
+                    questionText: false,
+                    questionType: true,
+                    companypositionId: false,
+                    companyteamId: false,
+                    descriptionText: false,
+                    topic: false,
+                    ans_len: true,
+                }
+                var obj = {
+                    questionText: '',
+                    questionType: '',
+                    answers: [],
+                    companypositionId: [],
+                    descriptionText: '',
+                    companyteamId: [],
+                    topic: [],
+                    questionPicture: $(".question-upload-preview img").attr("src") == undefined ? 0 : $(".question-upload-preview img").attr("src")
+                }
+                // var descriptionText=$(".description-text textarea").val();
+                // if(descriptionText.trim()==""){
+                //     $(".description-text textarea").css({
+                //         border: '1px solid red'
+                //     })
+                //     $(".description-text textarea").addClass("error-field").attr("placeholder",'入力されていません');
+                //     error();
+                //     error_obj.descriptionText = false;
+                //     $('.description-text textarea').closest('.input-required').children("div").eq(0).find("p").addClass("required");
+                // }
+                // else{
+                //     $(".description-text textarea").removeClass("error-field").attr("placeholder",'解説を入力してください');
+                //     $(".description-text textarea").css({
+                //         border: '1px solid #c9cad0'
+
+                //     });
+                //     error_obj.descriptionText = true;
+                //     obj.descriptionText=descriptionText;
+                // }
+                // var questionText = $(".question-upload textarea").val();
+                // if (questionText.trim() == "") {
+                //     $(".question-upload textarea").css({
+                //         border: '1px solid red'
+                //     })
+                //     $(".question-upload textarea").addClass("error-field").attr("placeholder",'入力されていません');
+                //     error_obj.questionText = false;
+                //     $(".question-upload textarea").closest('.input-required').children("div").eq(0).find("p").addClass("required");
+                //     error();
+
+                // }
+                // else {
+                //     $(".question-upload textarea").removeClass("error-field").attr("placeholder",'課題内容を入力してください');
+                //     $(".question-upload textarea").css({
+                //         border: '1px solid #c9cad0'
+                //     });
+                //     error_obj.questionText = true;
+                //     obj.questionText=questionText;
+                // }
+
+                if (draftFlag == '公開') {
+                    var questionTextVari = input_varidate('.question-upload textarea', {
+                        required: true,
+                        maxLength: 1000,
+                        message: '課題内容'
+                    });
+                } else {
+                    var questionTextVari = input_varidate('.question-upload textarea', {
+                        maxLength: 1000,
+                        message: '課題内容'
+                    });
+                }
+                if (questionTextVari !== true) {
+                    input_errorElement('.question-upload textarea', questionTextVari, '.questionText-wrap');
+                    error_obj.questionText = false;
+                } else {
+                    input_errorElement('.question-upload textarea', '', '.questionText-wrap');
+                    error_obj.questionText = true;
+                    var questionText = $(".question-upload textarea").val();
+                    obj.questionText = questionText;
+
+                }
+
+                var questionType = $(".question-type-select").val();
+                console.log("question type is", questionType);
+                if (parseInt(questionType) == 1) {
+                    if ($(".question-type-media>div").length > 1) {
+                        if ($(".switch input:checked").length > 0) {
+                            error_obj.questionType = true;
+                            $(".question-type-select").css({
+                                border: '1px solid #c9cad0'
+                            });
+                        }
+                        else {
+                            if (draftFlag == '公開') {
+                                error_obj.questionType = false;
+                                $(".question-type-select").css({
+                                    border: '1px solid red'
+                                });
+                                $(".question-type-select").closest('.input-required').children("div").eq(0).find("p").addClass("required");
+                            }
+                        }
+                    }
+                    else {
+                        if (draftFlag == '公開') {
+                            error_obj.questionType = false;
+                            $(".question-type-select").css({
+                                border: '1px solid red'
+                            });
+                            $(".question-type-select").closest('.input-required').children("div").eq(0).find("p").addClass("required");
+                        }
+
+                    }
+                }
+                else if (parseInt(questionType) == 2) {
+                    if ($(".question-type-media>div").length > 1) {
+                        if ($(".switch input:checked").length > 0) {
+                            error_obj.questionType = true;
+                            $(".question-type-select").css({
+                                border: '1px solid #c9cad0'
+                            });
+                        }
+                        else {
+                            if (draftFlag == '公開') {
+                                error_obj.questionType = false;
+                                $(".question-type-select").css({
+                                    border: '1px solid red'
+                                });
+                            }
+                        }
+                        $(".question-type-select").closest('.input-required').children("div").eq(0).find("p").addClass("required");
+
+                    }
+                    else {
+                        if (draftFlag == '公開') {
+                            error_obj.questionType = false;
+                            $(".question-type-select").css({
+                                border: '1px solid red'
+                            });
+                            $(".question-type-select").closest('.input-required').children("div").eq(0).find("p").addClass("required");
+                        }
+
+                    }
+                }
+                else {
+                    if ($(".switch input:checked").length > 0) {
+                        error_obj.questionType = true;
+                        $(".question-type-select").css({
+                            border: '1px solid #c9cad0'
+                        });
+                    }
+                    else {
+                        if (draftFlag == '公開') {
+                            error_obj.questionType = false;
+                            $(".question-type-select").css({
+                                border: '1px solid red'
+                            });
+                            $(".question-type-select").closest('.input-required').children("div").eq(0).find("p").addClass("required");
+                        }
+
+                    }
+
+                }
+
+                let ans_field = $(".question-type-media").find("input[type=text]");
+
+                for (var i = 0; i < ans_field.length; i++) {
+                    ans_field.eq(i).parents('.question-type-media-thumb').next().remove();
+                    if (ans_field.eq(i).val() == "" && draftFlag == '公開') {
+                        ans_field.eq(i).css({
+                            border: '1px solid red'
+                        })
+                        input_errorMessage(ans_field.eq(i), '回答が入力されていません');
+                        $(".question-type-media").closest('.input-required').children("div").eq(0).find("p").addClass("required");
+                        // error();
+
+                        if (draftFlag == '公開') {
+                            error_obj.ans_len = false;
+                        }
+                    }
+                    else {
+                        if (ans_field.eq(i).val().length >= 100 && draftFlag == '公開') {
+                            ans_field.eq(i).css({
+                                border: '1px solid red'
+                            })
+                            ans_field.eq(i).addClass('question-type-media-num' + i).parents('.question-type-media-thumb-wrap').addClass('question-type-media-thumb-num' + i);
+                            input_errorElement('.question-type-media-num' + i, '上限の100文字を超えています', '.question-type-media-thumb-num' + i);
+                            $(".question-type-media").closest('.input-required').children("div").eq(0).find("p").addClass("required");
+                            // error();
+                            error_obj.ans_len = false;
+                        }
+                        else {
+                            ans_field.eq(i).css({
+                                border: '1px solid #c9cad0'
+                            })
+                            ans_field.eq(i).removeClass("error-field");
+                        }
+                    }
+                }
+
+                if (draftFlag == '公開') {
+                    var descriptionTextVari = input_varidate('.description-text textarea', {
+                        required: true,
+                        maxLength: 2000,
+                        message: '解説'
+                    });
+                } else {
+                    var descriptionTextVari = input_varidate('.description-text textarea', {
+                        maxLength: 2000,
+                        message: '解説'
+                    });
+                }
+                if (descriptionTextVari !== true) {
+                    input_errorElement('.descriptionText', descriptionTextVari, '.descriptionText-wrap');
+                    error_obj.descriptionText = false;
+                } else {
+                    input_errorElement('.descriptionText', '', '.descriptionText-wrap');
+                    error_obj.descriptionText = true;
+
+                    var descriptionText = $(".descriptionText").val();
+                    obj.descriptionText = descriptionText;
+                }
+
+                if (error_obj.questionType == true) {
+                    obj.questionType = questionType;
+                    $(".question-type-media>div").each(function () {
+                        obj.answers.push({
+                            label: $(this).find("input[type=text]").val(),
+                            correctFlag: $(this).find(".switch input").prop("checked")
+                        })
+                        if (!$(this).find("input[type=text]").val()) {
+                            // error_obj.ans_len = false;
+                        }
+                    })
+                }
+                var companypositionId = $(".assignment-settings>div");
+
+
+                companypositionId.each(function () {
+                    $(this).find(".error-txt>small").text('');
+
+                    if ($(this).find(".tameru-tabs-list>span").length == 0 && draftFlag == '公開') {
+                        $(this).find(".form-data").css({
+                            border: '1px solid red'
+                        })
+                        error_obj[$(this).find(".form-data").attr("data-prop")] = false;
+                        $(this).find(".error-txt>small").text(`${$(this).find("div:first-child>p").text().split('の追加')[0]} が選択されていません`);
+                        $(this).closest('.input-required').children("div").eq(0).find("p").addClass("required");
+                    }
+                    else {
+                        $(this).find(".form-data").css({
+                            border: '1px solid #c9cad0'
+                        })
+                        var obj_name = $(this).find(".form-data").attr("data-prop");
+                        $(this).find(".tameru-tabs-list>span").each(function () {
+                            let defaultValue = ''
+                            if ($(this).hasClass("input-closeable")) {
+                                defaultValue = $(this).find("label").text();
+                            }
+                            else {
+                                defaultValue = $(this).attr("data-value");
+                            }
+                            obj[obj_name].push(defaultValue);
+                        })
+                        console.log("comapny", obj.companypositionId)
+                        error_obj[$(this).find(".form-data").attr("data-prop")] = true;
+                        $(this).find(".error-txt>small").text("");
+                    }
+                })
+
+
+                if (draftFlag == '下書き') {
+                    error_obj.questionType = true;
+                    error_obj.companypositionId = true;
+                    error_obj.companyteamId = true;
+                    error_obj.topic = true;
+                    error_obj.ans_len = true;
+                }
+
+                if (error_obj.questionText == true && error_obj.questionType == true && error_obj.companypositionId == true &&
+                    error_obj.companyteamId == true && error_obj.descriptionText == true && error_obj.topic == true && error_obj.ans_len == true) {
+                    obj.companypositionId = obj.companypositionId.join(",");
+
+                    obj.companyteamId = obj.companyteamId.join(",");
+                    //obj.questionPictureId= 0;
+                    obj.topic = JSON.stringify(obj.topic);
+                    obj.draftFlag = $(".flag-status").val();
+                    console.log("data is", obj)
+                    let hash = window.location.href.split("/");
+                    let url = hash[hash.length - 1];
+                    let api_url;
+                    if (url == "edit") {
+                        api_url = '/question/edit';
+                        obj.questionId = global_data.questionId;
+                        obj.tsCreate = global_data.tsCreate;
+
+                    }
+                    else {
+                        api_url = '/question/create';
+                    }
+                    //     $.ajax({
+                    //       method:"POST",
+                    //       url:api_url,
+                    //       headers:{"Content-Type":"application/json"},
+                    //       data:JSON.stringify(obj),
+                    //       success:function(data){
+                    //           var data=JSON.parse(data);
+
+                    //           if(data["result"]=="ok")
+                    //           {
+                    //             status_show("ok");
+                    //           }
+                    //           if(data["result"]!="ok")
+                    //           {
+                    //             status_show("failed")
+                    //           }
+                    //       }
+                    //     })
+                    // }else{
+                    //     error();
+                }
+            })
+
+            function status_show(status) {
+                // if (status == "ok") {
+                //     $("body").append("<div class='status-container success'><p class='px-2'>内容を保存しました</p></div>");
+
+                // }
+                // else {
+                //     $("body").append("<div class='status-container fail'><p class='px-2'>内容の保存に失敗しました</p></div>");
+                // }
+                // setTimeout(() => {
+                //     $(".status-container").remove();
+                //     if(status == 'ok')
+                //     window.onbeforeunload = null;  // 関数を削除
+                //     window.location.href="/question";
+                // }, 2000)
+                // $(".status-container").css({
+                //     position: "fixed",
+                //     top: "80px",
+                //     width: $(".kb-container").outerWidth(),
+                //     marginLeft: $(".kb-container").css("margin-left"),
+                //     zIndex: 2,
+                //     left: '0'
+                // })
+                // $(".status-container.success").css({
+                //     background: "#4caf50"
+                // })
+                // $(".status-container.fail").css({
+                //     background: "#fef3f2"
+                // })
+            }
+        })
+        $('.kb-container').on('scroll', function () {
+            var scrollY = $(window).scrollTop();
+            var createWrapPos = $('.tameru-create-area-wrap').offset().top;
+            var headerH = $('.kb-header').outerHeight();
+            $('.tameru-create-area').css('width', $('.tameru-create-area-wrap').outerWidth());
+            if ((scrollY + headerH + 20) > createWrapPos) {
+                $('.tameru-create-area').css('position', 'fixed');
+                $('.tameru-create-area').css('top', headerH + 20);
+            } else {
+                $('.tameru-create-area').css('position', 'static');
+                $('.tameru-create-area').css('top', 0);
+            }
+        });
+
+        $(function () {
+            // var $textarea = $(');
+            // var lineHeight = parseInt($textarea.css('lineHeight'));
+            $(document).on('input', 'input.form-data-ans', function (e) {
+                var lineHeight = parseInt($(this).css('lineHeight'));
+                var lines = ($(this).val() + '\n').match(/\n/g).length;
+                $(this).height(lineHeight * lines);
+            });
+        });
+        window.onbeforeunload = function (e) {
+            return 'このページを離れると、入力したデータが削除されます。移動してもよろしいですか？';
+        }
+    </script>
+    <div class="modal" id="attention" style="display: none;">
+        <div class="flex flex-item-center">
+            <div class="modal-dialog">
+                <div class="kb-panel">
+                    <div class="kb-panel-title p-3">
+                        <p class="m-0">この課題を削除してもよろしいですか?</p>
+                        <i class="fas fa-times modal-close" data-modal="#edit-member-modal"></i>
+                    </div>
+                    <div class="kb-panel-body px-3">
+                        <p>
+                            <small class="text-muted">※一度削除を行うと元に戻すことができません。</small>
+                        </p>
+                        <div class="flex flex-c py-3">
+                            <a class="btn-tran btn-tran-modal tameru_delete--cancel mx-2">キャンセル</a>
+                            <button class="submit-btn mx-2 tameru_delete--confirm"> 削除する </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% include './ver2.1/partials/footer.html' %}
+
+</html>

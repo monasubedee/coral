@@ -1,0 +1,18 @@
+.kb-contact-container {
+  width: 100%;
+  max-width: 700px;
+  margin: auto;
+  .submit-btn{
+    cursor:pointer;
+    max-width:250px;
+  }
+
+  & label{
+    &[required]{
+      &:after{
+        content: "*";
+        color: red;
+      }
+    }
+  }
+}

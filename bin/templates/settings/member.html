@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="ja">
+{% include './partials/head.html' %}
+
+{% include './ver2/partials/sidebar.html' %}
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>メンバー管理</title>
+      <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+      <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+      <link href="css/style.css" rel="stylesheet" type="text/css">
+      <script src="js/main.js"></script>
+      <style>
+      /* The alert message box */
+		.alert {
+			padding: 20px;
+			background-color: #d1eecc;
+			/* opacity: 0.1; */
+			margin-left: 240px;
+			font-family: HiraKakuPro-W3;
+			font-size: 13px;
+			font-weight: normal;
+			font-style: normal;
+			font-stretch: normal;
+			letter-spacing: normal;
+			text-align: left;
+			color: #373943;
+			margin-bottom: 31px;
+		}
+		.alert_failed {
+			padding: 20px;
+			background-color: red;
+			/* opacity: 0.1; */
+			margin-left: 240px;
+			font-family: HiraKakuPro-W3;
+			font-size: 13px;
+			font-weight: normal;
+			font-style: normal;
+			font-stretch: normal;
+			letter-spacing: normal;
+			text-align: left;
+			color: white;
+			margin-bottom: 31px;
+		}
+
+		.closebtn {
+			margin-top: -5px;
+			margin-left: 15px;
+			color: black;
+			font-weight: bold;
+			float: right;
+			font-size: 22px;
+			line-height: 20px;
+			cursor: pointer;
+			transition: 0.3s;
+		}
+		.closebtn_failed {
+			margin-top: -5px;
+			margin-left: 15px;
+			color: white;
+			font-weight: bold;
+			float: right;
+			font-size: 22px;
+			line-height: 20px;
+			cursor: pointer;
+			transition: 0.3s;
+		}
+
+		.closebtn:hover {
+			color: black;
+		}
+
+		.hide {
+			display: none;
+		}
+
+		.text-color {
+			font-family: HiraKakuPro-W3;
+			font-size: 13px;
+			font-weight: normal;
+			font-style: normal;
+			font-stretch: normal;
+			line-height: 2;
+			letter-spacing: normal;
+			text-align: left;
+			color: black;
+			opacity: none;
+		}
+      </style>
+   </head>
+   <body>
+      <div id="content__member__add__modal">
+         <div class="member__add__form">
+            <div class="article__title">メンバーを招待</div>
+            <hr class="news__line">
+            <div class="form-company__wrapper">
+               <div class="form-company__inner">
+                  <div class="article__text">メールアドレス</div>
+                  <div class="asterisk"></div>
+               </div>
+               <div>
+                  <input class="form-company__large" id='content_invite_msg' placeholder="mail@knowledgebank.jp" aria-invalid="false">
+                  <span class="form-company__invalid" aria-hidden="true">内容が正しくありません</span>
+               </div>
+            </div>
+            <div class="form-company__wrapper">
+               <div class="form-company__inner">
+                  <div class="article__text">アクセス権限</div>
+                  <div class="asterisk"></div>
+               </div>
+               <div>
+                  <div class="content__inner">
+                     <form class="form-member__setting">
+                        <ul class="form-member__setting__list">
+                           <li class="form-member__setting__item">
+                              <label class="radio_text" for="authority__user">
+                                 <input type="radio" id="authority__user" name="authority" value='0' checked="">
+                                 <div class="article__text">ユーザー</div>
+                              </label>
+                              <span class="form-member__caption">自分のアカウントのみ編集ができます</span>
+                           </li>
+                           <li class="form-member__setting__item">
+                              <label class="radio_text" for="authority__admin">
+                                 <input type="radio" id="authority__admin" name="authority" value='1'>
+                                 <div class="article__text">管理者</div>
+                              </label>
+                              <span class="form-member__caption">すべてのユーザーの編集・追加・削除ができます</span>
+                           </li>
+                        </ul>
+                     </form>
+                  </div>
+               </div>
+            </div>
+            <div class="form-company__wrapper">
+               <div class="form-company__inner">
+                  <div class="article__text">役職</div>
+                  <div class="asterisk"></div>
+               </div>
+               <div>
+                  <div class="content__inner">
+                     <form class="form-member__setting">
+                        <ul class="form-member__setting__list">
+                           <li class="form-member__setting__item">
+                              <label class="radio_text" for="position__officer">
+                                 <input type="radio" id="position__officer" name="position" checked="">
+                                 <div class="article__text">役員</div>
+                              </label>
+                           </li>
+                           <li class="form-member__setting__item">
+                              <label class="radio_text" for="position__manager">
+                                 <input type="radio" id="position__manager" name="position">
+                                 <div class="article__text">マネージャー</div>
+                              </label>
+                           </li>
+                        </ul>
+                     </form>
+                  </div>
+               </div>
+            </div>
+            <div class="form-company__wrapper">
+               <div class="form-company__inner">
+                  <div class="article__text">チーム</div>
+                  <div class="asterisk"></div>
+               </div>
+               <div>
+                  <div class="content__inner">
+                     <form class="form-member__setting">
+                        <ul class="form-member__setting__list">
+                           <li class="form-member__setting__item">
+                              <label class="radio_text" for="team__director">
+                                 <input type="radio" id="team__director" name="team" checked="">
+                                 <div class="article__text">ディレクター</div>
+                              </label>
+                           </li>
+                           <li class="form-member__setting__item">
+                              <label class="radio_text" for="team__designer">
+                                 <input type="radio" id="team__designer" name="team">
+                                 <div class="article__text">デザイナー</div>
+                              </label>
+                           </li>
+                           <li class="form-member__setting__item">
+                              <label class="radio_text" for="team__engineer">
+                                 <input type="radio" id="team__engineer" name="team">
+                                 <div class="article__text">エンジニア</div>
+                              </label>
+                           </li>
+                        </ul>
+                     </form>
+                  </div>
+               </div>
+            </div>
+            <div class="btn_wrapper">
+              <button type="button" id='member_invite_btn' class="contact__button" data-anime-hover="buttons" disabled>メンバーを招待する</button>
+            </div>
+         </div>
+      </div>
+
+
+      <div class="container">
+        {% if status=="failed" %}
+		 	<div class="alert_failed">
+				<span id="close_redirect" class="closebtn_failed" onclick="this.parentElement.style.display='none';">&times;</span>
+				お知らせを保存しません
+			</div>
+		{% endif %}
+
+		{% if status=="ok" %}
+		 <div class="alert">
+				<span id="close_redirect" class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+				お知らせを保存しました
+			</div>
+		{% endif %}
+
+    {% if status=="failed" %}
+  <div class="alert_failed">
+    <span id="close_redirect_delete" class="closebtn_failed" onclick="this.parentElement.style.display='none';">&times;</span>
+    Failed
+  </div>
+{% endif %}
+
+{% if status=="deleted" %}
+ <div class="alert">
+    <span id="close_redirect_delete" class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    Success
+  </div>
+{% endif %}
+
+         <h2 class="heading">メンバー管理</h2>
+         <div class="content__member-wrapper">
+            <div class="article__wrapper">
+               <div class="heading__text">メンバーの追加や修正ができます</div>
+               <div class="spacer"></div>
+               <a class="content__new-member" href="javascript:;" data-fancybox="content__member__add__modal" data-src="#content__member__add__modal">
+                  <div class="plus-icon"></div>
+                  メンバーを追加
+               </a>
+               <form class="form-search">
+                  <input class="form-search__member" placeholder="キーワードで検索">
+               </form>
+               <div class="content__member">
+                  <button type="button" id="multi_delete">
+                     <div class="content__member-delete">
+                        <p  type="button" class="remove icon" ></p>
+                        削除
+                     </div>
+                  </button>
+                  <div class="content_current-member">
+                     <div class="text__bold__min">4名</div>
+                     が利用中です
+                  </div>
+                  <ul class="content__article-heading">
+                     <li>
+                        <div class="article-list__check-wrapper"><input type="checkbox" class="article-list__check"></div>
+                     </li>
+                     <li>
+                        <div class="article-list__usericon-label"></div>
+                     </li>
+                     <li>
+                        <div class="article-list__user-name">名前</div>
+                     </li>
+                     <li>
+                        <div class="article-list__user-mail">メールアドレス</div>
+                     </li>
+                     <li>
+                        <div class="article-list__user-auth">権限</div>
+                     </li>
+                     <li>
+                        <div class="article-heading__user-pos"><a href="#" class="article-heading__sort">役職</a></div>
+                     </li>
+                     <li>
+                        <div class="article-heading__user-stat"><a href="#" class="article-heading__sort">ステータス</a></div>
+                     </li>
+                  </ul>
+                  <div class="contente__member-list-wrapper">
+                    {%for data in memberlist%}
+                     <ul class="content__member-list">
+                        <li>
+                           <div class="article-list__check-wrapper"><input type="checkbox" id="user_id" value={{data.Id}} class="article-list__check"></div>
+                        </li>
+                        <li>
+                           <div class="article-list__usericon"><img src="img/usr_ken.png"></div>
+                        </li>
+                        <li>
+                           <div class="article-list__user-name">
+                              <div class="article-list__user-name__long">{{data.Name}}</div>
+                           </div>
+                        </li>
+                        <li>
+                           <div class="article-list__user-mail">{{data.Name}}</div>
+                        </li>
+                        <li>
+                           <div class="article-list__user-auth">{{data.authority}}</div>
+                        </li>
+                        <li>
+                           <div class="article-list__user-pos">{{data.position}}</div>
+                        </li>
+                        <li>
+                           <div class="article-list__user-stat">{{data.status}}</div>
+                        </li>
+                     </ul>
+                     {%endfor%}
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <script>
+      $(document).ready(function () {
+  $("#close_redirect").on("click",function(){
+    window.location.href='/settings/member_add';
+  })
+});
+$(document).ready(function () {
+$("#close_redirect_delete").on("click",function(){
+window.location.href='/settings/member_add';
+})
+});
+
+          $(document).ready(function(){
+            $("#content_invite_msg").on("keyup",function(){
+              if($(this).val()!=""){
+                $("#member_invite_btn").removeAttr("disabled");
+              }
+              else{
+                $("#member_invite_btn").attr("disabled","disabled");
+              }
+            })
+            $("#member_invite_btn").on("click",function(){
+                var obj={
+                  	mail:$("#content_invite_msg").val(),
+                  	authority:$("input[name=authority]:checked").val(),
+                  	positionId:3,
+                  	teamId:1,
+                  	managerId:1
+                  }
+                var url='/settings/member_add';
+                var xml=new XMLHttpRequest();
+                xml.open("POST",url,true);
+                xml.setRequestHeader("Content-Type","application/json");
+                // xml.onreadystatechange=function(){
+                //   if(this.readyState===4 && this.status===200){
+                //     if(JSON.parse(this.responseText).result=="ok"){
+                //       window.location='/settings/member_add';
+                //     }
+                //   }
+                //   else{
+                //     console.log(this.status);
+                //   }
+                xml.onreadystatechange = function () {
+				console.log(this.status);
+				if (this.readyState === 4 && this.status === 200) {
+
+					var json = JSON.parse(this.responseText);
+					console.log("json", json);
+					console.log("result ok")
+					if(json['result'] == "ok"){
+						console.log("insert success")
+						window.location.href = "/settings/member_add?status=ok";
+					}
+					if(json['result'] == "ng"){
+						console.log("insert fail")
+						window.location.href = "/settings/member_add?status=failed";
+					}
+				}
+                }
+                xml.send(JSON.stringify(obj));
+            })
+          })
+
+
+
+    $(document).ready(function () {
+$("#close_redirect_delete").on("click",function(){
+  window.location.href='/settings/member_add';
+})
+});
+    $(document).ready(function () {
+$("#multi_delete").on("click",function(){
+  var selected_id_array = [];
+
+  // Document.getElementById('userId');
+
+   var id= document.getElementById("user_id").getAttribute('value');
+   $(".content__member-list input[type=checkbox]:checked").each(function(){
+       selected_id_array.push(parseInt($(this).attr('value')));
+   })
+   var obj={
+       userId:selected_id_array
+     }
+  console.log( typeof selected_id_array);
+  console.log(JSON.stringify(obj) );
+var data =JSON.stringify(obj);
+
+  var xhr = new XMLHttpRequest();
+            var url = "/settings/member_delete";
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                console.log(this.status);
+                if (this.readyState === 4 && this.status === 200) {
+                    var json = JSON.parse(this.responseText);
+                    console.log("json", json);
+                    if(json['result'] == "deleted"){
+          						console.log("Delete Success!")
+          						window.location.href = "/settings/member_add?status=deleted";
+          					}
+          					if(json['result'] == "ng"){
+          						console.log("Delete fail!")
+          						window.location.href = "/settings/member_add?status=failed";
+          					}
+                }
+            };
+            xhr.send(data);
+})
+});
+      </script>
+   </body>
+</html>

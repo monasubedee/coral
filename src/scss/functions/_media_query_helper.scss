@@ -1,0 +1,10 @@
+$mediaQueryPoints: (
+  "default": "screen and (max-width: 768px)",
+  "pc": "screen and (min-width: 769px)"
+);
+
+@mixin mediaQuery($size: "default") {
+  @media #{map-get($mediaQueryPoints, $size)} {
+    @content;
+  }
+}

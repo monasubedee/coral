@@ -1,0 +1,13 @@
+.user-name {
+  margin: 0 0 8px;
+  color: #373943;
+  font-size: 16px;
+  font-family: HiraKakuPro-W6;
+  @at-root {
+    #{&}__wrapper {
+      display: inline-block;
+      margin: 2px 0 20px 10px;
+      vertical-align: top;
+    }
+  }
+}

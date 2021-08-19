@@ -1,0 +1,318 @@
+{%from "./ver2/partials/sidebar.html" import sidebar with context%}
+<html lang="ja">
+
+<head>
+	{% include './partials/head.html' %}
+	<style>
+		/* The alert message box */
+		.alert {
+			padding: 20px;
+			background-color: #d1eecc;
+			/* opacity: 0.1; */
+			margin-left: 240px;
+			font-family: HiraKakuPro-W3;
+			font-size: 13px;
+			font-weight: normal;
+			font-style: normal;
+			font-stretch: normal;
+			letter-spacing: normal;
+			text-align: left;
+			color: #373943;
+			margin-bottom: 31px;
+		}
+
+		.alert_failed {
+			padding: 20px;
+			background-color: red;
+			/* opacity: 0.1; */
+			margin-left: 240px;
+			font-family: HiraKakuPro-W3;
+			font-size: 13px;
+			font-weight: normal;
+			font-style: normal;
+			font-stretch: normal;
+			letter-spacing: normal;
+			text-align: left;
+			color: white;
+			margin-bottom: 31px;
+		}
+
+		.closebtn {
+			margin-top: -5px;
+			margin-left: 15px;
+			color: black;
+			font-weight: bold;
+			float: right;
+			font-size: 22px;
+			line-height: 20px;
+			cursor: pointer;
+			transition: 0.3s;
+		}
+
+		.closebtn_failed {
+			margin-top: -5px;
+			margin-left: 15px;
+			color: white;
+			font-weight: bold;
+			float: right;
+			font-size: 22px;
+			line-height: 20px;
+			cursor: pointer;
+			transition: 0.3s;
+		}
+
+		.closebtn:hover {
+			color: black;
+		}
+	</style>
+</head>
+
+
+<body>
+	{% include './ver2/partials/sidebar.html' %}
+
+	<div class="container">
+		{% if status=="failed" %}
+		<div class="alert_failed">
+			<span id="redir_close" class="closebtn_failed" onclick="this.parentElement.style.display='none';">&times;</span>
+				お知らせを保存しません!
+		</div>
+		{% endif %}
+
+		{% if status=="ok" %}
+		<div class="alert">
+			<span id="redir_close" class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+			お知らせを保存しました!
+		</div>
+		{% endif %}
+		<h2 class="heading">ナレッジバンク設定</h2>
+		<div class="content__wrapper">
+			<div class="article__wrapper">
+				<div class="heading__text">ナレッジバンクの設定をしてください</div>
+
+				<div class="icon-container">
+					<a href="/settings/base" class="icon__wrapper">
+						<img src="/static/img/setting__icon__base.png" class="setting__icon" alt="基本設定"
+							srcset="/static/img/setting__icon__base.png 1x, /static/img/setting__icon__base@2x.png 2x">
+						<div class="icon-label">基本設定</div>
+					</a>
+					<a href="/settings/learn" class="icon__wrapper">
+						<img src="/static/img/setting__icon__learn.png" class="setting__icon" alt="学習設定"
+							srcset="/static/img/setting__icon__learn.png 1x, /static/img/setting__icon__learn@2x.png 2x">
+						<div class="icon-label">学習設定</div>
+					</a>
+					<a href="settings/import" class="icon__wrapper">
+						<img src="/static/img/setting__icon__import.png" class="setting__icon" alt="ためる設定"
+							srcset="/static/img/setting__icon__import.png 1x, /static/img/setting__icon__import@2x.png 2x">
+						<div class="icon-label">ためる設定</div>
+					</a>
+					<a href="settings/mail" class="icon__wrapper">
+						<img src="/static/img/setting__icon__mail--current.png" class="setting__icon" alt="通知設定"
+							srcset="/static/img/setting__icon__mail--current.png 1x, /static/img/setting__icon__mail--current@2x.png 2x">
+						<div class="icon-label__checked__blue">通知設定</div>
+					</a>
+				</div>
+
+				<div class="spacer"></div>
+				<div class="content__sector-select">
+					<div class="article__title">メール通知設定</div>
+					<hr class="news__line">
+
+					<div class="content__inner">
+						<div class="form-time__wrapper">
+							<div Class="text__bold">通知時間設定</div>
+
+							<select name="hour" class="form__time">
+								<option value="0">0時</option>
+								<option value="1">1時</option>
+								<option value="2">2時</option>
+								<option value="3">3時</option>
+								<option value="4">4時</option>
+								<option value="5">5時</option>
+								<option value="6">6時</option>
+								<option value="7">7時</option>
+								<option value="8">8時</option>
+								<option value="9">9時</option>
+								<option value="10">10時</option>
+								<option value="11">11時</option>
+								<option value="12">12時</option>
+								<option value="13">13時</option>
+								<option value="14">14時</option>
+								<option value="15">15時</option>
+								<option value="16">16時</option>
+								<option value="17">17時</option>
+								<option value="18">18時</option>
+								<option value="19">19時</option>
+								<option value="20">20時</option>
+								<option value="21">21時</option>
+								<option value="22">22時</option>
+								<option value="23">23時</option>
+							</select>
+							<select name="minute" class="form__time">
+								<option value="00">00分</option>
+								<option value="01">01分</option>
+								<option value="02">02分</option>
+								<option value="03">03分</option>
+								<option value="04">04分</option>
+								<option value="05">05分</option>
+								<option value="06">06分</option>
+								<option value="07">07分</option>
+								<option value="08">08分</option>
+								<option value="09">09分</option>
+								<option value="10">10分</option>
+								<option value="11">11分</option>
+								<option value="12">12分</option>
+								<option value="13">13分</option>
+								<option value="14">14分</option>
+								<option value="15">15分</option>
+								<option value="16">16分</option>
+								<option value="17">17分</option>
+								<option value="18">18分</option>
+								<option value="19">19分</option>
+								<option value="20">20分</option>
+								<option value="21">21分</option>
+								<option value="22">22分</option>
+								<option value="23">23分</option>
+								<option value="24">24分</option>
+								<option value="25">25分</option>
+								<option value="26">26分</option>
+								<option value="27">27分</option>
+								<option value="28">28分</option>
+								<option value="29">29分</option>
+								<option value="30">30分</option>
+								<option value="31">31分</option>
+								<option value="32">32分</option>
+								<option value="33">33分</option>
+								<option value="34">34分</option>
+								<option value="35">35分</option>
+								<option value="36">36分</option>
+								<option value="37">37分</option>
+								<option value="38">38分</option>
+								<option value="39">39分</option>
+								<option value="40">40分</option>
+								<option value="41">41分</option>
+								<option value="42">42分</option>
+								<option value="43">43分</option>
+								<option value="44">44分</option>
+								<option value="45">45分</option>
+								<option value="46">46分</option>
+								<option value="47">47分</option>
+								<option value="48">48分</option>
+								<option value="49">49分</option>
+								<option value="50">50分</option>
+								<option value="51">51分</option>
+								<option value="52">52分</option>
+								<option value="53">53分</option>
+								<option value="54">54分</option>
+								<option value="55">55分</option>
+								<option value="56">56分</option>
+								<option value="57">57分</option>
+								<option value="58">58分</option>
+								<option value="59">59分</option>
+							</select>
+						</div>
+
+						<div class="form-time__wrapper">
+							<div Class="text__bold">通知する日を設定</div>
+
+							<label><input type="checkbox" class="checkbox" name="day" value="mon"><span
+									class="form-time__checkbox-day">月</span></label>
+							<label><input type="checkbox" class="checkbox" name="day" value="tue"><span
+									class="form-time__checkbox-day">火</label></label>
+							<label><input type="checkbox" class="checkbox" name="wen" value="mon"><span
+									class="form-time__checkbox-day">水</label></label>
+							<label><input type="checkbox" class="checkbox" name="thu" value="mon"><span
+									class="form-time__checkbox-day">木</label></label>
+							<label><input type="checkbox" class="checkbox" name="day" value="fri"><span
+									class="form-time__checkbox-day">金</label></label>
+							<label><input type="checkbox" class="checkbox" name="day" value="sat"><span
+									class="form-time__checkbox-day">土</label></label>
+							<label><input type="checkbox" class="checkbox" name="day" value="sun"><span
+									class="form-time__checkbox-day">日</label></label>
+							<br>
+							<input type="checkbox" name="day" class="checkbox" value="none"><label for="checkbox"
+								class="form-time__checkbox-day">祝祭日は通知しない</label>
+						</div>
+					</div>
+				</div>
+				<div class="btn_wrapper"><button type="submit" class="contact__button" id='contact_button_click'
+						data-anime-hover="buttons">入力内容を保存する</button></div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		var btn = document.querySelector("#contact_button_click");
+		btn.onclick = function () {
+			var obj = {
+				hour: '',
+				minute: '',
+				notidays: [],
+				holidayflag: 0,
+				userId: 1
+			}
+			obj.hour = parseInt(document.querySelector("select[name=hour]").value);
+			obj.minute = parseInt(document.querySelector("select[name=minute]").value);
+			var notidayslist = document.querySelectorAll("input[type=checkbox]");
+			console.log(notidayslist.length);
+			for (var i = 0; i < notidayslist.length; i++) {
+				if (i == (notidayslist.length - 1)) {
+					if (notidayslist[i].checked == true) {
+						obj.holidayflag = 1;
+					}
+					else {
+						obj.holidayflag = 0;
+					}
+				}
+				else {
+					if (notidayslist[i].checked == true) {
+						obj.notidays.push(notidayslist[i].value);
+					}
+				}
+			}
+			console.log(obj);
+
+			var xhr = new XMLHttpRequest();
+			var url = "/settings/mail";
+			xhr.open("POST", url, true);
+			xhr.setRequestHeader("Content-Type", "application/json");
+			xhr.onreadystatechange = function () {
+				console.log(this.status);
+				if (this.readyState === 4 && this.status === 200) {
+					var json = JSON.parse(this.responseText);
+					console.log("json", json);
+					console.log("result ok")
+					if (json['result'] == 'ok') {
+						console.log("insert success")
+						window.location.href = "/settings/mail?status=ok";
+					}
+					if (json['result'] == 'ng') {
+						console.log("insert fail")
+						window.location.href = "/settings/mail?status=failed";
+					}
+				}
+			};
+			xhr.send(JSON.stringify(obj));
+		}
+		document.querySelector("#redir_close").onclick=function(){
+			window.location.href = "/settings/mail";
+		}
+					// $("#contact_button_click").on("click",function(){
+					// 	 var obj={
+					// 					hour:$("select[name=hour]").val(),
+					// 					minute:$("select[name=minute]").val(),
+					// 					notidays:[],
+					// 					holidayflag:0,
+					// 					userId:1
+					// 				}
+					// 				$("input[type=checkbox]").each(function(){
+					// 						if($(this).prop("checked")){
+					// 							obj.notidays.push($(this).val());
+					// 						}
+					// 				})
+					// 				alert(JSON.stringify(obj));
+					// })
+	</script>
+</body>
+{% include './partials/footer.html' %}
+</html>

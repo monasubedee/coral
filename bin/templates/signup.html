@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ja">
+  {% include './partials/head.html' %}
+
+  <body>
+    <div class="_wrapper">
+      <div class="header">
+        <a href="" class="header__logo-link">
+          <div class="header__logo">
+            <img src="/static/img/logo.svg" />
+          </div>
+        </a>
+        <h1 class="header__headline">サインアップ</h1>
+        <a href="/mypage.html" class="header__icon" aria-hidden="true">
+          <div class="header__icon__wrapper">
+            <!-- ログイン画面では非表示<img src="/static/img/sample/header_icon_sample.png" alt="" class="header__icon__image"> -->
+          </div>
+        </a>
+      </div>
+
+      <div class="_content--smaller--white">
+        <div class="_content--navigation">
+          <div class="navigation-button">
+            <svg class="navigation-button__icon" viewbox="0 0 5.547 9.679">
+              <path
+                d="M764.6 703.842l-4.486 4.486 4.486 4.486"
+                transform="translate(-759.411 -703.488)"
+              ></path>
+            </svg>
+            <span class="navigation-button__text">Back</span>
+          </div>
+        </div>
+        <div class="profile-edit">
+          <h2 class="profile-edit__head">
+            プロフィール写真<span class="profile-edit__require">*</span>
+          </h2>
+          <div class="profile-edit__image-wrapper">
+            <img
+              src="/static/img/default_icon.svg"
+              aria-hidden="true"
+              class="profile-edit__icon"
+            />
+            <button class="profile-edit__add-picture">
+              <img src="/static/img/icon/camera.svg" alt="アイコンを変更する" />
+            </button>
+            <input
+              id=""
+              name="profilePicture"
+              type="file"
+              accept="image/png,image/jpeg"
+              class="profile-edit__input-file"
+            />
+          </div>
+          <div class="profile-edit__input-wrapper">
+            <h2 class="profile-edit__head">
+              名前<span class="profile-edit__require">*</span>
+            </h2>
+            <input type="text" class="profile-edit__input" value="" />
+          </div>
+
+          <div class="profile-edit__input-wrapper">
+            <h2 class="profile-edit__head">
+              メールアドレス<span class="profile-edit__require">*</span>
+            </h2>
+            <input
+              type="email"
+              class="profile-edit__input"
+              name="email"
+              value=""
+            />
+          </div>
+
+          <div class="profile-edit__input-wrapper">
+            <h2 class="profile-edit__head">
+              役職
+            </h2>
+            <input
+              type="text"
+              class="profile-edit__input"
+              name="occupation"
+              value=""
+            />
+          </div>
+
+          <div class="profile-edit__input-wrapper">
+            <h2 class="profile-edit__head">
+              生年月日<span class="profile-edit__require">*</span>
+            </h2>
+            <div class="profile-edit__select-wrapper">
+              <label class="profile-edit__select-label--birth-year">
+                <select
+                  name="birthYear"
+                  class="profile-edit__select"
+                  data-birth-date=""
+                >
+                </select
+              ></label>
+              <label class="profile-edit__select-label--birth-month">
+                <select
+                  name="birthMonth"
+                  class="profile-edit__select"
+                  data-birth-date=""
+                >
+                  <option value="1">1月</option>
+                  <option value="2">2月</option>
+                  <option value="3">3月</option>
+                  <option value="4">4月</option>
+                  <option value="5">5月</option>
+                  <option value="6">6月</option>
+                  <option value="7">7月</option>
+                  <option value="8">8月</option>
+                  <option value="9">9月</option>
+                  <option value="10">10月</option>
+                  <option value="11">11月</option>
+                  <option value="12">12月</option>
+                </select></label
+              >
+              <label class="profile-edit__select-label--birth-day">
+                <select
+                  name="birthDay"
+                  class="profile-edit__select"
+                  data-birth-date=""
+                >
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  <option value="13">13</option>
+                  <option value="14">14</option>
+                  <option value="15">15</option>
+                  <option value="16">16</option>
+                  <option value="17">17</option>
+                  <option value="18">18</option>
+                  <option value="19">19</option>
+                  <option value="20">20</option>
+                  <option value="21">21</option>
+                  <option value="22">22</option>
+                  <option value="23">23</option>
+                  <option value="24">24</option>
+                  <option value="25">25</option>
+                  <option value="26">26</option>
+                  <option value="27">27</option>
+                  <option value="28">28</option>
+                  <option value="29">29</option>
+                  <option value="30">30</option>
+                  <option value="31">31</option>
+                </select></label
+              >
+            </div>
+            <div class="profile-edit__multi-column">
+              <div class="profile-edit__multi-column-item">
+                <h2 class="profile-edit__head">
+                  入社日<span class="profile-edit__require">*</span>
+                </h2>
+                <div class="profile-edit__select-wrapper">
+                  <label class="profile-edit__select-label--hire-year">
+                    <select
+                      name="hiredYear"
+                      class="profile-edit__select"
+                      data-hired-year=""
+                    >
+                    </select
+                  ></label>
+                </div>
+              </div>
+              <div class="profile-edit__multi-column-item">
+                <h2 class="profile-edit__head">
+                  性別<span class="profile-edit__require">*</span>
+                </h2>
+                <div class="profile-edit__select-wrapper">
+                  <label class="profile-edit__select-label--gender">
+                    <select name="gender" class="profile-edit__select">
+                      <option value="1">男性</option>
+                      <option value="2">女性</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="profile-edit__multi-column">
+              <div class="profile-edit__multi-column-item">
+                <h2 class="profile-edit__head">
+                  出身地<span class="profile-edit__require">*</span>
+                </h2>
+                <div class="profile-edit__select-wrapper">
+                  <label class="profile-edit__select-label--hire-year">
+                    <select
+                      name="country"
+                      class="profile-edit__select"
+                      data-country=""
+                    >
+                      <option value="アメリカ">アメリカ</option>
+                      <option value="中国">中国</option>
+                      <option value="チュニジア">チュニジア</option>
+                      <option value="日本">日本</option>
+                      <option value="フランス">フランス</option>
+                      <option value="ミャンマー">ミャンマー</option>
+                    </select></label
+                  >
+                </div>
+              </div>
+              <div class="profile-edit__multi-column-item">
+                <h2 class="profile-edit__head">
+                  言語<span class="profile-edit__require">*</span>
+                </h2>
+                <div class="profile-edit__select-wrapper">
+                  <label class="profile-edit__select-label--gender">
+                    <select name="languageSet" class="profile-edit__select">
+                      <option value="英語">英語</option>
+                      <option value="中国語">中国語</option>
+                      <option value="日本語">日本語</option>
+                      <option value="フランス語">フランス語</option>
+                      <option value="ミャンマー語(ビルマ語)" )
+                        >ミャンマー語(ビルマ語)</option
+                      >
+                    </select>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <h2 class="profile-edit__head">
+              ロール
+            </h2>
+            <div class="create__description__topic">
+              <input
+                placeholder="ロールを追加する"
+                name="role"
+                class="profile-edit__role"
+              /><button type="button" class="profile-edit__add-role">
+                <span class="create__description__topic__button__icon"></span>
+              </button>
+            </div>
+            <ul class="profile-edit__role-list" aria-hidden="true"></ul>
+            <h2 class="profile-edit__head">
+              スキルセット
+            </h2>
+            <div class="create__description__topic">
+              <input
+                placeholder="スキルセットを追加する"
+                name="skill"
+                class="create__description__topic__input"
+              /><button type="button" class="profile-edit__add-skill">
+                <span class="create__description__topic__button__icon"></span>
+              </button>
+            </div>
+            <ul class="profile-edit__skill-list" aria-hidden="true"></ul>
+            <h2 class="mypage__head">
+              <svg
+                width="16"
+                height="14"
+                class="mypage__icon--goal"
+                viewbox="0 0 16 14"
+              >
+                <path
+                  d="M2 34H0a7 7 0 0 0 7 7v4.5a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V41a7 7 0 0 0-7-7zm12-2a6.994 6.994 0 0 0-6.116 3.6 8.012 8.012 0 0 1 1.844 3.362A7 7 0 0 0 16 32z"
+                  transform="translate(0 -32)"
+                ></path>
+              </svg>
+              なりたい姿
+            </h2>
+            <textarea name="goal" class="profile-edit__textarea"></textarea>
+            <button
+              type="button"
+              class="button--light--arrow profile-edit__submit"
+            >
+              作成する<svg
+                direction="next"
+                color="#fff"
+                class="button--arrow__arrow"
+                viewBox="0 0 5.547 9.679"
+              >
+                <path
+                  d="M764.6 703.842l-4.486 4.486 4.486 4.486"
+                  transform="translate(-759.411 -703.488)"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {% include './partials/footer.html' %}
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"
+    ></script>
+    <script src="//cdn.jsdelivr.net/npm/ramda@latest/dist/ramda.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js"></script>
+    <script src="/static/js/signup.js"></script>
+  </body>
+</html>

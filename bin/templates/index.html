@@ -1,0 +1,34 @@
+{%from "./partials/header.html" import header with context%}
+<!DOCTYPE html>
+<html lang="ja">
+    {% include './partials/head.html' %}
+    <body>
+    <div class="_wrapper">
+      <div class="top">
+        <div class="top__logo-wrapper">
+          <img src="/static/img/logo_name_horizonal.svg" class="top__logo" />
+        </div>
+        <h1 class="top__head">
+          KnowlegeBankへようこそ
+        </h1>
+        <h2 class="top__head2">
+          ナレッジバンクは「知識を共有する」場所です。<br />
+          問題を解くほど賢くなるあなたが、作るほどに強くなるあなたのチームが待っています。
+        </h2>
+        <a class="button" href="/registration">
+          はじめる
+        </a>
+        <a href="/login" class="navigation-button--next top__login">
+          <svg class="navigation-button__icon--next" viewbox="0 0 5.547 9.679">
+            <path
+              d="M764.6 703.842l-4.486 4.486 4.486 4.486"
+              transform="translate(-759.411 -703.488)"
+            ></path>
+          </svg>
+          <span class="navigation-button--next__text">ログイン</span>
+        </a>
+      </div>
+      {% include './partials/footer.html' %}
+    </div>
+  </body>
+</html>

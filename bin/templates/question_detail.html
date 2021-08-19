@@ -1,0 +1,151 @@
+{%from "./partials/header.html" import header with context%}
+<html lang="ja">
+
+{% include './partials/head.html' %}
+<body cz-shortcut-listen="true">
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      var test = $('[name=descriptionText]').val();
+      var regexp_url = /((h?)(ttps?:\/\/[a-zA-Z0-9.\-_@:/~?%&;=+#',()*!]+))/g; // ']))/;
+      var regexp_makeLink = function(all, url, h, href) {
+          return '<a href="h' + href + '" target="_blank">' + url + '</a>';
+      }
+
+      var textreplace =  test.replace(regexp_url, regexp_makeLink);
+      $('.description__paragraph').html(textreplace)
+  });
+
+</script>
+  <div class="_wrapper">
+    {{header('編集',avatorImage,'true')}}
+    <div class="_content--smaller--white">
+      <div class="_content--navigation">
+        <button class="navigation-button" onclick="location.href='/home'">
+          <svg class="navigation-button__icon" viewbox="0 0 5.547 9.679">
+            <path d="M764.6 703.842l-4.486 4.486 4.486 4.486" transform="translate(-759.411 -703.488)"></path>
+          </svg>
+          <span class="navigation-button__text">Back</span>
+        </button>
+      </div>
+      <form class="create" method="GET" action="/question/edit/{{data.questionId}}">
+
+        <div class="preview" aria-hidden="false">
+          {{header('詳細',avatorImage,'true')}}
+          <div class="preview__body">
+            <div class="question">
+              <button class="navigation-button" onclick="location.href='/home'">
+                <svg class="navigation-button__icon" viewbox="0 0 5.547 9.679">
+                  <path d="M764.6 703.842l-4.486 4.486 4.486 4.486" transform="translate(-759.411 -703.488)"></path>
+                </svg>
+                <span class="navigation-button__text">Back</span>
+              </button>
+            </div>
+            <div class="description__headline" style="padding: 0px 0px 10px 0px;">問題文</div>
+            <div class="question">
+              <h2 class="question__head" style="border-left :solid 5px #0db42d; padding: 2px;">
+                カテゴリー
+              </h2>
+              <p class="question__text" style="margin: 0px 0 10px;">{% for cat in categoryData %}{% if cat.id == data.categoryId %}{{cat.label}}{% endif %}{% endfor %}</p>
+              <h2 class="question__head" style="border-left :solid 5px #0db42d; padding: 2px;">
+                サブカテゴリー
+              </h2>
+              <p class="question__text" style="margin: 0px 0 10px;">{% for subcat in subcategoryData %}{% if subcat.id == data.sub_categoryId %}{{subcat.label}}{% endif %}{% endfor %}</p>
+
+              <h2 class="question__head" style="border-left :solid 5px #0db42d; padding: 2px;">
+                問題文 <span class="question__correct-rate">正答率 50%</span>
+              </h2>
+              <div class="question__image-wrapper">
+                {% if pictureData != None %}
+                {% for picdata in pictureData %}
+                {% if picdata.pictureId == data.questionPictureId %}
+                <img src="{{picdata.b64_image}}" aria-hidden="true" class="question__image" />
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+              </div>
+              <p class="question__text" style="margin: 0px 0 10px;">{{data.questionText}}</p>
+            </div>
+            <div class="description__headline" style="padding: 0px 0px 10px 0px;">解答</div>
+            <div class="correct-answer">
+              <h2 class="question__head" style="border-left :solid 5px #0db42d; padding: 2px;">解答タイプ</h2>
+              <p class="question__text" style="margin: 0px 0 10px;">{% if data.questionType == 1 %} 択一 {% elif data.questionType == 2 %} 正しいものをすべて選ぶ {% elif data.questionType == 3 %} YES NO {% endif %}</p>
+              <h2 class="question__head" style="border-left :solid 5px #0db42d; padding: 2px;">解答</h2>
+              {% for ansdata in answerData %}
+              {% if ansdata.correctFlag == 'True' %}
+              <ul>
+                <li class="correct-answer__item">
+                  <svg class="correct-answer__icon" viewBox="0 0 11.929 9.186">
+                    <path d="M38.039 80.043l-6.863 6.863-2.522-2.522a.313.313 0 0 0-.443 0l-.738.738a.313.313 0 0 0 0 .443l3.481 3.481a.313.313 0 0 0 .443 0l7.822-7.822a.313.313 0 0 0 0-.443l-.738-.738a.313.313 0 0 0-.442 0z" transform="translate(-27.382 -79.952)">
+                    </path>
+                  </svg>{{ansdata.label}}
+                </li>
+              </ul>
+              {% else %}
+              <ul>
+                <li class="correct-answer__item">
+                  <svg class="answer-list__incorrect" viewbox="0 0 32 32">
+                    <g transform="translate(-109.322 -217.322)">
+                      <path
+                        d="M0 0h37.268v7.986H0z"
+                        transform="rotate(-45 348.803 -10.126)"
+                      ></path>
+                      <path
+                        d="M0 0h37.268v7.986H0z"
+                        transform="rotate(-135 119.474 96.562)"
+                      ></path>
+                    </g></svg>{{ansdata.label}}
+                </li>
+              </ul>
+              {% endif %}
+              {% endfor %}
+            </div>
+            <!-- ここから コンポーネント化-->
+            <div class="description">
+              <div class="description__headline">解説</div>
+              <div class="description__wrapper">
+                <h2 class="question__head" style="border-left :solid 5px #0db42d; padding: 2px;">トピック</h2>
+                {% for tag_list in data.topicLabels %}
+                <ul>
+                  <li class="correct-answer__item">
+                    {{tag_list}}
+                  </li>
+                </ul>
+                {% endfor %}
+                <h2 class="question__head" style="border-left :solid 5px #0db42d; padding: 2px;">解説文</h2>
+                <div class="description__image-wrapper">
+                  {% if pictureData != None %}
+                  {% for picdata in pictureData %}
+                  {% if picdata.pictureId == data.descriptionPictureId %}
+                  <img src="{{picdata.b64_image}}" aria-hidden="true" class="question__image" />
+                  {% endif %}
+                  {% endfor %}
+                  {% endif %}
+                </div>
+                <input type="hidden" name="descriptionText" id="descriptionText" value="{{data.descriptionText}}">
+                <p class="description__paragraph">{{data.descriptionText}}</p>
+              </div>
+            </div>
+            <!-- ここまで コンポーネント化-->
+            <button type="submit" class="button--light--arrow create__submit">
+              編集する<svg direction="next" color="#fff" class="button--arrow__arrow" viewbox="0 0 5.547 9.679">
+                <path d="M764.6 703.842l-4.486 4.486 4.486 4.486" transform="translate(-759.411 -703.488)"></path>
+              </svg>
+            </button>
+            <div class="create__submenu">
+              <button type="button" class="create__submenu__button--edit">一覧に戻る</button>
+            </div>
+            <div class="preview__footer">
+              {% include './partials/footer.html' %}
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    {% include './partials/footer.html' %}
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KnowledgeBank</title>
+    <link rel='icon' href='/static/ver2.1/img/logo@3x.png'/>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css'/>
+    <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+{% include './ver2.1/partials/ga_tag.html' %}
+</head>
+{% include './ver2.1/partials/header.html' %}
+{% include './ver2.1/partials/sidebar.html' %}
+<body>
+    <div>
+        <div class='kb-container kb-policy-container'>
+            <h3 class='text-center'>利用規約とポリシー</h3>
+            <div class='g g-3-1'>
+                <div>
+                    <div class='kb-panel my-3' id='policy-panel-1'>
+                        <div class='kb-panel-title p-3'>
+                            <p class='m-0'><b>利用規約</b></p>
+                        </div>
+                        <div class='kb-panel-body px-3 bb'>
+                            <p class='text'>
+                                <small>
+                                    株式会社アイデアランプ（以下「当社」といいます。）が提供する「Knowledge Bank」（以下「当サービス」といいます。）をご利用いただくにあたっては、「基本規約」（以下「本規約」といいます。）が適用されます。<br>
+                                    以下に定める本規約をご確認いただき、同意の上、当サービスをお申し込みください。
+                                </small>
+                            </p>
+                        </div>
+                        <div class='kb-panel-body px-3 bb'>
+                            <div>
+                                <p class='m-0'>第１条（定義）</p>
+                                <p class='text-muted'>
+                                    <small>
+                                        本規約における各用語の定義は以下のとおりとします。
+                                    </small>
+                                </p>
+                                <ol>
+                                    <li class='my-4'><small>「利用者」とは、本規約に同意した上で当サービスの申込みを行い、当社の承諾のうえで当サービスを利用する者をいいます。</small></li>
+                                    <li class='my-4'><small>「利用者記録情報」とは、利用者が当サービスの利用の過程で入力した情報であって、当社の管理するサーバーに記録される情報をいいます。</small></li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class='kb-panel-body px-3 bb'>
+                            <p class='m-0'>第２条（Knowledge Bankについて）</p>
+                            <div>
+                                <ol>
+                                    <li class='my-4'><small>Knowledge Bankは企業固有のナレッジ（属人化しやすいノウハウや経験、社内ルール、マナー等を指します。）を利用者が自由に登録ができ、クイズ形式で学習ができるサービスです。</small></li>
+                                    <li class='my-4'><small>当サービスを使用する際は、利用者自身で入力情報の真偽や入力方法の正確性をご確認ください。当社は、当サービスの内容及び利用者が当サービスを通じて入手した情報等について、その完全性、正確性、確実性、有用性等につき、いかなる責任も負わないものとします。</small></li>
+                                    <li class='my-4'><small>利用者は、コンピュータ端末、周辺機器、通信機器、通信回線その他当サービスの利用上必要となる利用環境を自らの費用と責任で調達、保持及び管理するものとします</small></li>
+                                    <li class='my-4'><small>当サービスは現状のままで提供されるものであり、当社は利用者に当サービスに関する不具合の不存在を保証するものではありません。</small></li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class='kb-panel-body px-3 bb'>
+                            <p class='m-0'>第３条（利用料金等）</p>
+                            <div>
+                                <ol>
+                                    <li class='my-4'><small>当サービスの利用料金は、当社が別途定めるものとします。</small></li>
+                                    <li class='my-4'><small>利用者は、当サービスの利用料金を当社が定める期日までに口座振込等当社が別途指定する方法で支払うものとします。なお、口座振込の方法で支払いを行う際の振込手数料については、利用者が負担するものとします。</small></li>
+                                    <li class='my-4'><small>利用者は、支払期日までに当サービスの利用料金を支払わない場合、支払期日の翌日から支払いが完了するまでの期間について、年14.6%の割合で計算した額を遅延損害金として支払うものとします。</small></li>
+                                    <li class='my-4'><small>当社は、当社に故意又は重過失ある場合を除き、利用者から支払いを受けた利用料金を返金しないものとします。</small></li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class='kb-panel-body px-3 bb'>
+                            <p class='m-0'>第４条（サポートサービス）</p>
+                            <div>
+                                <ol>
+                                    <li class='my-4'><small>利用者は、当社の定める曜日及び時間帯に限り、お問い合わせ窓口（https://knowledge-bank.jp/introduction/contact/）から、当サービスの利用方法に関してのみ担当者に質問することができます。ただし、当該質問の内容により、お答えできない場合があります。</small></li>
+                                    <li class='my-4'><small>当社は、利用者からの質問に回答を行ったとしても、その回答内容の完全性、正確性、確実性、有用性等につき、いかなる責任も負わないものとします。</small></li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class='kb-panel-body px-3 bb'>
+                            <p class='m-0'>第５条 （情報の取扱い）</p>
+                            <div>
+                                <ol>
+                                    <li class='my-4'>
+                                        <small>当社は、利用者記録情報を、本規約に別途規定する場合及び以下に定める場合を除き、第三者に開示又は提供しないものとします。</small>
+                                        <ol>
+                                            <li class='text-muted my-2'><small>法令又は官公庁により開示又は提供を法的に義務づけられた場合</small></li>
+                                            <li class='text-muted my-2'><small>開示又は提供につき、利用者の同意を得た場合</small></li>
+                                            <li class='text-muted my-2'><small>利用者に対し、本規約に基づく義務の履行を請求する場合</small></li>
+                                            <li class='text-muted my-2'><small>利用者に対する当サービスの提供に関し、紛争等が発生した場合</small></li>
+                                            <li class='text-muted my-2'><small>その他重要な法益を保護する必要のある緊急事態が生じた場合</small></li>
+                                        </ol>
+                                    </li>
+                                    <li class='my-4'><small>当社は、利用者記録情報及び利用者の当サービスに関する利用記録から、個人及び利用者を識別することができない統計データを作成することができるものとします。当該統計データは、当サービス及び当社のその他のサービスのために当社が利用できるほか、第三者に提供することができるものとし、利用者は予めこれを承諾するものとします。</small></li>
+                                    <li class='my-4'><small>当社が前項に定める範囲で統計情報を利用しているにもかかわらず、利用者又は当社が個人情報の保有当事者からクレーム等を受けた場合、利用者は、自らの費用と責任でこれを解決するものとし、当社にいかなる責任も負担させないものとします。</small></li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class='kb-panel-body px-3 bb'>
+                            <p class='m-0'>第６条（個人情報の取扱い）</p>
+                            <div>
+                                <ol>
+                                    <li class='my-4'><small>当社は、「個人情報の保護に関する法律」（平成15年法律第57号。以下単に「個人情報保護法」という。）を遵守し、本規約に基づき当サービスを通じて当社に委託した「個人情報」（個人情報保護法の定義と同義とします。）を善良な管理者の注意義務をもって取り扱うものとします。</small></li>
+                                    <li class='my-4'><small>当社は、委託された個人情報を、当サービス利用契約の履行目的にのみ利用し、それ以外の目的で利用しないものとします。</small></li>
+                                    <li class='my-4'><small>当社は、当サービスに登録した個人情報の漏えい、滅失、毀損の防止その他の個人情報の安全管理のために必要かつ適切な措置を講じるものとします。万が一、当サービスに登録した個人情報の漏えい、滅失、毀損があった場合、当社が適切と判断する方法で利用者に告知を行います。</small></li>
+                                    <li class='my-4'><small>当社は、当サービスの利用契約が終了したときは、利用者の要求があった場合、速やかに当サービスに登録した個人情報（バックアップ等の複製物を含みます。）をすべて消去又は廃棄するものとします。</small></li>
+                                    <li class='my-4'><small>当社は、当サービスにかかる業務を第三者に再委託することができるものとします。なお、当社は当該第三者に本規約と同等の守秘義務を課すものとし、弊社は再委託に必要な範囲で個人情報を当該第三者に提供できるものとします。</small></li>
+                                    <li class='my-4'><small>利用者は、当社による個人情報の管理状況を調査・確認するため、1年間に1回以下の頻度で、報告を求めることができます。</small></li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class='kb-panel-body px-3 bb'>
+                            <p class='m-0'>第７条（利用者記録情報の保存）</p>
+                            <div>
+                                <ol>
+                                    <li class='my-4'><small>当社は、当社が別途定める場合を除き、利用者記録情報の保存を保証しないものとします。利用者は、自己の責任において利用者記録情報を保存することにより、バックアップ作業を行うものとします。</small></li>
+                                    <li class='my-4'><small>当社は、利用者記録情報が当社のサーバーに記録されている場合、当該利用者記録情報が当社のサーバーに記録された日から起算して別途当社が定める期間を経過した場合、当社のサーバーから削除することができるものとします。</small></li>
+                                    <li class='my-4'><small>本契約が終了した場合、本契約が終了する日の翌日以降、当社は利用者記録情報を削除することができるものとします。</small></li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class='kb-panel-body px-3 bb'>
+                            <p class='m-0'>第８条（解除）</p>
+                            <div>
+                                <ol>
+                                    <li class='my-4'>
+                                        <small>当社は、次の各号に掲げる事由のいずれかが発生した場合、直ちに、当社が必要と判断する期間における利用者の当サービスの利用の停止又は本契約の解除をすることができるものとします。</small>
+                                        <ol>
+                                            <li class='text-muted my-2'><small>利用者が本規約に違反したとき。ただし、当社による本契約の解除は、催告を受けたにもかかわらず相当期間経過後も是正されないときとします。</small></li>
+                                            <li class='text-muted my-2'><small>利用者の重要な財産について差押え、仮差押え、仮処分、強制執行若しくは競売の申立てがなされたとき、又は租税公課を滞納し督促を受けたとき。</small></li>
+                                            <li class='text-muted my-2'><small>利用者に関して、民事再生手続開始、会社更生手続開始、破産手続開始、特別清算開始その他の法的倒産処理手続の開始の申立て若しくは特定調停の申立てがあったとき、私的整理に入ったとき、又は手形若しくは小切手を不渡りとしたときその他支払停止状態に至ったとき。</small></li>
+                                            <li class='text-muted my-2'><small>利用者が資本減少若しくは解散の手続に入ったとき又は裁判により解散したとき。</small></li>
+                                            <li class='text-muted my-2'><small>利用者が法令に基づく事業停止若しくは事業禁止の命令を受け、若しくは許認可等が取り消され、又は事業の全部若しくは重要な一部につき廃止、休止若しくは譲渡の手続に入ったとき。</small></li>
+                                            <li class='text-muted my-2'><small>前各号のほか利用者に対する債権保全を必要とする相当の事由が生じたとき。</small></li>
+                                            <li class='text-muted my-2'><small>利用者又はその役員若しくは従業員が法令に違反したとき。</small></li>
+                                            <li class='text-muted my-2'><small>利用者の親会社（会社法第2条第4号に定める親会社をいう。）若しくは親会社と同様に経営を支配している者に変更があったとき、又は新たにそれらの者に経営を支配されるに至ったとき。</small></li>
+                                        </ol>
+                                    </li>
+                                    <li class='my-4'><small>前項に定める事由により、利用者の当サービスの利用が停止された場合でも、利用者は利用が停止された期間中の当サービスの利用料金を負担するものとします。</small></li>
+                                    <li class='my-4'><small>利用者が第1項各号のいずれかに該当した場合、当社に対する本契約に基づくすべての債務につき当然に期限の利益を失い、直ちに当該債務全部を弁済しなければならないものとします。</small></li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class='kb-panel-body px-3 bb'>
+                            <p class='m-0'>第９条（解約）</p>
+                            <div>
+                                <ol>
+                                    <li class='my-4'><small>利用者は、解約を希望する月の前月末日までに、当社指定の届出を行うことにより、解約希望月の末日をもって本契約の全部又は一部を解約できるものとします。</small></li>
+                                    <li class='my-4'><small>利用者は、解約までに発生した利用料について、解約後も支払義務を負います。</small></li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class='kb-panel-body px-3 bb'>
+                            <p class='m-0'>第1０条（損害賠償）</p>
+                            <div>
+                                <ol>
+                                    <li class='my-4'><small>当サービスに関し、当社が利用者に損害を与えた場合であっても、当社に故意又は重過失が認められる場合を除き、当社は一切その責任を負いません。当社に故意又は重過失が認められる場合、利用者が当サービスを無料で利用している場合を除き、当社の責任は利用者に損害が発生した月の利用料金相当額を上限とします。</small></li>
+                                    <li class='my-4'><small>前項の規定にかかわらず、当サービスを無料で利用している利用者に対しては、当社が利用者に損害を与えた場合であっても、当社は一切その責任を負いません。</small></li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class='kb-panel-body px-3 bb'>
+                            <p class='m-0'>第１１条（分離性）</p>
+                            <p>
+                                <small>
+                                    本規約の条項の一部が、法令上無効であるとされた場合であっても、かかる無効とされた条項以外の本規約の各条項は引き続き有効なものとして、当社及び利用者に適用されるものとします。
+                                </small>
+                            </p>
+                            <p class="mt-2 text-right">
+                                <small>
+                                    以上
+                                </small>
+                            </p>
+                        </div>
+                        <div class='kb-panel-body px-3 bb'>
+                            <p class="my-0">
+                                <small class="text-muted">
+                                    最終更新：2020年4月13日
+                                </small>
+                            </p>
+                        </div>
+                    </div>
+                    <div class='kb-panel my-3' id='policy-panel-2'>
+                        <div class='kb-panel-title p-3'>
+                            <p class='m-0'><b>個人情報保護方針</b></p>
+                        </div>
+                        <div class='kb-panel-body px-3 bb'>
+                            <div class='mb-5'>
+                                <p class='text-muted'>
+                                    <small>
+                                        株式会社アイデアランプ（以下「当社」といいます。）は、「Knowledge Bank」（以下「当サービス」といいます。）へのお問合せで取り扱う個人情報及びお客様のご担当者の個人情報を、下記の定めに従って取り扱います。<br>社会に寄与する企業として個人情報の適切な取扱いに規範を示すべき立場にあるとの理念の下、個人情報を適切に取り扱うことの重要性を認識し、個人情報保護方針を定め、これを遵守し、もって個人情報の保護及び個人の権利利益の保護に万全を尽くしてまいります。
+                                    </small>
+                                </p>
+                            </div>
+                            <div class="mb-5">
+                                <ol>
+                                    <li class='my-4'><small>個人情報を取得するに当たっては、その利用目的をできる限り特定し、その目的の達成に必要な限度において個人情報を取得致します。</small></li>
+                                    <li class='my-4'><small>個人情報を、本人から直接、書面によって取得する場合には、弊社名、個人情報保護管理者名及び連絡先、利用目的等をお知らせした上で、必要な範囲で個人情報を取得致します。</small></li>
+                                    <li class='my-4'><small>個人情報の利用は、本人が同意を与えた利用目的の範囲内で行います。また、目的外利用を行わないため、必要な対策を講じる手順を確立し、実施致します。</small></li>
+                                    <li class='my-4'><small>保有する個人情報を適切な方法で管理し、本人の同意なしに第三者に開示・提供致しません。</small></li>
+                                    <li class='my-4'><small>保有する個人情報を利用目的に応じた必要な範囲内において、正確、かつ、最新の状態で管理し、個人情報の漏えい、滅失又は毀損などのおそれに対して、合理的な安全対策を講じ、予防並びに是正に努めます。</small></li>
+                                    <li class='my-4'><small>個人情報の処理を外部へ委託する場合は、漏えいや第三者への提供を行わない等を契約により義務づけ、委託先に対する適切な管理を実施致します。</small></li>
+                                    <li class='my-4'><small>保有する個人情報についての苦情・相談は、当社の問合せ窓口に連絡頂くことにより、これに対応致します。</small></li>
+                                    <li class='my-4'><small>個人情報の取扱いに関する法令、国が定める指針その他の規範を遵守致します。</small></li>
+                                    <li class='my-4'><small>個人情報保護マネジメントシステムを定め、これを定期的に見直し、継続的に改善致します。</small></li>
+                                </ol>
+                            </div>
+                            <div class="mb-5">
+                                <p class='m-0'>個人情報保護方針についてのお問合せ先：株式会社アイデアランプ個人情報相談受付窓口</p>
+                                <p class="px-3">
+                                    <small>
+                                        〒150-0001　東京都渋谷区神宮前6-18-13　神宮前浅間ビル4F<br>
+                                        Tel. 03-6434-5357<br>
+                                        Fax. 03-6434-5358<br>
+                                        <br>
+                                        制定日：2018年10月1日<br>
+                                        株式会社アイデアランプ<br>
+                                        代表取締役　宮原秀文
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='kb-panel my-3' id='policy-panel-3'>
+                        <div class='kb-panel-title p-3'>
+                            <p class='m-0'><b>個人情報の取り扱いについて</b></p>
+                        </div>
+                        <div class='kb-panel-body px-3'>
+                            <div class="">
+                                <p class="px-3">
+                                    <small class="text-muted">
+                                        当社は、当サービスへのお問合せで取り扱う個人情報及びお客様のご担当者の個人情報を、下記の定めに従って取り扱います。 当社では個人情報保護法を遵守し、ご提供いただいた個人情報は、細心の注意を払って管理します。利用にあたっては明示した「利用目的」の範囲内にとどめ、「利用目的」の変更が必要とされる場合も、その旨を明示し同意を得た上で変更を実施します。
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                        <div class='kb-panel-body px-3 bb'>
+                            <p class='m-0'>【利用目的について】</p>
+                            <p>
+                                <small class="text-muted">
+                                    当社が取得した個人情報は、次の目的の範囲内で利用いたします。なお、次の目的の範囲に含まれていない利用目的が生じたときは、直接取得の場合はご本人へ利用目的について同意を得たうえで、それ以外の手段で取得した場合には利用目的を公表したうえで、利用いたします
+                                </small>
+                            </p>
+                            <div class="my-4">
+                                <p>
+                                    <small>
+                                        <b>お問い合わせいただいた方の個人情報</b><br>
+                                    </small>
+                                </p>
+                                <p>
+                                    <small>
+                                        利用目的：お問合せ回答のため<br>
+                                        保有個人データ：○
+                                    </small>
+                                </p>
+                            </div>
+                            <div class="my-4">
+                                <p>
+                                    <small>
+                                        <b>お取引先様に関する個人情報</b>
+                                    </small>
+                                </p>
+                                <p>
+                                    <small>
+                                        利用目的：営業活動・お取引先様管理のため<br>
+                                        保有個人データ：○
+                                    </small>
+                                </p>
+                            </div>
+                            <div class="my-4">
+                                <p>
+                                    <small>
+                                        <b>協力スタッフの個人情報</b>
+                                    </small>
+                                </p>
+                                <p>
+                                    <small>
+                                        利用目的：業務連絡のため、費用等のお支払いのため<br>
+                                        保有個人データ：○
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                        <div class='kb-panel-body px-3 bb'>
+                            <p class='m-0'>【個人情報の開示等に関する請求について】</p>
+                            <p>
+                                <small class="text-muted">
+                                    当社は、ご本人様から利用目的の通知、開示、内容の訂正、追加又は削除、利用の停止、消去及び第三者への提供の停止（以下、「開示等」といいます。）を求められた場合は、個人情報について社内調査を行い、遅延なくご回答させていただきます。 ※ただし、ご請求内容によっては開示等に応じられない場合がございます。その場合はその理由に関してもご回答いたします。 開示等の請求を行う場合、下記手順に沿って郵送にてご請求ください。請求内容について不備・不足事項等ある場合請求を受け付けることが出来ない場合があります。なお、個人情報の開示または利用目的の通知の請求について、1回につき事務手数料として1,000円を郵便小為替にてご負担いただきます。 「個人情報開示等請求書」により頂いた個人情報は、お問い合わせ対応に使用し、それ以外の使用は致しません。
+                                </small>
+                            </p>
+                            <div class="my-4">
+                                <p>
+                                    <small>
+                                        <b>本人が請求する場合</b>
+                                    </small>
+                                </p>
+                                <p>
+                                    <small>
+                                        開示等の求めを行う場合は、以下の書類をご準備いただき、配達記録郵便にてお送り下さい。
+                                    </small>
+                                </p>
+                                <ol>
+                                    <li class='my-4'><small>個人情報開示等請求書<br>上記のファイルをダウンロードして、必要事項を記入してください。</small></li>
+                                    <li class='my-4'><small>本人確認書類<br>運転免許証、パスポート、健康保険証などの、ご本人の氏名、現住所を確認できる書類のコピー。</small></li>
+                                </ol>
+                            </div>
+                            <div class="my-4">
+                                <p>
+                                    <small>
+                                        <b>代理人が請求する場合</b><br>
+                                    </small>
+                                </p>
+                                <p>
+                                    <small>
+                                        開示等の求めを行う者が、法定代理人もしくは本人が委任した代理人である場合は、前項の書類に加えて、それぞれ下記の書類を同封下さい。
+                                    </small>
+                                </p>
+                                <p class="px-3">
+                                    <small>
+                                        <b>【法定代理人の場合】</b>
+                                    </small>
+                                </p>
+                                <ol>
+                                    <li class='my-4'><small>法定代理権があることを確認するための書類<br>戸籍謄本、親権者の場合は扶養家族が記入された健康保険の被保険者証のコピーも可。</small></li>
+                                    <li class='my-4'><small>法定代理人本人であることを確認するための書類<br>運転免許証、パスポート、健康保険証などの、代理人の氏名、現住所を確認できる書類のコピー。</small></li>
+                                </ol>
+                                <p class="px-3">
+                                    <small>
+                                        <b>【委任による代理人の場合】</b>
+                                    </small>
+                                </p>
+                                <ol>
+                                    <li class='my-4'><small>委任状（個人情報開示等請求書添付書類）<br>上記のファイルをダウンロードして、必要事項を記入してください。</small></li>
+                                    <li class='my-4'><small>ご本人の印鑑証明書（3ケ月以内に発行されたもの）</small></li>
+                                    <li class='my-4'><small>委任による代理人本人であることを確認するための書類<br>運転免許証、パスポート、健康保険証などの、代理人の氏名、現住所を確認できる書類のコピー。</small></li>
+                                </ol>
+                                <p class="px-3">
+                                    <small>
+                                        開示等に関する詳細は、開示等請求窓口へお問い合わせください。
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                        <div class='kb-panel-body px-3 bb'>
+                            <p class='m-0'>【個人情報に関する問い合わせ・開示等請求窓口】</p>
+                            <div class="">
+                                <dl>
+                                    <dt class="mb-2">
+                                        <small><b>名称</b></small>
+                                    </dt>
+                                    <dd>
+                                        株式会社アイデアランプ
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt class="mb-2">
+                                        <small><b>所在地</b></small>
+                                    </dt>
+                                    <dd>
+                                        〒150-0001　東京都渋谷区神宮前6-18-13　神宮前浅間ビル4F
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt class="mb-2">
+                                        <small><b>個人情報保護管理者</b></small>
+                                    </dt>
+                                    <dd>
+                                        〒150-0001　東京都渋谷区神宮前6-18-13　神宮前浅間ビル4F
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt class="mb-2">
+                                        <small><b>連絡先</b></small>
+                                    </dt>
+                                    <dd>
+                                        Tel. 03-6434-5357<br>
+                                        Fax. 03-6434-5358
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='kb-panel my-3' id='policy-panel-4'>
+                        <div class='kb-panel-title p-3'>
+                            <p class='m-0'><b>Cookiesの使用</b></p>
+                        </div>
+                        <div class='kb-panel-body px-3'>
+                            <div class=''>
+                                <p class='text'>
+                                    <small>
+                                        当Cookiesとは、ウェブサーバーから貴方のブラウザへ送信・保持される情報です。 Cookiesはその情報を送ったウェブサーバーによってのみ読まれる可能性があります。Cookiesはプログラムではなく、単独で実行されることはなく、コンピュータウィルスを内包するものでもありません。 当社ウェブサイトのアクセス性・利便性を向上させる目的で、Cookiesを使い、当社ウェブサイトの閲覧状況などの情報を収集する場合があります。このデータは貴方個人を特定・追跡するものではありません。 多くのブラウザは、はじめからCookiesが利用されるように設定されていますが、貴方はCookiesの受け入れに際して警告を表示、拒否するようにブラウザの設定を変更することが可能です。
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='kb-panel my-3' id='policy-panel-5'>
+                        <div class='kb-panel-title p-3'>
+                            <p class='m-0'><b>ウェブサーバーの記録</b></p>
+                        </div>
+                        <div class='kb-panel-body px-3'>
+                            <div class=''>
+                                <p class='text'>
+                                    <small>
+                                        当社のウェブサーバーは、貴方のコンピュータのIPアドレスを自動的に収集・記録しますが、これらは貴方個人を特定するものではありません。貴方自ら個人情報を開示しない限り、貴方は匿名のまま当社ウェブサイトを閲覧することが可能です。
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='kb-panel my-3' id='policy-panel-6'>
+                        <div class='kb-panel-title p-3'>
+                            <p class='m-0'><b>免責事項</b></p>
+                        </div>
+                        <div class='kb-panel-body px-3'>
+                            <div class=''>
+                                <p class='text'>
+                                    <small>
+                                        当サービスからリンクされた、当サービス以外のウェブサイトの内容やサービスに関して、当社サービスの個人情報保護についての諸条件は適用されません。 当サービス以外のウェブサイトの内容及び、個人情報の保護に関して、当社は責任を負いません。
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='kb-panel my-3' id='policy-panel-7'>
+                        <div class='kb-panel-title p-3'>
+                            <p class='m-0'><b>特定商取引法に基づく表記</b></p>
+                        </div>
+                        <div class='kb-panel-body px-3'>
+                            <div class="">
+                                <dl>
+                                    <dt class="mb-2">
+                                        <small><b>事業者名称</b></small>
+                                    </dt>
+                                    <dd>
+                                        株式会社アイデアランプ
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt class="mb-2">
+                                        <small><b>代表者または運営統括責任者名</b></small>
+                                    </dt>
+                                    <dd>
+                                        宮原秀文
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt class="mb-2">
+                                        <small><b>所在地</b></small>
+                                    </dt>
+                                    <dd>
+                                        〒150-0001　東京都渋谷区神宮前6-18-13　神宮前浅間ビル4F<br>
+                                        Tel. 03-6434-5357<br>
+                                        Fax. 03-6434-5358
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt class="mb-2">
+                                        <small><b>お問い合わせ窓口</b></small>
+                                    </dt>
+                                    <dd>
+                                        【当サービスを利用しており、ログインができる方】<br>
+                                        <a href="https://knowledge-bank.jp/contact/">https://knowledge-bank.jp/contact/</a><br>
+                                        【当サービスを利用しているが、何らかの都合でログインができない方】<br>
+                                        <a href="https://knowledge-bank.jp/contact/unlogin/">https://knowledge-bank.jp/contact/unlogin/</a><br>
+                                        【当サービス未利用の方、その他お問い合わせ】<br>
+                                        <a href="https://knowledge-bank.jp/introduction/contact/">https://knowledge-bank.jp/introduction/contact/</a>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt class="mb-2">
+                                        <small><b>営業時間</b></small>
+                                    </dt>
+                                    <dd>
+                                        10:00-19:00<br>
+                                        （土日祝祭日・年末年始を除く）
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt class="mb-2">
+                                        <small><b>価格</b></small>
+                                    </dt>
+                                    <dd>
+                                        下記ページの「料金プラン」をご覧ください。<br>
+                                        <a href="https://knowledge-bank.jp/introduction/">https://knowledge-bank.jp/introduction/</a>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt class="mb-2">
+                                        <small><b>送料・手数料など付帯費用</b></small>
+                                    </dt>
+                                    <dd>
+                                        <ol>
+                                            <li>消費税</li>
+                                            <li>振込手数料（振込でお支払いいただく場合に限ります）</li>
+                                        </ol>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt class="mb-2">
+                                        <small><b>代金の支払い時期および方法</b></small>
+                                    </dt>
+                                    <dd>
+                                        <ol>
+                                            <li>銀行振込：ご利用・販売の翌月末まで</li>
+                                            <li>
+                                                クレジットカード決済：弊社決済は毎月25日<br>
+                                                （実際の引き落とし日は各カード会社により異なります）
+                                            </li>
+                                        </ol>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt class="mb-2">
+                                        <small><b>商品の受け渡し時期および方法</b></small>
+                                    </dt>
+                                    <dd>
+                                        当サービスにお申し込みいただき、管理アカウントが発行されたのちにご利用いただけます。
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt class="mb-2">
+                                        <small><b>返品の取り扱い条件、解約条件</b></small>
+                                    </dt>
+                                    <dd>
+                                        お問い合わせ窓口への連絡後、当社より送付する解約申込書を、ご解約希望月の前月までにお送りいただきます。解約月のご利用料金については、日割りはせず、満額でご請求いたします。
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt class="mb-2">
+                                        <small><b>不具合・問題発生時の対応</b></small>
+                                    </dt>
+                                    <dd>
+                                        お問い合わせ窓口へご連絡ください。
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class='kb-panel my-3'>
+                        <div class='bb'>
+                            <a href='#policy-panel-1' class='m-0 p-3 kb-policy-navi'>利用規約</a>
+                        </div>
+                        <div class='bb'>
+                            <a href='#policy-panel-2' class='m-0 p-3 kb-policy-navi'>個人情報保護方針</a>
+                        </div>
+                        <div class='bb'>
+                            <a href='#policy-panel-3' class='m-0 p-3 kb-policy-navi'>個人情報の取り扱いについて</a>
+                        </div>
+                        <div class='bb'>
+                            <a href='#policy-panel-4' class='m-0 p-3 kb-policy-navi'>Cookiesの使用</a>
+                        </div>
+                        <div class='bb'>
+                            <a href='#policy-panel-5' class='m-0 p-3 kb-policy-navi'>ウェブサーバーの記録</a>
+                        </div>
+                        <div class='bb'>
+                            <a href='#policy-panel-6' class='m-0 p-3 kb-policy-navi'>免責事項</a>
+                        </div>
+                        <div class='bb'>
+                            <a href='#policy-panel-7' class='m-0 p-3 kb-policy-navi'>特定商取引法に基づく表記</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src='/static/ver2.1/js/script.js'></script>
+    <script>
+      $(document).ready(function(){
+
+        $(document).on('click', 'a[href^="#"]', function (event) {
+            event.preventDefault();
+            $('html, body').animate({
+                scrollTop: $($.attr(this, 'href')).offset().top-$(".kb-header").outerHeight()
+            }, 500);
+        });
+      })
+    </script>
+</body>
+{% include './ver2.1/partials/footer.html' %}
+</html>

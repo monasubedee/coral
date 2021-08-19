@@ -1,0 +1,314 @@
+<!-- {%from "./ver2/partials/sidebar.html" import sidebar with context%} -->
+<!DOCTYPE html>
+<html lang="ja">
+{% include './ver2/partials/sidebar.html' %}
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ナレッジバンク設定</title>
+      <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+      <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
+      <script src="js/main.js"></script>
+</head>
+<style>
+
+.container__current__success{
+    height: 49px;
+    padding: 0px 0px 0px 250px;
+    background: #e6f7e6;
+    /* opacity: 0.1; */
+}
+.container__current__success--text{
+  padding: 17px 0px;
+}
+</style>
+<body>
+  {% include './ver2/partials/head.html' %}
+  {% if status=="failed" %}
+  <div class="container__current__deny">
+  		<div class="text ">内容の保存に失敗しました</div>
+  	</div>
+  {% endif %}
+
+  {% if status=="ok" %}
+  <div class="container__current__success">
+      <div class="text container__current__success--text">課題をためました！</div>
+    </div>
+  {% endif %}
+
+	<div class="container" style="padding: 80px 0px 80px 250px;">
+		<h2 class="heading">ナレッジバンク設定</h2>
+		<div class="content__wrapper">
+			<div class="article__wrapper">
+				<div class="heading__text">ナレッジバンクの設定をしてください</div>
+
+				<div class="icon-container">
+					<a href="/settings/base" class="icon__wrapper">
+						<img src="/static/img/setting__icon__base--current.png" class="setting__icon" alt="基本設定" srcset="/static/img/setting__icon__base--current.png 1x, /static/img/setting__icon__base--current@2x.png 2x">
+						<div class="icon-label__checked__blue">基本設定</div>
+					</a>
+					<a href="/settings/learn" class="icon__wrapper">
+						<img src="/static/img/setting__icon__learn.png" class="setting__icon" alt="学習設定" srcset="/static/img/setting__icon__learn.png 1x, /static/img/setting__icon__learn@2x.png 2x">
+						<div class="icon-label">学習設定</div>
+					</a>
+					<a href="settings/import" class="icon__wrapper">
+						<img src="/static/img/setting__icon__import.png" class="setting__icon" alt="ためる設定" srcset="/static/img/setting__icon__import.png 1x, /static/img/setting__icon__import@2x.png 2x">
+						<div class="icon-label">ためる設定</div>
+					</a>
+					<a href="settings/mail" class="icon__wrapper">
+						<img src="/static/img/setting__icon__mail" class="setting__icon" alt="通知設定" srcset="/static/img/setting__icon__mail.png 1x, /static/img/setting__icon__mail@2x.png 2x">
+						<div class="icon-label">通知設定</div>
+					</a>
+				</div>
+
+				<div class="spacer"></div>
+				<!-- <form name="settingBaseform" method="post"> -->
+				<div class="content__sector-select__industry">
+					<div class="article__title">業種・職種の設定</div>
+					<hr class="news__line">
+
+					<div class="content__heading-sector">
+						<input type="checkbox" name="occupation" class="checkbox-industry" data-for="company_position" id="sales" value="sales" ><label for="sales"><div class="text__bold">営業・事務・企画</div></label>
+					</div>
+					<div class="content__sector-select-inner" data-target="company_position">
+						<label class="secotr-label" for="sale"><input type="checkbox" name="occupation" class="checkbox-occupation" id="sale" ><div class="text">営業</div></label>
+						<label class="secotr-label" for="telemarke"><input type="checkbox" name="occupation" class="checkbox-occupation" id="telemarke" value=""><div class="text">テレマーケティング</div></label>
+						<label class="secotr-label" for="customersupport"><input type="checkbox" name="occupation" class="checkbox-occupation" id="customersupport" value=""><div class="text">カスタマーサポート</div></label>
+						<label class="secotr-label" for="manage"><input type="checkbox" name="occupation" class="checkbox-occupation" id="manage" value=""><div class="text">事業統括・運営</div></label>
+						<label class="secotr-label" for="plan"><input type="checkbox" name="occupation" class="checkbox-occupation" id="plan" value=""><div class="text">経営企画・秘書</div></label>
+						<label class="secotr-label" for="newbiz"><input type="checkbox" name="occupation" class="checkbox-occupation" id="newbiz" value=""><div class="text">新規事業開発</div></label>
+						<label class="secotr-label" for="finance"><input type="checkbox" name="occupation" class="checkbox-occupation" id="finance" value=""><div class="text">財務</div></label>
+						<label class="secotr-label" for="accounting"><input type="checkbox" name="occupation" class="checkbox-occupation" id="accounting" value=""><div class="text">経理</div></label>
+						<label class="secotr-label" for="resources"><input type="checkbox" name="occupation" class="checkbox-occupation" id="resources" value=""><div class="text">人事</div></label>
+						<label class="secotr-label" for="legal"><input type="checkbox" name="occupation" class="checkbox-occupation" id="legal" value=""><div class="text">法務</div></label>
+						<label class="secotr-label" for="property"><input type="checkbox" name="occupation" class="checkbox-occupation" id="property" value=""><div class="text">知財・特許</div></label>
+						<label class="secotr-label" for="ir"><input type="checkbox" name="occupation" class="checkbox-occupation" id="ir" value=""><div class="text">広報・ＩＲ</div></label>
+						<label class="secotr-label" for="general"><input type="checkbox" name="occupation" class="checkbox-occupation" id="general" value=""><div class="text">総務</div></label>
+						<label class="secotr-label" for="executive"><input type="checkbox" name="occupation" class="checkbox-occupation" id="executive" value=""><div class="text">エグゼクティブ・役員</div></label>
+					</div>
+					<hr class="news__line">
+
+					<div class="content__heading-sector">
+						<input type="checkbox" name="occupation" class="checkbox-industry" data-for="company_service" id="service" value="" ><label for="service"><div class="text__bold">サービス、販売、運輸</div></label>
+					</div>
+					<div class="content__sector-select-inner" data-target="company_service">
+					<label class="secotr-label" for="depart"><input type="checkbox" name="occupation" class="checkbox-occupation" id="depart" ><div class="text">百貨店</div></label>
+					<label class="secotr-label" for="market"><input type="checkbox" name="occupation" class="checkbox-occupation" id="market" ><div class="text">スーパー・GMS</div></label>
+					<label class="secotr-label" for="conven"><input type="checkbox" name="occupation" class="checkbox-occupation" id="conven" ><div class="text">コンビニエンス</div></label>
+					<label class="secotr-label" for="speciality"><input type="checkbox" name="occupation" class="checkbox-occupation" id="speciality" ><div class="text">専門店・量販店</div></label>
+					<label class="secotr-label" for="restaurant"><input type="checkbox" name="occupation" class="checkbox-occupation" id="restaurant" ><div class="text">飲食店</div></label>
+					<label class="secotr-label" for="amuse"><input type="checkbox" name="occupation" class="checkbox-occupation" id="amuse" ><div class="text">アミューズメント店</div></label>
+					<label class="secotr-label" for="cram"><input type="checkbox" name="occupation" class="checkbox-occupation" id="cram" ><div class="text">学習塾・専門学校・各種スクール</div></label>
+					<label class="secotr-label" for="medical"><input type="checkbox" name="occupation" class="checkbox-occupation" id="medical" ><div class="text">医療</div></label>
+					<label class="secotr-label" for="drug"><input type="checkbox" name="occupation" class="checkbox-occupation" id="drug" ><div class="text">薬剤</div></label>
+					<label class="secotr-label" for="welfare"><input type="checkbox" name="occupation" class="checkbox-occupation" id="welfare" ><div class="text">福祉</div></label>
+					<label class="secotr-label" for="barber"><input type="checkbox" name="occupation" class="checkbox-occupation" id="barber" ><div class="text">理美容</div></label>
+					<label class="secotr-label" for="treat"><input type="checkbox" name="occupation" class="checkbox-occupation" id="treat" ><div class="text">エステ・マッサージ</div></label>
+					<label class="secotr-label" for="trip"><input type="checkbox" name="occupation" class="checkbox-occupation" id="trip" ><div class="text">旅行</div></label>
+					<label class="secotr-label" for="hotel"><input type="checkbox" name="occupation" class="checkbox-occupation" id="hotel" ><div class="text">宿泊・ホテル</div></label>
+					<label class="secotr-label" for="ceremonial"><input type="checkbox" name="occupation" class="checkbox-occupation" id="ceremonial" ><div class="text">冠婚葬祭</div></label>
+					<label class="secotr-label" for="passenger"><input type="checkbox" name="occupation" class="checkbox-occupation" id="passenger" ><div class="text">道路旅客運送</div></label>
+					<label class="secotr-label" for="cargo"><input type="checkbox" name="occupation" class="checkbox-occupation" id="cargo" ><div class="text">道路貨物運送</div></label>
+					<label class="secotr-label" for="air"><input type="checkbox" name="occupation" class="checkbox-occupation" id="air" ><div class="text">航空運送</div></label>
+					<label class="secotr-label" for="train"><input type="checkbox" name="occupation" class="checkbox-occupation" id="train" ><div class="text">鉄道運送</div></label>
+					<label class="secotr-label" for="ship"><input type="checkbox" name="occupation" class="checkbox-occupation" id="ship" ><div class="text">船舶運送</div></label>
+					<label class="secotr-label" for="warehouse"><input type="checkbox" name="occupation" class="checkbox-occupation" id="warehouse" ><div class="text">倉庫業</div></label>
+					<label class="secotr-label" for="moniter"><input type="checkbox" name="occupation" class="checkbox-occupation" id="" ><div class="text">監視・保守</div></label>
+					<label class="secotr-label" for="security"><input type="checkbox" name="occupation" class="checkbox-occupation" id="moniter" ><div class="text">警備・守衛</div></label>
+					<label class="secotr-label" for=""><input type="checkbox" name="occupation" class="checkbox-occupation" id="security" ><div class="text">清掃</div></label>
+					<label class="secotr-label" for="maintenance"><input type="checkbox" name="occupation" class="checkbox-occupation" id="security" ><div class="text">設備メンテナンス</div></label>
+					</div>
+					<hr class="news__line">
+
+					<div class="content__heading-sector">
+						<input type="checkbox" name="occupation" class="checkbox-industry" data-for="company_creative" id="creative" value="" ><label for="creative"><div class="text__bold">クリエイティブ系</div></label>
+					</div>
+					<div class="content__sector-select-inner" data-target="company_creative" >
+					<label class="secotr-label" for="direction"><input type="checkbox" name="occupation" class="checkbox-occupation" id="direction" ><div class="text">ディレクション系</div></label>
+					<label class="secotr-label" for="contents"><input type="checkbox" name="occupation" class="checkbox-occupation" id="contents" ><div class="text">コンテンツ制作系</div></label>
+					<label class="secotr-label" for="publish"><input type="checkbox" name="occupation" class="checkbox-occupation" id="publish" ><div class="text">出版系</div></label>
+					<label class="secotr-label" for="print"><input type="checkbox" name="occupation" class="checkbox-occupation" id="print" ><div class="text">印刷系</div></label>
+					<label class="secotr-label" for="tv"><input type="checkbox" name="occupation" class="checkbox-occupation" id="tv" ><div class="text">ＴＶ・映画・PV</div></label>
+					<label class="secotr-label" for="event"><input type="checkbox" name="occupation" class="checkbox-occupation" id="event" ><div class="text">イベント・ブライダル</div></label>
+					<label class="secotr-label" for="entertain"><input type="checkbox" name="occupation" class="checkbox-occupation" id="entertain" ><div class="text">芸能</div></label>
+					<label class="secotr-label" for="provide"><input type="checkbox" name="occupation" class="checkbox-occupation" id="provide" ><div class="text">自社Webサイト運営・コンテンツプロバイダ</div></label>
+					<label class="secotr-label" for="webconsul"><input type="checkbox" name="occupation" class="checkbox-occupation" id="webconsul" ><div class="text">Webサイトコンサルティング・制作</div></label>
+					<label class="secotr-label" for="game"><input type="checkbox" name="occupation" class="checkbox-occupation" id="game" ><div class="text">ゲーム・マルチメディア関連</div></label>
+					<label class="secotr-label" for="fashion"><input type="checkbox" name="occupation" class="checkbox-occupation" id="fashion" ><div class="text">ファッションデザイン</div></label>
+					<label class="secotr-label" for="space"><input type="checkbox" name="occupation" class="checkbox-occupation" id="space" ><div class="text">空間デザイン</div></label>
+					<label class="secotr-label" for="product"><input type="checkbox" name="occupation" class="checkbox-occupation" id="product" ><div class="text">プロダクトデザイン</div></label>
+					</div>
+					<hr class="news__line">
+
+					<div class="content__heading-sector">
+						<input type="checkbox" name="occupation" class="checkbox-industry" id="consal" value="" data-for="company_consul" ><label for="consal"><div class="text__bold">コンサルタント・金融・不動産</div></label>
+					</div>
+					<div class="content__sector-select-inner" data-target="company_consul">
+					<label class="secotr-label" for="thinktank"><input type="checkbox" name="occupation" class="checkbox-occupation" id="thinktank" ><div class="text">戦略系コンサルティングファーム・シンクタンク</div></label>
+					<label class="secotr-label" for="tax"><input type="checkbox" name="occupation" class="checkbox-occupation" id="tax" ><div class="text">金融機関系列・監査法人・税務事務所</div></label>
+					<label class="secotr-label" for="agency"><input type="checkbox" name="occupation" class="checkbox-occupation" id="agency" ><div class="text">マーケティング会社・ブランドエージェンシー</div></label>
+					<label class="secotr-label" for="row"><input type="checkbox" name="occupation" class="checkbox-occupation" id="row" ><div class="text">法律事務所・ローファーム</div></label>
+					<label class="secotr-label" for="patent"><input type="checkbox" name="occupation" class="checkbox-occupation" id="patent" ><div class="text">特許事務所・弁理士事務所</div></label>
+					<label class="secotr-label" for="jutice"><input type="checkbox" name="occupation" class="checkbox-occupation" id="jutice" ><div class="text">司法書士事務所</div></label>
+					<label class="secotr-label" for="administration"><input type="checkbox" name="occupation" class="checkbox-occupation" id="administration" ><div class="text">行政書士事務所</div></label>
+					<label class="secotr-label" for="human-resource"><input type="checkbox" name="occupation" class="checkbox-occupation" id="human-resource" ><div class="text">組織人事コンサルティング</div></label>
+					<label class="secotr-label" for="staffing"><input type="checkbox" name="occupation" class="checkbox-occupation" id="staffing" ><div class="text">人材派遣・紹介</div></label>
+					<label class="secotr-label" for="translate"><input type="checkbox" name="occupation" class="checkbox-occupation" id="translate" ><div class="text">通訳・翻訳</div></label>
+					<label class="secotr-label" for="finance"><input type="checkbox" name="occupation" class="checkbox-occupation" id="finance" ><div class="text">金融関連</div></label>
+					</div>
+					<hr class="news__line">
+
+					<div class="content__heading-sector">
+						<input type="checkbox" name="occupation" class="checkbox-industry" id="engineer" value="" data-for="company_engineer" ><label for="engineer"><div class="text__bold">技術系（ITエンジニア）</div></label>
+					</div>
+					<div class="content__sector-select-inner" data-target="company_engineer">
+					<label class="secotr-label" for="analyst"><input type="checkbox" name="occupation" class="checkbox-occupation" id="analyst" ><div class="text">システムコンサルタント、システムアナリスト、プリセールス</div></label>
+					<label class="secotr-label" for="web"><input type="checkbox" name="occupation" class="checkbox-occupation" id="web" ><div class="text">システム開発（Web系）</div></label>
+					<label class="secotr-label" for="open"><input type="checkbox" name="occupation" class="checkbox-occupation" id="open" ><div class="text">システム開発（オープン系）</div></label>
+					<label class="secotr-label" for="general-purpose"><input type="checkbox" name="occupation" class="checkbox-occupation" id="general-purpose" ><div class="text">システム開発（汎用機系）</div></label>
+					<label class="secotr-label" for="embedded"><input type="checkbox" name="occupation" class="checkbox-occupation" id="embedded" ><div class="text">組込系ソフトウェア開発</div></label>
+					<label class="secotr-label" for="package"><input type="checkbox" name="occupation" class="checkbox-occupation" id="package" ><div class="text">パッケージソフト・ミドルウェア開発</div></label>
+					<label class="secotr-label" for="network"><input type="checkbox" name="occupation" class="checkbox-occupation" id="network" ><div class="text">ネットワークインテグレーション</div></label>
+					<label class="secotr-label" for="infrastructure"><input type="checkbox" name="occupation" class="checkbox-occupation" id="infrastructure" ><div class="text">通信インフラ設計・構築</div></label>
+					<label class="secotr-label" for="technical"><input type="checkbox" name="occupation" class="checkbox-occupation" id="technical" ><div class="text">運用、監視、テクニカルサポート、保守</div></label>
+					<label class="secotr-label" for="se"><input type="checkbox" name="occupation" class="checkbox-occupation" id="se" ><div class="text">社内SE、情報システム</div></label>
+					<label class="secotr-label" for="research"><input type="checkbox" name="occupation" class="checkbox-occupation" id="research" ><div class="text">研究（ソフトウェア・ネットワーク）</div></label>
+					</div>
+					<hr class="news__line">
+
+					<div class="content__heading-sector">
+						<input type="checkbox" name="occupation" class="checkbox-industry" id="teach" value="" data-for="company_teach" ><label for="teach"><div class="text__bold">公務員・教諭</div></label>
+					</div>
+					<div class="content__sector-select-inner" data-target="company_teach" >
+					<label class="secotr-label" for="government"><input type="checkbox" name="occupation" class="checkbox-occupation" id="government" ><div class="text">国家公務員</div></label>
+					<label class="secotr-label" for="local"><input type="checkbox" name="occupation" class="checkbox-occupation" id="local" ><div class="text">地方公務員</div></label>
+					<label class="secotr-label" for="teacher"><input type="checkbox" name="occupation" class="checkbox-occupation" id="teacher" ><div class="text">教諭</div></label>
+					<label class="secotr-label" for="farm"><input type="checkbox" name="occupation" class="checkbox-occupation" id="farm" ><div class="text">農業</div></label>
+					<label class="secotr-label" for="forestry"><input type="checkbox" name="occupation" class="checkbox-occupation" id="forestry" ><div class="text">林業</div></label>
+					<label class="secotr-label" for="fishery"><input type="checkbox" name="occupation" class="checkbox-occupation" id="fishery" ><div class="text">漁業</div></label>
+					<label class="secotr-label" for="fishery-indust"><input type="checkbox" name="occupation" class="checkbox-occupation" id="fishery-indust" ><div class="text">水産</div></label>
+					<label class="secotr-label" for="livestock"><input type="checkbox" name="occupation" class="checkbox-occupation" id="livestock" ><div class="text">畜産・酪農</div></label>
+					</div>
+				</div>
+				<div class="content__sector-select">
+					<div class="article__title">役職の設定</div>
+					<hr class="news__line3">
+					<div class="content__sector-select-inner__role" data-for="role-stack">
+						<label class="secotr-label" for="president"><input type="checkbox" name="position" class="checkbox-occupation" id="president" ><div class="text">社長</div></label>
+						<label class="secotr-label" for="chief"><input type="checkbox" name="position" class="checkbox-occupation" id="chief" value=""><div class="text">係長</div></label>
+						<label class="secotr-label" for="manager"><input type="checkbox" name="position" class="checkbox-occupation" id="manager" value=""><div class="text">マネージャー</div></label>
+						<label class="secotr-label" for="sectionchief"><input type="checkbox" name="position" class="checkbox-occupation" id="sectionchief" value="" ><div class="text">課長</div></label>
+						<label class="secotr-label" for="generalmanager"><input type="checkbox" name="position" class="checkbox-occupation" id="generalmanager" value=""><div class="text">部長</div></label>
+						<label class="secotr-label" for="officer"><input type="checkbox" name="position" class="checkbox-occupation" id="officer" value=""><div class="text">役員</div></label>
+
+						<div class="text__bold">フリーワード入力</div>
+						<div class="form-sector__role-wrapper">
+
+							<input class="form-sector__role-mid" name="job" id="job_title_input">
+							<a  style="color: black;" id="showJobTitle">
+								<div class="content__role__new-word" data-target="role-stack"><div class="plus-icon"></div>追加</div>
+							</a>
+						</div>
+						<div class="content__word-tag" id="displayJob"></div>
+					</div>
+					</div>
+				</div>
+
+
+				<div class="content__sector-select">
+					<div class="article__title">チームの設定</div>
+					<hr class="news__line3">
+					<div class="content__sector-select-inner__team" data-for="tream-stack">
+
+						<div class="text__bold">フリーワード入力</div>
+						<div class="form-sector__team-wrapper">
+
+							<input class="form-sector__team-large" id="team_input">
+							<a onclick="showTeamInput()" style="color: black;" id="showTeam">
+								<div class="content__team__new-word"><div class="plus-icon"></div>追加</div>
+							</a>
+						</div>
+						<div class="content__word-tag" id="displayTeam"></div>
+					</div>
+					</div>
+				</div>
+				<div class="btn_wrapper"><button type="submit" class="contact__button" data-anime-hover="buttons" onclick="callfunctions2()">入力内容を保存する</button></div>
+				<!-- </form> -->
+			</div>
+      {% include './ver2/partials/footer.html' %}
+		<script>
+      function callfunctions2() {
+          p = document.getElementsByName('occupation')
+          var occupation = []
+          for (i=0; i<p.length; i++) {
+            if (p[i].checked==true)	{
+              occupation.push(p[i].id)
+            }
+          }
+    		  //get team names list
+    		  var team = []
+    		  $("#displayTeam>div").each(function(){
+    			  team.push($(this).find("span").text())
+    		  })
+
+          var position = []
+          $("#displayJob>div").each(function(){
+           position.push($(this).find("span").text())
+         })
+
+          var data = {"occupationName": occupation, "teamname" : team, "positionname" : position};
+
+          // ajax the JSON to the server
+          $.ajax({
+              type: 'POST',
+              url: '/settings/base',
+              data: JSON.stringify(data),
+              success: function(data) {
+                if(data['result'] == "ok"){
+                  window.location.href = "/settings/base?status=ok";
+                }
+                if(data['result'] == "ng"){
+                  console.log("insert fail")
+                  window.location.href = "/settings/base?status=failed";
+                }
+              },
+              contentType: "application/json",
+              dataType: 'json'
+          });
+          // stop link reloading the page
+          event.preventDefault();
+      }
+
+      $("#showJobTitle").click(function(){
+        var items = [];
+        var input_val = $("#job_title_input").val()
+        if(input_val){
+            $("#displayJob").append("<div><span>"+ input_val +"</span><a href='javascript:void(0);' class='close'>x</a></div>");
+
+            $('#job_title_input').val('');
+            $(".close").on('click', function() {
+                $(this).parent().remove();
+            });
+        }
+      });
+
+      $("#showTeam").click(function(){
+
+        var input_val = $("#team_input").val()
+        if(input_val){
+
+            $("#displayTeam").append("<div><span>"+ input_val +"</span><a href='javascript:void(0);' class='close'>x</a></div>");
+
+            $('#team_input').val('');
+            $(".close").on('click', function() {
+                $(this).parent().remove();
+            });
+        }
+      });
+
+		</script>
+
+</body>
+</html>

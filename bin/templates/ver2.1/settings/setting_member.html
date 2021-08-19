@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KnowledgeBank</title>
+    <link rel='icon' href='/static/ver2.1/img/logo@3x.png'/>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css' />
+    <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+    <style>
+        .red-placeholder-class::-webkit-input-placeholder {
+            color: red
+        }
+        .modal .modal-dialog {
+            max-height: 90vh;
+            overflow-x: scroll;
+        }
+        .no-drop {cursor: no-drop;}
+    </style>
+{% include './ver2.1/partials/ga_tag.html' %}
+</head>
+{% include './ver2.1/partials/header.html' %}
+{% include './ver2.1/partials/sidebar.html' %}
+
+<body>
+    <div>
+        <div class='kb-container kb-setting-member'>
+            <div class='text-center'>
+                <h3>メンバー管理</h3>
+                <p class='text-muted'><small>メンバーの追加や修正ができます</small></p>
+            </div>
+            <div class='flex flex-sb flex-item-center my-3 member-add-top'>
+                <div>
+                    <button class='open-modal' data-modal='#add-member-modal'> <i
+                            class='fas fa-plus mr-3'></i>メンバーを追加</button>
+                    <!-- <button class='open-modal' data-modal='#edit-member-modal'> <i
+                            class='fas fa-plus mr-3'></i>Edit</button> -->
+                </div>
+                <div class='search--wrap'>
+                    <div class='search'>
+                        <input type='text' placeholder='キーワードで検索' id='searchTable'/>
+                        <button>
+                            <i class='fas fa-search'></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class='kb-panel px-3'>
+                <div class='flex flex-sb flex-item-center py-4'>
+                    <div>
+                        <button class='setting-member-delete'><i class='fas fa-times color-red mr-2'></i>削除</button>
+                    </div>
+                    <div class="length-data-append">
+                    </div>
+                </div>
+                <div class='pb-3 overflow-auto'>
+                    <table class="setting-member-table-container">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type='checkbox' />
+                                </th>
+                                <th>
+
+                                </th>
+                                <th>
+                                    <p>名前</p>
+                                </th>
+                                <th>
+                                    <p>メールアドレス</p>
+                                </th>
+                                <th>
+                                    <p>権限</p>
+                                </th>
+                                <th>
+                                    <p>役職</p>
+                                </th>
+                                <th>
+                                    <p>チーム</p>
+                                </th>
+                                <th>
+                                    <p>ステータス</p>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="setting-member-table">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class='modal' id='add-member-modal'>
+            <div class='flex flex-item-center'>
+                <div class='modal-dialog'>
+                    <div class='kb-panel'>
+                        <div class='kb-panel-title p-3'>
+                            <p class='m-0'>メンバーを招待</p>
+                            <i class='fas fa-times modal-close' data-modal='#add-member-modal'></i>
+                        </div>
+                        <div class='kb-panel-body px-3'>
+                            <div class='flex flex-s error-panel'></div>
+                            <div class='member-add-media flex flex-s flex-item-center my-3'>
+                                <div>
+                                    <p>メールアドレス</p>
+                                </div>
+                                <div class='px-3 modal-email-input-wrap'>
+                                    <input type='text' class='kb-input modal-email-input'
+                                        placeholder='mail@knowledgebank.jp' />
+                                </div>
+                            </div>
+                            <div class='member-add-media flex flex-s flex-item-center my-3'>
+                                <div>
+                                    <p>入社日</p>
+                                </div>
+                                <div class='px-3'>
+                                    <div class='checkbox-list'>
+                                        <span class='mr-4'>
+                                                <select id='add-year-data'></select>
+                                            <label>年</label>
+                                        </span>
+                                        <span class='mr-4'>
+                                            <select id='add-month-data'>
+                                                <option value="01">1</option>
+                                                <option value="02">2</option>
+                                                <option value="03">3</option>
+                                                <option value="04">4</option>
+                                                <option value="05">5</option>
+                                                <option value="06">6</option>
+                                                <option value="07">7</option>
+                                                <option value="08">8</option>
+                                                <option value="09">9</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                            </select><label>月</label>
+                                        </span>
+                                        <span class='mr-4'>
+                                            <select id='add-day-data'>
+                                            </select><label>日</label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='member-add-media flex flex-s  my-3'>
+                                <div>
+                                    <p>アクセス権限</p>
+                                </div>
+                                <div class='my-3 px-3'>
+                                    <div class='pr-3 flex flex-item-center'>
+                                        <div class="mr-4">
+                                            <input type='radio' value='0' checked name='authority' style="display: none;">
+                                            <label class="m-0">ユーザー</label>
+                                        </div>
+                                        <p class='text-muted m-0'>
+                                            <small>自分のアカウントのみ編集ができます</small>
+                                        </p>
+                                    </div>
+                                    <p class='text-muted mt-3'>
+                                        <small>管理者権限アカウントの追加・削除は Knowledge Bank 事務局にお問い合わせください。</small>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class='member-add-media flex flex-s flex-item-center  my-3'>
+                                <div>
+                                    <p>役職</p>
+                                </div>
+                                <div class='px-3'>
+                                    <div class='checkbox-list position' data-name='positionId'>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='member-add-media flex flex-s flex-item-center my-3'>
+                                <div>
+                                    <p>チーム</p>
+                                </div>
+                                <div class='px-3'>
+                                    <div class='checkbox-list team' data-name='teamId'>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='text-center py-3'>
+                                <button class='submit-btn' id='member_invite_btn'>
+                                    メンバーを招待する
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  To Write Edit Modal-->
+        <div class='modal' id='edit-member-modal'>
+            <div class='flex flex-item-center'>
+                <div class='modal-dialog'>
+                    <div class='kb-panel'>
+                        <div class='kb-panel-title p-3'>
+                            <p class='m-0'>メンバーを編集</p>
+                            <i class='fas fa-times modal-close' data-modal='#edit-member-modal'></i>
+                        </div>
+                        <div class='kb-panel-body px-3'>
+
+                            <div class='set-mem-edit-profile'
+                                style="background-image:url(/static/ver2.1/img/profile.jpg);background-size:cover;background-position:center; width:80px;height:80px;border-radius:50%;">
+                            </div>
+
+                            <div class='member-add-media flex flex-s flex-item-center my-3'>
+                                <div>
+                                    <p>メールアドレス</p>
+                                </div>
+                                <div class='px-3'>
+                                    <input type='text' class='kb-input modal-email-input set-mem-edit-email'
+                                        placeholder='mail@knowledgebank.jp' />
+                                </div>
+                            </div>
+                            <div class='member-add-media flex flex-s flex-item-center my-3'>
+                                <div>
+                                    <p>入社日</p>
+                                </div>
+                                <div class='px-3'>
+                                    <div class='checkbox-list'>
+                                        <span class='mr-4'>
+                                                <select id="year-data"></select>
+                                            <label>年</label>
+                                        </span>
+                                        <span class='mr-4'>
+                                            <select id="month-data">
+                                                <option value="01">1</option>
+                                                <option value="02">2</option>
+                                                <option value="03">3</option>
+                                                <option value="04">4</option>
+                                                <option value="05">5</option>
+                                                <option value="06">6</option>
+                                                <option value="07">7</option>
+                                                <option value="08">8</option>
+                                                <option value="09">9</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                            </select><label>月</label>
+                                        </span>
+                                        <span class='mr-4'>
+                                            <select id="day-data">
+
+                                            </select><label>日</label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='member-add-media flex flex-s  my-3'>
+                                <div>
+                                    <p>アクセス権限</p>
+                                </div>
+                                <div class="authority">
+                                    <div class='my-3 px-3 edit_authority-wrap' style="display: none;">
+                                        <div class='pr-3 flex flex-item-center'>
+                                            <div class="mr-4">
+                                                <input type='radio' value='0' name='edit_authority' style="display: none;">
+                                                <label class="m-0">ユーザー</label>
+                                            </div>
+                                            <p class='text-muted m-0'>
+                                                <small>自分のアカウントのみ編集ができます</small>
+                                            </p>
+                                        </div>
+                                        <p class='text-muted mt-3'>
+                                            <small>管理者権限アカウントの追加・削除は Knowledge Bank 事務局にお問い合わせください。</small>
+                                        </p>
+                                    </div>
+                                    <div class='my-3 px-3 edit_authority-wrap' style="display: none;">
+                                        <div class='pr-3 flex flex-item-center'>
+                                            <div class="mr-4">
+                                                <input type='radio' value='1' name='edit_authority' style="display: none;">
+                                                <label class="m-0">管理者</label>
+                                            </div>
+                                            <p class='text-muted m-0'>
+                                                <small>すべてのユーザーの編集・追加・削除ができます</small>
+                                            </p>
+                                        </div>
+                                        <p class='text-muted mt-3'>
+                                            <small>管理者権限アカウントの追加・削除は Knowledge Bank 事務局にお問い合わせください。</small>
+                                        </p>
+                                    </div>
+                                </div>
+                                <!-- <div class='px-3 flex flex-s authority'>
+                                    <div class='pr-3'>
+                                        <input type='radio' value='0' name='edit_authority' /><label>ユーザー</label>
+                                        <p class='text-muted m-0'>
+                                            <small>自分のアカウントのみ編集ができます</small>
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <input type='radio' value='1' name='edit_authority' /><label>管理者</label>
+                                        <p class='text-muted m-0'>
+                                            <small>すべてのユーザーの編集・追加・削除ができます</small>
+                                        </p>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div class='member-add-media flex flex-s flex-item-center  my-3'>
+                                <div>
+                                    <p>役職</p>
+                                </div>
+                                <div class='px-3'>
+                                    <div class='checkbox-list position' data-name='edit_positionId'>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='member-add-media flex flex-s flex-item-center my-3'>
+                                <div>
+                                    <p>チーム</p>
+                                </div>
+                                <div class='px-3'>
+                                    <div class='checkbox-list team' data-name='edit_teamId'>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='text-center py-3'>
+                                <button class='submit-btn' id='member_edit_btn'>
+                                    メンバー設定を変更する
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src='/static/ver2.1/js/varidate.js'></script>
+    <script src='/static/ver2.1/js/script.js'></script>
+    <script>
+             $('#year-data').each(function() {
+
+var year = (new Date()).getFullYear();
+var current = year;
+year -= 31;
+for (var i = 0; i < 32; i++) {
+  if ((year+i) == current)
+    $(this).append('<option selected value="' + (year + i) + '">' + (year + i) + '</option>');
+  else
+    $(this).append('<option value="' + (year + i) + '">' + (year + i) + '</option>');
+}
+
+})
+$('#add-year-data').each(function() {
+
+var year = (new Date()).getFullYear();
+var current = year;
+year -= 31;
+for (var i = 0; i < 32; i++) {
+  if ((year+i) == current)
+    $(this).append('<option selected value="' + (year + i) + '">' + (year + i) + '</option>');
+  else
+    $(this).append('<option value="' + (year + i) + '">' + (year + i) + '</option>');
+}
+
+})
+$(document).on("change","#month-data, #year-data",function(){
+    load_days();
+})
+
+$(document).on("change","#add-month-data, #add-year-data",function(){
+    load_add_days();
+})
+load_add_days();
+load_days();
+function load_days(){
+    var day_options   = '<option value="1">1</option>';
+    var number = 32 - new Date(parseInt(document.getElementById('year-data').value), parseInt(document.getElementById('month-data').value)-1, 32).getDate();
+    for( var d = 2; d <= number; d++ ) {
+      var d= Number(d>=10?d:'0'+d);
+        day_options += "<option value='" + d + "' name'" + d + "'>" + d + "</option>"
+    }
+    document.getElementById("day-data").innerHTML = day_options;
+}
+function load_add_days(){
+    var day_options   = '<option value="1">1</option>';
+    var number = 32 - new Date(parseInt(document.getElementById('add-year-data').value), parseInt(document.getElementById('add-month-data').value)-1, 32).getDate();
+    for( var d = 2; d <= number; d++ ) {
+      var d= Number(d>=10?d:'0'+d);
+        day_options += "<option value='" + d + "' name'" + d + "'>" + d + "</option>"
+    }
+    document.getElementById("add-day-data").innerHTML = day_options;
+}
+        function imgError(image) {
+            image.onerror = "";
+            image.src = "/static/ver2.1/img/profile.jpg";
+            return true;
+        }
+        $(document).ready(function () {
+            let globalData=[];
+            // $(".modal-email-input").on("keyup", function () {
+            //     if ($(this).val() != "") {
+            //         $("#member_invite_btn").removeAttr("disabled");
+            //     }
+            //     else {
+            //         $("#member_invite_btn").attr("disabled", 'disabled');
+            //     }
+            // })
+            $("#member_invite_btn").on("click", function () {
+                var year = $("#add-year-data").val();
+
+                var month = $("#add-month-data").val();
+
+                var day = $("#add-day-data").val();
+
+                var hiringDate = year + "-" + month + "-" + day;
+
+                var obj = {}
+                $("#add-member-modal input[type=radio]:checked").each(function () {
+                    obj[$(this).attr("name")] = $(this).val();
+                })
+                obj.hireDate = hiringDate;
+                obj.managerId = "0"
+                var ele=$("#add-member-modal input[type=text]");
+                // var mail=$("#add-member-modal input[type=text]").val();
+                var emailSelector = "#add-member-modal input[type=text]";
+
+                var email = input_varidate(emailSelector, {
+                    required: true,
+                    type: 'email',
+                    maxLength: 100,
+                    message: 'メールアドレス'
+                });
+
+                if (email !== true) {
+                    input_errorMessage(emailSelector, email);
+                    input_errorElement(emailSelector, email, '.modal-email-input-wrap');
+                } else {
+                    obj.mail = $("#add-member-modal input[type=text]").val();
+                    $.ajax({
+                        type: 'POST',
+                        url: '/settings/member',
+                        headers: { "Content-Type": "application/json" },
+                        data: JSON.stringify(obj),
+                        success: function (data) {
+                            if (JSON.parse(data)['result'] == "ok") {
+                                $("#add-member-modal").hide();
+                                status_show('ok');
+                                ele.val("");
+                                getMemberList();
+                                $(".error-panel").empty();
+                            }
+                            if (JSON.parse(data)['result'] == "ng") {
+                                $(".error-panel").empty().append(`<p class='px-2'>${JSON.parse(data).message}</p>`)
+                            }
+                        }
+                    });
+                }
+            })
+            // function ValidateEmail(inputText)
+            // {
+            //     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            //     if(inputText.match(mailformat))
+            //     {
+            //         return true;
+            //     }
+            //     else
+            //     {
+            //         return false;
+            //     }
+            // }
+            $("#member_edit_btn").on("click", function () {
+                var obj = {}
+                $("#edit-member-modal input[type=radio]:checked").each(function () {
+                    obj[$(this).attr("name")] = $(this).val();
+                })
+                // var mail=$("#edit-member-modal input[type=text]");
+                obj.hireDate = `${$("#year-data").val()}-${$("#month-data").val()}-${$("#day-data").val()}`;
+                obj.userId = $(this).attr("data-id");
+                obj.managerId = "0"
+                // if(ValidateEmail(mail.val())){
+                //     mail.css({
+                //         border:'1px solid #ccc'
+                //     })
+                //     mail.removeClass("error-field");
+                //     obj.mail = mail.val();
+                // }
+                // else{
+                //     mail.css({
+                //         border:'1px solid red'
+                //     })
+                //     mail.addClass("error-field");
+                // }
+
+                var editemailSelector = "#edit-member-modal input[type=text]";
+                var editemail = input_varidate(editemailSelector, {
+                    required: true,
+                    type: 'email',
+                    maxLength: 100,
+                    message: 'メールアドレス'
+                });
+                if (editemail !== true) {
+                    input_errorMessage(editemailSelector, editemail);
+                } else {
+                    obj.mail = $(editemailSelector).val();
+                    input_errorMessage(editemailSelector);
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: '/settings/member_edit',
+                    headers: { "Content-Type": "application/json" },
+                    data: JSON.stringify(obj),
+                    success: function (data) {
+                        if (JSON.parse(data)['result'] == "ok") {
+                            $("#edit-member-modal").hide();
+                            status_show('ok');
+                            getMemberList();
+                        }
+                    }
+                });
+            })
+            getMemberList();
+            function getMemberList(){
+              $.ajax({
+                  method: "get",
+                  url: '/settings/member/list',
+                  success: function (data) {
+                      var result = JSON.parse(data).memberList;
+                      let position_list = JSON.parse(data).positionList;
+                      let team_list = JSON.parse(data).teamList;
+                      $(".position").empty();
+                      $(".team").empty();
+                      $(".position").each(function () {
+                          let name = $(this).attr("data-name");
+                          position_list.map((item, index) => {
+                              if (index == 0) {
+                                  $(this).append(`
+                              <span class='mr-4'>
+                                  <input type='radio' checked value='${item.id}' name='${name}' /><label>${item.name}</label>
+                              </span>
+                          `);
+                              }
+                              else {
+                                  $(this).append(`
+                              <span class='mr-4'>
+                                  <input type='radio'  value='${item.id}' name='${name}' /><label>${item.name}</label>
+                              </span>
+                          `);
+                              }
+
+                          })
+                      })
+                      $(".team").each(function () {
+                          let name = $(this).attr("data-name");
+                          team_list.map((item, index) => {
+
+                              if (index == 0) {
+                                  $(this).append(`
+                              <span class='mr-4'>
+                                  <input type='radio' checked value='${item.id}' name='${name}' /><label>${item.name}</label>
+                              </span>
+                          `);
+                              }
+                              else {
+                                  $(this).append(`
+                              <span class='mr-4'>
+                                  <input type='radio'  value='${item.id}' name='${name}' /><label>${item.name}</label>
+                              </span>
+                          `);
+                              }
+                          })
+                      })
+                      var length = JSON.stringify(result.data.length);
+                      $(".length-data-append").empty().append(`<p>${length}名が利用中です</p>`);
+                      globalData=result.data;
+                      drawDatatable(result.data);
+                  }
+              })
+            }
+            $("#searchTable").on("keyup",function(){
+                var data=tableSearch(globalData,'username',$(this).val());
+                drawDatatable(data);
+            })
+            function drawDatatable(data){
+                $(".setting-member-table").empty();
+                if(data.length==0){
+                    $(".setting-member-table").append(`
+                        <tr><td colspan='7'><p class='text-center text-muted'>No data to show.</p></td></tr>
+                    `);
+                }
+                else{
+
+                }
+                var search = input_varidate('#searchTable', {
+                    maxLength: 100,
+                });
+
+                if (search !== true) {
+                    input_errorElement('#searchTable', search, '.search--wrap');
+                } else {
+                    input_errorElement('#searchTable', '', '.search--wrap');
+                    data.map(item => {
+                        let img = item.profileImage == null ? '/static/ver2.1/img/1104@3x.png' : item.profileImage;
+                        // if(item.status == '利用中'){
+                        //     var itemStatus = '利用中';
+                        // }
+                        // if(item.status == '招待中'){
+                        //     var itemStatus = '招待中';
+                        // }
+                        $(".setting-member-table").append(`
+                        <tr class='bb setting_member_row' data-list='${JSON.stringify(item)}' style='cursor:pointer;' data-id='${item.Id}'>
+                                <td>
+                                    <input type='checkbox'  id='${item.Id}' value='${item.Id}'/>
+                                </td>
+                                <td>
+                                    <img src=${img} style="border-radius: 50%; width: 65px;height: 65px; background-color:#d4d7dd"/>
+
+                                </td>
+                                <td>
+                                    <p>${item.username}</p>
+                                </td>
+                                <td>
+                                    <p>${item.email}</p>
+                                </td>
+                                <td>
+                                    <p>${item.authority}</p>
+                                </td>
+                                <td>
+                                    <p>${item.positionName}</p>
+                                </td>
+                                <td>
+                                    <p>${item.teamName}</p>
+                                </td>
+                                <td>
+                                    <p>${item.status}</p>
+                                </td>
+                            </tr>
+                        `);
+                        if (document.getElementById(item.Id).value == localStorage.getItem('userId')) {
+                            document.getElementById(item.Id).disabled = true;
+                            document.getElementById(item.Id).classList.add('no-drop');
+                        }
+                    })
+                }
+            }
+            function tableSearch(arry, searchKey, searchText) {
+                var results = [];
+                arry.map(item => {
+                    if (item[searchKey].toLowerCase().indexOf(searchText.toLowerCase()) != -1) {
+                        results.push(item);
+                    }
+                })
+                return results;
+            }
+            $(document).on("click", ".setting-member-table-container th input[type='checkbox']", function () {
+                if ($(this).prop("checked") == true) {
+                    if (document.getElementById(localStorage.getItem('userId')).value == localStorage.getItem('userId')) {
+                        $(".setting-member-table td input[type='checkbox']").prop("checked", "checked");
+                        document.getElementById(localStorage.getItem('userId')).checked = false;
+                        document.getElementById(localStorage.getItem('userId')).setAttribute()
+
+                    }
+
+                }
+                else {
+                    $(".setting-member-table td input[type='checkbox']").prop("checked", false);
+                }
+            })
+            $(".setting-member-delete").on("click", function (event) {
+                var ary = [];
+                $(".setting-member-table td input[type='checkbox']:checked").each(function () {
+                    ary.push($(this).val());
+                })
+
+                var data = { "userId": ary };
+                $.ajax({
+                    type: 'POST',
+                    url: '/settings/member_delete',
+                    headers: { "Content-Type": "application/json" },
+                    data: JSON.stringify(data),
+                    success: function (data) {
+                        if (data['result'] == "deleted") {
+                            status_show('ok');
+                            $(".setting-member-table td input[type='checkbox']:checked").each(function () {
+                                $(this).closest("tr").remove();
+                                getMemberList();
+                            })
+                        }
+                        if (data['result'] == "ng") {
+                            status_show("fail");
+                        }
+                    },
+                    contentType: "application/json",
+                    dataType: 'json'
+                });
+                event.preventDefault();
+            })
+        })
+
+        $(document).on("click", ".setting_member_row td:not(':first-child')", function () {
+            var list = JSON.parse($(this).closest("tr").attr("data-list"));
+            var id = JSON.parse($(this).closest("tr").attr("data-id"));
+            let img = list.profileImage == null ? '/static/ver2.1/img/1104@3x.png' : list.profileImage;
+            $(".set-mem-edit-profile").css({
+                "background-image": `url(${img})`,
+                backgroundColor: '#d4d7dd'
+            })
+            $(".set-mem-edit-email").val(list.email)
+            var year, month, day = '';
+            var hireDate = (list.hiredDate).split("-");
+            var year = hireDate[0];
+            var month = hireDate[1];
+            var day = hireDate[2];
+            $("#year-data option").each(function () {
+                if ($(this).val() == year) {
+                    $(this).attr('selected', true);
+                }
+            })
+            $("#month-data option").each(function () {
+                if ($(this).val() == month) {
+                    $(this).attr('selected', true);
+                }
+            })
+            $("#day-data option").each(function () {
+                if ($(this).val() == day) {
+                    $(this).attr('selected', true);
+                }
+            })
+            $("#edit-member-modal .authority input[type='radio']").each(function () {
+                if ($(this).val() == list.authorityId) {
+                    $(this).attr("checked", true);
+                    $(this).parents('.edit_authority-wrap').show();
+                }
+                else {
+                    $(this).attr("checked", false);
+                    $(this).parents('.edit_authority-wrap').hide();
+                }
+            })
+            $("#edit-member-modal .position input[type='radio']").each(function () {
+                if ($(this).val() == list.positionId) {
+                    $(this).attr("checked", true);
+                }
+                else {
+                    $(this).attr("checked", false);
+                }
+            })
+            $("#edit-member-modal .team input[type='radio']").each(function () {
+                if ($(this).val() == list.teamId) {
+                    $(this).attr("checked", true);
+                }
+                else {
+                    $(this).attr("checked", false);
+                }
+            })
+            $("#member_edit_btn").attr("data-id", id)
+            var ele=$("#edit-member-modal input[type=text]");
+            ele.css({
+                border:'1px solid #ccc'
+            })
+            ele.removeClass("error-field");
+            $("#edit-member-modal").show()
+        });
+        function status_show(status) {
+            if (status == "ok") {
+                $("body").append("<div class='status-container success'><p class='px-2'>内容を保存しました</p></div>");
+
+            }
+            else {
+                $("body").append("<div class='status-container fail'><p class='px-2'>内容の保存に失敗しました</p></div>");
+            }
+            setTimeout(() => {
+                $(".status-container").remove();
+            }, 2000)
+            $(".status-container").css({
+                position: "fixed",
+                top: "80px",
+                width: $(".kb-container").outerWidth(),
+                marginLeft: $(".kb-container").css("margin-left"),
+                zIndex: 2,
+                left: '0'
+            })
+            $(".status-container.success").css({
+                background: "#4caf50"
+            })
+            $(".status-container.fail").css({
+                background: "#fef3f2"
+            })
+
+        }
+    </script>
+</body>
+{% include './ver2.1/partials/footer.html' %}
+
+</html>

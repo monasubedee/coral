@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KnowledgeBank</title>
+    <link rel='icon' href='/static/ver2.1/img/logo@3x.png'/>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css'/>
+    <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+{% include './ver2.1/partials/ga_tag.html' %}
+</head>
+<body>
+    <div class='kb-container-no-sb flex flex-item-center'>
+        <div class='kb-pwd-reminder-done-container'>
+            <div class='kb-secondary-logo py-3 text-center'>
+                <img src='/static/ver2.1/img/1076@3x.png' alt='' class='mb-2' />
+                <span class='text-muted'><small>ナレッジバンクへようこそ</small></span>
+            </div>
+            <div class='kb-panel'>
+                <div class='kb-panel-title p-3'>
+                    <p class='m-0'>パスワードの再設定</p>
+                </div>
+                <div class='kb-panel-body px-3'>
+                    <p class='text-muted'>
+                        <small>
+                            パスワードを変更しました。
+                    </small>
+                    </p>
+                </div>
+            </div>
+            <div class='py-4'>
+                <a href='/' class='submit-btn'>ログイン画面に戻る</a>
+            </div>
+            <div class='text-center'>
+                <a class='color-blue display-inline' href="/reset/">
+                    メールを再送する
+                </a>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src='/static/ver2.1/js/script.js'></script>
+</body>
+{% include './ver2.1/partials/footer.html' %}
+</html>

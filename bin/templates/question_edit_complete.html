@@ -1,0 +1,46 @@
+{%from "./partials/header.html" import header with context%}
+<html lang="ja">
+  {% include './partials/head.html' %}
+
+  <body cz-shortcut-listen="true">
+    <div class="_wrapper">
+      {{ header(title, avatorImage, logined) }}
+      <div class="_content--smaller--white">
+        <div class="_content--navigation">
+          <button class="navigation-button" onclick="location.href='/home'">
+            <svg class="navigation-button__icon" viewbox="0 0 5.547 9.679">
+              <path
+                d="M764.6 703.842l-4.486 4.486 4.486 4.486"
+                transform="translate(-759.411 -703.488)"
+              ></path>
+            </svg>
+            <span class="navigation-button__text">Back</span>
+          </button>
+        </div>
+        <div class="create--complete">
+          <h2 class="create--complete__head">
+            問題を編集しました。
+          </h2>
+          <div class="create__check-icon-wrapper">
+            <svg viewbox="0 0 78.523 78.523" class="create__check-icon">
+              <path
+                d="M47.262 8a39.262 39.262 0 1 0 39.261 39.262A39.262 39.262 0 0 0 47.262 8zm0 73.457a34.2 34.2 0 1 1 34.2-34.2 34.193 34.193 0 0 1-34.2 34.2zm22.422-43.53L41.111 66.271a1.9 1.9 0 0 1-2.687-.011l-13.6-13.706a1.9 1.9 0 0 1 .011-2.687l1.349-1.338a1.9 1.9 0 0 1 2.687.011L39.8 59.549l25.87-25.668a1.9 1.9 0 0 1 2.687.011l1.338 1.349a1.9 1.9 0 0 1-.011 2.686z"
+                transform="translate(-8 -8)"
+              ></path>
+            </svg>
+          </div>
+          <div class="create__submenu">
+            <a href="/home" class="create--complete__back">ホームへ戻る</a>
+          </div>
+        </div>
+      </div>
+      {% include './partials/footer.html' %}
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"
+    ></script>
+    <script src="/static/js/create.js"></script>
+  </body>
+</html>

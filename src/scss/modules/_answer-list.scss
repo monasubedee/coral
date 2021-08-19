@@ -1,0 +1,40 @@
+.answer-list {
+  margin: 0 0 30px;
+  @at-root {
+    %answer-list__item {
+      margin: 0 0 10px;
+      padding: 20px;
+      font-size: 1.5rem;
+      line-height: 1.2;
+      text-align: left;
+      background-color: #fff;
+      border-radius: 4px;
+      &:last-of-type {
+        margin: 0;
+      }
+    }
+    #{&}__item--incorrect {
+      @extend %answer-list__item;
+      color: #d95243;
+      border: solid 1px #d95243;
+    }
+    #{&}__item--correct {
+      @extend %answer-list__item;
+      color: #0db42d;
+      background-color: #fff;
+      border: solid 1px #0db42d;
+    }
+    #{&}__correct {
+      width: 11.9px;
+      height: 9.2px;
+      margin-right: 10px;
+      fill: #0db42d;
+    }
+    #{&}__incorrect {
+      width: 10px;
+      height: 10px;
+      margin-right: 10px;
+      fill: #d95243;
+    }
+  }
+}

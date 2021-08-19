@@ -1,0 +1,117 @@
+<div class='kb-alert'>
+    <div class='kb-alert-dialog'>
+        <div class='kb-alert-panel'>
+            <div class='kb-alert-panel__top'>
+                <h4 class='kb-alert-panel__top--title'>Alert</h4>
+            </div>
+            <div class='kb-alert-panel__body'>
+                <p>ログインしてください</p>
+            </div>
+            <div class='kb-alert-panel__footer'>
+                <button>Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class='kb-sidebar'>
+    <span class='fas fa-times sidebar-close'></span>
+    <div class='pt-3'>
+      <ul>
+        <li >
+          <a href='/home'>
+            <img src='/static/ver2.1/img/home_gray.png' alt='' />
+            <span>ホーム</span>
+          </a>
+        </li>
+        <li>
+          <a href='/question'>
+            <img src='/static/ver2.1/img/1250@3x.png' alt='' />
+            <span>ためる</span>
+          </a>
+        </li>
+        <li>
+          <a href='/manabu'>
+          <img src='/static/ver2.1/img/pen-tool-3.png' alt='' />
+          <span>まなぶ</span>
+          </a>
+        </li>
+        <li>
+          <a href='/knowledge'>
+            <img src='/static/ver2.1/img/archive@3x.png' alt='' />
+            <span>ナレッジ</span>
+          </a>
+        </li>
+        <li>
+          <a href='/news'>
+            <img src='/static/ver2.1/img/info@3x.png' alt='' />
+            <span>お知らせ</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class='px-2'>
+      <div class='kb-arrow-icon-msg'>
+        <div class='arrow_box'>
+          <p class="m-0">
+            <span class='agree'></span><span class='s-name'></span>
+            今日も頑張りましょう。
+          </p>
+        </div>
+      </div>
+      <img src='/static/ver2.1/img/770@3x.png' alt='' class='arrow-icon' />
+    </div>
+    <div class='pt-0 px-4'>
+      <span class='m-0 text-muted'><small>Power by</small></span>
+      <img src='/static/ver2.1/img/1076@3x.png' alt='' />
+    </div>
+  </div>
+  <script>
+      var sidebarLink=document.querySelectorAll(".kb-sidebar a");
+      sidebarLink.forEach(function(ele){
+        ele.addEventListener("click",function(evt){
+            evt.preventDefault();
+            if(localStorage.getItem("ud") && localStorage.getItem("ud")!="")
+              window.location.href=$(this).attr("href");
+            else{
+              document.querySelector(".kb-alert").classList.add("show");
+            }
+        })
+      })
+      document.querySelector(".kb-alert button").addEventListener("click",function(){
+          document.querySelector(".kb-alert").classList.remove("show");
+      })
+      var today = new Date()
+      var curHr = today.getHours()
+      var agree='';
+      if (curHr < 12)
+        agree='おはようございます！'
+      else if (curHr < 18)
+        agree='こんにちは！'
+      else
+        agree='こんばんは！'
+
+      document.querySelector(".agree").innerText=agree;
+      var ud=JSON.parse(localStorage.getItem('ud'));
+      document.querySelector(".s-name").innerText=ud.name + 'さん。'
+      /* for sidebar highlight */
+      var windowURL=window.location.href.split("/");
+      var currentURL='';
+      if(windowURL[windowURL.length-1]==""){
+        currentURL=windowURL[windowURL.length-2]
+      }
+      else{
+        currentURL=`${windowURL[windowURL.length-2]}/${windowURL[windowURL.length-1]}`;
+      }
+      if (currentURL.match(/\//)) {
+        var lowerURL = currentURL.split('/');
+        currentURL = lowerURL[0];
+      }
+      var sidebarLink=document.querySelector(`.kb-sidebar li a[href='/${currentURL}']`);
+      if(sidebarLink!=null){
+        sidebarLink.closest("li").classList.add("active");
+      }
+      if(currentURL=="manabu" || currentURL=="question"){
+        var headerLink=document.querySelector(`.kb-primary-menuitem a[href='/${currentURL}']`);
+        headerLink.closest(".kb-primary-menuitem").classList.add("active");
+      }
+  </script>

@@ -1,0 +1,20 @@
+.step {
+  display: flex;
+  width: 120px;
+  margin: -8px 0 0;
+  @at-root {
+    #{&}__item {
+      flex: 1 1 10px;
+      padding: 0 0 1em;
+      color: transparent;
+      font-size: 1.2rem;
+      text-align: center;
+      border-bottom: 2px solid #dcdde6;
+      &[aria-current="step"] {
+        color: #3d64f8;
+        border-bottom-style: solid;
+        border-bottom-color: #3d64f8;
+      }
+    }
+  }
+}

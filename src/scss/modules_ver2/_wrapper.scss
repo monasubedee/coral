@@ -1,0 +1,6 @@
+._wrapper {
+  min-height: 100vh;
+  #{&}__content {
+    display: flex;
+  }
+}

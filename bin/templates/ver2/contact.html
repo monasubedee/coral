@@ -1,0 +1,126 @@
+{%from "./ver2/partials/sidebar.html" import sidebar with context%}
+
+<html lang="ja">
+{% include './partials/head.html' %}
+
+<head>
+
+    <style>
+        .__summit-button {
+            width: 95%;
+            height: 46px;
+            border-radius: 4px;
+            background-color: #2962ff;
+            margin-top: 40px;
+            margin-bottom: 127px;
+
+        }
+
+        /* .flex {
+            display: flex
+        }
+
+        .flex-item-center {
+            align-items: center;
+        } */
+
+        @media only screen and (min-width:1000px) {
+            .__summit-button {
+                width: 220px;
+                margin-bottom: 100px;
+
+            }
+
+        }
+    </style>
+
+</head>
+
+<body>
+    {% include './ver2/partials/sidebar.html' %}
+    <!-- <div class='flex flex-item-center'> -->
+        <!-- <div style='margin:auto'> -->
+            <h1 align="middle" style="margin-top: 50px;">お問い合わせ</h1>
+            <form action="/contact/ver2" method="post">
+            <div class="profile__center-align">
+                <div class="profile__card-3">
+                    <div>
+                        <div style="display: flex; justify-content: center; margin-bottom: 35px;">
+                            <textarea id="msg" name="inquiry_msg" class="profile__text-input-card-4 no-regular-input" placeholder="感じの良いディレクターになりたい">  </textarea>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div align="middle">
+                <input type="submit" class="__summit-button"  />
+                    <p style="color: #ffffff;">送信する</p>
+
+            </div>
+          </form>
+        <!-- </div>
+    </div> -->
+    <!-- <h1 align="middle" style="margin-top: 50px;">お問い合わせ</h1> -->
+    <!-- <div class="contact__card-3">
+        <div>
+            <p class="contact__paragraph-title">
+                <font style="vertical-align: inherit;">
+                    <font style="vertical-align: inherit;">Want to be</font>
+                </font>
+            </p>
+            <div class="contact__border-line"></div>
+            <p class="contact__sub-title">
+                <font style="vertical-align: inherit;">
+                    <font style="vertical-align: inherit;">Please fill in freely.</font>
+                </font>
+            </p>
+            <div style="display: flex; justify-content: center; margin-bottom: 35px;">
+                <textarea name="comment1" class="contact__text-input-card-4">  感じの良いディレクターになりたい</textarea>
+            </div>
+
+        </div>
+    </div> -->
+
+    <!-- <div class="profile__center-align">
+        <div class="profile__card-3">
+            <div>
+                <div style="display: flex; justify-content: center; margin-bottom: 35px;">
+                    <textarea name="comment1" class="profile__text-input-card-4">  感じの良いディレクターになりたい</textarea>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div align="middle">
+        <button type="button" class="__summit-button">
+            <p style="color: #ffffff;">送信する</p>
+        </button>
+    </div> -->
+</body>
+{% include './ver2/partials/footer.html' %}
+<script type="text/javascript">
+  function contact_register(){
+    var msg = document.getElementById('msg').val();
+    console.log(msg);
+    var xhr = new XMLHttpRequest();
+    var url = “/contact/ver2”;
+    xhr.open(“POST”, url, true);
+    xhr.setRequestHeader(“Content-Type”, “application/json”);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var json = JSON.parse(xhr.responseText);
+            console.log(“json”,json);
+        }
+    };
+    xhr.send(msg)
+  }
+  $(document).ready(function(){
+    $(".no-regular-input").on("keyup",function(event){
+        console.log($(this).val());
+        var regex = /a-zA-Z0-9!@#\$%\^\&*\)\(+=._-/g;
+        $(this).val($(this).val().replace(regex, ''));
+
+    })
+  })
+</script>
+</html>

@@ -1,0 +1,62 @@
+.reset-pass {
+  @at-root {
+    #{&}--confirm {
+      margin: 52px 0 0;
+    }
+    #{&}__headline {
+      margin: 0 0 28px;
+      color: #020b3c;
+      font-size: 1.6rem;
+      line-height: 1.88;
+      text-align: left;
+    }
+    #{&}--confirm__headline {
+      color: #020b3c;
+      font-size: 1.8rem;
+      line-height: 1.67;
+      letter-spacing: normal;
+      text-align: center;
+    }
+    #{&}__paragraph {
+      color: #a4b0c8;
+      font-size: 1.5rem;
+      line-height: 1.6;
+      text-align: center;
+    }
+    #{&}__input-title {
+      color: #a4b0c8;
+      font-size: 1.2rem;
+      line-height: 2.5;
+      letter-spacing: normal;
+      text-align: left;
+    }
+    #{&}__input {
+      width: 100%;
+      padding: 13px;
+      color: #000;
+      font-size: 1.6rem;
+      background-color: #fff;
+      border: solid 1px #dcdde6;
+      border-radius: 4px;
+      &[aria-invalid="true"] {
+        border: solid 1px #d84f3f;
+      }
+      &::placeholder {
+        color: #a4b0c8;
+      }
+      &[aria-invalid="true"]::placeholder {
+        color: #d84f3f;
+      }
+    }
+    #{&}__link-wrapper {
+      margin: 93px 0 0;
+      color: #020b3c;
+      text-align: center;
+    }
+    #{&}__link {
+      color: #020b3c;
+      font-size: 1.4rem;
+      line-height: 2.14;
+    }
+  }
+}

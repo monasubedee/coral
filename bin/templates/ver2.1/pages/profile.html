@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KnowledgeBank</title>
+    <link rel='icon' href='/static/ver2.1/img/logo@3x.png'/>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css'/>
+    <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+{% include './ver2.1/partials/ga_tag.html' %}
+</head>
+{% include './ver2.1/partials/header.html' %}
+{% include './ver2.1/partials/sidebar.html' %}
+<body>
+    <div>
+        <div class='kb-container'>
+            <div class='kb-profile-container'>
+                <div class='text-center'>
+                    <h3>プロフィール</h3>
+                    <p class='text-muted'>
+                        <small>KnowledgeBank で使用する、名前、写真などの基本情報</small>
+                    </p>
+                </div>
+                <div class='kb-panel my-4 px-3 py-3'>
+                    <p class="m-0 error-txt fileLimitError" style='width:100%'><small>アップロードできるデータは2MB以下のjpg,png,gif形式のみ可能です</small></p>
+                    <div class='flex flex-s profile-data'>
+                        <div class="px-4 mb-2">
+                          {% if userProfile.data.profilePicture == '' %}
+                            <div class='profile-img profile profile-update' data-original='{{userProfile.data.profilePicture}}' style="background-image:url('/static/ver2.1/img/1104@3x.png');background-position:center;background-size:cover">
+                                <button id="upload-profile-btn"><i class="fas fa-pencil-alt"></i></button>
+                                <input type='file' accept='image/*' hidden/>
+                            </div>
+                          {% else %}
+                          <div class='profile-img profile profile-update' data-original={{userProfile.data.profilePicture}} style='background-image:url({{userProfile.data.profilePicture}});background-position:center;background-size:cover'>
+                              <button id="upload-profile-btn"><i class="fas fa-pencil-alt"></i></button>
+                              <input type='file' accept='image/*' hidden/>
+                          </div>
+                          {% endif %}
+                        </div>
+                        <div class='px-3'>
+                            <div>
+                                <div>
+                                <h4 class='m-0'>{{userProfile.data.displayName}}</h4>
+                                <p class='text-muted my-2'><i class='far fa-envelope mr-2'></i>{{userProfile.data.username}}</p>
+                                </div>
+                            </div>
+                            <div class='flex flex-s py-2'>
+                                <div>
+                                    <small class='text-muted'>入社日</small>
+                                    <p class='my-1' id="hiredate">{{year}}/{{month}}/{{day}}</p><!--id="hiredate"-->
+                                </div>
+                                <div class='px-5'>
+                                    <small class='text-muted'>チーム</small>
+                                    <p class='my-1'>{{userProfile.data.team_name}}</p>
+                                </div>
+                                <div>
+                                    <small class='text-muted'>役職</small>
+                                    <p class='my-1'>{{userProfile.data.position}}</p>
+                                </div>
+                            </div>
+
+                            <div class='flex flex-s py-3'>
+                                <div class='text-center pr-3'>
+                                    <small class='text-muted'>知識をまなんだ数</small>
+                                    <h1 class='my-1'>{{record_count.data.created_question_count}}</h1>
+                                    <span>{{record_count.data.created_question_status}}
+                                      {% if record_count.data.created_question_flag==0 %}
+                                      <img src='/static/ver2.1/img/arrow-gray.png' class='rank-arrow ml-2' alt='' /></span>
+                                      {% elif record_count.data.total_answer_flag < 0 %}
+                                      <img src='/static/ver2.1/img/arrow-blue.png' class='rank-arrow ml-2' alt='' /></span>
+                                      {% else %}
+                                      <img src='/static/ver2.1/img/1013@3x.png' class='rank-arrow ml-2' alt='' /></span>
+                                      {% endif %}
+                                </div>
+                                <div class='text-center px-3 bl br'>
+                                    <small class='text-muted'>知識をためた数</small>
+                                    <h1 class='my-1'>{{record_count.data.total_answer_count}}</h1>
+                                    <span>{{record_count.data.total_answer_status}}
+                                      {% if record_count.data.total_answer_flag == 0 %}
+                                      <img src='/static/ver2.1/img/arrow-gray.png' alt='' class='rank-arrow ml-2' /></span>
+                                      {% elif record_count.data.total_answer_flag < 0 %}
+                                      <img src='/static/ver2.1/img/arrow-blue.png' class='rank-arrow ml-2' alt='' /></span>
+                                      {% else %}
+                                      <img src='/static/ver2.1/img/1013@3x.png' class='rank-arrow ml-2' alt='' /></span>
+                                      {% endif %}
+                                </div>
+                                <div class='text-center pl-3'>
+                                    <small class='text-muted'>合計まなび日数</small>
+                                    <h1 class='my-1'>{{record_count.data.learning_day_count}}</h1>
+                                    <span>{{record_count.data.learning_day_status}}
+                                       {% if record_count.data.learning_day_flag==0 %}
+                                       <img src='/static/ver2.1/img/arrow-gray.png' alt='' class='rank-arrow ml-2' /></span>
+                                       {% elif record_count.data.learning_day_flag < 0 %}
+                                       <img src='/static/ver2.1/img/arrow-blue.png' class='rank-arrow ml-2' alt='' /></span>
+                                       {% else %}
+                                       <img src='/static/ver2.1/img/1013@3x.png' class='rank-arrow ml-2' alt='' /></span>
+                                       {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='kb-panel my-4'>
+                    <div class='kb-panel-title p-3 flex flex-item-center'>
+                        <h4 class='m-0 mr-4'>パスワードの再設定</h4>
+                        <div class="my-0">
+                            <a href="/reset/" target="_blank" class='btn-tran'>再設定する</a>
+                        </div>
+                    </div>
+                    <!-- <div class='kb-panel-body px-3'>
+                        <div class='profile-form'>
+                        </div>
+                    </div> -->
+                </div>
+                <div class='kb-panel my-4'>
+                    <div class='kb-panel-title p-3'>
+                        <h4 class='m-0'>パーソナルデータ</h4>
+                    </div>
+                    <div class='kb-panel-body px-3'>
+                        <div class='profile-form'>
+                            <div class='flex flex-s flex-item-center input-required'>
+                                <div>
+                                    <p>名前</p>
+                                </div>
+                                <div class="username-wrap">
+                                    <input type='text' class='kb-input form-data username' data-prop='displayName' placeholder='（例）ナレッジ太郎' value="{{userProfile.data.displayName}}"/>
+                                </div>
+                            </div>
+                            <div class='flex flex-s input-required'>
+                                <div>
+                                    <p class="my-2">メールアドレス</p>
+                                </div>
+                                <div class="mail-wrap">
+                                    <input type='text' class='kb-input' id='mail' placeholder='（例）taro@knowledgebank.jp' value="{{userProfile.data.username}}" />
+                                </div>
+                            </div>
+                            <div class='flex flex-s flex-item-center input-required'>
+                                <div>
+                                    <p>生年月日</p>
+                                </div>
+                                <div class='dob flex flex-s'>
+                                    <div class="flex flex-s flex-item-center">
+                                    <select id='year'>
+                                        <option value="{{userProfile.data.birthYear}}" selected>{{userProfile.data.birthYear}}</option>
+                                    </select>
+                                    <span class='px-3 display-inline'>年</span>
+                                    </div>
+                                    <div class="flex flex-s flex-item-center">
+                                    <select id='months'>
+
+                                        <!-- <option value="0">Month</option> -->
+                                        <option value="1" {{("selected" if (userProfile.data.birthMonth=="1") else "")}}>01</option>
+                                        <option value="2"  {{("selected" if (userProfile.data.birthMonth=="2") else "")}}>02</option>
+                                        <option value="3"  {{("selected" if (userProfile.data.birthMonth=="3") else "")}}>03</option>
+                                        <option value="4"  {{("selected" if (userProfile.data.birthMonth=="4") else "")}}>04</option>
+                                        <option value="5"  {{("selected" if (userProfile.data.birthMonth=="5") else "")}}>05</option>
+                                        <option value="6"  {{("selected" if (userProfile.data.birthMonth=="6") else "")}}>06</option>
+                                        <option value="7" {{("selected" if (userProfile.data.birthMonth=="7") else "")}}>07</option>
+                                        <option value="8"  {{("selected" if (userProfile.data.birthMonth=="8") else "")}}>08</option>
+                                        <option value="9"  {{("selected" if (userProfile.data.birthMonth=="9") else "")}}>09</option>
+                                        <option value="10"  {{("selected" if (userProfile.data.birthMonth=="10") else "")}}>10</option>
+                                        <option value="11"  {{("selected" if (userProfile.data.birthMonth=="11") else "")}}>11</option>
+                                        <option value="12"  {{("selected" if (userProfile.data.birthMonth=="12") else "")}}>12</option>
+
+                                    </select>
+                                    <span class='px-3 display-inline'>月</span>
+                                    </div>
+                                    <div class="flex flex-s flex-item-center">
+                                    <select id='day'>
+                                        <option value="{{userProfile.data.birthDay}}" selected>{{userProfile.data.birthDay}}</option>
+                                        <!-- <option value="{{userProfile.data.birthDay}}" selected>{{userProfile.data.birthday}}</option> -->
+
+
+                                    </select>
+                                    <span class='px-3 display-inline'>日</span>
+                                    </div>
+                                    <!-- <input type='text' class='kb-input form-data' data-prop="birthDate" placeholder='1993-11-17' value="{{byear}}-{{bmonth}}-{{bday}}" /> -->
+                                </div>
+                            </div>
+                            <div class='flex flex-s flex-item-center input-required'>
+                                <div>
+                                    <p>性別</p>
+                                </div>
+                                <div>
+                                    <select data-prop='gender' class="form-data">
+                                            {% if userProfile.data.gender== 0 %}
+                                                <option value='0' selected>その他</option>
+                                            {% else %}
+                                                <option value='0'>その他</option>
+                                            {% endif %}
+                                            {% if userProfile.data.gender== 1  %}
+                                                <option value='1' selected>男性</option>
+                                            {% else %}
+                                                <option value='1'>男性</option>
+                                            {% endif %}
+                                            {% if userProfile.data.gender== 2 %}
+                                                <option value='2' selected>女性</option>
+                                            {% else %}
+                                                <option value='2'>女性</option>
+                                            {% endif %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class='flex flex-s flex-item-center input-required'>
+                                <div>
+                                    <p>出身地</p>
+                                </div>
+                                <div class="birthplace-wrap">
+                                    <input type='text' id="birthplace" class='kb-input data-prop' placeholder='（例）東京都' value="{% if userProfile.data.birthPlace!=None %} {{userProfile.data.birthPlace}} {% endif %}" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class='kb-panel my-4'>
+                    <div class='kb-panel-title p-3'>
+                        <h4 class='m-0'>スキルセット</h4>
+                    </div>
+                    <div class='kb-panel-body px-3'>
+                        <div class='profile-form'>
+                            <div class='flex flex-s input-required'>
+                                <div>
+                                    <p>PCスキル</p>
+                                </div>
+                                <div>
+                                    <div class="skillset--wrap">
+                                        <textarea id="skillset" class="textarea-small data-prop" placeholder="（例）Excel,Power Point,html,css">{% for s in userProfile.data.skillSet %}{{s}}&#013;{%endfor%}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='flex flex-s mt-4 input-required'>
+                                <div>
+                                    <p>言語スキル</p>
+                                </div>
+                                <div>
+                                    <div class="flex">
+                                        <div class="mr-3 language_language1-wrap">
+                                            <p>第一言語</p>
+                                            <select id="language1" class="language" data-selected="{{ userProfile.data.languageSet[0] }}"></select>
+                                        </div>
+                                        <div class="mr-3 language_language2-wrap">
+                                            <p>第二言語</p>
+                                            <select id="language2" class="language" data-selected="{{ userProfile.data.languageSet[1] }}"></select>
+                                        </div>
+                                        <div class="mr-3 language_language3-wrap">
+                                            <p>第三言語</p>
+                                            <select id="language3" class="language" data-selected="{{ userProfile.data.languageSet[2] }}"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='kb-panel my-4 input-required'>
+                    <div class='kb-panel-title p-3'>
+                        <p class='m-0'>なりたい姿</p>
+                    </div>
+                    <div class='kb-panel-body px-3 goal--wrap'>
+                        <textarea class='textarea-md  form-data goal' data-prop='goal' placeholder='（例）一人前のビジネスパーソンになる'>{% if userProfile.data.goal!=None %} {{userProfile.data.goal}} {% endif %}</textarea>
+                    </div>
+                </div>
+                <div class='text-center py-3 input-required'>
+                    <a class='submit-btn submit-profile-btn'>入力内容を保存する</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src='/static/ver2.1/js/varidate.js'></script>
+    <script src='/static/ver2.1/js/script.js'></script>
+    <script src='/static/ver2.1/js/languages.js'></script>
+    <script>
+        $(document).ready(function(){
+          $(".input-required").each(function(){
+            $(this).closest('.input-required').children("div").eq(0).find("p").addClass("required");
+          });
+        function load_year(){
+            var today = new Date();
+            var year = today.getFullYear();
+            var year_options    ='';
+            // year_options += "<option value='" + {{userProfile.data.birthYear}} + "' name'" + y + "' selected>" + {{userProfile.data.birthYear}} + "</option>";
+            for( var y = year; y >= year-100; y-- ) {
+                year_options += "<option value='" + y + "' name'" + y + "'>" + y + "</option>";
+            }
+            document.getElementById("year").innerHTML = year_options;
+            let selected_year={{userProfile.data.birthYear}};
+            $(`#year option[value='${selected_year}']`).prop("selected",true);
+        }
+        function ValidateEmail(inputText)
+        {
+                var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                if(inputText.match(mailformat))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+        }
+        function load_days(){
+            // var day_options = new Date();
+            var day_options   = '<option value="01">01</option>';
+            // var day_options   = "<option value='" + {{userProfile.data.birthDay}} + "' selected>" +  {{userProfile.data.birthDay}}  +"</option>";
+            // var day_options    = '<option value="">' + 1 +'</option>';
+            // day_options += "<option value='" + {{userProfile.data.birthDay}} + "' name'" + {{userProfile.data.birthDay}} + "' selected>" + {{userProfile.data.birthDay}} + "</option>"
+            var number = 32 - new Date(parseInt(document.getElementById('year').value), parseInt(document.getElementById('months').value)-1, 32).getDate();
+            for( var d = 2; d <= number; d++ ) {
+                var day_format=d>=10?d:'0'+d;
+                day_options += "<option value='" + d + "' name'" + d + "'>" + day_format + "</option>"
+            }
+            document.getElementById("day").innerHTML = day_options;
+            let selected_date={{userProfile.data.birthDay}};
+            $(`#day option[value='${selected_date}']`).prop("selected",true);
+        }
+        load_year();
+        load_days();
+
+        function error() {
+            $(".kb-profile-container").append("<div class='status-container error'><p class='px-2'>入力内容に不備があります</p></div>");
+            $(".status-container").css({
+                position: "fixed",
+                top: "80px",
+                width: $(".kb-container").outerWidth(),
+                marginLeft: $(".kb-container").css("margin-left"),
+                zIndex: 2,
+                left: '0'
+            })
+            $(".status-container.error").css({
+                background: "#d95243",
+                color: "#fff"
+            })
+        }
+
+        $(".submit-profile-btn").on("click",function(event){
+            $(".status-container").remove();
+            var data={};
+            var error_obj={
+                name:'',
+                email: '',
+                language1: '',
+                goal: ''
+            }
+
+            $(".form-data").each(function () {
+                var prop = $(this).attr("data-prop");
+                var value = $(this).val();
+                if (value.trim() != "") {
+                    data[prop] = $(this).val();
+                }
+                else {
+                    $(this).closest('.input-required').children("div").eq(0).find("p").addClass("required");
+                    error();
+                }
+            });
+
+            var lsets = [];
+
+           let language1 = document.getElementById("language1").value;
+           let language2 = document.getElementById("language2").value;
+           let language3 = document.getElementById("language3").value;
+            lsets.push(language1);
+            lsets.push(language2);
+            lsets.push(language3);
+
+            var ssets = [];
+            var skillsetSelector = "#skillset";
+            var skillset = input_varidate(skillsetSelector, {
+                required: true,
+                maxLength: 2000,
+                message: 'PCスキル',
+            });
+            if (skillset !== true) {
+                input_errorElement(skillsetSelector, skillset , '.skillset--wrap');
+                error();
+            } else {
+                input_errorElement(skillsetSelector, '', '.skillset--wrap');
+                $.each($(skillsetSelector).val().split(/\n/), function (i, sset) {
+                    if (sset.trim() != "") {
+                        ssets.push(sset.trim());
+                    }
+                })
+            }
+            data.userId= "";
+            // data.hireDate = $("#hiredate").text();
+            y = document.getElementById("year").value
+            m = document.getElementById("months").value
+            d = document.getElementById("day").value
+            if (m.length < 2)
+                m = '0' + m;
+            if (d.length < 2)
+                d = '0' + d;
+            bd =`${y}-${m}-${d}`;
+
+            var mailSelector = "#mail";
+            var mail = input_varidate(mailSelector, {
+                required: true,
+                type: 'email',
+                maxLength: 100,
+                message: 'メールアドレス'
+            });
+            if (mail !== true) {
+                input_errorElement(mailSelector, mail, '.mail-wrap');
+                error();
+            } else {
+                let mail = $(mailSelector).val().trim();
+                error_obj.email=true;
+                data.email=$(mailSelector).val();
+                input_errorElement(mailSelector , '' , '.mail-wrap');
+            }
+
+            var usernameSelector = '.username'
+            var name = input_varidate(usernameSelector, {
+                required: true,
+                maxLength: 100,
+                message: '名前'
+            });
+            if (name !== true) {
+                input_errorElement(usernameSelector, name ,'.username-wrap');
+                error_obj.name = false;
+                error();
+            } else {
+                input_errorElement(usernameSelector ,'', '.username-wrap');
+                error_obj.name = true;
+            }
+
+            var img=$('.profile-update').attr('data-image');
+
+            var birthplaceSelector = '#birthplace'
+            var birthplace = input_varidate(birthplaceSelector, {
+                required: true,
+                maxLength: 1000,
+                message: '出身地',
+            });
+            if (birthplace !== true) {
+                input_errorElement(birthplaceSelector, birthplace , '.birthplace-wrap');
+                error();
+            } else {
+                let birthPlaceVal = $(birthplaceSelector).val().trim();
+                data.birthPlace= birthPlaceVal;
+                input_errorElement(birthplaceSelector, '', '.birthplace-wrap');
+            }
+
+            var goalSelector = '.goal'
+            var goal = input_varidate(goalSelector, {
+                required: true,
+                maxLength: 2000,
+                message: 'なりたい姿',
+            });
+            if (goal !== true) {
+                input_errorElement(goalSelector, goal, '.goal--wrap');
+                error();
+            } else {
+                error_obj.goal = true;
+                input_errorElement(goalSelector , '', '.goal--wrap');
+            }
+
+            if ($("#language1").val() == '0') {
+                input_errorElement('#language1' , '第一言語が設定されていません', '.language_language1-wrap');
+                error();
+            }else{
+                input_errorElement('#language1', '', '.language_language1-wrap');
+                error_obj.language1 = true;
+            }
+
+            data.languageSet = lsets;
+            data.skillSet = ssets;
+            data.birthDate=bd;
+            data.profilePicture= img==undefined?$('.profile-update').attr('data-original'):img;
+            console.log(error_obj)
+            var pError=$(".fileLimitError").css("display");
+            if(data.birthPlace!="" && error_obj.name===true && error_obj.language1 === true && data.skillSet.length!=0 && error_obj.email===true && error_obj.goal === true  && pError!='block' && lsets.indexOf('') < 0){
+                $.ajax({
+                    type: 'POST',
+                    url: '/profile/edit',
+                    headers:{"Content-Type":"application/json"},
+                    data: JSON.stringify(data),
+                    success: function(dataResult) {
+                        var dataResult=JSON.parse(dataResult);
+                        if(dataResult['result'] == "ok"){
+                           var name=data.displayName;
+                           var img=dataResult.profilePicture;
+                               let obj={
+                                   name:name,
+                                   profile:img
+                               }
+
+                              localStorage.setItem('ud',JSON.stringify(obj));
+                                status_show('ok');
+                        }
+                        if(dataResult['result'] == "ng"){
+                            status_show("fail");
+                        }
+                    }
+                });
+            }
+            event.preventDefault();
+        })
+        $("#upload-profile-btn").on("click",function(){
+            $(this).next().click();
+        })
+        $("#upload-profile-btn").next().on('change',function(e){
+            var file=e.target.files[0];
+            if(file.size>=2097152){
+                $(".fileLimitError").show();
+            }
+            else{
+                $(".fileLimitError").hide();
+                var fr=new FileReader();
+                fr.onload=function(e){
+                    $(".profile-update").css({
+                        "background-image":`url(${e.target.result})`,
+                        "background-size":"cover",
+                        "background-position":"center"
+                    })
+                    $(".profile-update").attr("data-image",e.target.result);
+
+                }
+                fr.readAsDataURL(file);
+            }
+        })
+        $(document).on("change","#months,#year",function(){
+            load_days();
+        })
+        function status_show(status){
+                if(status=="ok"){
+                    $(".kb-profile-container").append("<div class='status-container success'><p class='px-2'>内容を保存しました</p></div>");
+                }
+                else{
+                    $(".kb-profile-container").append("<div class='status-container fail'><p class='px-2'>内容の保存に失敗しました</p></div>");
+                }
+                setTimeout(()=>{
+                    $(".status-container").remove();
+                    if(status=="ok"){
+                        // window.location.href='/home';
+                    }
+                },2000)
+                $(".status-container").css({
+                    position:"fixed",
+                    top:"80px",
+                    width:$(".kb-container").outerWidth(),
+                    marginLeft:$(".kb-container").css("margin-left"),
+                    zIndex:2,
+                    left:'0'
+                })
+                $(".status-container.success").css({
+                    background: "#4caf50"
+                })
+                $(".status-container.fail").css({
+                    background:"#fef3f2"
+                })
+            }
+        });
+    </script>
+</body>
+{% include './ver2.1/partials/footer.html' %}
+</html>

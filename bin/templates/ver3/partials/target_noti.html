@@ -1,0 +1,20 @@
+<!-- to Display noti at the start of the page. use in target's index, edit, other pages -->
+<ul class="kb-target-info">
+    <li>
+      <!-- to display username -->
+      {% set vars = {'isDataExistPrev': False} %}
+      {% if teamTargetText|length != 0 %}
+        {% for data in teamTargetText %}
+          {% if data.get("isTargetExist") %}
+              {% if teamTargetText|length != loop.index and loop.index != 1 and vars.isDataExistPrev %}
+                、
+              {% endif %}
+              <a href="/target/others/{{ data.get('displayName') | safe }}">{{ data.get("displayName") | safe }}さん</a>
+              {% if vars.update({'isDataExistPrev': True}) %} {% endif %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+      を評価してください。
+    </li>
+    <li><a href="/target/edit">自己評価</a>をしてください。</li>
+</ul>

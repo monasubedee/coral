@@ -1,0 +1,383 @@
+@charset "UTF-8";
+@font-face {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 400;
+  src: local("Raleway"), url(//fonts.googleapis.com/css?family=Raleway);
+}
+
+@font-face {
+  font-family: 'Noto Sans JP';
+  font-style: normal;
+  font-weight: 400;
+  src: local("Noto Sans CJK JP Regular"), url(//fonts.gstatic.com/ea/notosansjp/v5/NotoSansJP-Regular.woff2) format("woff2"), url(//fonts.gstatic.com/ea/notosansjp/v5/NotoSansJP-Regular.woff) format("woff"), url(//fonts.gstatic.com/ea/notosansjp/v5/NotoSansJP-Regular.otf) format("opentype");
+}
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+html {
+  font-family: 'Noto Sans JP', '游ゴシック体', '游ゴシック Medium', 'Yu Gothic Medium', 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, sans-serif;
+  font-size: 62.5%;
+}
+
+body {
+  color: #020b3c;
+  margin: 0;
+}
+
+input,
+label,
+select,
+button,
+textarea {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  line-height: 1.2;
+  white-space: normal;
+  vertical-align: middle;
+  background: none;
+  border: 0;
+}
+
+a {
+  color: #009dc5;
+  cursor: pointer;
+  transition: all 0.35s ease;
+}
+
+a:hover {
+  color: #52c4ee;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+  border: 0;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+/* デフォルトの outline を消す */
+:focus {
+  outline: none;
+}
+
+body,
+html {
+  min-height: 100vh;
+  background-color: #fafbfd;
+}
+
+body {
+  margin: 0;
+  line-height: 1;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: auto;
+}
+
+._content--smaller--white {
+  padding: 40px 10px;
+  background-color: #fff;
+}
+
+._content--smaller--blue {
+  padding: 40px 10px;
+  background-color: #f5f6fa;
+}
+
+._content--navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 16px;
+}
+
+.main-menu {
+  flex: 0 0 240px;
+  height: calc(100vh - 74px);
+  border-right: #dcdde6 1px solid;
+}
+
+.main-menu__content {
+  width: 100%;
+  padding: 30px 30px 28px;
+  overflow-y: scroll;
+}
+
+._wrapper {
+  min-height: 100vh;
+}
+
+._wrapper ._wrapper__content {
+  display: flex;
+}
+
+@-webkit-keyframes timelimitProgress {
+  0% {
+    -webkit-transform: translate3d(0%, 0, 0);
+            transform: translate3d(0%, 0, 0);
+  }
+  50% {
+    -webkit-transform: translate3d(50%, 0, 0);
+            transform: translate3d(50%, 0, 0);
+  }
+  75% {
+    -webkit-transform: translate3d(75%, 0, 0);
+            transform: translate3d(75%, 0, 0);
+  }
+  100% {
+    -webkit-transform: translate3d(100%, 0, 0);
+            transform: translate3d(100%, 0, 0);
+  }
+}
+
+@keyframes timelimitProgress {
+  0% {
+    -webkit-transform: translate3d(0%, 0, 0);
+            transform: translate3d(0%, 0, 0);
+  }
+  50% {
+    -webkit-transform: translate3d(50%, 0, 0);
+            transform: translate3d(50%, 0, 0);
+  }
+  75% {
+    -webkit-transform: translate3d(75%, 0, 0);
+            transform: translate3d(75%, 0, 0);
+  }
+  100% {
+    -webkit-transform: translate3d(100%, 0, 0);
+            transform: translate3d(100%, 0, 0);
+  }
+}
+
+@-webkit-keyframes feedToast {
+  from {
+    display: none;
+    opacity: 0;
+  }
+  1% {
+    display: flex;
+    opacity: 0;
+  }
+  51% {
+    opacity: 1;
+  }
+  to {
+    display: none;
+    opacity: 0;
+  }
+}
+
+@keyframes feedToast {
+  from {
+    display: none;
+    opacity: 0;
+  }
+  1% {
+    display: flex;
+    opacity: 0;
+  }
+  51% {
+    opacity: 1;
+  }
+  to {
+    display: none;
+    opacity: 0;
+  }
+}
+
+@media all and (-ms-high-contrast: none) {
+  body {
+    font-family: 'メイリオ', Meiryo, '游ゴシック体', '游ゴシック Medium', 'Yu Gothic Medium', 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', sans-serif;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  ._content {
+    position: relative;
+    flex: 1 1 auto;
+    background-color: #f5f6fa;
+  }
+}
+
+/*# sourceMappingURL=maps/style_ver2.css.map */

@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="ja">
+      {% include './partials/head.html' %}
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<title>solve</title>
+	<link href="css/style.css" rel="stylesheet" type="text/css">
+</head>
+<style>
+.question-wrapper{
+  margin-bottom:20px;
+}
+.reply-commit *{
+  box-sizing:border-box;
+}
+  .comment-btn{
+    width:auto;
+    height:auto;
+    padding:12px 10px;
+    border:1px solid gray;
+    border-radius:.25rem;
+  }
+  .comment{
+    padding:20px 10px;
+  }
+  input{
+    width:80%;
+    height:40px;
+    padding:8px;
+    margin-right:10px;
+    border:1px solid gray;
+    border-radius:.25rem;
+  }
+  .submit-btn{
+    padding:13px 40px;
+    border:0;
+    border-radius:.25rem;
+    background:blue;
+    color:white;
+    margin:20px 0px;
+  }
+</style>
+<body>
+
+	<div class="container">
+		<div class="question-wrapper choice_wrapper">
+
+			<div class="question-card">
+				<img src="/static/img/documentman.png" alt="image">
+				<div class="text__exa-sentence">
+					<p>{{questionData.questionText}}</p>
+				</div>
+				<div class="text__rate">正答率</div><div class="text__rate">{{questionData.correctRate}}%</div>
+			</div>
+
+			<div class="choice-card" id='choice_panel'>
+				<div class="question-text">正しいものを１つ選べ</div>
+				<button type="submit" class="choice__button" data-ans_id={{answerData[0].answerId}} data-que_id={{questionData.questionId}} autofocus="true">{{answerData[0].label}}</button>
+				<button type="submit" class="choice__button" data-ans_id={{answerData[1].answerId}} data-que_id={{questionData.questionId}} autofocus="true">{{answerData[1].label}}</button>
+				<button type="submit" class="choice__button" data-ans_id={{answerData[2].answerId}} data-que_id={{questionData.questionId}} autofocus="true">{{answerData[2].label}}</button>
+				<button type="submit" class="choice__button" data-ans_id={{answerData[3].answerId}} data-que_id={{questionData.questionId}} autofocus="true">{{answerData[3].label}}</button>
+			</div>
+		</div>
+    <div class='question-wrapper reply'>
+
+    </div>
+    <div class='question-wrapper reply-commit'>
+
+    </div>
+
+	</div>
+	<script>
+  $(document).ready(function(){
+
+    $(".choice__button").on("click",function(){
+    var id=parseInt($(this).attr("data-ans_id"));
+    var questionId=parseInt($(this).attr("data-que_id"));
+    console.log(id);
+     console.log(questionId);
+     var obj={
+        "userId":2,
+      	"questionId":questionId,
+      	"answers":[id],
+      	"elapsedTime":10
+      }
+    var xhr = new XMLHttpRequest();
+    var url = "/manabu/result";
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+      console.log(this.status);
+      if (this.readyState === 4 && this.status === 200) {
+        var json = JSON.parse(this.responseText);
+
+        for(var i=0;i<json.data.answerList.length;i++){
+          var con=json.data.answerList[i].correctFlag;
+          if(con=="True"){
+            $("#choice_panel").find("button").eq(i).css({
+              'border':'2px solid green'
+            })
+          }
+          else{
+            $("#choice_panel").find("button").eq(i).css({
+              'border':'2px solid red'
+            })
+          }
+        }
+        $(".choice_wrapper").css({"position":"relative"})
+        if(json.data.correct==true){
+          $(".choice_wrapper").append("<div class='choice_alert'>"+
+            "<div>"+
+            "  <div><img src='/static/img/check-regular@3x.png'/></div>"+
+              "<div><p>正解！</p></div>"+
+              "</div>"+
+          "</div>");
+          setTimeout(()=>{
+              $(".choice_alert").remove();
+          },3000)
+        }
+        else{
+          $(".choice_wrapper").append("<div class='choice_alert'>"+
+              "<div>"+
+              "<div><img src='/static/img/グループ 1454.png'/></div>"+
+              "<div><p>不正解</p></div>"+
+              "</div>"+
+          "</div>");
+          setTimeout(()=>{
+              $(".choice_alert").remove();
+          },3000)
+        }
+        $(".choice_alert").css({
+            "width":"100%",
+            "height":"100%",
+            "position":"absolute",
+            "top":"0",
+            "left":"0",
+            "background":"rgba(0,0,0,0.4)",
+            "display":"flex",
+            "align-items":"center"
+        })
+        $(".choice_alert p").css({
+          "color":"black",
+          "font-size":"20px"
+        })
+        $(".choice_alert>div").css({
+          "padding":"10px",
+          "margin":"auto",
+          "width":"100%",
+          "max-width":"200px",
+          "background":"white",
+          "box-shadow":"0px 0px 1px rgba(0,0,0,0.4)",
+          "border-radius":".25rem",
+          "display":"flex",
+          "justify-content":"center"
+        })
+        $(".choice_alert img").css({
+          "height":"20px",
+          "margin-right":"10px",
+          "width":"auto"
+        })
+        $(".choice_alert>div>div").css({
+          "display":"flex",
+          "align-items":"center"
+        })
+        // $("#choice_panel")
+        $(".reply").append("<div class='reply_container'>"+
+            "<div>"+
+                "<img src='/static/img/img__manabu@2x.png' alt=''/>"+
+            "</div>"+
+            "<div>"+json.data.descriptionText+"</div>"+
+        "</div>");
+        $(".reply-commit").append("<div class='reply_container'>"+
+              "<div class='reply_container_title'>"+
+                  "<div>"+
+                    "<p>この問題のレビュー</p>"+
+                  "</div><div><img src='/static/img/like2.png' class='favorite' alt=''/></div>"+
+              "</div>"+
+              "<div class='rating'>"+
+                  "<div>"+
+                      "<img src='/static/img/star-off@3x.png' alt=''/>"+
+                      "<img src='/static/img/star-off@3x.png' alt=''/>"+
+                      "<img src='/static/img/star-off@3x.png' alt=''/>"+
+                      "<img src='/static/img/star-off@3x.png' alt=''/>"+
+                      "<img src='/static/img/star-off@3x.png' alt=''/>"+
+                  "</div>"+
+                  "<div class='comment'>"+
+                    "<input type='text' class='ques_comment'/><button class='comment-btn'>コメント</button>"+
+                  "</div>"+
+              "</div>"+
+          "</div>")
+          $(".container").append("<div class='question-wrapper submit-panel'>"+
+            "<button class='submit-btn' id='submit-manabu'>次のまなび</button>"+
+          "</div>")
+        $(".reply_container").css({
+          "display":"flex",
+          "width":"100%",
+          "padding":"20px",
+          "justify-content":"flex-start"
+        })
+        $(".submit-panel").css({
+          "display":"flex",
+          "background":"none",
+          "box-shadow":"none",
+          "justify-content":"center",
+          "padding":"10px"
+        })
+        $(".rating").css({
+          "width":"100%",
+          "padding":"20px",
+          "text-align":"center"
+        })
+        $(".rating img").css({
+          "height":"15px",
+          "margin":"0px 10px"
+        })
+        $(".reply_container img").css({
+          "height":'80px',
+          "margin":"0px 10px"
+        })
+        $(".reply-commit img").css({
+          "height":"15px",
+          "display":"inline-block"
+        })
+        $(".reply-commit .reply_container").css({
+          "padding":"0",
+          "flex-flow":"wrap"
+        })
+        $(".reply_container_title").css({
+          "display":"flex",
+          "width":"100%",
+          "padding":"10px",
+          "border-bottom":"1px solid #e9e9ef",
+          "justify-content":"space-between"
+        })
+        var index;
+        $(".rating img").on("click",function(){
+          index=$(".rating img").index($(this));
+          var limit=$(".rating img").length;
+          for(var i=0;i<limit;i++){
+            if(i<=index){
+              $(".rating img").eq(i).attr("src",'/static/img/star-on@3x.png');
+            }
+            else{
+              $(".rating img").eq(i).attr("src",'/static/img/star-off@3x.png');
+            }
+          }
+        });
+        $(".favorite").on("click",function(){
+          if($(this).attr("src")=='/static/img/like2.png'){
+            $(this).attr("src",'/static/img/like1.png');
+            $(this).attr("data-value",true);
+          }
+          else{
+            $(this).attr("src",'/static/img/like2.png');
+            $(this).attr("data-value",false);
+          }
+        })
+
+        $("#submit-manabu").on("click",function(){
+            var fav_unfav=$('.favorite').attr('data-value');
+            var comments=$('.ques_comment').val();
+              var sub_ques = {
+                  "userId":2,
+                 	"questionId":questionId,
+                 	"rating":index+1,
+                 	"comment":comments,
+                  "fav":fav_unfav
+             }
+           var xhr = new XMLHttpRequest();
+           var url = "/manabu/complete";
+           xhr.open("POST", url, true);
+           xhr.setRequestHeader("Content-Type", "application/json");
+           xhr.onreadystatechange = function () {
+             console.log(this.status);
+             if (this.readyState === 4 && this.status === 200) {
+               var json = JSON.parse(this.responseText);
+               console.log("json", json);
+               console.log("result ok")
+                 window.location.href = "/manabu/";
+             }
+           };
+           xhr.send(JSON.stringify(sub_ques));
+         })
+      }
+    };
+    xhr.send(JSON.stringify(obj));
+  });
+})
+	</script>
+</body>
+</html>

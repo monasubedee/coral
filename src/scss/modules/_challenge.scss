@@ -1,0 +1,70 @@
+.challenge {
+  @at-root {
+    #{&}__head {
+      margin: 0 0 16px;
+      color: #020b3c;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+    #{&}__radio-label {
+      display: block;
+      margin: 0 0 10px;
+      text-align: center;
+      background-color: #fff;
+    }
+    #{&}--yes-no__wrapper {
+      display: flex;
+      width: 100%;
+      font-family: Raleway, serif;
+    }
+    #{&}--yes-no__radio-label {
+      &:first-child {
+        margin: 0 5px 0 0;
+      }
+      display: block;
+      flex: 1 1 10px;
+    }
+    #{&}__radio {
+      display: none;
+      &:checked + #{&}-text {
+        color: #fff;
+        background-color: #3f67ff;
+        border: solid 1px #3f67ff;
+      }
+      &:checked + .challenge--yes-no__radio-text {
+        color: #fff;
+        background-color: #3f67ff;
+        border: solid 1px #3f67ff;
+      }
+    }
+    #{&}__radio-text {
+      padding: 20px;
+      color: #3f67ff;
+      font-size: 1.5rem;
+      text-align: left;
+      border: solid 1px #dcdde6;
+      border-radius: 4px;
+    }
+    #{&}--yes-no__radio-text {
+      padding: 20px;
+      color: #3f67ff;
+      font-size: 1.5rem;
+      text-align: center;
+      background-color: #fff;
+      border: solid 1px #dcdde6;
+      border-radius: 4px;
+    }
+    #{&}__submit {
+      position: relative;
+      display: block;
+      width: 100%;
+      margin: 20px 0 0;
+      padding: 16px;
+      color: #fff;
+      font-size: 1.6rem;
+      text-align: center;
+      background-color: #020b3c;
+      border-radius: 4px;
+    }
+  }
+}

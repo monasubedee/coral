@@ -1,0 +1,43 @@
+.modal {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  display: none;
+  left: 0;
+  background: rgba(0, 0, 0, 0.8);
+  height: 100%;
+  z-index: 9999;
+  & > div {
+    width: 100%;
+    height: 100%;
+  }
+  .kb-panel-title {
+    position: relative;
+  }
+  .modal-close {
+    position: absolute;
+    top: 21px;
+    right: 20px;
+    font-size: 18px;
+    cursor: pointer;
+    &:hover {
+      color: rgb(123, 14, 14);
+    }
+  }
+  .modal-dialog {
+    margin: auto;
+    width: 100%;
+    max-width: 700px;
+  }
+  button {
+    @include button($color: #2e79dc, $text_color: white);
+    width: 100%;
+    max-width: 200px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+    &.cancel{
+      @include button($color: whitesmoke, $text_color: #000);
+    }
+  }
+}

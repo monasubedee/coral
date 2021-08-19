@@ -1,0 +1,93 @@
+{%from "./partials/header.html" import header with context%}
+<!DOCTYPE html>
+<html lang="ja">
+  {% include './partials/head.html' %}
+  <body>
+    {{ header(title, avatorImage, logined) }}
+    <div class="_content--smaller--white">
+      {% if logined == 'true' %}
+      <div class="_content--navigation">
+        <div class="navigation-button" onclick="location.href='/home'">
+          <svg class="navigation-button__icon" viewbox="0 0 5.547 9.679">
+            <path
+              d="M764.6 703.842l-4.486 4.486 4.486 4.486"
+              transform="translate(-759.411 -703.488)"
+            ></path>
+          </svg>
+          <span class="navigation-button__text">Back</span>
+        </div>
+      </div>
+      {% else %}
+      <div class="_content--navigation">
+        <div class="navigation-button" onclick="location.href='/'">
+          <svg class="navigation-button__icon" viewbox="0 0 5.547 9.679">
+            <path
+              d="M764.6 703.842l-4.486 4.486 4.486 4.486"
+              transform="translate(-759.411 -703.488)"
+            ></path>
+          </svg>
+          <span class="navigation-button__text">Back</span>
+        </div>
+      </div>
+      {% endif %}
+
+      <form method="POST" action="/contact">
+        <h2 class="create__input-title">お問い合わせ種別</h2>
+        <label class="create__select-label">
+          <select name="inquiryType" class="create__select">
+            <option value="パートナーについてのお問い合わせ"
+              >パートナーについてのお問い合わせ</option
+            >
+            <option value="バグの報告"
+              >バグの報告</option
+            >
+            <option value="改善案の報告"
+              >改善案の報告</option
+            >
+            <option value="ほしい機能について"
+            >ほしい機能について</option
+            >
+          </select></label
+        >
+        <h2 class="create__input-title">
+          お名前<small class="create__require">*</small>
+        </h2>
+        <input
+          class="create__answer__input"
+          type="text"
+          name="userName"
+          placeholder="ナレッジ太郎"
+        />
+        <h2 class="create__input-title">メールアドレス</h2>
+        <input
+          class="create__answer__input"
+          type="text"
+          name="userMail"
+          placeholder="taro@knowledge-bank.jp"
+        />
+        <h2 class="create__input-title">お問い合わせ内容</h2>
+        <textarea
+          name="inquiryContents"
+          placeholder="お問い合わせ内容"
+          class="create__textarea"
+        ></textarea>
+        <button type="submit" class="button--arrow">
+          送信する<svg
+            direction="next"
+            color="#fff"
+            class="button--arrow__arrow"
+            viewBox="0 0 5.547 9.679"
+          >
+            <path
+              d="M764.6 703.842l-4.486 4.486 4.486 4.486"
+              transform="translate(-759.411 -703.488)"
+            ></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+    {% include './partials/footer.html' %}
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src='/static/ver2.1/js/script.js'></script>
+  </body>
+</html>

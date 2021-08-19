@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KnowledgeBank</title>
+    <link rel='icon' href='/static/ver2.1/img/logo@3x.png'/>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css'/>
+    <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+<style>
+  .submit-btn{
+    text-align:center;
+  }
+  #settings_updatebtn{
+    display:none;
+  }
+  #settings_newbtn{
+    display:none;
+  }
+  .btn-tran.news-cancel {
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+{% include './ver2.1/partials/ga_tag.html' %}
+</head>
+{% include './ver2.1/partials/header.html' %}
+{% include './ver2.1/partials/sidebar.html' %}
+<body>
+    <div>
+        <div class='kb-container'>
+            <div class='kb-setting-container kb-setting-news-hogehoge-add'>
+                <div class='text-center'>
+                    <h3>お知らせ管理</h3>
+                </div>
+                <div class='kb-panel p-3'>
+                    <div class="news_title-wrap mb-3">
+                      <textarea id="news_title" class='textarea-small news_title' placeholder='タイトルを入力してください'></textarea>
+                    </div>
+                    <div class="news_des-wrap">
+                      <textarea id="news_des" class='textarea-md news_des' placeholder='お知らせ本文を入力してください'></textarea>
+                    </div>
+                </div>
+                <div class='text-center py-3'>
+                    <div class="flex flex-c flex-item-center">
+                        <a href="/settings/news" class="btn-tran news-cancel mr-3">編集をキャンセルする</a>
+                        <a class='submit-btn mr-3' id='settings_draftbtn'>下書きとして保存</a>
+                        <a class='submit-btn' id='settings_newbtn'>保存して公開</a>
+                        <a class='submit-btn' id='settings_updatebtn'>更新する</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src='/static/ver2.1/js/varidate.js'></script>
+    <script src='/static/ver2.1/js/script.js'></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        var getUrlParameter = function getUrlParameter(sParam) {
+          var sPageURL = window.location.search.substring(1),
+              sURLVariables = sPageURL.split('&'),
+              sParameterName,
+              i;
+
+          for (i = 0; i < sURLVariables.length; i++) {
+              sParameterName = sURLVariables[i].split('=');
+
+              if (sParameterName[0] === sParam) {
+                  return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+              }
+          }
+      };
+      var error_obj = {
+        news_title: false,
+        news_des: false,
+      }
+      var urlId=getUrlParameter("id");
+          if(urlId){
+            $.ajax({
+              method:"get",
+              url:`/settings/news/id?id=${urlId}`,
+              success:function(data){
+                let result=JSON.parse(data);
+                let title=result.data.title;
+                let desc=result.data.des;
+                let id = result.data.id;
+                console.log(result.data.title)
+                let isPublished = result.data.isPublished;
+                if(isPublished){
+                  $("#settings_newbtn").css({ display: 'none' });
+                  $("#settings_updatebtn").css({ display: "inline-block" });
+                }else{
+                  $("#settings_newbtn").css({ display: 'inline-block' });
+                  $("#settings_updatebtn").css({ display: "none" });
+                }
+                $("#settings_newbtn").attr("data-id", id);
+                $("#settings_updatebtn").attr("data-id", id);
+                $("#settings_draftbtn").attr("data-id",id);
+                $(".kb-setting-news-hogehoge-add textarea#news_title").val(title);
+                $(".kb-setting-news-hogehoge-add textarea#news_des").val(desc);
+              }
+            })
+            $("#settings_updatebtn,#settings_newbtn").on("click",function(e){
+              let id=$(this).attr("data-id");
+              error_obj.news_title = input_varidate('#news_title', {
+                required: true,
+                maxLength: 500,
+                message: 'タイトル'
+              });
+              error_obj.news_des = input_varidate('#news_des', {
+                required: true,
+                maxLength: 5000,
+                message: 'お知らせ記事'
+              });
+              var title = $.trim($('.news_title').val());
+              var des = $.trim($('.news_des').val());
+              e.preventDefault();
+              $("textarea").each(function(){
+                var textareaid = $(this).attr('id')
+                if (error_obj[textareaid] !== true) {
+                  input_errorElement('#' + textareaid, error_obj[textareaid], '.' + textareaid + '-wrap');
+                } else {
+                  input_errorElement('#' + textareaid, '', '.' + textareaid + '-wrap');
+                }
+              });
+              if (error_obj.news_title == true && error_obj.news_des == true){
+                    var obj={
+                      "userId":1,
+                      "title":title,
+                      "noticeId":id,
+                      "description":des,
+                      "isPublished":"1"
+                    }
+
+                    $.ajax({
+                      method:'POST',
+                      url:'/settings/news/edit',
+                      headers:{"Content-Type":"application/json"},
+                      data:JSON.stringify(obj),
+                      success:function(data){
+                        var data=JSON.parse(data);
+                        if(data["result"]=="ok")
+                        {
+                          status_show('ok');
+                          setTimeout(() => {
+                            window.onbeforeunload = null;  // 関数を削除
+                            window.location.href = "/settings/news"
+                          }, 2000)
+                        }
+                        if(data["result"]!="ok")
+                        {
+                          status_show('failed');
+                          window.onbeforeunload = null;  // 関数を削除
+                          window.location.href='/settings/news/create'
+                        }
+                      }
+                    });
+                  }
+            })
+
+            $('#settings_draftbtn').on('click',function(e){
+              let id=$(this).attr("data-id");
+              error_obj.news_title = input_varidate('#news_title', {
+                required: true,
+                maxLength: 500,
+                message: 'タイトル'
+              });
+              error_obj.news_des = input_varidate('#news_des', {
+                required: true,
+                maxLength: 5000,
+                message: 'お知らせ記事'
+              });
+              e.preventDefault();
+              var title = $.trim($('.news_title').val());
+              var des = $.trim($('.news_des').val());
+              $("textarea").each(function(){
+                var textareaid = $(this).attr('id')
+                if (error_obj[textareaid] !== true) {
+                  input_errorElement('#' + textareaid, error_obj[textareaid], '.' + textareaid + '-wrap');
+                } else {
+                  input_errorElement('#' + textareaid, '', '.' + textareaid + '-wrap');
+                }
+              })
+              if (error_obj.news_title == true && error_obj.news_des == true) {
+                    var obj={
+                      "userId":1,
+                      "title":title,
+                      "description":des,
+                      "isPublished":"0",
+                      "noticeId":id
+                    }
+
+                    $.ajax({
+                      method:'POST',
+                      url:'/settings/news/edit',
+                      headers:{"Content-Type":"application/json"},
+                      data:JSON.stringify(obj),
+                      success:function(data){
+                        var data=JSON.parse(data);
+                        if(data["result"]=="ok")
+                        {
+                          status_show('ok');
+                          setTimeout(() => {
+                            window.onbeforeunload = null;  // 関数を削除
+                            window.location.href = "/settings/news"
+                          }, 2000)
+                        }
+                        if(data["result"]=="ng")
+                        {
+                          status_show('failed');
+                          window.onbeforeunload = null;  // 関数を削除
+                          window.location.href="/settings/news/create"
+                        }
+                      }
+                    });
+	               }
+            })
+          }
+          else{
+            $("#settings_newbtn").css({display:'inline-block'});
+            $("#settings_updatebtn").css({display:"none"});
+            $('#settings_newbtn').on('click',function(e){
+              error_obj.news_title = input_varidate('#news_title', {
+                required: true,
+                maxLength: 500,
+                message: 'タイトル'
+              });
+              error_obj.news_des = input_varidate('#news_des', {
+                required: true,
+                maxLength: 5000,
+                message: 'お知らせ記事'
+              });
+              var title = $.trim($('.news_title').val());
+              var des = $.trim($('.news_des').val());
+              e.preventDefault();
+              console.log(error_obj)
+              $("textarea").each(function () {
+                var textareaid = $(this).attr('id')
+                if (error_obj[textareaid] !== true) {
+                  input_errorElement('#' + textareaid, error_obj[textareaid], '.' + textareaid + '-wrap');
+                } else {
+                  input_errorElement('#' + textareaid, '', '.' + textareaid + '-wrap');
+                }
+              });
+              if (error_obj.news_title == true && error_obj.news_des == true){
+                 var obj={
+                   "userId":1,
+                   "title":title,
+                   "description":des,
+                   "isPublished":"1"
+                 }
+
+                 $.ajax({
+                   method:'POST',
+                   url:'/settings/news/create',
+                   headers:{"Content-Type":"application/json"},
+                   data:JSON.stringify(obj),
+                   success:function(data){
+                     var data=JSON.parse(data);
+
+                     if(data["result"]=="ok")
+                     {
+                       status_show('ok');
+                       setTimeout(() => {
+                         window.onbeforeunload = null;  // 関数を削除
+                         window.location.href = "/settings/news"
+                       }, 2000)
+                     }
+                     if(data["result"]=="ng")
+                     {
+                       status_show('failed');
+                       window.onbeforeunload = null;  // 関数を削除
+                       window.location.href="/settings/news/create"
+                     }
+                   }
+                 });
+               }
+            })
+
+
+            $('#settings_draftbtn').on('click',function(e){
+              e.preventDefault();
+              var title = $.trim($('.news_title').val());
+              var des = $.trim($('.news_des').val());
+              $("textarea").each(function(){
+                if ($.trim($(this).val()).replace(/\r?\n/g, '') == "") {
+                      $(this).css({
+                          border:'1px solid red'
+                      })
+                      $(this).addClass("error-field");
+                  }
+                  else{
+                    $(this).css({
+                        border:'1px solid #ccc'
+                    })
+                    $(this).removeClass("error-field");
+                   }
+                })
+              if(title.replace(/\r?\n/g, '').length && des.replace(/\r?\n/g, '').length )
+              {
+                  var obj={
+                    "userId":1,
+                    "title":title,
+                    "description":des,
+                    "isPublished":"0"
+                  }
+                  $.ajax({
+                    method:'POST',
+                    url:'/settings/news/create',
+                    headers:{"Content-Type":"application/json"},
+                    data:JSON.stringify(obj),
+                    success:function(data){
+                      var data=JSON.parse(data);
+                      if(data["result"]=="ok")
+                      {
+                        status_show('ok');
+                        setTimeout(() => {
+                          window.onbeforeunload = null;  // 関数を削除
+                          window.location.href = "/settings/news"
+                        }, 2000)
+                      }
+                      if(data["result"]=="ng")
+                      {
+                        status_show('failed');
+                        window.onbeforeunload = null;  // 関数を削除
+                        window.location.href="/settings/news/create"
+                      }
+                    }
+                  });
+              }
+            })
+
+          }
+
+          function status_show(status){
+              if(status=="ok"){
+                  $("body").append("<div class='status-container success'><p class='px-2'>内容を保存しました</p></div>");
+
+              }
+              else{
+                  $("body").append("<div class='status-container fail'><p class='px-2'>内容の保存に失敗しました</p></div>");
+              }
+              setTimeout(()=>{
+                  $(".status-container").remove();
+              },2000)
+              $(".status-container").css({
+                  position:"fixed",
+                  top:"80px",
+                  width:$(".kb-container").outerWidth(),
+                  marginLeft:$(".kb-container").css("margin-left"),
+                  zIndex:2,
+                  left:'0'
+              })
+              $(".status-container.success").css({
+                  background: "#4caf50"
+              })
+              $(".status-container.fail").css({
+                  background:"#fef3f2"
+              })
+          }
+
+      })
+        window.onbeforeunload = function (e) {
+          return 'このページを離れると、入力したデータが削除されます。移動してもよろしいですか？';
+        }
+    </script>
+</body>
+{% include './ver2.1/partials/footer.html' %}
+</html>

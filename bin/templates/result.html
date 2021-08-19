@@ -1,0 +1,380 @@
+{%from "./partials/header.html" import header with context%}
+<!DOCTYPE html>
+<html lang="ja">
+  {% include './partials/head.html' %}
+  <body>
+    <style>
+      @-webkit-keyframes progressDailyChallenge {
+        from {
+          -webkit-transform: translate3d(-100%, 0, 0);
+          transform: translate3d(-100%, 0, 0);
+        }
+        to {
+          -webkit-transform: translate3d(
+            -{{data.progressDailyChallengeRate}}%,
+            0,
+            0
+          );
+          transform: translate3d(-{{data.progressDailyChallengeRate}}%, 0, 0);
+        }
+      }
+      @keyframes progressDailyChallenge {
+        from {
+          -webkit-transform: translate3d(-100%, 0, 0);
+          transform: translate3d(-100%, 0, 0);
+        }
+        to {
+          -webkit-transform: translate3d(
+            -{{data.progressDailyChallengeRate}}%,
+            0,
+            0
+          );
+          transform: translate3d(-{{data.progressDailyChallengeRate}}%, 0, 0);
+        }
+      }
+      @-webkit-keyframes progressDailyCorrect {
+        from {
+          -webkit-transform: translate3d(-100%, 0, 0);
+          transform: translate3d(-100%, 0, 0);
+        }
+        to {
+          -webkit-transform: translate3d(
+            -{{data.progressDailyCorrectRate}}%,
+            0,
+            0
+          );
+          transform: translate3d(-{{data.progressDailyCorrectRate}}%, 0, 0);
+        }
+      }
+      @keyframes progressDailyCorrect {
+        from {
+          -webkit-transform: translate3d(-100%, 0, 0);
+          transform: translate3d(-100%, 0, 0);
+        }
+        to {
+          -webkit-transform: translate3d(
+            -{{data.progressDailyCorrectRate}}%,
+            0,
+            0
+          );
+          transform: translate3d(-{{data.progressDailyCorrectRate}}%, 0, 0);
+        }
+      }
+    </style>
+      <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+      <script type="text/javascript">
+        $(document).ready(function(){
+          var test = $('[name=descriptionText]').val();
+          var regexp_url = /((h?)(ttps?:\/\/[a-zA-Z0-9.\-_@:/~?%&;=+#',()*!]+))/g; // ']))/;
+          var regexp_makeLink = function(all, url, h, href) {
+              return '<a href="h' + href + '" target="_blank">' + url + '</a>';
+          }
+
+          var textreplace =  test.replace(regexp_url, regexp_makeLink);
+          $('.description__paragraph').html(textreplace)
+      });
+
+    </script>
+    <div class="_wrapper">
+      {{ header("result", avatorImage, "true") }}
+      <div class="_content--smaller--blue">
+        <div class="_content--result">
+          <div class="_content--navigation">
+            <div class="navigation-button" onclick="location.href='/home'">
+              <svg class="navigation-button__icon" viewbox="0 0 5.547 9.679">
+                <path
+                  d="M764.6 703.842l-4.486 4.486 4.486 4.486"
+                  transform="translate(-759.411 -703.488)"
+                ></path>
+              </svg>
+              <span class="navigation-button__text">Back</span>
+            </div>
+          </div>
+
+          {% if data.correct %}
+          <!-- 結果：正解-->
+          <div class="result">
+            <button
+              class="result__fav fav-button"
+              data-questionId="{{ data.questionId }}"
+              data-userId="{{ data.userId }}"
+              data-faved="{{ 'true' if data.favState else 'false' }}"
+            >
+              <svg class="fav-button__star" viewbox="0 0 17.69 16.932">
+                <path
+                  d="M28.4.576l-2.164 4.378-4.831.7a1.059 1.059 0 0 0-.585 1.805l3.5 3.406-.827 4.811a1.057 1.057 0 0 0 1.53 1.124l4.322-2.272 4.321 2.272a1.058 1.058 0 0 0 1.534-1.119l-.827-4.811 3.5-3.406a1.059 1.059 0 0 0-.585-1.805l-4.831-.7L30.294.576a1.059 1.059 0 0 0-1.894 0z"
+                  transform="translate(-20.5 .013)"
+                ></path>
+              </svg>
+            </button>
+            <h2 class="result__head">
+              <span class="result__correct-circle" aria-hidden="false"></span>
+              <span>正解</span>
+            </h2>
+            <p class="result__paragraph">お見事！この調子で次も頑張ろう！</p>
+          </div>
+          <!-- 結果：正解-->
+          {% else %}
+          <!-- 結果：不正解-->
+          <div class="result">
+            <button
+              class="result__fav fav-button"
+              data-questionId="{{ data.questionId }}"
+              data-userId="{{ data.userId }}"
+              data-faved="{{ 'true' if data.favState else 'false' }}"
+            >
+              <svg class="fav-button__star" viewbox="0 0 17.69 16.932">
+                <path
+                  d="M28.4.576l-2.164 4.378-4.831.7a1.059 1.059 0 0 0-.585 1.805l3.5 3.406-.827 4.811a1.057 1.057 0 0 0 1.53 1.124l4.322-2.272 4.321 2.272a1.058 1.058 0 0 0 1.534-1.119l-.827-4.811 3.5-3.406a1.059 1.059 0 0 0-.585-1.805l-4.831-.7L30.294.576a1.059 1.059 0 0 0-1.894 0z"
+                  transform="translate(-20.5 .013)"
+                ></path>
+              </svg>
+            </button>
+            <h2 class="result__head">
+              <svg class="result__incorrect-cross" viewbox="0 0 32 32">
+                <g transform="translate(-109.322 -217.322)">
+                  <path
+                    d="M0 0h37.268v7.986H0z"
+                    transform="rotate(-45 348.803 -10.126)"
+                  ></path>
+                  <path
+                    d="M0 0h37.268v7.986H0z"
+                    transform="rotate(-135 119.474 96.562)"
+                  ></path>
+                </g>
+              </svg>
+              <span>不正解</span>
+            </h2>
+            <p class="result__paragraph">新しい知識を得られるチャンスです！</p>
+          </div>
+          <!-- 結果：不正解-->
+          {% endif %}
+
+          <!-- 問題文 -->
+          <div class="question-toggle">
+            <button class="question-toggle__button" aria-expanded="true">
+              <svg
+                class="question-toggle__button__arrow"
+                viewbox="0 0 5.547 9.679"
+              >
+                <path
+                  d="M764.6 703.842l-4.486 4.486 4.486 4.486"
+                  transform="translate(-759.411 -703.488)"
+                ></path>
+              </svg>
+              <span class="question-toggle__button__text">問題を見る</span>
+            </button>
+            <div class="question-toggle__wrapper" aria-hidden="false">
+              <div class="question-toggle__image-wrapper">
+                {% if data.questionPictureId == 0 %}
+                <img
+                  src="/static/img/challenge/question_default.jpg"
+                  srcset="
+                    /static/img/challenge/question_default.jpg    1x,
+                    /static/img/challenge/question_default@2x.jpg 2x,
+                    /static/img/challenge/question_default@3x.jpg 3x
+                  "
+                  aria-hidden="false"
+                  class="question-toggle__image"
+                />
+                {% else %}
+                <img
+                  src="{{ questionPictureImage }}"
+                  aria-hidden="true"
+                  class="question__image"
+                />
+                {% endif %}
+              </div>
+              <h2 class="question__head">
+                問題
+                <span class="question__correct-rate"
+                  >正答率 {{ data.correctRate }}%</span
+                >
+              </h2>
+              <p class="question__text">{{ data.questionText }}</p>
+            </div>
+          </div>
+          <!-- 問題文-->
+
+          <!-- 正しい解答-->
+
+          <h2 class="description__headline">この問題の設問</h2>
+
+          <ol class="answer-list">
+            {% for answer in data.answerList %} {%if answer["label"] in
+            correctAnswer %}
+            <li class="answer-list__item--correct">
+              <svg class="answer-list__correct" viewbox="0 0 11.929 9.186">
+                <path
+                  d="M38.039 80.043l-6.863 6.863-2.522-2.522a.313.313 0 0 0-.443 0l-.738.738a.313.313 0 0 0 0 .443l3.481 3.481a.313.313 0 0 0 .443 0l7.822-7.822a.313.313 0 0 0 0-.443l-.738-.738a.313.313 0 0 0-.442 0z"
+                  transform="translate(-27.382 -79.952)"
+                ></path></svg
+              >{{ answer["label"] }}
+            </li>
+            {% else %}
+            <li class="answer-list__item--incorrect">
+              <svg class="answer-list__incorrect" viewbox="0 0 32 32">
+                <g transform="translate(-109.322 -217.322)">
+                  <path
+                    d="M0 0h37.268v7.986H0z"
+                    transform="rotate(-45 348.803 -10.126)"
+                  ></path>
+                  <path
+                    d="M0 0h37.268v7.986H0z"
+                    transform="rotate(-135 119.474 96.562)"
+                  ></path>
+                </g></svg
+              >{{ answer["label"] }}
+            </li>
+            {% endif %} {% endfor %}
+          </ol>
+        </div>
+
+        <!-- 正しい解答-->
+
+        <!-- 解説-->
+        <div class="description">
+          <div class="description__headline">この問題の解説</div>
+          <div class="description__wrapper">
+            <div class="description__image-wrapper">
+              {% if data.descriptionPictureId == 0 %}
+
+              {% else %}
+              <img
+                src="{{ descriptionPictureImage }}"
+                aria-hidden="true"
+                class="question__image"
+              />
+              {% endif %}
+            </div>
+            <input type="hidden" name="descriptionText" id="descriptionText" value="{{data.descriptionText}}">
+            <p class="description__paragraph">{{ data.descriptionText }}</p>
+          </div>
+        </div>
+        <!-- 解説-->
+
+        <!-- コメント-->
+        <div class="feed">
+          <div class="feed__toast"></div>
+          <form class="feed__body" method="POST" action="javascript:void(0);">
+            <textarea
+              required
+              autocapitalize="none"
+              type="text"
+              name="comment"
+              class="feed__input"
+              id="feed_comment"
+            ></textarea>
+            <button class="feed__submit" id="doComment">コメント</button>
+            <input
+              type="hidden"
+              name="questionId"
+              id="questionId"
+              value="{{ data.questionId }}"
+            />
+          </form>
+        </div>
+        <!-- コメント -->
+        {% if data.challengeClear %}
+        <p><b>おめでとうございます</b></p>
+        <p>本日の学びを達成いたしました！</p>
+        <p>
+          マイページでこれまでの学びを確認して自分の成長を振り返ってみましょう
+        </p>
+        <button
+          type="submit"
+          class="button--arrow"
+          onclick="location.href='/home'"
+        >
+          ホームへ戻る<svg
+            direction="next"
+            color="#fff"
+            class="button--arrow__arrow"
+            viewBox="0 0 5.547 9.679"
+          >
+            <path
+              d="M764.6 703.842l-4.486 4.486 4.486 4.486"
+              transform="translate(-759.411 -703.488)"
+            ></path>
+          </svg>
+        </button>
+        {% else %}
+        <!-- ボタン -->
+        <button
+          type="submit"
+          class="button--arrow"
+          onclick="location.href='/challenge'"
+        >
+          次の問題にチャレンジ<svg
+            direction="next"
+            color="#fff"
+            class="button--arrow__arrow"
+            viewBox="0 0 5.547 9.679"
+          >
+            <path
+              d="M764.6 703.842l-4.486 4.486 4.486 4.486"
+              transform="translate(-759.411 -703.488)"
+            ></path>
+          </svg>
+        </button>
+        <!-- ボタン -->
+        {% endif %}
+        <div class="dashboard__rough-stats--result">
+          <div class="dashboard__rough-stats__progress">
+            <div class="dashboard__rough-stats__progress__text">
+              <h3 class="dashboard__rough-stats__progress__goal-text">
+                デイリーチャレンジ
+              </h3>
+              <span class="dashboard__rough-stats__progress__value-text">{{
+                data.challengeRate
+              }}</span>
+            </div>
+            <div
+              class="dashboard__rough-stats__progress__bar"
+              aria-valuenow="{{ data.countAnsweredToday }}"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            >
+              <div
+                class="dashboard__rough-stats__progress__bar__fill--daily-challenge"
+              ></div>
+            </div>
+          </div>
+          <div class="dashboard__rough-stats__progress--daily">
+            <div class="dashboard__rough-stats__progress__text">
+              <h3 class="dashboard__rough-stats__progress__goal-text">
+                デイリー正答率
+              </h3>
+              <span class="dashboard__rough-stats__progress__value-text">{{
+                data.dailyCorrectRate
+              }}</span>
+            </div>
+            <div
+              class="dashboard__rough-stats__progress__bar"
+              aria-valuenow="{{
+                data.dashboard__rough_stats__progress__bar_correct
+              }}"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            >
+              <div
+                class="dashboard__rough-stats__progress__bar__fill--daily-correct"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% include './partials/footer.html' %}
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"
+    ></script>
+    <script src="/static/js/question_toggle.js"></script>
+    <script src="/static/js/comment.js"></script>
+    <script src="/static/js/fav_button.js"></script>
+  </body>
+</html>

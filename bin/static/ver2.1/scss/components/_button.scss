@@ -1,0 +1,76 @@
+@mixin button($color: $red, $text_color: $white) {
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  font: 14px/100% Arial, Helvetica, sans-serif;
+  padding: 0.5em 2em 0.55em;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  border-radius: 0.25rem;
+  color: $text_color !important;
+  font-weight: bold;
+  border: solid 1px darken($color, 18%);
+  background: $color;
+  &:hover{
+      &:not([disabled]){
+        text-decoration: none;
+        background: #dca728 !important;
+        border: solid 1px darken(#dca728, 18%);
+      }
+  }
+
+}
+.btn-tran {
+  padding: 5px 10px;
+  background: transparent;
+  border-radius: 0.25rem;
+  border: 1px solid #e9e9ef;
+  cursor: pointer;
+  &:hover{
+    opacity: .7;
+  }
+  img {
+    height: 14px;
+    margin-right: 10px;
+  }
+
+  &.btn-tran-modal{
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 200px;
+  }
+}
+.submit-btn{
+  @include button($color: #2762FB, $text_color: white);
+  padding-top: 15px;
+  width:100%;
+  text-align:center;
+  padding-bottom: 15px;
+  &:disabled{
+    cursor:not-allowed !important;
+    opacity:0.8;
+  }
+}
+
+.delete-btn{
+  @include button($color:whitesmoke, $text_color:#000);
+  padding-top: 15px;
+  width:100%;
+  text-align:center;
+  padding-bottom: 15px;
+  &:disabled{
+    cursor:not-allowed !important;
+    opacity:0.8;
+  }
+}
+
+.text{
+  &--13{
+    font-size: 13px;
+    line-height: 1.38;
+  }
+}

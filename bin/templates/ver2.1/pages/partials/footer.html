@@ -1,0 +1,35 @@
+<div class='kb-footer'>
+    <div class='flex flex-sb p-3'>
+      <div class='flex flex-item-center'>
+        <p class='m-0 text-muted'><small>©<script>document.write(new Date().getFullYear())</script> Knowledgebank. All rights reserved.</small></p>
+      </div>
+      <div class='flex flex-item-center'>
+        <ul>
+          <li>
+             <a href='' class="text-muted contact">管理者へ連絡する</a>
+            </li>
+          <li><a href='/policy' class='text-muted policy'>利用規約とポリシー</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(document).ready(function(){
+      $(document).on("click",".contact",function(e){
+        e.preventDefault();
+        if(localStorage.getItem("ud") && localStorage.getItem("ud")!="")
+          window.location.href='/contact/';
+        else {
+          window.open('/contact/unlogin', '_blank')
+        }
+      })
+      $(document).on("click", ".policy", function (e) {
+        e.preventDefault();
+        if (localStorage.getItem("ud") && localStorage.getItem("ud") != "")
+          window.location.href = '/policy/';
+        else {
+          window.open('/policy/unlogin', '_blank')
+        }
+      })
+    })
+</script>

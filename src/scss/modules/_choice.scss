@@ -1,0 +1,67 @@
+@import "../functions/media_query_helper";
+
+.choice {
+  @at-root {
+    #{&}__button {
+      display: block;
+      width: 220px;
+      height: 46px;
+      margin: 0px auto 10px;
+      color: #2962ff;
+      font-size: 16px;
+      background-color: #fff;
+      border: solid 1px #2962ff;
+      border-radius: 4px;
+      @include mediaQuery() {
+        width: auto;
+        height: 36px;
+        margin: 0 42px 10px;
+      }
+    }
+    #{&}__button--incorrect {
+      display: block;
+      width: 220px;
+      height: 46px;
+      margin: 0px auto 10px;
+      color: #d95243;
+      font-size: 16px;
+      background-color: #fff;
+      border: solid 1px #d95243;
+      border-radius: 4px;
+      @include mediaQuery {
+        width: auto;
+        height: 36px;
+        margin: 0 42px 10px;
+      }
+    }
+    #{&}--correct {
+      position: relative;
+      display: block;
+      width: 220px;
+      height: 46px;
+      margin: 0px auto 10px;
+      color: #0db42d;
+      font-size: 16px;
+      background-color: #fff;
+      border: solid 1px #0db42d;
+      border-radius: 4px;
+      &::before {
+        position: absolute;
+        left: -25px;
+        display: block;
+        content: url("../img/check-regular.png");
+      }
+      @include mediaQuery() {
+        width: auto;
+        height: 36px;
+        margin: 0 42px 10px;
+      }
+    }
+    #{&}__button--select {
+      &.select{
+        background-color: #2962ff;
+        color: #fff;
+      }
+    }
+  }
+}

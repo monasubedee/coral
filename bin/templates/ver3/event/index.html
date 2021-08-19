@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>KnowledgeBank</title>
+  <link rel='icon' href='/static/ver2.1/img/logo@3x.png' />
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css' />
+  <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-160620961-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-160620961-1');
+  </script>
+</head>
+<style>
+  .active{
+     background-color: black;
+ }
+
+
+
+</style>
+{% include './ver2.1/partials/header.html' %}
+
+<!-- <div class='kb-header flex flex-sb'>
+  <div class='kb-logo flex flex-item-center'>
+    <img src='/static/ver2.1/img/light-bulb@3x.png' alt='' class='ml-2 mr-1' />
+    <p id="output"></p>
+  </div>
+  <div class='mobile-sidebar-btn'>
+    <div class='flex flex-item-center'>
+      <button class='fas fa-bars'></button>
+    </div>
+  </div>
+  <div class='mobile-logo'>
+    <div>
+      <a href="/home" class="mobile-logo-link"><img src='/static/ver2.1/img/1076@3x.png' alt='' /></a>
+    </div>
+  </div>
+  <div class='kb-primary-menu flex flex-item-center'>
+    <a href='/manabu' class='kb-primary-menuitem flex flex-item-center'>
+      <img src='/static/ver2.1/img/pen-tool-1@3x.png' alt='' class='mr-2' />
+      <p class='color-blue'>今日のまなび</p>
+    </a>
+    <a href='/question' class='kb-primary-menuitem flex flex-item-center'>
+      <img src='/static/ver2.1/img/1251@3x.png' alt='' class='mr-2' />
+      <p class='color-blue'>課題をためる</p>
+    </a>
+    <div class='kb-primary-menuitem flex flex-item-center dropdown'>
+      <div class='dropdown-btn flex flex-item-center h-profile'>
+        <div
+          style='background-image:url(/static/ver2.1/img/1104@3x.png);background-size:cover;background-position:center'
+          class='my-profile mr-1'></div>
+        <p></p>
+      </div>
+      <div class='dropdown-menu'>
+        <a href='/profile' class='dropdown-menuitem'>ユーザー情報</a>
+        <a href='/logout' class='dropdown-menuitem logout'>ログアウト</a>
+        <div class='bb my-2'></div>
+        <a href='/settings/base' class='dropdown-menuitem'>ナレッジバンク設定</a>
+       
+        <a href='/settings/member' class='dropdown-menuitem'>メンバー設定</a>
+        <a href='/settings/company' class='dropdown-menuitem'>企業情報設定</a>
+        <a href='/settings/news' class='dropdown-menuitem'>お知らせ管理</a>
+      </div>
+    </div>
+  
+  </div>
+</div> -->
+<div class='kb-alert'>
+  <div class='kb-alert-dialog'>
+    <div class='kb-alert-panel'>
+      <div class='kb-alert-panel__body'>
+        <p>ログインしてください</p>
+      </div>
+      <div class='kb-alert-panel__footer'>
+        <button onclick="location.href='/'">ログイン画面へ</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% include './ver2.1/partials/sidebar.html' %}
+
+ <!-- <div class='kb-sidebar'>
+  <span class='fas fa-times sidebar-close'></span>
+  <div class='pt-3'>
+    <ul>
+      <li>
+        <a href='/home'>
+          <img src='/static/ver2.1/img/home_gray.png' alt='' />
+          <span>ホーム</span>
+        </a>
+      </li>
+      <li>
+        <a href='/event'>
+          <img src='/static/ver2.1/img/archive@3x.png' alt='' />
+          <span>イベント</span>
+        </a>
+      </li>
+      <li>
+        <a href='/question'>
+          <img src='/static/ver2.1/img/1250@3x.png' alt='' />
+          <span>ためる</span>
+        </a>
+      </li>
+      <li>
+        <a href='/manabu'>
+          <img src='/static/ver2.1/img/pen-tool-3.png' alt='' />
+          <span>まなぶ</span>
+        </a>
+      </li>
+    
+      <li>
+        <a href='/target'>
+          <img src='/static/ver2.1/img/archive@3x.png' alt='' />
+          <span>目標と評価一覧</span>
+        </a>
+      </li>
+      <li>
+        <a href='/news'>
+          <img src='/static/ver2.1/img/info@3x.png' alt='' />
+          <span>お知らせ</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class='px-2'>
+    <div class='kb-arrow-icon-msg'>
+      <div class='arrow_box'>
+        <p class="m-0">
+          <span class='agree'></span><span class='s-name'></span>
+          今日も頑張りましょう。
+        </p>
+      </div>
+    </div>
+    <img src='/static/ver2.1/img/770@3x.png' alt='' class='arrow-icon' />
+  </div>
+  <div class='pt-0 px-4'>
+    <span class='m-0 text-muted'><small>Powered by</small></span>
+    <img src='/static/ver2.1/img/1076@3x.png' alt='' />
+  </div>
+</div>  -->
+<script>
+  var sidebarLink = document.querySelectorAll(".kb-sidebar a");
+  sidebarLink.forEach(function (ele) {
+    ele.addEventListener("click", function (evt) {
+      evt.preventDefault();
+      if (localStorage.getItem("ud") && localStorage.getItem("ud") != "")
+        window.location.href = $(this).attr("href");
+      else {
+        document.querySelector(".kb-alert").classList.add("show");
+      }
+    })
+  })
+  document.querySelector(".kb-alert button").addEventListener("click", function () {
+    document.querySelector(".kb-alert").classList.remove("show");
+  })
+  var today = new Date()
+  var curHr = today.getHours()
+  var agree = '';
+  if (curHr < 12)
+    agree = 'おはようございます！'
+  else if (curHr < 18)
+    agree = 'こんにちは！'
+  else
+    agree = 'こんばんは！'
+
+  document.querySelector(".agree").innerText = agree;
+  var ud = JSON.parse(localStorage.getItem('ud'));
+  document.querySelector(".s-name").innerText = ud.name + 'さん。'
+  /* for sidebar highlight */
+  var windowURL = window.location.href.split("/");
+  console.log("window url is", windowURL);
+  var currentURL = '';
+  if (windowURL[windowURL.length - 1] == "") {
+    currentURL = windowURL[windowURL.length - 2]
+  }
+  else {
+    currentURL = `${windowURL[windowURL.length - 2]}/${windowURL[windowURL.length - 1]}`;
+  }
+  if (currentURL.match(/\//)) {
+    var lowerURL = currentURL.split('/');
+    currentURL = lowerURL[0];
+  }
+  var sidebarLink = document.querySelector(`.kb-sidebar li a[href='/${currentURL}']`);
+  if (sidebarLink != null) {
+    sidebarLink.closest("li").classList.add("active");
+  }
+  if (currentURL == "manabu" || currentURL == "question") {
+    var headerLink = document.querySelector(`.kb-primary-menuitem a[href='/${currentURL}']`);
+    headerLink.closest(".kb-primary-menuitem").classList.add("active");
+  }
+</script>
+
+<body>
+  <div class="">
+    <div class='kb-container'>
+      <div class="kb-event-container">
+        <div class='text-center'>
+          <h3>イベント</h3>
+          <small class="text-muted">イベントに参加してスキルアップしよう</small>
+          <img src='/static/ver2.1/img/2025@3x.png' alt='' class='kb-manabu-logo my-4' />
+        </div>
+        <div class="">
+          <div class="kb-panel px-3 mb-4">
+            <div class="py-3  kb-event-item">
+              <div class="flex flex-sb">
+                <p class="m-0 pr-2">ハラスメント研修</p>
+                <small class="kb-event-small text-muted flex-shrink">役職：すべて　チーム：デザインチーム
+                  　<span class="kb-event-alert">期間：2020/08/02 - 2020/08/09</span></small>
+              </div>
+              <div class="flex flex-item-center mt-3">
+                <div class="pr-5 kb-event-contents">
+                  <small class="kb-event-type kb-event-type-manabu">毎週10問まなぶ</small>
+                  <div class="kb-event-progress my-2" data-eventProgress="60%"><span></span></div>
+                  <div class="flex flex-sb flex-item-center">
+                    <small class="kb-event-small">達成率：60%</small>
+                    <small class="kb-event-small">30人中 20人がクリア</small>
+                  </div>
+                </div>
+                <a href="/manabu/solve/event/" class='submit-btn'> イベントをはじめる </a>
+              </div>
+            </div>
+          </div>
+          <div class="kb-panel px-3 mb-4">
+            <div class="py-3 kb-event-item">
+              <div class="flex flex-sb">
+                <p class="m-0 pr-2">UI/UX研修</p>
+                <small class="kb-event-small text-muted flex-shrink">役職：すべて　チーム：デザインチーム　<span>期間：2020/08/15 -
+                    2020/08/22</span></small>
+              </div>
+              <div class="flex flex-item-center mt-3 kb-event-item">
+                <div class="pr-5 kb-event-contents">
+                  <small class="kb-event-type kb-event-type-tameru">毎週10問ためる</small>
+                  <div class="kb-event-progress my-2" data-eventProgress="100%"><span></span></div>
+                  <div class="flex flex-sb flex-item-center">
+                    <small class="kb-event-small">達成率：100%</small>
+                    <small class="kb-event-small">30人中 20人がクリア</small>
+                  </div>
+                </div>
+                <a href="/tameru/" class='submit-btn submit-btn--complete'> イベントをはじめる </a>
+              </div>
+            </div>
+          </div>
+          <div class="kb-panel px-3 mb-4">
+            <div class="py-3 kb-event-item">
+              <div class="flex flex-sb">
+                <p class="m-0 pr-2">イベント名が入ります。イベント名が入ります。</p>
+                <small class="kb-event-small text-muted flex-shrink">役職：すべて　チーム：デザインチーム　<span
+                    class="kb-event-alert">期間：2020/09/02 - 2020/09/09</span></small>
+              </div>
+              <div class="flex flex-item-center mt-3 kb-event-item">
+                <div class="pr-5 kb-event-contents">
+                  <small class="kb-event-type kb-event-type-tameru">毎週10問ためる</small>
+                  <div class="kb-event-progress my-2" data-eventProgress="90%"><span></span></div>
+                  <div class="flex flex-sb flex-item-center">
+                    <small class="kb-event-small">達成率：90%</small>
+                    <small class="kb-event-small">30人中 20人がクリア</small>
+                  </div>
+                </div>
+                <button class='submit-btn'> イベントをはじめる </button>
+              </div>
+            </div>
+          </div>
+          <div class="kb-panel px-3 mb-4">
+            <div class="py-3  kb-event-item">
+              <div class="flex flex-sb">
+                <p class="m-0 pr-2">イベント名が入ります。イベント名が入ります。イベント名が入ります。イベント名が入ります。イベント名が入ります。イベント名が入ります。</p>
+                <small class="kb-event-small text-muted flex-shrink">役職：すべて　チーム：デザインチーム　<span>期間：2020/10/02 -
+                    2020/10/09</span></small>
+              </div>
+              <div class="flex flex-item-center mt-3">
+                <div class="pr-5 kb-event-contents">
+                  <small class="kb-event-type kb-event-type-manabu">毎週10問まなぶ</small>
+                  <div class="kb-event-progress my-2" data-eventProgress="60%"><span></span></div>
+                  <div class="flex flex-sb flex-item-center">
+                    <small class="kb-event-small">達成率：60%</small>
+                    <small class="kb-event-small">30人中 20人がクリア</small>
+                  </div>
+                </div>
+                <a href="/manabu/solve/event/" class='submit-btn'> イベントをはじめる </a>
+              </div>
+            </div>
+          </div>
+          <div class="kb-panel px-3 mb-4">
+            <div class="py-3 kb-event-item">
+              <div class="flex flex-sb">
+                <p class="m-0 pr-2">イベント名が入ります。イベント名が入ります。</p>
+                <small class="kb-event-small text-muted flex-shrink">役職：すべて　チーム：デザインチーム　<span>期間：2020/10/12 -
+                    2020/10/19</span></small>
+              </div>
+              <div class="flex flex-item-center mt-3 kb-event-item">
+                <div class="pr-5 kb-event-contents">
+                  <small class="kb-event-type kb-event-type-tameru">毎週10問ためる</small>
+                  <div class="kb-event-progress my-2" data-eventProgress="4%"><span></span></div>
+                  <div class="flex flex-sb flex-item-center">
+                    <small class="kb-event-small">達成率：4%</small>
+                    <small class="kb-event-small">30人中 20人がクリア</small>
+                  </div>
+                </div>
+                <a href="/tameru/" class='submit-btn'> イベントをはじめる </a>
+              </div>
+            </div>
+          </div>
+          <div class="kb-panel px-3 mb-4">
+            <div class="py-3 kb-event-item">
+              <div class="flex flex-sb">
+                <p class="m-0 pr-2">イベント名が入ります。</p>
+                <small class="kb-event-small text-muted flex-shrink">役職：すべて　チーム：デザインチーム　<span>期間：2020/10/22 -
+                    2020/10/29</span></small>
+              </div>
+              <div class="flex flex-item-center mt-3 kb-event-item">
+                <div class="pr-5 kb-event-contents">
+                  <small class="kb-event-type kb-event-type-manabu">毎週10問まなぶ</small>
+                  <div class="kb-event-progress my-2" data-eventProgress="10%"><span></span></div>
+                  <div class="flex flex-sb flex-item-center">
+                    <small class="kb-event-small">達成率：10%</small>
+                    <small class="kb-event-small">30人中 20人がクリア</small>
+                  </div>
+                </div>
+                <a href="/tameru/" class='submit-btn'> イベントをはじめる </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src='/static/ver2.1/js/script.js'></script>
+  <script>
+    $(function () {
+      $('.kb-event-progress').each(function () {
+        $(this).find('span').css({
+          width: $(this).attr('data-eventProgress')
+        })
+      });
+    });
+  </script>
+  <div class="modal" id="attention" style="display: none;">
+    <div class="flex flex-item-center">
+      <div class="modal-dialog">
+        <div class="kb-panel">
+          <div class="kb-panel-title p-3">
+            <p class="m-0">この課題のお気に入り登録を解除してもよろしいですか?</p>
+            <i class="fas fa-times modal-close" data-modal="#edit-member-modal"></i>
+          </div>
+          <div class="kb-panel-body px-3">
+            <p>
+              <small class="text-muted">※解除すると、お気に入りに登録した課題一覧には表示されなくなります。</small>
+            </p>
+            <div class="flex flex-c py-3">
+              <a class="btn-tran btn-tran-modal cancel mx-2">キャンセル</a>
+              <button class="submit-btn mx-2 confirm-delete"> 解除する </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<!-- <div class='kb-footer'>
+  <div class='flex flex-sb p-3'>
+    <div class='flex flex-item-center'>
+      <p class='m-0 text-muted'><small>©
+          <script>document.write(new Date().getFullYear())</script> Knowledgebank. All rights reserved.
+        </small></p>
+    </div>
+    <div class='flex flex-item-center'>
+      <ul>
+        <li>
+          <a href='/contact' class="text-muted contact" target="_blank">管理者へ連絡する</a>
+        </li>
+        <li><a href='/policy' class='text-muted policy' target="_blank">利用規約とポリシー</a></li>
+      </ul>
+    </div>
+  </div>
+</div> -->
+{% include './ver2.1/partials/footer.html' %}
+<script>
+  $(document).ready(function () {
+    //   $(document).on("click",".contact",function(e){
+    //     e.preventDefault();
+    //     if(localStorage.getItem("ud") && localStorage.getItem("ud")!="")
+    //       window.location.href='/contact/';
+    //     else {
+    //       window.open('/contact/unlogin', '_blank')
+    //     }
+    //   })
+    //   $(document).on("click", ".policy", function (e) {
+    //     e.preventDefault();
+    //     if (localStorage.getItem("ud") && localStorage.getItem("ud") != "")
+    //       window.location.href = '/policy/';
+    //     else {
+    //       window.open('/policy/unlogin', '_blank')
+    //     }
+    //   })
+    //   $(document).on("click", ".mobile-logo-link", function (e) {
+    //     e.preventDefault();
+    //     if (localStorage.getItem("ud") && localStorage.getItem("ud") != "")
+    //       window.location.href = '/home';
+    //     else {
+    //       window.location.href = '/introduction';
+    //     }
+    //   })
+    // })
+    // if (localStorage.getItem("ud") && localStorage.getItem("ud") != "")
+    //   $(".kb-logo").prepend('<a href="/home"><img src="/static/ver2.1/img/logo__idealump.png" class="logo" alt="" /></a>');
+    // else {
+    //   $(".kb-logo").prepend('<a href="/introduction"><img src="/static/ver2.1/lp/img/logo.svg" class="logo" alt="" /></a>');
+    // }
+    $(".kb-logo:not(.split)").prepend('<a href="/home"><img src="/static/ver2.1/img/logo__idealump.png" class="logo" alt="" /></a>');
+  });
+</script>
+
+</html>

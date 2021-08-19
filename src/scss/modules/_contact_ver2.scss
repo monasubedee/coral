@@ -1,0 +1,57 @@
+.contact{
+    @at-root{
+
+
+
+#{&}__card-3 {
+    margin-top: 25px;
+    width: 95%;
+    border-radius: 6px;
+    border-color: grey;
+    border-width: 1px;
+    backdrop-filter: blur(30px);
+    box-shadow: 0 1.2px 0.5px 0 rgba(0, 0, 0, 0.2);
+    border: 1px solid whitesmoke;
+    background-color: #ffffff;
+
+}
+#{&}__paragraph-title {
+    padding-left: 35px;
+    font-family: HiraKakuPro-W6;
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.75;
+    letter-spacing: normal;
+    text-align: left;
+    color: #373943;
+}
+#{&}__border-line {
+    width: 100%;
+    height: 0;
+    border: solid 0.5px #dcdde6;
+}
+#{&}__text-input-card-4 {
+    width: 90%;
+    height: 276px;
+    border-radius: 4px;
+    border: solid 1px #c9cad0;
+    margin-top: -1px;
+    margin-left: 30px;
+    margin-right: 30px;
+    font-family: HiraKakuPro-W3;
+    font-size: 13px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 2.15;
+    letter-spacing: normal;
+    text-align: left;
+    color: #373943;
+    padding-left: 15px;
+}
+
+
+}
+}

@@ -1,0 +1,247 @@
+{%from "./ver2/partials/head.html" import header with context%}
+<!doctype html>
+<html lang="ja">
+  {% include './partials/head.html' %}
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ナレッジバンク設定</title>
+	  <link href="css/style.css" rel="stylesheet" type="text/css">
+
+      <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="js/main.js"></script>
+			<style>
+			.container_newVer2 {
+			    padding-left: 250px;
+					background: #fafbfd;
+			}
+      .content_new-add,.content_new-del{
+
+        width: 92px;
+        height: 36px;
+       font-family: HiraKakuPro-W3;
+       padding:5px;
+       font-size: 12px;
+       text-decoration:none;
+       text-align: left;
+       color: #373943;
+       border-radius: 4px;
+      border: solid 1px #dcdde6;
+        background-color: #ffffff;
+
+  }
+  .content_new-del-cus{
+    font-size: 17px;
+      padding-right: 5px;
+  color: #fb5d51;
+  }
+  .new_formver2{
+    margin-top:30px;
+  }
+  .table {
+      width: 1155px;
+    margin-bottom: 1rem;
+    color: #212529;
+    border-collapse: collapse;
+  /* height: 719px; */
+  border-radius: 6px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  background-color: #ffffff;
+}
+
+th{
+  background:#fafafa;
+}
+
+td ,th{
+  font-family: HiraKakuPro-W3;
+  font-size: 13px;
+  line-height: 1.38;
+  letter-spacing: normal;
+  text-align: left;
+  color: #8f9091;
+  padding: 15px 15px;
+  border-bottom: 1px solid #55555524;
+}
+.check{
+  width: 14px;
+  height: 14px;
+
+}
+.content{width: 52px;
+  height: 13px;
+  font-family: Helvetica-Light;
+  font-size: 13px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.38;
+  letter-spacing: normal;
+  text-align: left;
+  color: #8f9091;}
+.date{
+  width: 110px;
+  height: 13px;
+  font-family: Helvetica-Light;
+
+
+  color: #8f9091;
+}
+.subj{
+  width: 670px;
+  height: 13px;
+  font-family: HiraKakuPro-W3;
+  line-height: 1.23;
+  letter-spacing: normal;
+  text-align: left;
+  color: #2962ff;
+}
+.todo{
+  width: 52px;
+ height: 13px;
+ font-family: Helvetica-Light;
+ font-size: 13px;
+ color: #8f9091;
+}
+.trash{
+  width: 14.7px;
+  height: 16px;
+  margin: -2px 5px;
+}
+.new__link {
+    color: #1549d8;
+    margin: 20px auto 80px auto;
+    font-size: 13px;
+    padding: 16px;
+    text-align: center;
+    display: block;
+    text-decoration: none;
+
+}
+			</style>
+</head>
+
+<body>
+	<div class="container container_newVer2">
+		<h2 class="heading">お知らせ管理</h2>
+		<div class="heading__text">ナレッジバンクからのお知らせ</div>
+		<div class="content__wrapper">
+			<div class="new__wrapper ">
+				        {% include './ver2/partials/sidebar.html' %}
+				<div class="content_new">
+          <a href="/settings/news/hogehoge(add)" class="content_new-add">+ 新規追加</a>
+
+					<form class="new_formver2" action="" method="POST">
+            <table class="table">
+              <tr>
+              <a href="#" class="content_new-del"><span class="content_new-del-cus">x</span> 削除</a>
+              </td>
+              <tr>
+                <th class="check"><input type="checkbox" name="" value=""></th>
+                <th>公開設定</th>
+                <th>日付</th>
+                <th>件名</th>
+                <th>投稿者</th>
+                <th>削除</th>
+              </tr>
+              <tr>
+                <td class="check"><input type="checkbox" name="" value=""></td>
+                <td class="content">公開設定</td>
+                <td class="date">2019/07/20 19:41</td>
+                <td class="subj">データ損失防止、そしてオフラインのバックアッププロバイダーに対応しました.</td>
+                <td class="todo">戸田大輔</td>
+                <td><img src="/static/img/trash.png" rcset="/static/img/trash@2x.png 2x,/static/img/trash@3x.png 3x"class="trash"></th>
+              </tr>
+              <tr>
+                <td class="check"><input type="checkbox" name="" value=""></td>
+                <td class="content">公開済み</td>
+                <td class="date">2019/07/20 19:41</td>
+                <td class="subj">システムのお知らせが入りますよ.</td>
+                <td class="todo">戸田大輔</td>
+                <td><img src="/static/img/trash.png" rcset="/static/img/trash@2x.png 2x,/static/img/trash@3x.png 3x"class="trash"></th>
+              </tr>
+              <tr>
+                <td class="check"><input type="checkbox" name="" value=""></td>
+                <td class="content">下書き</td>
+                <td class="date">2019/07/20 19:41</td>
+                <td class="subj">管理者からのお知らせですよ.</td>
+                <td class="todo">戸田大輔</td>
+                <td><img src="/static/img/trash.png" rcset="/static/img/trash@2x.png 2x,/static/img/trash@3x.png 3x"class="trash"></th>
+              </tr>
+              <tr>
+                <td class="check"><input type="checkbox" name="" value=""></td>
+                <td class="content">下書き</td>
+                <td class="date">2019/07/20 19:41</td>
+                <td class="subj">データ損失防止、そしてオフラインのバックアッププロバイダーに対応しました。.</td>
+                <td class="todo">戸田大輔</td>
+                <td><img src="/static/img/trash.png" rcset="/static/img/trash@2x.png 2x,/static/img/trash@3x.png 3x"class="trash"></th>
+              </tr>
+              <tr>
+                <td class="check"><input type="checkbox" name="" value=""></td>
+                <td class="content">公開済み</td>
+                <td class="date">2019/07/20 19:41</td>
+                <td class="subj">データ損失防止、そしてオフラインのバックアッププロバイダーに対応しました。.</td>
+                <td class="todo">戸田大輔</td>
+                <td><img src="/static/img/trash.png" rcset="/static/img/trash@2x.png 2x,/static/img/trash@3x.png 3x"class="trash"></th>
+              </tr>
+              <tr>
+                <td class="check"><input type="checkbox" name="" value=""></td>
+                <td class="content">公開済み</td>
+                <td class="date">2019/07/20 19:41</td>
+                <td class="subj">システムのお知らせが入りますよ.</td>
+                <td class="todo">戸田大輔</td>
+                <td><img src="/static/img/trash.png" rcset="/static/img/trash@2x.png 2x,/static/img/trash@3x.png 3x"class="trash"></th>
+              </tr>
+              <tr>
+                <td class="check"><input type="checkbox" name="" value=""></td>
+                <td class="content">公開済み</td>
+                <td class="date">2019/07/20 19:41</td>
+                <td class="subj">管理者からのお知らせですよ.</td>
+                <td class="todo">戸田大輔</td>
+                <td><img src="/static/img/trash.png" rcset="/static/img/trash@2x.png 2x,/static/img/trash@3x.png 3x"class="trash"></th>
+              </tr>
+              <tr>
+                <td class="check"><input type="checkbox" name="" value=""></td>
+                <td class="content">公開済み</td>
+                <td class="date">2019/07/20 19:41</td>
+                <td class="subj">管理者からのお知らせですよ.</td>
+                <td class="todo">戸田大輔</td>
+                <td><img src="/static/img/trash.png" rcset="/static/img/trash@2x.png 2x,/static/img/trash@3x.png 3x"class="trash"></th>
+              </tr>
+              <tr>
+                <td class="check"><input type="checkbox" name="" value=""></td>
+                <td class="content">公開済み</td>
+                <td class="date">2019/07/20 19:41</td>
+                <td class="subj">データ損失防止、そしてオフラインのバックアッププロバイダーに対応しました。.</td>
+                <td class="todo">戸田大輔</td>
+                <td><img src="/static/img/trash.png" rcset="/static/img/trash@2x.png 2x,/static/img/trash@3x.png 3x"class="trash"></th>
+              </tr>
+              <tr>
+                <td class="check"><input type="checkbox" name="" value=""></td>
+                <td class="content">公開済み</td>
+                <td class="date">2019/07/20 19:41</td>
+                <td class="subj">管理者からのお知らせですよ.</td>
+                <td class="todo">戸田大輔</td>
+                <td><img src="/static/img/trash.png" rcset="/static/img/trash@2x.png 2x,/static/img/trash@3x.png 3x"class="trash"></th>
+              </tr>
+              <tr>
+                <td class="check"><input type="checkbox" name="" value=""></td>
+                <td class="content">公開済み</td>
+                <td class="date">2019/07/20 19:41</td>
+                <td class="subj">データ損失防止、そしてオフラインのバックアッププロバイダーに対応しました。.</td>
+                <td class="todo">戸田大輔</td>
+                <td><img src="/static/img/trash.png" rcset="/static/img/trash@2x.png 2x,/static/img/trash@3x.png 3x"class="trash"></th>
+              </tr>
+            </table>
+					</form>
+				</div>
+				<div class="btn_wrapper"><a class="new__link">さらに表示する</a></div>
+			</div>
+		</div>
+	</div>
+</body>
+
+
+  {% include './ver2/partials/footer.html' %}
+</html>

@@ -1,0 +1,112 @@
+@import "../variables/module";
+@import "../functions/media_query_helper";
+
+.sidebar {
+  top: 0;
+  left: 0;
+  z-index: 1;
+  flex: 0 0 240px;
+  width: 240px;
+  height: calc(100vh - #{$HEADER_HEIGHT});
+  overflow-x: hidden;
+  background-color: #fff;
+  border: 1px solid #e2e0e0;
+  @at-root {
+    #{&}__menu {
+      display: block;
+      padding: 16px;
+      padding-left: 38px;
+      color: #373943;
+      font-weight: normal;
+      font-size: 13px;
+      font-family: HiraKakuPro-W3;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.77;
+      letter-spacing: normal;
+      text-align: left;
+      text-decoration: none;
+      -webkit-text-stroke: 1px rgba(0, 0, 0, 0);
+
+      &[aria-current="true"] {
+        color: #2962ff;
+      }
+    }
+
+    #{&}__menu:hover {
+      color: #2962ff;
+    }
+    #{&}__icon {
+      padding-right: 18px;
+      font-size: 16px;
+      vertical-align: text-bottom;
+    }
+
+    #{&}__textbox {
+      position: relative;
+      width: 180px;
+      margin-top: 30px;
+      margin-left: 28px;
+      background-color: #fff;
+      border: solid 1px #dcdde6;
+      -webkit-backdrop-filter: blur(30px);
+      backdrop-filter: blur(30px);
+    }
+    #{&}__textbox:after,
+    #{&}__textbox:before {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border: solid transparent;
+      pointer-events: none;
+      content: " ";
+    }
+
+    #{&}__textbox:after {
+      margin-left: -12px;
+      border-width: 12px;
+      border-color: rgba(255, 255, 255, 0);
+      border-top-color: #fff;
+    }
+    #{&}__textbox:before {
+      margin-left: -13px;
+      border-width: 13px;
+      border-color: rgba(220, 221, 230, 0);
+      border-top-color: #dcdde6;
+    }
+    #{&}__textbox-text {
+      padding: 21.8px 20px 34.1px;
+      color: #373943;
+      font-weight: normal;
+      font-size: 12px;
+      font-family: HiraKakuPro-W3;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.5;
+      letter-spacing: normal;
+      text-align: left;
+      -webkit-text-stroke: 1px rgba(0, 0, 0, 0);
+    }
+    #{&}__sidebar-img {
+      margin-top: 15px;
+    }
+    #{&}__logo-img {
+      margin-top: 65px;
+      margin-left: 30px;
+    }
+    #{&}__logo-img-text {
+      color: #3a3c46;
+      font-weight: normal;
+      font-size: 9px;
+      font-family: Helvetica-Light;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.78;
+      letter-spacing: normal;
+      opacity: 0.4;
+      -webkit-text-stroke: 1px rgba(0, 0, 0, 0);
+    }
+  }
+}

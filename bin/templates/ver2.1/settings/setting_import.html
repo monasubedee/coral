@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KnowledgeBank</title>
+    <link rel='icon' href='/static/ver2.1/img/logo@3x.png' />
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css' />
+    <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+{% include './ver2.1/partials/ga_tag.html' %}
+<style>
+    .error-wrapper__404{
+      display: block;
+      margin: auto;
+    }
+
+    .text__error-article {
+      font-family: HiraKakuPro-W3;
+      font-size: 16px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.13;
+      letter-spacing: normal;
+      text-align: center;
+      color: #373943;
+    }
+
+    .spacer {
+      padding: 0 0 20px 0;
+    }
+  </style>
+</head>
+{% include './ver2.1/partials/header.html' %}
+{% include './ver2.1/partials/sidebar.html' %}
+
+<body>
+    <iframe id="my_iframe" style="display:none;"></iframe>
+    <div>
+        <div class='kb-container'>
+            <div class='kb-setting-container kb-setting-import-container'>
+                <div class='kb-setting-top text-center text-center'>
+                    <h3>ナレッジバンク設定</h3>
+                    <p class='text-muted'><small>ナレッジバンクの様々な設定ができます</small></p>
+                    <div class='flex flex-c py-3'>
+                        <div class='p-3 px-4'>
+                            <a href='/settings/base'>
+                                <img src='/static/ver2.1/img/base.png' alt='' />
+                                <p><small>基本設定</small></p>
+                            </a>
+                        </div>
+                        <div class='p-3 px-4'>
+                            <a href='/settings/learn'>
+                                <img src='/static/ver2.1/img/learn.png' alt='' />
+                                <p><small>学習設定</small></p>
+                            </a>
+                        </div>
+                        <div class='p-3 px-4'>
+                            <a href='/settings/import'>
+                                <img src='/static/ver2.1/img/import_active.png' alt='' />
+                                <p class='active'><small>ためる設定</small></p>
+                            </a>
+                        </div>
+                        <div class='p-3 px-4'>
+                            <a href='/settings/mail'>
+                                <img src='/static/ver2.1/img/mail.png' alt='' />
+                                <p><small>通知</small></p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class='flex flex-c flex-item-center'>
+                    <div>
+                      <img src="/static/img/img__404.png" srcset="/static/img/img__404.png 1x, /static/img/img__404@2x.png 2x" alt="404" class="error-wrapper__404">
+                      <h1>Coming Soon</h1>
+                      <div class="text__error-article">このページは準備中です。</div>
+                      <div class="spacer"></div>
+                      <div class="spacer"></div>
+                      <div class="spacer"></div>
+                      <div class="text-center my-4">
+                        <a href="/home" class="color-blue display-inline">ホームに戻る</a>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src='/static/ver2.1/js/script.js'></script>
+    <script>
+        $(document).ready(function () {
+
+            $('input[type="file"]').change(function (e) {
+                var fileName = e.target.files[0].name;
+                dataFile = e.target.files[0];
+                document.getElementById("upload_file_name").value = fileName;
+                document.getElementById("save-input").removeAttribute("disabled");
+                $("#save-input").addClass("submitUpload");
+            });
+        });
+        $(".downloadPDF").on("click", function () {
+            var download_pdf_link = 'http://localhost:5000/static/TameruFormat.csv'
+            var element = document.createElement('a');
+            element.setAttribute('href', 'http://localhost:5000/static/TameruFormat.csv');
+            element.setAttribute('download', 'TameruFormat.csv');
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        });
+
+        document.getElementById('get_file').onclick = function () { document.getElementById('my_file').click(); };
+
+        $(document).on("click", ".submitUpload", function () {
+            var file = document.getElementById("my_file").files[0];
+            var form = new FormData();
+            form.append("file", file);
+            $.ajax({
+                method: "POST",
+                url: '/question/questionCSV',
+                data: form,
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    if (JSON.parse(result).message === "Save Successfully.") {
+
+                    }
+                    var data = JSON.parse(result);
+                    if (data["result"] == "ok") {
+                        status_show('ok');
+                        setTimeout(() => {
+                            window.location.href = "/settings/import";
+                        }, 3000);
+                    }
+                    if (data["result"] == 'ng') {
+                        status_show('failed');
+                    }
+                }
+            });
+        });
+        function status_show(status) {
+            if (status == "ok") {
+                $("body").append("<div class='status-container success'><p class='px-2'>内容を保存しました</p></div>");
+                setTimeout(() => {
+                    $(".status-container").remove();
+                }, 5000);
+            }
+            else {
+                $("body").append("<div class='status-container fail'><p class='px-2'>内容の保存に失敗しました</p></div>");
+            }
+            $(".status-container").css({
+                position: "fixed",
+                top: "80px",
+                width: $(".kb-container").outerWidth(),
+                marginLeft: $(".kb-container").css("margin-left"),
+                zIndex: 2,
+                left: '0'
+            })
+            $(".status-container.success").css({
+                background: "#4caf50"
+            })
+            $(".status-container.fail").css({
+                background: "#fef3f2"
+            })
+        }
+    </script>
+</body>
+{% include './ver2.1/partials/footer.html' %}
+
+</html>

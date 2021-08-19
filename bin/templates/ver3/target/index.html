@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KnowledgeBank</title>
+    <link rel='icon' href='/static/ver2.1/img/logo@3x.png' />
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css' />
+    <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-160620961-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'UA-160620961-1');
+
+</script>
+</head>
+<style>
+    .line-height-1 {
+        line-height: 1;
+    }
+
+    .bg-red {
+        background: red !important;
+    }
+
+    .bg-blue {
+        background: blue !important;
+    }
+
+    .kb-container-loading{
+        height: 100vh;
+        min-height: calc(100vh - 132px);
+        margin-top: 80px;
+        padding: 20px;
+        width: calc(100vw - 220px);
+        margin-left: 220px;
+    }
+
+    .kb-container-loading #loading{
+        width: 40px;
+        margin: 40px auto;
+    }
+    .kb-target-contents::-webkit-scrollbar {
+        display: none;
+    }
+    .kb-target-contents{
+        -ms-overflow-style: none;
+    }
+
+
+</style>
+{% include './ver2.1/partials/header.html' %}
+{% include './ver2.1/partials/sidebar.html' %}
+
+<body>
+    <div class='kb-container-loading'>
+        <div id="loading"></div>
+    </div>
+    <div class='kb-container-loadedAjax' style="opacity: 0;">
+        {% include './ver3/partials/target_noti.html' %}
+        <div class='kb-container kb-home-container'>
+            <div class="kb-target-container">
+                <div class="text-center">
+                    <h3>目標と評価一覧</h3>
+                    <p class="text-muted">
+                        <small>目標の作成・閲覧と自己評価、他者評価を行います</small>
+                    </p>
+                </div>
+                <div class="kb-target-item kb-panel">
+                    <div class="kb-target-item__prof py-4 active">
+                        <div class="profile-data">
+                            <div class="pl-4 mb-2">
+                                <!-- <a href="/target/others/" class="profile-img profile profile-update" data-original="" id="profile_image" style="background-image:url({{userProfile.data.profilePicture}});background-position:center;background-size:cover">
+                                </a> -->
+                                {% if userProfile.data.profilePicture %}
+                                <img src={{userProfile.data.profilePicture}} class="profile-img profile profile-update" style="background-position:center;background-size:cover" />
+                                {% else %}
+                                <img src='/static/ver2.1/img/1104@3x.png' class="profile-img profile profile-update" style="background-position:center;background-size:cover" />
+                                {% endif %}
+                            </div>
+                            <div class="px-4">
+                                <div>
+                                    <div>
+                                        <p class="kb-target-item__data text-muted my-0 mb-1">{{userProfile.data.position}}</p>
+                                        <p class="kb-target-item__data text-muted my-0 mb-1">{{userProfile.data.team_name}}</p>
+                                        <a class="kb-target-item__name" href="/target/edit/">{{userProfile.data.displayName}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: 100%">
+                      {% if targetText|length == 0 %}
+                        <div class="px-4">
+                          <p class="kb-target-list__body text-muted" id="targetText"> 目標が設定されていません。</p>
+                        </div>
+                      {% else %}
+                        {% for data in targetText %}
+                        <div>
+                            <div class="px-4">
+                                <p class="kb-target-heading" id="kb-target-heading{{loop.index}}"> 目標{{ loop.index }} </p>
+                                <p class="kb-target-contents ellipsis" id="data{{loop.index}}-me"> {{ data | safe}}</p>
+                            </div>
+                            <div class="kb-target-data px-4">
+                                <p class="kb-target-data__heading">目標の達成率</p>
+                                <ul class="kb-target-data__evaluation">
+                                    <li>総合評価<span>-%</span></li>
+                                </ul>
+                                <a class="kb-target-data__button kb-target-evaluation"
+                                  data-me-target='{{meTargetVal[loop.index-1]}}'
+                                  data-rating="{{meRatingDetail[loop.index-1]}}"
+                                  id="{{loop.index}}"
+                                  data-target-id='{{idData[loop.index-1]}}'
+                                  data-evaluate-id='{{evaluateId[loop.index-1]}}'>評価する</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+                  </div>
+            </div>
+
+            <div class="kb-target-team">
+                <div class="text-center">
+                    <h3 class="kb-target-list__heading">{{userProfile.data.team_name}}</h3>
+                </div>
+                <div class="kb-target-list--wrap">
+                    <div class="kb-target-list">
+                      <!-- start team div -->
+                      {% for data in teamTargetText %}
+
+                        <div class="kb-target-item kb-panel">
+                            <div class="kb-target-item__prof py-4">
+                                <div class="flex flex-s profile-data">
+                                    <div class="pl-4 mb-2">
+                                        <!-- <a href="/target/others/" class="profile-img profile profile-update" data-original="" style="background-image:url({{data.get('profileImage')}});background-position:center;background-size:cover">
+                                        </a> -->
+                                        {% with image=data.get('profileImage') %}
+                                        {% if image %}
+                                        <img src={{image}} class="profile-img profile profile-update" style="background-position:center;background-size:cover" />
+                                        {% else %}
+                                        <img src='/static/ver2.1/img/1104@3x.png' class="profile-img profile profile-update" style="background-position:center;background-size:cover" />
+                                        {% endif %}
+                                        {% endwith %}
+                                    </div>
+                                    <div class="px-3">
+                                        <div>
+                                            <div>
+                                                <p class="kb-target-item__data text-muted my-0 mb-1">{{data.get("positionName")}}</p>
+                                                <p class="kb-target-item__data text-muted my-0 mb-1">{{data.get("teamName")}}</p>
+                                                <a class="kb-target-item__name" href="/target/others/">{{data.get("displayName")}}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="width: 100%">
+                                {% for targetText in data.get("targetText") %}
+                                    {% if data.get("isTargetExist") %}
+                                        <div>
+                                            <div class="px-4">
+                                                <p class="kb-target-heading" id="kb-target-heading{{loop.index}}">
+                                                    目標{{ loop.index }}
+                                                </p>
+                                                <p class="kb-target-contents ellipsis" style="overflow-y: scroll;scrollbar-width: none;" id="data{{loop.index}}-{{data.get('displayName').replace(" ", "_")}}">{{ targetText.get("text") | safe}}</p>
+                                            </div>
+                                            <div class="kb-target-data px-4">
+                                                <p class="kb-target-data__heading">目標の達成率</p>
+                                                <ul class="kb-target-data__evaluation">
+                                                    <li>総合評価<span>-%</span></li>
+                                                </ul>
+                                                <!-- data-me-target='{{meTargetVal[loop.index-1]}}' data-rating="{{meRatingDetail[loop.index-1]}}" -->
+                                                <a class="kb-target-data__button kb-target-evaluation-team"
+                                                  data-me-target="{{targetText.ratingDetail.get('target')}}"
+                                                  data-rating="{{targetText.ratingDetail.get('topic')}}"
+                                                  id="{{loop.index}}-{{data.get('displayName').replace(" ", "_")}}"
+                                                  data-target-id="{{targetText.get('id')}}">評価する</a>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="px-4 text-center">
+                                          <p class="kb-target-list__body w-100 p-4 text-muted" id="targetText"> {{ targetText.get("text") | safe}} </p>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <!-- end team div -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='modal kb-target__modal' id='idNumber'>
+            <div class='flex flex-item-center'>
+                <div class='modal-dialog'>
+                    <div class='kb-panel'>
+                        <div class='kb-panel-title p-3'>
+                            <p class='m-0' id="modalTitle">明日花 キララさんを評価する</p>
+                            <i class='fas fa-times modal-close'></i>
+                        </div>
+                        <div class='kb-panel-body px-3'>
+                            <div class="kb-target__setting__data">
+                                <p class="kb-target-data__heading kb-target-heading" id="kb-target-heading-value">目標1</p>
+                                <span class='flex flex-item-center'>
+                                    <select id="target-select" class="mr-2"></select><label>％</label>
+                                </span>
+                            </div>
+                            <div id="mydiv" class="kb-target__setting__contents mt-3"> 1年後まで、週に一度は企画を提案することで、担当書籍の発行数を向上させる。 第一四半期末までにデザイナーのポートレートを整理することで、書籍の注目度UPを目指す。書籍の発売日から一ヶ月までの間、毎日のTwitterでの新刊PRを心がけることで、売上部数1000部増を目指す。 </div>
+                            <div class="kb-target__modal__evaluation mt-3" id="modalBox"></div>
+                            <div class='text-center mt-4'>
+                                <button class='submit-btn ratingDetail-submit'> 評価する </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <!-- <script src='/static/ver2.1/js/script.js'></script> -->
+    <script src='/static/ver3/js/script.js'></script>
+    <script src='/static/ver2.1/js/lottie.min.js'></script>
+    <script src='/static/ver2.1/js/chart_progress.js'></script>
+    <script src='/static/ver3/js/masonry.js'></script>
+    <script src='/static/ver3/test/js/common.js'></script>
+    <!-- <script src='/static/ver3/js/target.js'></script> -->
+    <script>
+        $(window).on('load resize', function () {
+            $('.manabu-tameru-progress-wrap').height(0);
+            $('.manabu-tameru-progress-wrap').height($('.js-chart').height() - $('.profile-data').height());
+            $('#spinId').spinner('option', 'min', 0);
+            $('#spinId').spinner('option', 'max', 100);
+        });
+        // populate select box with 0 to 100
+        var optionArrVal="";
+        var targetId = 0;
+        var evaluateId = 0;
+        for(var i=0;i <= 100;i++){
+          optionArrVal += "<option value='"+i+"'>"+i+"</option>"
+        }
+        $('.kb-target-evaluation').on('click', function () {
+          var id = $(this).attr('id');
+          $('#modalTitle').text("自己評価する");
+          $('#kb-target-heading-value').text("目標" + id);
+          $('.kb-target__setting__contents').html($('#data'+id+'-me').html().replace(/<br>/g,'<br>'));
+          $.fn.modalDataFiller($(this));
+        });
+        $('.kb-target-evaluation-team').on('click', function () {
+          var id = $(this).attr('id'); // loopIndex_displayName value
+          $('#modalTitle').text(id.split('-')[1].replace("_", " ")+" さんを評価する");
+          $('#kb-target-heading-value').text("目標" + id.split('-')[0]);
+         // $('.kb-target__setting__contents').text($('#data' + id).html());
+          $('.kb-target__setting__contents').html($('#data' + id).html().replace(/<br>/g,'\\n'));
+          $('.kb-target__setting__contents').html($('#data' + id).html().replace(/(?:\r\n|\r|\n)/g, '<br>'));
+          $.fn.modalDataFiller($(this));
+        });
+        $.fn.modalDataFiller = function(obj){
+          // get json data when clicked
+          var ratingDetail = JSON.parse(obj.attr('data-rating').replace(/'/g, '"'));
+          // remove div contents
+          $('#modalBox').empty();
+          // populate data at month data select box
+          $("#target-select").append(optionArrVal);
+          $("#target-select").val(obj.attr('data-me-target'));
+          // extract json key dynamically
+          for(key in ratingDetail)
+          {
+              var ratingVal =ratingDetail[key];// value where key is n
+              $("#modalBox").append('\
+                <div class="kb-target__modal__evaluation__item px-3">\
+                    <p class="modalKey">'+key+'</p>\
+                    <span class="flex flex-item-center">\
+                    <select id="'+key+'" class="mr-2">\
+                      '+optionArrVal+'\
+                    </select>\
+                    <label>％</label>\
+                    </span>\
+                </div>\
+              ');
+              $('#'+key).val(ratingVal).change();
+          }
+          targetId = obj.attr('data-target-id');
+          evaluateId = obj.attr('data-evaluate-id');
+          $('#idNumber').show();
+        }
+        $(document).on("click", ".ratingDetail-submit", function () {
+           var str = "";
+           var topic_rating_json = {}
+           $('.modalKey').each(function(){
+             topic_rating_json[$(this).text()] = parseInt($('#'+$(this).text()).val());
+           });
+           var rating_detail = {}
+           rating_detail["target"] = parseInt($('#target-select').val())
+           rating_detail["topic"] = topic_rating_json
+           obj = {
+             'ratingDetail': rating_detail,
+             'targetId': targetId,
+             'evaluateId': evaluateId
+           }
+           $.ajax({
+               type: 'PUT',
+               url: '/target/ratingDetail',
+               headers: { "Content-Type": "application/json" },
+               //data: JSON.stringify(data),
+               data: JSON.stringify(obj),
+               success: function (result) {
+                   result = JSON.parse(result);
+                   $("#idNumber").hide();
+                   if (result["result"] == "ok") {
+                       status_show('ok');
+                       window.location.href = "/target/";
+                   }
+                   if (result["result"] == "ng") {
+                       status_show('failed');
+                       window.location.href = "/target/";
+                   }
+               }
+           });
+        });
+        function status_show(status) {
+            if (status == "ok") {
+                $("body").append("<div class='status-container success'><p class='px-2'>内容を保存しました</p></div>");
+            }
+            else {
+                $("body").append("<div class='status-container fail'><p class='px-2'>内容の保存に失敗しました</p></div>");
+            }
+            $(".status-container").css({
+                position: "fixed",
+                top: "80px",
+                width: $(".kb-container").outerWidth(),
+                marginLeft: $(".kb-container").css("margin-left"),
+                zIndex: 20,
+                left: '0'
+            })
+            $(".status-container.success").css({
+                background: "#4caf50"
+            })
+            $(".status-container.fail").css({
+                background: "#fef3f2"
+            })
+        }
+    </script>
+</body>
+{% include './ver2.1/partials/footer.html' %}
+
+</html>

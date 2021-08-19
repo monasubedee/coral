@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KnowledgeBank</title>
+    <link rel='icon' href='/static/ver2.1/img/logo@3x.png' />
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css' />
+    <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+    <style>
+        .morePosts a {
+            cursor: pointer;
+        }
+
+        .margin-left-auto {
+            margin-left: auto;
+        }
+    </style>
+{% include './ver2.1/partials/ga_tag.html' %}
+</head>
+{% include './ver2.1/partials/header.html' %}
+{% include './ver2.1/partials/sidebar.html' %}
+
+<body>
+    <div>
+        <div class='kb-container'>
+            <div class='kb-news'>
+                <div class='text-center'>
+                    <h3>お知らせ</h3>
+                    <p class='text-muted'><small>ナレッジバンクからのお知らせ</small></p>
+                    <img src='/static/ver2.1/img/1140@3x.png' alt='' class='kb-news-logo my-3' />
+                </div>
+                <div class='kb-panel px-3 kb-notice mt-4' id="desc">
+                    <div class="flex flex-s">
+                        <div class="flex flex-s flex-item-center margin-left-auto">
+                            <label class="mr-2">表示順</label>
+                            <select class="form-data" id="descId" onchange="ohChangeEvent(this.value)">
+                                <option value="0" selected>日付降順</option>
+                                <option value="1">日付昇順</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src='/static/ver2.1/js/script.js'></script>
+    <script>
+        var morePosts = true;
+        var moreFrom = 0;
+        var moreTo = 5;
+        $(document).ready(function () {
+            ordering = 0;
+            getNews(moreFrom, moreTo, ordering);
+        })
+        function ohChangeEvent(value) {
+            o = value;
+            getNews(moreFrom, moreTo, o);
+        };
+        function getNews(from, to, o) {
+            $.ajax({
+                method: 'get',
+                url: '/news/list',
+                success: function (data) {
+                    result = JSON.parse(data);
+                    newsArray = result.news;
+                    const sortedActivities = newsArray.sort((a, b) => new Date(b.date_format) - new Date(a.date_format));
+                    ReverseArray = [];
+                    var length = newsArray.length;
+                    for (var i = length - 1; i >= 0; i--) {
+                        ReverseArray.push(newsArray[i]);
+                    }
+                    if (o == 0) {
+                        $('.kb-notice').empty();
+                        $('.kb-notice').append(`
+                            <div class="flex flex-s">
+                        <div class="flex flex-s flex-item-center margin-left-auto">
+                            <label class="mr-2">表示順</label>
+                            <select class="form-data" id="descId" onchange="ohChangeEvent(this.value)">
+                                <option value="0" selected>日付降順</option>
+                                <option value="1">日付昇順</option>
+                            </select>
+                        </div>
+                    </div>`);
+                        sortedActivities.map((item, index) => {
+
+                            let title = item.title.replace(/\r?\n/g, '<br>');
+                            if (index >= from && index < to) {
+                                $('.kb-notice').append(`
+                                    <div class="kb-notice-item">
+                                        <div class="kb-notice-item-date">
+                                            <p class='text-muted'>${item.date}</p>
+                                        </div>
+                                        <div class='px-4 kb-news-type'>
+                                            <p class='my-0'>${item.type}</p>
+                                        </div>
+                                        <div>
+                                            <a href='/news/detail?id=${item.id}' class='kb-notice-msg color-blue my-3'>
+                                                ${title}
+                                            </a>
+                                        </div>
+                                    </div>
+                                  `);
+                            }
+                            if (index >= to) {
+                                morePosts = true;
+                            } else {
+                                morePosts = false;
+                            }
+                        })
+                        if (result.result == 'ng') {
+                            $(".kb-notice").append(`
+                    <div class='text-center py-5'>
+                        <p class='text-muted' style='margin:auto'>表示する通知データはありません</p>
+                    </div>
+                    `);
+                        }
+                        else {
+                            $(".morePosts").remove();
+                            if (morePosts == true) {
+                                $(".kb-notice").append(`<div class="morePosts">
+                                    <div class='text-center block py-2'>
+                                        <a class='color-blue' onclick='getNews(moreFrom, moreTo+5,0)'>さらに表示する</a>
+                                    </div>
+                                </div>`)
+                            }
+                        }
+                    } else {
+                        $('.kb-notice').empty();
+                        $('.kb-notice').append(`
+                            <div class="flex flex-s">
+                        <div class="flex flex-s flex-item-center margin-left-auto">
+                            <label class="mr-2">表示順</label>
+                            <select class="form-data" id="descId" onchange="ohChangeEvent(this.value)">
+                                <option value="0">日付降順</option>
+                                <option value="1" selected>日付昇順</option>
+                            </select>
+                        </div>
+                    </div>`);
+                        ReverseArray.map((item, index) => {
+                            if (index >= from && index < to) {
+                                $('.kb-notice').append(`<div class="kb-notice-item">
+                                      <div>
+                                          <p class='text-muted'>${item.date}</p>
+                                      </div>
+                                      <div class='px-4'>
+                                          <p>${item.type}</p>
+                                      </div>
+                                      <div>
+                                          <a href='/news/detail?id=${item.id}' class='kb-notice-msg color-blue'>${item.title}</a>
+                                      </div>
+                                  </div>
+                                  `);
+                            }
+                            if (index >= to) {
+                                morePosts = true;
+                            } else {
+                                morePosts = false;
+                            }
+                        })
+                        if (result.result == 'ng') {
+                            $(".kb-notice").append(`
+                    <div class='text-center py-5'>
+                        <p class='text-muted' style='margin:auto'>表示する通知データはありません</p>
+                    </div>
+                    `);
+                        }
+                        else {
+                            $(".morePosts").remove();
+                            if (morePosts == true) {
+                                $(".kb-notice").append(`<div class="morePosts">
+                                    <div class='text-center block py-2'>
+                                        <a class='color-blue' onclick='getNews(moreFrom, moreTo+5,1)'>さらに表示する</a>
+                                    </div>
+                                </div>`)
+                            }
+                        }
+                    }
+                }
+            })
+        }
+
+
+    </script>
+</body>
+{% include './ver2.1/partials/footer.html' %}
+
+</html>

@@ -1,0 +1,41 @@
+.kb-policy-container {
+  .text {
+    color: gray;
+  }
+  dt {
+    margin-bottom: 20px;
+  }
+  dd {
+    margin: 5px 0px;
+    padding: 0;
+    font-size: 13px;
+
+    &.flex{
+      display: flex;
+    }
+
+    .title{
+      font-weight: bold;
+      width: 200px;
+      margin-right: 20px;
+      flex-shrink: 0;
+    }
+  }
+  @include respond-to('medium'){
+    .g-3-1{
+      grid-template-columns: 1fr;
+      &>div{
+        width:100%;
+        &:last-child{
+          display:none;
+        }
+      }
+    }
+  }
+
+  & .kb-policy-navi{
+    &:hover{
+      background: #e9e9ef;
+    }
+  }
+}

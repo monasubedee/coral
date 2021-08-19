@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="15.2" height="15.2" viewBox="0 0 15.2 15.2">
+    <defs>
+        <style>
+            .cls-1{fill:#7f849c;stroke:#7f849c;stroke-linecap:round;stroke-width:.2px}
+        </style>
+    </defs>
+    <g id="info" transform="translate(.301 .1)">
+        <g id="グループ_1012" data-name="グループ 1012">
+            <path id="パス_324" d="M7.5 15A7.5 7.5 0 1 1 15 7.5 7.509 7.509 0 0 1 7.5 15zM7.5.923A6.577 6.577 0 1 0 14.077 7.5 6.584 6.584 0 0 0 7.5.923z" class="cls-1" data-name="パス 324" transform="translate(-.201)"/>
+            <circle id="楕円形_75" cx=".6" cy=".6" r=".6" class="cls-1" data-name="楕円形 75" transform="translate(6.699 9.719)"/>
+            <path id="パス_325" d="M30.6 33.188a.462.462 0 0 1-.462-.462V28.8a.462.462 0 0 1 .923 0v3.923a.462.462 0 0 1-.461.465z" class="cls-1" data-name="パス 325" transform="translate(-23.308 -24.729)"/>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,25 @@
+@import "../functions/media_query_helper";
+
+._content {
+  @include mediaQuery("pc") {
+    position: relative;
+    flex: 1 1 auto;
+    background-color: #f5f6fa;
+  }
+  @at-root {
+    #{&}--smaller--white {
+      padding: 40px 10px;
+      background-color: #fff;
+    }
+    #{&}--smaller--blue {
+      padding: 40px 10px;
+      background-color: #f5f6fa;
+    }
+    #{&}--navigation {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0 0 16px;
+    }
+  }
+}

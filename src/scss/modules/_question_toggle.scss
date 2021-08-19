@@ -1,0 +1,93 @@
+.question-toggle {
+  position: relative;
+  width: 100%;
+  margin: 20px 0 30px;
+  padding: 16px;
+  background-color: #fff;
+  border: solid 1px #dcdde6;
+  border-radius: 4px;
+  $parent: #{&};
+  @at-root {
+    #{&}__button {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      color: #fff;
+      font-size: 1.6rem;
+      text-align: center;
+      background-color: #fff;
+      border-radius: 4px;
+      &[aria-expanded="true"] {
+        position: absolute;
+        top: 8px;
+        right: 10px;
+        width: 30px;
+        height: 30px;
+        #{$parent}__button__arrow {
+          width: 4.5px;
+          height: 9px;
+          transform: rotate(90deg);
+          fill: none;
+          stroke: #020b3c;
+        }
+        #{$parent}__button__text {
+          display: none;
+        }
+      }
+    }
+    #{&}__button__arrow {
+      position: absolute;
+      right: 22.5px;
+      width: 4.5px;
+      height: 9px;
+      transform: rotate(-90deg);
+      fill: none;
+      stroke: #020b3c;
+    }
+    #{&}__button__text {
+      display: block;
+      color: #020b3c;
+      font-weight: 500;
+      font-size: 1.6rem;
+      line-height: 1.88;
+      text-align: center;
+    }
+    #{&}__wrapper {
+      &[aria-hidden="true"] {
+        display: none;
+      }
+    }
+    #{&}__image-wrapper {
+      width: 100%;
+      margin: 0 0 14px;
+      text-align: center;
+    }
+    #{&}__image {
+      max-width: 80%;
+    }
+    #{&}__head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #020b3c;
+      font-weight: 500;
+      font-size: 1.6rem;
+      line-height: 1.88;
+      letter-spacing: normal;
+      text-align: left;
+    }
+    #{&}__correct-rate {
+      color: #a4b0c8;
+      font-size: 1.2rem;
+      line-height: 2.5;
+    }
+    #{&}__text {
+      margin: 10px 0 0;
+      font-size: 1.5rem;
+      font-family: Noto Sans JP, serif;
+      line-height: 1.6;
+    }
+  }
+}

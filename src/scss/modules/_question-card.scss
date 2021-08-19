@@ -1,0 +1,18 @@
+@import "../functions/media_query_helper";
+.question-card {
+  max-width: 320px;
+  padding: 50px 40px;
+  background-color: #fff;
+  border-radius: 6px 0 0 6px;
+  backdrop-filter: blur(30px);
+  @include mediaQuery {
+    width: auto;
+    max-width: none;
+    margin: -70px 0 0;
+    padding: 50px 20px 30px;
+  }
+  img {
+    width: 200px;
+    margin: 0 auto 30px;
+  }
+}

@@ -1,0 +1,923 @@
+{%from "./ver2/partials/sidebar.html" import sidebar with context%}
+<html lang="ja">
+
+{% include './partials/head.html' %}
+
+<head>
+
+	<title>ナレッジバンク設定</title>
+	<link href="/static/css/style.css" rel="stylesheet" type="text/css">
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+		integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+	<script src="js/main.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<style type="text/css">
+		/* The alert message box */
+		.alert {
+			padding: 20px;
+			background-color: #d1eecc;
+			/* opacity: 0.1; */
+			margin-left: 240px;
+			font-family: HiraKakuPro-W3;
+			font-size: 13px;
+			font-weight: normal;
+			font-style: normal;
+			font-stretch: normal;
+			letter-spacing: normal;
+			text-align: left;
+			color: #373943;
+			margin-bottom: 31px;
+		}
+		.alert_failed {
+			padding: 20px;
+			background-color: red;
+			/* opacity: 0.1; */
+			margin-left: 240px;
+			font-family: HiraKakuPro-W3;
+			font-size: 13px;
+			font-weight: normal;
+			font-style: normal;
+			font-stretch: normal;
+			letter-spacing: normal;
+			text-align: left;
+			color: white;
+			margin-bottom: 31px;
+		}
+
+		.closebtn {
+			margin-top: -5px;
+			margin-left: 15px;
+			color: black;
+			font-weight: bold;
+			float: right;
+			font-size: 22px;
+			line-height: 20px;
+			cursor: pointer;
+			transition: 0.3s;
+		}
+		.closebtn_failed {
+			margin-top: -5px;
+			margin-left: 15px;
+			color: white;
+			font-weight: bold;
+			float: right;
+			font-size: 22px;
+			line-height: 20px;
+			cursor: pointer;
+			transition: 0.3s;
+		}
+
+		.closebtn:hover {
+			color: black;
+		}
+
+		.hide {
+			display: none;
+		}
+
+		.text-color {
+			font-family: HiraKakuPro-W3;
+			font-size: 13px;
+			font-weight: normal;
+			font-style: normal;
+			font-stretch: normal;
+			line-height: 2;
+			letter-spacing: normal;
+			text-align: left;
+			color: black;
+			opacity: none;
+		}
+	</style>
+</head>
+
+<body>
+	{% include './ver2/partials/sidebar.html' %}
+
+	<div class="container">
+		<!-- {% if message == 'ok'  %}
+			<div class="alert">
+				<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+				お知らせを保存しました
+			</div>
+		{%endif%}
+		{% if message == 'not ok'  %}
+		<div class="alert_red">
+			<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+			お知らせを保存しました
+		</div>
+		{%endif%}
+		 -->
+		{% if status=="failed" %}
+		 	<div class="alert_failed">
+				<span id="close_redirect" class="closebtn_failed" onclick="this.parentElement.style.display='none';">&times;</span>
+				お知らせを保存しません
+			</div>
+		{% endif %}
+
+		{% if status=="ok" %}
+		 <div class="alert">
+				<span id="close_redirect" class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+				お知らせを保存しました
+			</div>
+		{% endif %}
+		<h2 class="heading">ナレッジバンク設定</h2>
+		<div class="content__wrapper">
+			<div class="article__wrapper">
+				<div class="heading__text">ナレッジバンクの設定をしてください</div>
+
+				<div class="icon-container">
+					<a href="/settings/base" class="icon__wrapper">
+						<img src="/static/img/setting__icon__base.png" class="setting__icon" alt="基本設定"
+							srcset="/static/img/setting__icon__base.png 1x, /static/img/setting__icon__base@2x.png 2x">
+						<div class="icon-label">基本設定</div>
+					</a>
+					<a href="/settings/learn" class="icon__wrapper">
+						<img src="/static/img/setting__icon__learn--current.png" class="setting__icon" alt="学習設定"
+							srcset="/static/img/setting__icon__learn--current.png 1x, /static/img/setting__icon__learn--current@2x.png 2x">
+						<div class="icon-label__checked__blue">学習設定</div>
+					</a>
+					<a href="settings/import" class="icon__wrapper">
+						<img src="/static/img/setting__icon__import.png" class="setting__icon" alt="ためる設定"
+							srcset="/static/img/setting__icon__import.png 1x, /static/img/setting__icon__import@2x.png 2x">
+						<div class="icon-label">ためる設定</div>
+					</a>
+					<a href="settings/mail" class="icon__wrapper">
+						<img src="/static/img/setting__icon__mail.png" class="setting__icon" alt="通知設定"
+							srcset="/static/img/setting__icon__mail.png 1x, /static/img/setting__icon__mail@2x.png 2x">
+						<div class="icon-label">通知設定</div>
+					</a>
+				</div>
+
+				<div class="spacer"></div>
+				<div class="content__sector-select">
+					<div class="article__title">学習設定</div>
+					<hr class="news__line">
+					<div class="content__heading-staff">
+						<div class="text__bold" id="1" value="1">役員</div>
+					</div>
+					<div class="content__studytime-wrapper">
+						<li class="content__studytime learn-content">
+
+							<select id="dayType1" name="pref_id" class="form__freq">
+								<option value="毎週" selected="">毎週</option>
+								<option value="毎月">毎月</option>
+							</select>
+
+							<select id="weeklyType1" name="pref_id" class="form__week">
+								<option value="0" selected="">月曜日</option>
+								<option value="1">火曜日</option>
+								<option value="2">水曜日</option>
+								<option value="3">木曜日</option>
+								<option value="4">金曜日</option>
+								<option value="5">土曜日</option>
+								<option value="6">日曜日</option>
+							</select>
+							<select name="pref_id" class="form__week" id="day1" class="hide">
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+								<option value="11">11</option>
+								<option value="12">12</option>
+								<option value="13">13</option>
+								<option value="14">14</option>
+								<option value="15">15</option>
+								<option value="16">16</option>
+								<option value="17">17</option>
+								<option value="18">18</option>
+								<option value="19">19</option>
+								<option value="20">20</option>
+								<option value="21">21</option>
+								<option value="22">22</option>
+								<option value="23">23</option>
+								<option value="24">24</option>
+								<option value="25">25</option>
+								<option value="26">26</option>
+								<option value="27">27</option>
+								<option value="28">28</option>
+								<option value="29">29</option>
+								<option value="30">30</option>
+								<option value="31">31</option>
+							</select>
+							<!-- <select name="pref_id" id="dayType1" class="form__freq">
+									<option value="毎週" selected="" data-foo="毎週">毎週</option><option value="毎月" data-foo="毎月">毎月</option>
+								</select> -->
+							<!-- <select name="pref_id" class="form__week">
+									<option value="" selected="">月曜日</option><option value="1">火曜日</option><option value="2">水曜日</option><option value="3">木曜日</option><option value="4">金曜日</option><option value="5">土曜日</option><option value="6">日曜日</option>
+								</select> -->
+							<label class="text">に学習スタート</label>
+							<select id="count1" name="pref_id" class="form__question">
+								<option value="10" selected="">10</option>
+								<option value="20">20</option>
+								<option value="30">30</option>
+								<option value="40">40</option>
+								<option value="50">50</option>
+								<option value="60">60</option>
+								<option value="70">70</option>
+								<option value="80">80</option>
+								<option value="90">90</option>
+								<option value="100">100</option>
+							</select>
+							<label id="kind1" value="問まなぶ" class="text">問まなぶ</label>
+						</li>
+
+						<li class="content__stocktime learn-content">
+							<select name="pref_id" id="dayType2" class="form__freq">
+								<option value="毎週" selected="" data-foo="毎週">毎週</option>
+								<option value="毎月" data-foo="毎月">毎月</option>
+							</select>
+							<select id="weeklyType2" name="pref_id" class="form__week">
+								<option value="0" selected="">月曜日</option>
+								<option value="1">火曜日</option>
+								<option value="2">水曜日</option>
+								<option value="3">木曜日</option>
+								<option value="4">金曜日</option>
+								<option value="5">土曜日</option>
+								<option value="6">日曜日</option>
+							</select>
+							<select name="pref_id" class="form__week" id="day2" class="hide">
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+								<option value="11">11</option>
+								<option value="12">12</option>
+								<option value="13">13</option>
+								<option value="14">14</option>
+								<option value="15">15</option>
+								<option value="16">16</option>
+								<option value="17">17</option>
+								<option value="18">18</option>
+								<option value="19">19</option>
+								<option value="20">20</option>
+								<option value="21">21</option>
+								<option value="22">22</option>
+								<option value="23">23</option>
+								<option value="24">24</option>
+								<option value="25">25</option>
+								<option value="26">26</option>
+								<option value="27">27</option>
+								<option value="28">28</option>
+								<option value="29">29</option>
+								<option value="30">30</option>
+								<option value="31">31</option>
+							</select>
+							<label class="text">に学習スタート</label>
+							<select id="count2" name="pref_id" class="form__question">
+								<option value="10" selected="">10</option>
+								<option value="20">20</option>
+								<option value="30">30</option>
+								<option value="40">40</option>
+								<option value="50">50</option>
+								<option value="60">60</option>
+								<option value="70">70</option>
+								<option value="80">80</option>
+								<option value="90">90</option>
+								<option value="100">100</option>
+							</select>
+							<label id="kind2" value="問ためる" class="text">問ためる</label>
+						</li>
+
+
+					</div>
+
+					<hr class="news__line">
+					<div class="content__heading-staff">
+						<div class="text__bold" id="manager" value="2">マネージャー</div>
+					</div>
+					<div class="content__studytime-wrapper">
+						<li class="content__studytime learn-content">
+							<select name="pref_id" id="dayType3" class="form__freq">
+								<option value="毎週" selected="" data-foo="毎週">毎週</option>
+								<option value="毎月" data-foo="毎月">毎月</option>
+							</select>
+							<select name="pref_id" id="weeklyType3" class="form__week">
+								<option value="0" selected="">月曜日</option>
+								<option value="1">火曜日</option>
+								<option value="2">水曜日</option>
+								<option value="3">木曜日</option>
+								<option value="4">金曜日</option>
+								<option value="5">土曜日</option>
+								<option value="6">日曜日</option>
+							</select>
+							<select name="pref_id" class="form__week" id="day3" class="hide">
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+								<option value="11">11</option>
+								<option value="12">12</option>
+								<option value="13">13</option>
+								<option value="14">14</option>
+								<option value="15">15</option>
+								<option value="16">16</option>
+								<option value="17">17</option>
+								<option value="18">18</option>
+								<option value="19">19</option>
+								<option value="20">20</option>
+								<option value="21">21</option>
+								<option value="22">22</option>
+								<option value="23">23</option>
+								<option value="24">24</option>
+								<option value="25">25</option>
+								<option value="26">26</option>
+								<option value="27">27</option>
+								<option value="28">28</option>
+								<option value="29">29</option>
+								<option value="30">30</option>
+								<option value="31">31</option>
+							</select>
+							<label class="text">に学習スタート</label>
+							<select id="count3" name="pref_id" class="form__question">
+								<option value="10" selected="">10</option>
+								<option value="20">20</option>
+								<option value="30">30</option>
+								<option value="40">40</option>
+								<option value="50">50</option>
+								<option value="60">60</option>
+								<option value="70">70</option>
+								<option value="80">80</option>
+								<option value="90">90</option>
+								<option value="100">100</option>
+							</select>
+							<label id="kind3" value="問まなぶ" class="text">問まなぶ</label>
+						</li>
+
+						<li class="content__stocktime learn-content">
+							<select name="pref_id" id="dayType4" class="form__freq">
+								<option value="毎週" selected="" data-foo="毎週">毎週</option>
+								<option value="毎月" data-foo="毎月">毎月</option>
+							</select>
+							<select id="weeklyType4" name="pref_id" class="form__week">
+								<option value="0" selected="">月曜日</option>
+								<option value="1">火曜日</option>
+								<option value="2">水曜日</option>
+								<option value="3">木曜日</option>
+								<option value="4">金曜日</option>
+								<option value="5">土曜日</option>
+								<option value="6">日曜日</option>
+							</select>
+							<select name="pref_id" class="form__week" id="day4" class="hide">
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+								<option value="11">11</option>
+								<option value="12">12</option>
+								<option value="13">13</option>
+								<option value="14">14</option>
+								<option value="15">15</option>
+								<option value="16">16</option>
+								<option value="17">17</option>
+								<option value="18">18</option>
+								<option value="19">19</option>
+								<option value="20">20</option>
+								<option value="21">21</option>
+								<option value="22">22</option>
+								<option value="23">23</option>
+								<option value="24">24</option>
+								<option value="25">25</option>
+								<option value="26">26</option>
+								<option value="27">27</option>
+								<option value="28">28</option>
+								<option value="29">29</option>
+								<option value="30">30</option>
+								<option value="31">31</option>
+							</select>
+							<label class="text">に学習スタート</label>
+							<select id="count4" name="pref_id" class="form__question">
+								<option value="10" selected="">10</option>
+								<option value="20">20</option>
+								<option value="30">30</option>
+								<option value="40">40</option>
+								<option value="50">50</option>
+								<option value="60">60</option>
+								<option value="70">70</option>
+								<option value="80">80</option>
+								<option value="90">90</option>
+								<option value="100">100</option>
+							</select>
+							<label id="kind4" value="問ためる" class="text">問ためる</label>
+						</li>
+
+
+					</div>
+
+					<hr class="news__line">
+					<div class="content__heading-staff">
+						<div class="text__bold" id="employee" value="3">社員</div>
+					</div>
+					<div class="content__studytime-wrapper">
+						<li class="content__studytime learn-content">
+							<select name="pref_id" id="dayType5" class="form__freq">
+								<option value="毎週" selected="" data-foo="毎週">毎週</option>
+								<option value="毎月" data-foo="毎月">毎月</option>
+							</select>
+							<select id="weeklyType5" name="pref_id" class="form__week">
+								<option value="0" selected="">月曜日</option>
+								<option value="1">火曜日</option>
+								<option value="2">水曜日</option>
+								<option value="3">木曜日</option>
+								<option value="4">金曜日</option>
+								<option value="5">土曜日</option>
+								<option value="6">日曜日</option>
+							</select>
+							<select name="pref_id" class="form__week" id="day5" class="hide">
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+								<option value="11">11</option>
+								<option value="12">12</option>
+								<option value="13">13</option>
+								<option value="14">14</option>
+								<option value="15">15</option>
+								<option value="16">16</option>
+								<option value="17">17</option>
+								<option value="18">18</option>
+								<option value="19">19</option>
+								<option value="20">20</option>
+								<option value="21">21</option>
+								<option value="22">22</option>
+								<option value="23">23</option>
+								<option value="24">24</option>
+								<option value="25">25</option>
+								<option value="26">26</option>
+								<option value="27">27</option>
+								<option value="28">28</option>
+								<option value="29">29</option>
+								<option value="30">30</option>
+								<option value="31">31</option>
+							</select>
+							<label class="text">に学習スタート</label>
+							<select id="count5" name="pref_id" class="form__question">
+								<option value="10" selected="">10</option>
+								<option value="20">20</option>
+								<option value="30">30</option>
+								<option value="40">40</option>
+								<option value="50">50</option>
+								<option value="60">60</option>
+								<option value="70">70</option>
+								<option value="80">80</option>
+								<option value="90">90</option>
+								<option value="100">100</option>
+							</select>
+							<label id="kind5" value="問まなぶ" class="text">問まなぶ</label>
+						</li>
+
+						<li class="content__stocktime learn-content">
+							<select name="pref_id" id="dayType6" class="form__freq">
+								<option value="毎週" selected="" data-foo="毎週">毎週</option>
+								<option value="毎月" data-foo="毎月">毎月</option>
+							</select>
+							<select id="weeklyType6" name="pref_id" class="form__week">
+								<option value="0" selected="">月曜日</option>
+								<option value="1">火曜日</option>
+								<option value="2">水曜日</option>
+								<option value="3">木曜日</option>
+								<option value="4">金曜日</option>
+								<option value="5">土曜日</option>
+								<option value="6">日曜日</option>
+							</select>
+							<select name="pref_id" class="form__week" id="day6" class="hide">
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+								<option value="11">11</option>
+								<option value="12">12</option>
+								<option value="13">13</option>
+								<option value="14">14</option>
+								<option value="15">15</option>
+								<option value="16">16</option>
+								<option value="17">17</option>
+								<option value="18">18</option>
+								<option value="19">19</option>
+								<option value="20">20</option>
+								<option value="21">21</option>
+								<option value="22">22</option>
+								<option value="23">23</option>
+								<option value="24">24</option>
+								<option value="25">25</option>
+								<option value="26">26</option>
+								<option value="27">27</option>
+								<option value="28">28</option>
+								<option value="29">29</option>
+								<option value="30">30</option>
+								<option value="31">31</option>
+							</select>
+							<label class="text">に学習スタート</label>
+							<select id="count6" name="pref_id" class="form__question">
+								<option value="10" selected="">10</option>
+								<option value="20">20</option>
+								<option value="30">30</option>
+								<option value="40">40</option>
+								<option value="50">50</option>
+								<option value="60">60</option>
+								<option value="70">70</option>
+								<option value="80">80</option>
+								<option value="90">90</option>
+								<option value="100">100</option>
+							</select>
+							<label id="kind6" value="問ためる" class="text">問ためる</label>
+						</li>
+
+
+					</div>
+
+					<hr class="news__line">
+					<div class="content__heading-staff">
+						<div class="text__bold" id="parttimejob" value="4">パート・アルバイト</div>
+					</div>
+					<div class="content__studytime-wrapper">
+						<li class="content__studytime learn-content">
+							<select name="pref_id" id="dayType7" class="form__freq">
+								<option value="毎週" selected="" data-foo="毎週">毎週</option>
+								<option value="毎月" data-foo="毎月">毎月</option>
+							</select>
+							<select id="weeklyType7" name="pref_id" class="form__week">
+								<option value="0" selected="">月曜日</option>
+								<option value="1">火曜日</option>
+								<option value="2">水曜日</option>
+								<option value="3">木曜日</option>
+								<option value="4">金曜日</option>
+								<option value="5">土曜日</option>
+								<option value="6">日曜日</option>
+							</select>
+							<select name="pref_id" class="form__week" id="day7" class="hide">
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+								<option value="11">11</option>
+								<option value="12">12</option>
+								<option value="13">13</option>
+								<option value="14">14</option>
+								<option value="15">15</option>
+								<option value="16">16</option>
+								<option value="17">17</option>
+								<option value="18">18</option>
+								<option value="19">19</option>
+								<option value="20">20</option>
+								<option value="21">21</option>
+								<option value="22">22</option>
+								<option value="23">23</option>
+								<option value="24">24</option>
+								<option value="25">25</option>
+								<option value="26">26</option>
+								<option value="27">27</option>
+								<option value="28">28</option>
+								<option value="29">29</option>
+								<option value="30">30</option>
+								<option value="31">31</option>
+							</select>
+							<label class="text">に学習スタート</label>
+							<select id="count7" name="pref_id" class="form__question">
+								<option value="10" selected="">10</option>
+								<option value="20">20</option>
+								<option value="30">30</option>
+								<option value="40">40</option>
+								<option value="50">50</option>
+								<option value="60">60</option>
+								<option value="70">70</option>
+								<option value="80">80</option>
+								<option value="90">90</option>
+								<option value="100">100</option>
+							</select>
+							<label id="kind7" value="問まなぶ" class="text">問まなぶ</label>
+						</li>
+
+						<li class="content__stocktime learn-content">
+							<select name="pref_id" id="dayType8" class="form__freq">
+								<option value="毎週" selected="" data-foo="毎週">毎週</option>
+								<option value="毎月" data-foo="毎月">毎月</option>
+							</select>
+							<select id="weeklyType8" name="pref_id" class="form__week">
+								<option value="0" selected="">月曜日</option>
+								<option value="1">火曜日</option>
+								<option value="2">水曜日</option>
+								<option value="3">木曜日</option>
+								<option value="4">金曜日</option>
+								<option value="5">土曜日</option>
+								<option value="6">日曜日</option>
+							</select>
+							<select name="pref_id" class="form__week" id="day8" class="hide">
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+								<option value="11">11</option>
+								<option value="12">12</option>
+								<option value="13">13</option>
+								<option value="14">14</option>
+								<option value="15">15</option>
+								<option value="16">16</option>
+								<option value="17">17</option>
+								<option value="18">18</option>
+								<option value="19">19</option>
+								<option value="20">20</option>
+								<option value="21">21</option>
+								<option value="22">22</option>
+								<option value="23">23</option>
+								<option value="24">24</option>
+								<option value="25">25</option>
+								<option value="26">26</option>
+								<option value="27">27</option>
+								<option value="28">28</option>
+								<option value="29">29</option>
+								<option value="30">30</option>
+								<option value="31">31</option>
+							</select>
+							<label class="text">に学習スタート</label>
+							<select id="count8" name="pref_id" class="form__question">
+								<option value="10" selected="">10</option>
+								<option value="20">20</option>
+								<option value="30">30</option>
+								<option value="40">40</option>
+								<option value="50">50</option>
+								<option value="60">60</option>
+								<option value="70">70</option>
+								<option value="80">80</option>
+								<option value="90">90</option>
+								<option value="100">100</option>
+							</select>
+							<label id="kind8" value="問ためる" class="text">問ためる</label>
+						</li>
+
+
+					</div>
+				</div>
+				<div class="btn_wrapper"><button type="submit" class="contact__button" data-anime-hover="buttons"
+						onclick="callfunctions()">入力内容を保存する</button></div>
+			</div>
+		</div>
+	</div>
+	<script>
+
+		$(document).ready(function () {
+			$("#day1").hide();
+			$("#dayType1").change(function () {
+				var val1 = $(this).val();
+				if (val1 == "毎週") { $("#weeklyType1").show(); $("#day1").hide(); }
+				else if (val1 == "毎月") {
+					$("#weeklyType1").hide(); $("#day1").show();
+				}
+			});
+		});
+		$(document).ready(function () {
+			$("#day2").hide();
+			$("#dayType2").change(function () {
+				var val2 = $(this).val();
+				if (val2 == "毎週") { $("#weeklyType2").show(); $("#day2").hide(); }
+				else if (val2 == "毎月") {
+					$("#weeklyType2").hide(); $("#day2").show();
+				}
+			});
+		});
+		$(document).ready(function () {
+			$("#day3").hide();
+			$("#dayType3").change(function () {
+				var val3 = $(this).val();
+				if (val3 == "毎週") { $("#weeklyType3").show(); $("#day3").hide(); }
+				else if (val3 == "毎月") {
+					$("#weeklyType3").hide(); $("#day3").show();
+				}
+			});
+		});
+		$(document).ready(function () {
+			$("#day4").hide();
+			$("#dayType4").change(function () {
+				var val4 = $(this).val();
+				if (val4 == "毎週") { $("#weeklyType4").show(); $("#day4").hide(); }
+				else if (val4 == "毎月") {
+					$("#weeklyType4").hide(); $("#day4").show();
+				}
+			});
+		});
+		$(document).ready(function () {
+			$("#day5").hide();
+			$("#dayType5").change(function () {
+				var val5 = $(this).val();
+				if (val5 == "毎週") { $("#weeklyType5").show(); $("#day5").hide(); }
+				else if (val5 == "毎月") {
+					$("#weeklyType5").hide(); $("#day5").show();
+				}
+			});
+		});
+		$(document).ready(function () {
+			$("#day6").hide();
+			$("#dayType6").change(function () {
+				var val6 = $(this).val();
+				if (val6 == "毎週") { $("#weeklyType6").show(); $("#day6").hide(); }
+				else if (val6 == "毎月") {
+					$("#weeklyType6").hide(); $("#day6").show();
+				}
+			});
+		});
+		$(document).ready(function () {
+			$("#day7").hide();
+			$("#dayType7").change(function () {
+				var val7 = $(this).val();
+				if (val7 == "毎週") { $("#weeklyType7").show(); $("#day7").hide(); }
+				else if (val7 == "毎月") {
+					$("#weeklyType7").hide(); $("#day7").show();
+				}
+			});
+		});
+		$(document).ready(function () {
+			$("#day8").hide();
+			$("#dayType8").change(function () {
+				var val8 = $(this).val();
+				if (val8 == "毎週") { $("#weeklyType8").show(); $("#day8").hide(); }
+				else if (val8 == "毎月") {
+					$("#weeklyType8").hide(); $("#day8").show();
+				}
+			});
+		});
+		function get_all_learn() {
+			var ele = $(".learn-content");
+			var ary = [];
+			let i = 0;
+			let day = '';
+			ele.each(function () {
+				i++;
+				var obj = {
+					challengeKind: i % 2 === 0 ? "問ためる" : "問まなぶ",
+					dayType: $(this).find("select").eq(0).val(),
+					startDay: '',
+					companyPosition: parseInt($(this).parent().prev().find("div").attr("value")),
+					count: parseInt($(this).find("select").eq(3).val()),
+				}
+				console.log("display is", $(this).find("select").eq(1).css("inline-flex"));
+				if ($(this).find("select").eq(1).css("display") == "block" ||
+					$(this).find("select").eq(1).css("display") == "inline-flex") {
+					day = $(this).find("select").eq(1).val();
+				}
+				else {
+					day = $(this).find("select").eq(2).val()
+				}
+				obj.startDay = day;
+				ary.push(obj);
+				console.log("zzz" + JSON.stringify(obj));
+			})
+			return ary;
+		}
+		function callfunctions() {
+			console.log("Learning is", get_all_learn());
+
+			var data = get_all_learn();
+			var learn_data = JSON.stringify(data);
+			console.log("data =" + data);
+			console.log("data =" + JSON.stringify(data));
+
+			var xhr = new XMLHttpRequest();
+			var url = "/settings/learn";
+			xhr.open("POST", url, true);
+			xhr.setRequestHeader("Content-Type", "application/json");
+			xhr.onreadystatechange = function () {
+				console.log(this.status);
+				if (this.readyState === 4 && this.status === 200) {
+					var json = JSON.parse(this.responseText);
+					console.log("json", json);
+					console.log("result ok")
+					if(json['result'] == "ok"){
+						console.log("insert success")
+						window.location.href = "/settings/learn?status=ok";
+					}
+					if(json['result'] == "ng"){
+						console.log("insert fail")
+						window.location.href = "/settings/learn?status=failed";
+					}
+				}
+			};
+			xhr.send(learn_data);
+			// var elem = document.getElementById('officer');
+			// var officer =	document.getElementById("dayType").value;
+			// console.log(officer)
+			// var officer = document.getElementById("officer").getAttribute('value');
+			// console.log(officer);
+			// var manager = document.getElementById("manager").getAttribute('value');
+			// console.log(manager);
+			// var employee = document.getElementById("employee").getAttribute('value');
+			// console.log(employee);
+			// var parttimejob = document.getElementById("parttimejob").getAttribute('value');
+			// console.log(parttimejob);
+
+			// var dayType1 = document.getElementById("dayType1").value;
+			// var dayType2 = document.getElementById("dayType2").value;
+			// var dayType3 = document.getElementById("dayType3").value;
+			// var dayType4 = document.getElementById("dayType4").value;
+			// var dayType5 = document.getElementById("dayType5").value;
+			// var dayType6 = document.getElementById("dayType6").value;
+			// var dayType7 = document.getElementById("dayType7").value;
+			// var dayType8 = document.getElementById("dayType8").value;
+
+			// var startDay1 = document.getElementById("weeklyType1").value;
+			// var startDay2 = document.getElementById("weeklyType2").value;
+			// var startDay3 = document.getElementById("weeklyType3").value;
+			// var startDay4 = document.getElementById("weeklyType4").value;
+			// var startDay5 = document.getElementById("weeklyType5").value;
+			// var startDay6 = document.getElementById("weeklyType6").value;
+			// var startDay7 = document.getElementById("weeklyType7").value;
+			// var startDay8 = document.getElementById("weeklyType8").value;
+
+			// var companyPosition1 = document.getElementById("officer").getAttribute('value');
+			// var companyPosition2 = document.getElementById("officer").getAttribute('value');
+			// var companyPosition3 = document.getElementById("manager").getAttribute('value');
+			// var companyPosition4 = document.getElementById("manager").getAttribute('value');
+			// var companyPosition5 = document.getElementById("employee").getAttribute('value');
+			// var companyPosition6 = document.getElementById("employee").getAttribute('value');
+			// var companyPosition7 = document.getElementById("parttimejob").getAttribute('value');
+			// var companyPosition8 = document.getElementById("parttimejob").getAttribute('value');
+
+			// var count1 = document.getElementById("count1").value;
+			// var count2 = document.getElementById("count2").value;
+			// var count3 = document.getElementById("count3").value;
+			// var count4 = document.getElementById("count4").value;
+			// var count5 = document.getElementById("count5").value;
+			// var count6 = document.getElementById("count6").value;
+			// var count7 = document.getElementById("count7").value;
+			// var count8 = document.getElementById("count8").value;
+
+			// var challengeKind1 = document.getElementById("kind1").getAttribute('value');
+			// var challengeKind2 = document.getElementById("kind2").getAttribute('value');
+			// var challengeKind3 = document.getElementById("kind3").getAttribute('value');
+			// var challengeKind4 = document.getElementById("kind4").getAttribute('value');
+			// var challengeKind5 = document.getElementById("kind5").getAttribute('value');
+			// var challengeKind6 = document.getElementById("kind6").getAttribute('value');
+			// var challengeKind7 = document.getElementById("kind7").getAttribute('value');
+			// var challengeKind8 = document.getElementById("kind8").getAttribute('value');
+
+			// console.log("ChallengeKind ="+ challengeKind1,challengeKind2,challengeKind2,challengeKind3,challengeKind4,challengeKind5,challengeKind6,challengeKind7,challengeKind8)
+
+			// console.log("Counts ="+ count1,count2,count3,count4,count5,count6,count7,count8);
+			// console.log("Company Postion ="+companyPosition1,companyPosition2,companyPosition3,companyPosition4,companyPosition5,companyPosition6,companyPosition7,companyPosition8 )
+			// console.log("Start Day Inputs ="+startDay1,startDay2,startDay3,startDay4,startDay5,startDay6,startDay7,startDay8)
+
+			// // challengeKind, dayType, startDay, companyPosition, count
+			// console.log(dayType1, dayType2, dayType3, dayType4, dayType5, dayType6, dayType7, dayType8)
+			//   var data = {"challengeKind":challengeKind1, "dayType": dayType1, "startDay": startDay1, "companyPosition": companyPosition1, "count": count1};
+			//   var data = {"challengeKind":challengeKind2, "dayType": dayType2, "startDay": startDay2, "companyPosition": companyPosition2, "count": count2};
+			//   var data = {"challengeKind":challengeKind, "dayType": dayType, "startDay": startDay, "companyPosition": companyPosition2, "count": count2};
+
+			// console.log('data', data);
+
+		}
+		$(document).ready(function () {
+			$("#close_redirect").on("click",function(){
+				window.location.href='/settings/learn';
+			})
+		});
+	</script>
+</body>
+{% include './partials/footer.html' %}
+
+</html>

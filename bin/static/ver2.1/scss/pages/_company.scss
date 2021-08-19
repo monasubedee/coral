@@ -1,0 +1,53 @@
+.kb-company {
+  font-size: 14px;
+  .company-form {
+    & > div {
+      @include respond-to('small'){
+        flex-flow:wrap;
+      }
+      & > div {
+        &:first-child {
+          width: 150px;
+          @include respond-to('small'){
+            width:100%;
+          }
+        }
+        &:last-child {
+          width: calc(100% - 150px);
+          @include respond-to('small'){
+            width:100%;
+            padding:0 !important;
+          }
+        }
+      }
+    }
+    .kb-input {
+      width: 100%;
+      display: block;
+      max-width: 100%;
+    }
+    .kb-input-small {
+      max-width: 80px;
+      display: inline-block;
+    }
+  }
+  .submit-btn {
+    @include button($color: #2e79dc, $text_color: white);
+    width: 100%;
+    max-width: 200px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+  .required{
+    position:relative;
+    padding-left:10px;
+    &:before{
+      position:absolute;
+      top:calc(50% - 10px);
+      left:0;
+      font-size:20px;
+      color:red;
+      content:'*'
+    }
+  }
+}

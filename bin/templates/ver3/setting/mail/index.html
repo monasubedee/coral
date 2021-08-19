@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>KnowledgeBank</title>
+  <link rel='icon' href='/static/ver2.1/img/logo@3x.png'/>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css' />
+  <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+{% include './ver2.1/partials/ga_tag.html' %}
+</head>
+{% include './ver2.1/partials/header.html' %}
+{% include './ver2.1/partials/sidebar.html' %}
+
+<body>
+  <div>
+    <div class='kb-container'>
+      <div class='kb-setting-container kb-setting-import-container'>
+        <div class='kb-setting-top text-center text-center'>
+          <h3>ナレッジバンク設定</h3>
+          <p class='text-muted'><small>ナレッジバンクの様々な設定ができます</small></p>
+          <div class='flex flex-c py-3'>
+            <div class='p-3 px-4'>
+              <a href='/settings/base'>
+                <img src='/static/ver2.1/img/base.png' alt='' />
+                <p><small>基本設定</small></p>
+              </a>
+            </div>
+            <div class='p-3 px-4'>
+              <a href='/settings/event'>
+                <img src='/static/ver2.1/img/learn.png' alt='' />
+                <p><small>イベント設定</small></p>
+              </a>
+            </div>
+            <div class='p-3 px-4'>
+              <a href='/settings/import'>
+                <img src='/static/ver2.1/img/import.png' alt='' />
+                <p><small>ナレッジパック設定</small></p>
+              </a>
+            </div>
+            <div class='p-3 px-4'>
+              <a href='/settings/mail'>
+                <img src='/static/ver2.1/img/mail_active.png' alt='' />
+                <p class='active'><small>通知</small></p>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class='kb-panel'>
+          <div class='kb-panel-title p-3'>
+            <p class='m-0'>メール通知設定</p>
+          </div>
+          <div class='kb-panel-body px-3 flex flex-s'>
+            <div>
+              <p class='my-3'>通知する時間を設定</p>
+              <select name="hour" id="noti_timezone_hour" class="form__time mr-3">
+                <option value="0">0時</option>
+                <option value="1">1時</option>
+                <option value="2">2時</option>
+                <option value="3">3時</option>
+                <option value="4">4時</option>
+                <option value="5">5時</option>
+                <option value="6">6時</option>
+                <option value="7">7時</option>
+                <option value="8">8時</option>
+                <option value="9">9時</option>
+                <option value="10">10時</option>
+                <option value="11">11時</option>
+                <option value="12">12時</option>
+                <option value="13">13時</option>
+                <option value="14">14時</option>
+                <option value="15">15時</option>
+                <option value="16">16時</option>
+                <option value="17">17時</option>
+                <option value="18">18時</option>
+                <option value="19">19時</option>
+                <option value="20">20時</option>
+                <option value="21">21時</option>
+                <option value="22">22時</option>
+                <option value="23">23時</option>
+              </select>
+              <select name="minute" id="noti_timezone_minute" class="form__time" >
+                <option value="0">00分</option>
+                <option value="1">01分</option>
+                <option value="2">02分</option>
+                <option value="3">03分</option>
+                <option value="4">04分</option>
+                <option value="5">05分</option>
+                <option value="6">06分</option>
+                <option value="7">07分</option>
+                <option value="8">08分</option>
+                <option value="9">09分</option>
+                <option value="10">10分</option>
+                <option value="11">11分</option>
+                <option value="12">12分</option>
+                <option value="13">13分</option>
+                <option value="14">14分</option>
+                <option value="15">15分</option>
+                <option value="16">16分</option>
+                <option value="17">17分</option>
+                <option value="18">18分</option>
+                <option value="19">19分</option>
+                <option value="20">20分</option>
+                <option value="21">21分</option>
+                <option value="22">22分</option>
+                <option value="23">23分</option>
+                <option value="24">24分</option>
+                <option value="25">25分</option>
+                <option value="26">26分</option>
+                <option value="27">27分</option>
+                <option value="28">28分</option>
+                <option value="29">29分</option>
+                <option value="30">30分</option>
+                <option value="31">31分</option>
+                <option value="32">32分</option>
+                <option value="33">33分</option>
+                <option value="34">34分</option>
+                <option value="35">35分</option>
+                <option value="36">36分</option>
+                <option value="37">37分</option>
+                <option value="38">38分</option>
+                <option value="39">39分</option>
+                <option value="40">40分</option>
+                <option value="41">41分</option>
+                <option value="42">42分</option>
+                <option value="43">43分</option>
+                <option value="44">44分</option>
+                <option value="45">45分</option>
+                <option value="46">46分</option>
+                <option value="47">47分</option>
+                <option value="48">48分</option>
+                <option value="49">49分</option>
+                <option value="50">50分</option>
+                <option value="51">51分</option>
+                <option value="52">52分</option>
+                <option value="53">53分</option>
+                <option value="54">54分</option>
+                <option value="55">55分</option>
+                <option value="56">56分</option>
+                <option value="57">57分</option>
+                <option value="58">58分</option>
+                <option value="59">59分</option>
+              </select>
+            </div>
+            <div class='px-4'>
+              <p class='my-3'>通知する日を設定</p>
+              <div class='checkbox-list notification-list'>
+                <span>
+                  <input type='checkbox' id="mon" value="0" />
+                  <label>月</label>
+                </span>
+                <span>
+                  <input type='checkbox' id="tue" value="0" />
+                  <label>火</label>
+                </span>
+                <span>
+                  <input type='checkbox' id="wed" value="0" />
+                  <label>水</label>
+                </span>
+                <span>
+                  <input type='checkbox' id="thu" value="0" />
+                  <label>木</label>
+                </span>
+                <span>
+                  <input type='checkbox' id="fri" value="0" />
+                  <label>金</label>
+                </span>
+                <span>
+                  <input type='checkbox' id="sat" value="0" />
+                  <label>土</label>
+                </span>
+                <span>
+                  <input type='checkbox' id="sun" value="0" />
+                  <label>日</label>
+                </span>
+              </div>
+              <div>
+                <input type='checkbox' id="holidayflag" value="0" />
+                <label>祝祭日は通知しない</label>
+              </div>
+              <p class='text-muted my-0'><small>※ユーザーの利用促進のための通知設定です。</small></p>
+            </div>
+          </div>
+        </div>
+        <div class='text-center py-4'>
+          <a class='kb-setting-import-btn submit-btn' id='contact_button_click'>入力内容を保存する</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src='/static/ver2.1/js/script.js'></script>
+  <script>
+    $(document).ready(function () {
+      $.ajax({
+        method: "get",
+        url: '/settings/notification',
+        success: function (data) {
+          var result = JSON.parse(data);
+          var hour = JSON.parse(data).noti_timezone_hour;
+          var minute =JSON.parse(data).noti_timezone_minute;
+          var day = JSON.parse(data).emailnotiday;
+          if (JSON.parse(data).emailnotiday[0] == 1) {
+            document.getElementById("mon").checked = true;
+            document.getElementById("mon").value=1;
+
+          }
+          if (JSON.parse(data).emailnotiday[1] == 1) {
+            document.getElementById("tue").checked = true;
+            document.getElementById("tue").value=1;
+          }
+          if (JSON.parse(data).emailnotiday[2] == 1) {
+            document.getElementById("wed").checked = true;
+            document.getElementById("wed").value=1;
+          }
+          if (JSON.parse(data).emailnotiday[3] == 1) {
+            document.getElementById("thu").checked = true;
+            document.getElementById("thu").value=1;
+          }
+          if (JSON.parse(data).emailnotiday[4] == 1) {
+            document.getElementById("fri").checked = true;
+            document.getElementById("fri").value=1;
+          }
+          if (JSON.parse(data).emailnotiday[5] == 1) {
+            document.getElementById("sat").checked = true;
+            document.getElementById("sat").value=1;
+          }
+          if (JSON.parse(data).emailnotiday[6] == 1) {
+            document.getElementById("sun").checked = true;
+            document.getElementById("sun").value=1;
+          }
+
+          document.getElementById("noti_timezone_hour").value = hour;
+          document.getElementById("noti_timezone_minute").value = minute;
+
+          document.getElementById("holidayflag").checked = JSON.parse(data).holidayflag;
+        }
+      })
+    })
+
+    $('input[type="checkbox"]').on('change', function () { this.value ^= 1; });
+    var btn = document.querySelector("#contact_button_click");
+    btn.onclick = function () {
+      var obj = {
+        hour: '',
+        minute: '',
+        notidays: [],
+        holidayflag: 0,
+        userId: 1
+      }
+      // $(".notification-list input").each(function(){
+      //     $(this).prop("checked")==true?obj.notidays.push($(this).val()):0;
+      // })
+      obj.hour = parseInt(document.querySelector("select[name=hour]").value);
+      obj.minute = parseInt(document.querySelector("select[name=minute]").value);
+      var notidayslist = document.querySelectorAll("input[type=checkbox]");
+      for (var i = 0; i < notidayslist.length; i++) {
+        if (i == (notidayslist.length - 1)) {
+          if (notidayslist[i].checked == true) {
+            obj.holidayflag = 1;
+          }
+          else {
+            obj.holidayflag = 0;
+          }
+        }
+        else {
+          if (notidayslist[i].checked == true) {
+            obj.notidays.push(notidayslist[i].value);
+          } else {
+            obj.notidays.push("0");
+          }
+        }
+      }
+
+      var xhr = new XMLHttpRequest();
+      var url = "/settings/mail";
+      xhr.open("POST", url, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+          var json = JSON.parse(this.responseText);
+          if (json['result'] == 'ok') {
+            status_show('ok');
+            // window.location.href = "/settings/mail";
+          }
+          if (json['result'] == 'ng') {
+            status_show('failed');
+            // window.location.href = "/settings/mail";
+          }
+        }
+      };
+      xhr.send(JSON.stringify(obj));
+    }
+    document.querySelector("#redir_close").onclick = function () {
+      window.location.href = "/settings/mail";
+    }
+
+    function status_show(status) {
+      if (status == "ok") {
+        $("body").append("<div class='status-container success'><p class='px-2'>内容を保存しました</p></div>");
+
+      }
+      else {
+        $("body").append("<div class='status-container fail'><p class='px-2'>内容の保存に失敗しました</p></div>");
+      }
+      setTimeout(() => {
+        $(".status-container").remove();
+      }, 3000)
+      $(".status-container").css({
+        position: "fixed",
+        top: "80px",
+        width: $(".kb-container").outerWidth(),
+        marginLeft: $(".kb-container").css("margin-left"),
+        zIndex: 2,
+        left: '0'
+      })
+      $(".status-container.success").css({
+        background: "#4caf50"
+      })
+      $(".status-container.fail").css({
+        background: "#fef3f2"
+      })
+    }
+            // $("#contact_button_click").on("click",function(){
+            // 	 var obj={
+            // 					hour:$("select[name=hour]").val(),
+            // 					minute:$("select[name=minute]").val(),
+            // 					notidays:[],
+            // 					holidayflag:0,
+            // 					userId:1
+            // 				}
+            // 				$("input[type=checkbox]").each(function(){
+            // 						if($(this).prop("checked")){
+            // 							obj.notidays.push($(this).val());
+            // 						}
+            // 				})
+            // 				alert(JSON.stringify(obj));
+            // })
+  </script>
+</body>
+{% include './ver2.1/partials/footer.html' %}
+
+</html>

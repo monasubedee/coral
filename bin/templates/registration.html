@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ja">
+  {% include './partials/head.html' %}
+
+  <body>
+    <div class="_wrapper">
+      <div class="header">
+        <a href="" class="header__logo-link">
+          <div class="header__logo">
+            <img src="/static/img/logo.svg" />
+          </div>
+        </a>
+        <h1 class="header__headline">サインアップ</h1>
+        <a href="/mypage.html" class="header__icon" aria-hidden="true">
+          <div class="header__icon__wrapper">
+            <!-- ログイン画面では非表示<img src="/static/img/sample/header_icon_sample.png" alt="" class="header__icon__image"> -->
+          </div>
+        </a>
+      </div>
+
+      <div class="_content--smaller--white">
+        <div class="_content--navigation">
+          <div class="navigation-button">
+            <svg class="navigation-button__icon" viewbox="0 0 5.547 9.679">
+              <path
+                d="M764.6 703.842l-4.486 4.486 4.486 4.486"
+                transform="translate(-759.411 -703.488)"
+              ></path>
+            </svg>
+            <span class="navigation-button__text">Back</span>
+          </div>
+        </div>
+        <div class="registration">
+          <h2 class="registration__head">プロフィール写真</h2>
+          <div class="registration__image-wrapper">
+            <img
+              src="/static/img/default_icon.svg"
+              aria-hidden="true"
+              class="registration__icon"
+            />
+            <button class="registration__add-picture">
+              <img src="/static/img/icon/camera.svg" alt="アイコンを変更する" />
+            </button>
+            <input
+              id="fileImage"
+              name="profilePicture"
+              type="file"
+              accept="image/png,image/jpeg"
+              class="registration__input-file"
+            />
+
+          </div>
+          <p data-name="fileImage" class="create__error" style="margin-bottom:28px;text-align:center;"  id= "fileSizeError" aria-hidden="true">
+             Image file size is too big </p>
+          <script type="text/javascript">
+
+              var uploadField = document.getElementById("fileImage");
+
+              uploadField.onchange = function() {
+                  if(this.files[0].size > 1000000){
+                     this.value = "";
+                     document.getElementById('fileSizeError').setAttribute('aria-hidden', 'false');
+                  }
+                  else{
+                    document.getElementById('fileSizeError').setAttribute('aria-hidden', 'true');
+                  }
+              };
+          </script>
+          <div class="registration__input-wrapper">
+            <h2 class="registration__head">
+              名前<span class="registration__require">*</span>
+            </h2>
+            <input
+              type="text"
+              class="registration__input"
+              value=""
+              name="displayName"
+            />
+          </div>
+          <p
+            class="create__error"
+            data-name="displayName"
+            data-reason="required"
+          >
+            入力してください
+          </p>
+          <div class="registration__input-wrapper">
+            <h2 class="registration__head">
+              メールアドレス<span class="registration__require">*</span>
+            </h2>
+            <input
+              type="email"
+              class="registration__input"
+              name="name"
+              value=""
+            />
+          </div>
+          <p
+            class="create__error"
+            data-name="name"
+            data-reason="required"
+            aria-hidden="true"
+          >
+            入力してください
+          </p>
+          <p
+            class="create__error"
+            data-name="name"
+            data-reason="invalidType"
+            aria-hidden="true"
+          >
+            正しい形式で入力してください
+          </p>
+          <p
+            class="create__error"
+            data-name="name"
+            data-reason="serverError"
+            aria-hidden="true"
+          >
+            このアドレスは登録できません。
+          </p>
+          <div class="registration__input-wrapper">
+            <h2 class="registration__head">
+              パスワード<span class="registration__require">*</span>
+            </h2>
+            <input
+              type="password"
+              class="registration__input"
+              name="password"
+              value=""
+            />
+          </div>
+          <p
+            class="create__error"
+            data-name="password"
+            data-reason="required"
+            aria-hidden="true"
+          >
+            入力してください
+          </p>
+          <div class="registration__input-wrapper">
+            <h2 class="registration__head">
+              役職
+            </h2>
+            <div class="registration__select-wrapper">
+              <label class="registration__select-label--hire-year">
+                <select
+                  name="occupation"
+                  class="registration__select"
+                  data-country=""
+                >
+                  {% for occupation in occupations %}
+                  <option value="{{ occupation.id }}">{{
+                    occupation.label
+                  }}</option>
+                  {% endfor %}
+                </select></label
+              >
+            </div>
+          </div>
+
+          <div class="registration__input-wrapper">
+            <h2 class="registration__head">
+              生年月日<span class="registration__require">*</span>
+            </h2>
+            <div class="registration__select-wrapper">
+              <label class="registration__select-label--birth-year">
+                <select name="birthYear" class="registration__select"> </select
+              ></label>
+              <label class="registration__select-label--birth-month">
+                <select name="birthMonth" class="registration__select">
+                  <option value="1">1月</option>
+                  <option value="2">2月</option>
+                  <option value="3">3月</option>
+                  <option value="4">4月</option>
+                  <option value="5">5月</option>
+                  <option value="6">6月</option>
+                  <option value="7">7月</option>
+                  <option value="8">8月</option>
+                  <option value="9">9月</option>
+                  <option value="10">10月</option>
+                  <option value="11">11月</option>
+                  <option value="12">12月</option>
+                </select></label
+              >
+              <label class="registration__select-label--birth-day">
+                <select name="birthDay" class="registration__select">
+                  <option value="1">1日</option>
+                  <option value="2">2日</option>
+                  <option value="3">3日</option>
+                  <option value="4">4日</option>
+                  <option value="5">5日</option>
+                  <option value="6">6日</option>
+                  <option value="7">7日</option>
+                  <option value="8">8日</option>
+                  <option value="9">9日</option>
+                  <option value="10">10日</option>
+                  <option value="11">11日</option>
+                  <option value="12">12日</option>
+                  <option value="13">13日</option>
+                  <option value="14">14日</option>
+                  <option value="15">15日</option>
+                  <option value="16">16日</option>
+                  <option value="17">17日</option>
+                  <option value="18">18日</option>
+                  <option value="19">19日</option>
+                  <option value="20">20日</option>
+                  <option value="21">21日</option>
+                  <option value="22">22日</option>
+                  <option value="23">23日</option>
+                  <option value="24">24日</option>
+                  <option value="25">25日</option>
+                  <option value="26">26日</option>
+                  <option value="27">27日</option>
+                  <option value="28">28日</option>
+                  <option value="29">29日</option>
+                  <option value="30">30日</option>
+                  <option value="31">31日</option>
+                </select></label
+              >
+            </div>
+          </div>
+          <div class="registration__input-wrapper">
+            <h2 class="registration__head">
+              入社日<span class="registration__require">*</span>
+            </h2>
+            <div class="registration__select-wrapper">
+              <label class="registration__select-label--hire-year">
+                <select name="hiredYear" class="registration__select"> </select
+              ></label>
+              <label class="registration__select-label--hire-month">
+                <select name="hiredMonth" class="registration__select">
+                  <option value="1">1月</option>
+                  <option value="2">2月</option>
+                  <option value="3">3月</option>
+                  <option value="4">4月</option>
+                  <option value="5">5月</option>
+                  <option value="6">6月</option>
+                  <option value="7">7月</option>
+                  <option value="8">8月</option>
+                  <option value="9">9月</option>
+                  <option value="10">10月</option>
+                  <option value="11">11月</option>
+                  <option value="12">12月</option>
+                </select></label
+              >
+              <label class="registration__select-label--birth-day">
+                <select name="hiredDay" class="registration__select">
+                  <option value="1">1日</option>
+                  <option value="2">2日</option>
+                  <option value="3">3日</option>
+                  <option value="4">4日</option>
+                  <option value="5">5日</option>
+                  <option value="6">6日</option>
+                  <option value="7">7日</option>
+                  <option value="8">8日</option>
+                  <option value="9">9日</option>
+                  <option value="10">10日</option>
+                  <option value="11">11日</option>
+                  <option value="12">12日</option>
+                  <option value="13">13日</option>
+                  <option value="14">14日</option>
+                  <option value="15">15日</option>
+                  <option value="16">16日</option>
+                  <option value="17">17日</option>
+                  <option value="18">18日</option>
+                  <option value="19">19日</option>
+                  <option value="20">20日</option>
+                  <option value="21">21日</option>
+                  <option value="22">22日</option>
+                  <option value="23">23日</option>
+                  <option value="24">24日</option>
+                  <option value="25">25日</option>
+                  <option value="26">26日</option>
+                  <option value="27">27日</option>
+                  <option value="28">28日</option>
+                  <option value="29">29日</option>
+                  <option value="30">30日</option>
+                  <option value="31">31日</option>
+                </select></label
+              >
+            </div>
+          </div>
+
+          <p
+            class="create__error"
+            data-name="hiredYear"
+            data-reason="required"
+            aria-hidden="true"
+          >
+            選択してください
+          </p>
+          <div class="registration__input-wrapper">
+            <div class="registration__multi-column-item">
+              <h2 class="registration__head">
+                性別<span class="registration__require">*</span>
+              </h2>
+              <div class="registration__select-wrapper">
+                <label class="registration__select-label--gender">
+                  <select name="gender" class="registration__select">
+                    <option value="1">男性</option>
+                    <option value="2">女性</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="registration__input-wrapper">
+            <div class="registration__multi-column">
+              <div class="registration__multi-column-item">
+                <h2 class="registration__head">
+                  出身地<span class="registration__require">*</span>
+                </h2>
+                <div class="registration__select-wrapper">
+                  <label class="registration__select-label--hire-year">
+                    <select
+                      name="country"
+                      class="registration__select"
+                      data-country=""
+                    >
+                      {% for country in countries %}
+                      <option value="{{ country.id }}">{{
+                        country.label
+                      }}</option>
+                      {% endfor %}
+                    </select></label
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="registration__input-wrapper">
+            <h2 class="registration__head">
+              言語<span class="registration__require">*</span>
+            </h2>
+            <div class="create__description__topic">
+              <input
+                type="text"
+                list="languageList"
+                multiple
+                placeholder="言語を追加する"
+                name="language"
+                class="registration__language"
+              /><button type="button" class="registration__add-language">
+                <span class="create__description__topic__button__icon"></span>
+              </button>
+              <datalist id="languageList">
+                {% for language in languageSet %}
+                <option
+                  value="{{ language.label }}"
+                  data-language-id="{{ language.id }}"
+                ></option>
+                {% endfor %}
+              </datalist>
+            </div>
+            <ul class="registration__language-list" aria-hidden="true"></ul>
+          </div>
+          <p
+            class="create__error"
+            data-name="languageList"
+            data-reason="required"
+          >
+            言語を1つ以上追加してください。
+          </p>
+          <div class="registration__input-wrapper">
+            <h2 class="registration__head">
+              ロール
+            </h2>
+            <div class="create__description__topic">
+              <input
+                placeholder="(例)営業、戦略・経営コンサルタント、フロントエンジニア、労務管理など"
+                name="role"
+                class="registration__role"
+              /><button type="button" class="registration__add-role">
+                <span class="create__description__topic__button__icon"></span>
+              </button>
+            </div>
+            <ul class="registration__role-list" aria-hidden="true"></ul>
+          </div>
+          <div class="registration__input-wrapper">
+            <h2 class="registration__head">
+              スキルセット
+            </h2>
+            <div class="create__description__topic">
+              <input
+                placeholder="(例)行政書士、Webデザインスキルなど"
+                name="skill"
+                class="registration__skill"
+              /><button type="button" class="registration__add-skill">
+                <span class="create__description__topic__button__icon"></span>
+              </button>
+            </div>
+            <ul class="registration__skill-list" aria-hidden="true"></ul>
+          </div>
+          <div class="registration__input-wrapper">
+            <h2 class="mypage__head">
+              <svg
+                width="16"
+                height="14"
+                class="mypage__icon--goal"
+                viewbox="0 0 16 14"
+              >
+                <path
+                  d="M2 34H0a7 7 0 0 0 7 7v4.5a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V41a7 7 0 0 0-7-7zm12-2a6.994 6.994 0 0 0-6.116 3.6 8.012 8.012 0 0 1 1.844 3.362A7 7 0 0 0 16 32z"
+                  transform="translate(0 -32)"
+                ></path>
+              </svg>
+              なりたい姿
+            </h2>
+            <textarea name="goal" class="registration__textarea"></textarea>
+          </div>
+          <button
+            type="button"
+            class="button--light--arrow registration__submit"
+          >
+            作成する<svg
+              direction="next"
+              color="#fff"
+              class="button--arrow__arrow"
+              viewBox="0 0 5.547 9.679"
+            >
+              <path
+                d="M764.6 703.842l-4.486 4.486 4.486 4.486"
+                transform="translate(-759.411 -703.488)"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    {% include './partials/footer.html' %}
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"
+    ></script>
+    <script src="//cdn.jsdelivr.net/npm/ramda@latest/dist/ramda.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js"></script>
+    <script src="/static/js/registration.js"></script>
+  </body>
+</html>

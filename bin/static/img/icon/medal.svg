@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <defs>
+        <style>
+            .cls-1{fill:#3f51b5}.cls-2{fill:none}.cls-3{fill:#fff}
+        </style>
+    </defs>
+    <g id="グループ_1106" data-name="グループ 1106" transform="translate(-290 -818)">
+        <circle id="楕円形_64" cx="12" cy="12" r="12" class="cls-1" data-name="楕円形 64" transform="translate(290 818)"/>
+        <g id="medal_1_" data-name="medal (1)" transform="translate(296 824.244)">
+            <path id="パス_317" d="M25.577 31.1a2.738 2.738 0 0 1 .666 1.78 3.007 3.007 0 0 1-3.122 2.878A3.007 3.007 0 0 1 20 32.878a2.738 2.738 0 0 1 .666-1.78 3.294 3.294 0 0 1 4.911 0z" class="cls-2" data-name="パス 317" transform="translate(-17.122 -24.236)"/>
+            <path id="パス_318" d="M15.277 14.8a2.876 2.876 0 0 0-2.264 1.1L10 11.679 11.919 10z" class="cls-2" data-name="パス 318" transform="translate(-9.52 -9.52)"/>
+            <path id="パス_319" d="M32 14.8a2.876 2.876 0 0 1 2.264 1.1l3.013-4.217L35.358 10z" class="cls-2" data-name="パス 319" transform="translate(-25.757 -9.52)"/>
+            <g id="グループ_1010" data-name="グループ 1010">
+                <path id="パス_320" d="M30.48 35.959a.72.72 0 0 1 .72.72.48.48 0 1 0 .959 0A1.681 1.681 0 0 0 30.48 35a.48.48 0 1 0 0 .959z" class="cls-3" data-name="パス 320" transform="translate(-24.449 -28.187)"/>
+                <path id="パス_321" d="M11.03 14.651a3.5 3.5 0 1 0 5.94 0l2.936-4.11a.5.5 0 1 0-.813-.581L16.3 13.867a3.466 3.466 0 0 0-1.421-.752l3.03-4.328a.5.5 0 1 0-.819-.573L14 12.628l-3.09-4.415a.5.5 0 1 0-.819.573l3.029 4.328a3.464 3.464 0 0 0-1.421.752L8.907 9.959a.5.5 0 1 0-.813.581zM14 14a2.5 2.5 0 1 1-1.967.954A2.491 2.491 0 0 1 14 14z" class="cls-3" data-name="パス 321" transform="translate(-8 -8)"/>
+            </g>
+        </g>
+    </g>
+</svg>

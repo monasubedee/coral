@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KnowledgeBank</title>
+    <link rel='icon' href='/static/ver2.1/img/logo@3x.png'/>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css' />
+    <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+    <style>
+        .red-placeholder-class::-webkit-input-placeholder {
+            color: red
+        }
+    </style>
+{% include './ver2.1/partials/ga_tag.html' %}
+</head>
+
+<body>
+    <div class='kb-container-no-sb flex flex-item-center'>
+        <div class='kb-signup-container'>
+            <div class='kb-secondary-logo py-3 text-center'>
+                <img src='/static/ver2.1/img/1076@3x.png' alt='' class='mb-2' />
+                <span class='text-muted'><small>ナレッジバンクへようこそ</small></span>
+            </div>
+            <div class='kb-panel'>
+                <div class='kb-panel-title py-2 px-3'>
+                    <div class='flex flex-item-center'>
+                        <div>
+                            <img src='/static/ver2.1/img/1104@3x.png' alt='' />
+                        </div>
+                        <div class='px-3'>
+                            <p class='m-0 signup-mail' >{{mail}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class='kb-panel-body px-3'>
+                    <div class='my-3 username'>
+                        <label>名前</label>
+                        <input type='text' data-prop="username" class='kb-input form-data' />
+                    </div>
+                    <div class='my-3 password'>
+                        <label>パスワード登録</label>
+                        <input type='password' data-prop="password" class='kb-input form-data' />
+                    </div>
+                    <div class='my-3 confirmPassword'>
+                        <label>もう一度パスワードを入力してください</label>
+                        <input type='password' data-prop="retypepassword" class='kb-input form-data' />
+                    </div>
+                    <div class='my-3'>
+                        <label id='errorMsg' style="color: red;"></label>
+                    </div>
+                    <div class="text-muted"><small>パスワードは半角英字と半角数字を1文字ずつ以上含んだ8文字以上16文字以内で設定してください。</small></div>
+                </div>
+            </div>
+            <div class='py-4'>
+                <input type='text' hidden value='{{token}}'/>
+                <a class='submit-btn submit-signup-btn'>サインアップ</a>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src='/static/ver2.1/js/varidate.js'></script>
+    <script src='/static/ver2.1/js/script.js'></script>
+    <script>
+        $(document).ready(function () {
+            var formData , formDataReInput;
+            $("input[type='password']").on("keyup keypress keydown", function () {
+                formData = input_varidate(".form-data[data-prop='password']", {
+                    required: true,
+                    type: 'password',
+                    minLength: 8,
+                    maxLength: 16,
+                    message: 'パスワード'
+                });
+
+                formDataReInput = input_varidate(".form-data[data-prop='retypepassword']", {
+                    required: true,
+                    type: 'password',
+                    minLength: 8,
+                    maxLength: 16,
+                    message: 'パスワード'
+                });
+            })
+
+            $(".submit-signup-btn").on("click", function (event) {
+
+                var $errorMsg = $("#errorMsg");
+                var error_obj = {
+                    username: false,
+                    password: false,
+                    confirmPassword: false
+                }
+                var obj = {
+                    username: '',
+                    password: '',
+                    confirmPassword: ''
+                }
+                var username = $(".username input").val();
+                if (username.trim() == "") {
+                    $(".username input").css({ border: '1px solid red' })
+                    $(".username input").addClass("error-field").attr("placeholder", '入力されていません');
+                    $(".username input").addClass('red-placeholder-class');
+                    error_obj.username = false;
+                }
+                else {
+                    $(".username input").removeClass("error-field").attr("placeholder", '解説を入力してください');
+                    $(".username input").removeClass('red-placeholder-class');
+                    $(".username input").css({ border: '1px solid #c9cad0' });
+                    error_obj.username = true;
+                    obj.username = username;
+                }
+
+                var password = $(".password input").val();
+                var confirmPassword = $(".confirmPassword input").val();
+
+                if (password.trim() == "") {
+                    $(".password input").css({ border: '1px solid red' })
+                    $(".password input").addClass("error-field").attr("placeholder", '入力されていません');
+                    $(".password input").addClass('red-placeholder-class');
+                    error_obj.password = false;
+                }
+                else {
+                    $(".password input").removeClass("error-field").attr("placeholder", '解説を入力してください');
+                    $(".password input").removeClass('red-placeholder-class');
+                    $(".password input").css({
+                        border: '1px solid #c9cad0'
+                    });
+                    error_obj.password = true;
+                    obj.password = password;
+                }
+                if (confirmPassword.trim() == "") {
+                    $(".confirmPassword input").css({border: '1px solid red'})
+                    $(".confirmPassword input").addClass("error-field").attr("placeholder", '入力されていません');
+                    $(".confirmPassword input").addClass('red-placeholder-class');
+                    error_obj.confrimPassword = false;
+                }
+                else {
+                    $(".confirmPassword input").removeClass("error-field").attr("placeholder", '解説を入力してください');
+                    $(".confirmPassword input").removeClass('red-placeholder-class');
+                    $(".confirmPassword input").css({
+                        border: '1px solid #c9cad0'
+                    });
+                    error_obj.confirmPassword = true;
+                    obj.confirmPassword = confirmPassword;
+                }
+                if(password == '' || confirmPassword == ''){
+                    $errorMsg.text(" ");
+                }else if (password == confirmPassword ) {
+                    $errorMsg.text(" ");
+                }
+                else {
+                    error('パスワードが一致しません');
+                    $errorMsg.css("color", "red");
+                }
+                if (formData == true) {
+                    input_errorElement(".form-data[data-prop='password']", '', '.password');
+                } else {
+                    input_errorElement(".form-data[data-prop='password']", formData, '.password');
+                    error('パスワードの形式が不正です');
+                    error_obj.password = false;
+                }
+                if (formDataReInput == true) {
+                    input_errorElement(".form-data[data-prop='retypepassword']", '', '.confirmPassword');
+                } else {
+                    input_errorElement(".form-data[data-prop='retypepassword']", formDataReInput, '.confirmPassword');
+                    error('パスワードの形式が不正です');
+                    error_obj.confrimPassword = false;
+                }
+
+                if(error_obj.username== true && error_obj.password== true && error_obj.confirmPassword== true ){
+                var data = {};
+                $(".form-data").each(function () {
+                    var prop = $(this).attr("data-prop");
+                    data[prop] = $(this).val();
+                });
+                data.email=$(".signup-mail").text();
+                data.token=$(this).prev().val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/signup',
+                    headers: { "Content-Type": "application/json" },
+                    data: JSON.stringify(data),
+                    success: function (data) {
+                        if (data['result'] == "success") {
+                            let user_data={
+                                profile:data.profilePicture,
+                                name:data.displayName,
+                                authority:data.authority
+                            }
+                            localStorage.setItem('ud',JSON.stringify(user_data));
+                            window.location.href = "/home/";
+                        }
+                        if (data['result'] == "ng") {
+                            status_show("fail", "Signup Fail");
+                        }
+                    },
+                    contentType: "application/json",
+                    dataType: 'json'
+                });
+                  }
+
+                event.preventDefault();
+            })
+        })
+
+        function error(message) {
+            $(".kb-container-no-sb").append("<div class='status-container error'><p class='px-2'>" + message + "</p></div>");
+            $(".status-container").css({
+                position: "fixed",
+                top: "80px",
+                width: $(".kb-container").outerWidth(),
+                marginLeft: $(".kb-container").css("margin-left"),
+                zIndex: 2,
+                left: '0',
+                width: "100%",
+                top: "0"
+            })
+            $(".status-container.error").css({
+                background: "#d95243",
+                color: "#fff"
+            })
+            setTimeout(() => {
+                $(".status-container").remove();
+            }, 2000)
+        }
+
+        function status_show(status,message){
+            if(status=="ok"){
+                $(".kb-signup-container").append(`<div class='status-container success'><p class='px-2'>${message}</p></div>`);
+
+            }
+            else{
+                $(".kb-signup-container").append(`<div class='status-container fail'><p class='px-2'>${message}</p></div>`);
+            }
+            setTimeout(()=>{
+                $(".status-container").remove();
+
+            },2000)
+            $(".status-container").css({
+                position:"fixed",
+                top:"0px",
+                width:$(".kb-container-no-sb").outerWidth(),
+                marginLeft:$(".kb-container-no-sb").css("margin-left"),
+                zIndex:2,
+                left:'0'
+            })
+            $(".status-container.success").css({
+                background: "#4caf50"
+            })
+            $(".status-container.fail").css({
+                background:"#fef3f2"
+            })
+        }
+    </script>
+
+
+
+
+</body>
+{% include './ver2.1/partials/footer.html' %}
+
+</html>

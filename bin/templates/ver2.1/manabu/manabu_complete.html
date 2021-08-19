@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel='icon' href='/static/ver2.1/img/logo@3x.png'/>
+    <title>KnowledgeBank</title>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css'/>
+    <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+{% include './ver2.1/partials/ga_tag.html' %}
+    <style>
+        .manabu-break-btn .btn-tran{
+            max-width: 250px;
+            padding: 13px 40px;
+            width: 100%;
+        }
+    </style>
+</head>
+{% include './ver2.1/partials/header.html' %}
+{% include './ver2.1/partials/sidebar.html' %}
+<body>
+    <div>
+        <div class='kb-container flex flex-item-center'>
+            <div class='kb-manabu-solve-container text-center'>
+                <h3>今週の目標を達成しました！</h3>
+                <p class='text-muted'><small>この調子でどんどんまなびを深めましょう。</small></p>
+                <img src='/static/ver2.1/img/1453.png' alt='' />
+                <div class='text-center my-4'>
+                    <a href='' id='' class='submit-manabu submit-btn'>次のまなび</a>
+                </div>
+                <div class='manabu-break-btn text-center my-4'>
+                    <a href="/manabu" class="btn-tran display-inline">まなびおわる</a>
+                </div>
+                <div class='text-center'>
+                  <a href='/home' class='color-blue display-inline'>ホームに戻る</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src='/static/ver2.1/js/script.js'></script>
+</body>
+{% include './ver2.1/partials/footer.html' %}
+</html>

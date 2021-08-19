@@ -1,0 +1,345 @@
+{%from "./partials/header.html" import header with context%}
+<html lang="ja">
+
+{% include './partials/head.html' %}
+<body cz-shortcut-listen="true">
+  <div class="_wrapper">
+    {{header('create',avatorImage,'true')}}
+    <div class="_content--smaller--white">
+      <div class="_content--navigation">
+        <button class="navigation-button" onclick="location.href='/home'">
+          <svg class="navigation-button__icon" viewbox="0 0 5.547 9.679">
+            <path d="M764.6 703.842l-4.486 4.486 4.486 4.486" transform="translate(-759.411 -703.488)"></path>
+          </svg>
+          <span class="navigation-button__text">Back</span>
+        </button>
+      </div>
+
+      <form class="create" method="POST" action="/create">
+        <div class="modal" aria-hidden="true">
+          <div class="modal__body">
+            <div class="modal__contents">変更した内容が破棄されますがよろしいですか？</div>
+            <div class="modal__button-wrapper">
+              <button type="button" class="modal__button--yes">はい</button><button type="button" class="modal__button--no">いいえ</button>
+            </div>
+          </div>
+
+        </div>
+        <div class="create__question">
+          <div class="create__head-wrapper">
+            <h2 class="create__head">1.問題文</h2>
+          </div>
+          <h3 class="create__input-title">
+            カテゴリー<small class="create__require">*</small>
+          </h3>
+          <label class="create__select-label">
+            <select name="categoryId" class="create__select">
+              <option value="0">選択してください</option>
+              <option value="1">ビジネスマナー</option>
+              <option value="2">WEBディレクター</option>
+              <option value="3">知識</option>
+              <option value="4">セキュリティ</option>
+              <option value="5">システム</option>
+            </select></label>
+          <p class="create__error" data-name="categoryId" data-reason="required">選択してください</p>
+
+          <h3 class="create__input-title">
+            サブカテゴリー<small class="create__require">*</small>
+          </h3>
+          <label class="create__select-label">
+            <select name="sub_categoryId" class="create__select">
+              <option value="0">選択してください</option>
+              <option value="1">IT法人営業（直販）</option>
+              <option value="2">IT法人営業（代理店）</option>
+              <option value="3">Web系ソリューション営業</option>
+              <option value="4">IT個人営業</option>
+              <option value="85">マーケティング・広報アシスタント</option>
+              <option value="86">経営企画／事業統括アシスタント</option>
+              <option value="95">営業事務・アシスタント</option>
+              <option value="96">一般事務・アシスタント</option>
+              <option value="171">ITコンサルタント（アプリ）</option>
+              <option value="172">ITコンサルタント（インフラ）</option>
+              <option value="174">システムエンジニア（Web・オープン系・パッケージ開発）</option>
+              <option value="176">プロジェクトマネジャー（Web・オープン系・パッケージ開発）</option>
+              <option value="177">アーキテクト</option>
+              <option value="178">パッケージ導入・システム導入</option>
+              <option value="179">サーバーエンジニア　（設計構築）</option>
+              <option value="180">ネットワークエンジニア（設計構築）</option>
+              <option value="181">データベースエンジニア</option>
+              <option value="182">プロジェクトマネージャー（インフラ）</option>
+              <option value="183">Webサービスエンジニア（ネットワーク・サーバー・データベース）</option>
+              <option value="184">運用・監視・保守</option>
+              <option value="187">システム開発・運用（アプリ担当）</option>
+              <option value="188">システム構築・運用（インフラ担当）</option>
+              <option value="189">IT戦略・システム企画担当</option>
+              <option value="190">研究開発（R&amp;amp;D）エンジニア</option>
+              <option value="192">データサイエンティスト・アナリスト</option>
+              <option value="193">データサイエンティスト・エンジニアリング</option>
+              <option value="194">Webサービス・プロジェクトマネジャー</option>
+              <option value="195">Webサービス系エンジニア（フロントエンド・サーバーサイド・フルスタック）</option>
+              <option value="196">スマホアプリ・ネイティブアプリ系エンジニア</option>
+              <option value="318">評価・デバッグ</option>
+              <option value="528">プロデューサー・ディレクター・プランナー</option>
+              <option value="529">デザイナー（グラフィック・その他）</option>
+              <option value="530">その他出版・広告・販促・印刷関連</option>
+              <option value="531">アートディレクター</option>
+              <option value="532">編集・記者・ライター</option>
+              <option value="533">DTP</option>
+              <option value="546">Webプロデューサー・Webディレクター・Webプランナー</option>
+              <option value="547">アートディレクター</option>
+              <option value="548">Webデザイナー</option>
+              <option value="549">マークアップエンジニア・コーダー・フロントエンドエンジニア（Web・モバイル）</option>
+              <option value="550">Web編集・Webライター</option>
+              <option value="551">UI・UXデザイナー</option>
+              <option value="552">アシスタントディレクター・制作進行管理</option>
+              <option value="553">ゲームプロデューサー・ディレクター・プランナー</option>
+              <option value="554">アートディレクター</option>
+              <option value="555">UI・UXデザイナー</option>
+              <option value="556">ゲームデザイナー・イラストレーター</option>
+              <option value="557">CGデザイナー</option>
+              <option value="558">マークアップエンジニア・コーダー・フロントエンドエンジニア（ゲーム）</option>
+              <option value="559">ゲームプログラマ</option>
+              <option value="560">サウンドクリエイター</option>
+              <option value="561">デバック</option>
+            </select></label>
+          <p class="create__error" data-name="sub_categoryId" data-reason="required">選択してください</p>
+
+          <h3 class="create__input-title">
+            問題文<small class="create__require">*</small>
+          </h3>
+          <div class="create__question__textarea-wrapper">
+            <svg class="create__select-image" viewbox="0 0 21.571 18.5" data-name="questionPicture">
+              <g transform="translate(0 -.5)">
+                <path
+                  d="M182.9 100.626a2.155 2.155 0 1 0-2.155-2.155 2.157 2.157 0 0 0 2.155 2.155zm0-3.046a.891.891 0 1 1-.891.891.892.892 0 0 1 .891-.891zm0 0"
+                  transform="translate(-173.135 -91.78)"></path>
+                <path
+                  d="M20.783.5h-20A.789.789 0 0 0 0 1.288v16.924A.789.789 0 0 0 .788 19h20a.789.789 0 0 0 .788-.788V1.288A.789.789 0 0 0 20.783.5zm-.476 1.264v10l-3.975-3.973a.666.666 0 0 0-.94 0L9.77 13.413 6.179 9.822a.665.665 0 0 0-.94 0L1.264 13.8V1.764zM1.264 17.736v-2.152l4.445-4.445L9.3 14.73a.664.664 0 0 0 .94 0l5.622-5.622 4.445 4.445v4.183zm0 0">
+                </path>
+              </g>
+            </svg>
+            <input id="questionPictureFile" name="questionPicture" type="file" accept="image/png,image/jpeg" class="create__picture-file" />
+            <textarea name="questionText" class="create__textarea"></textarea>
+          </div>
+          <p class="create__error" data-name="questionText" data-reason="required">入力してください</p>
+          <p data-name="" class="create__error" style="margin-bottom:28px; text-align:center;"  id= "fileSizeError" aria-hidden="true">
+             Image file size is too big </p>
+          <script type="text/javascript">
+
+              var questionPictureFile = document.getElementById("questionPictureFile");
+
+              questionPictureFile.onchange = function() {
+                  if(this.files[0].size > 1000000){
+                     this.value = "";
+                     document.getElementById('fileSizeError').setAttribute('aria-hidden', 'false');
+                  }
+                  else{
+                    document.getElementById('fileSizeError').setAttribute('aria-hidden', 'true');
+                  }
+              };
+          </script>
+
+        </div>
+        <div class="create__answer">
+          <div class="create__head-wrapper">
+            <h2 class="create__head">2.解答を作る</h2>
+          </div>
+          <h3 class="create__input-title">
+            解答タイプ<small class="create__require">*</small>
+          </h3>
+          <label class="create__select-label">
+            <select name="questionType" class="create__select">
+              <option value="1" selected>択一</option>
+              <option value="2">正しいものをすべて選ぶ</option>
+              <option value="3">YES NO</option>
+            </select></label>
+
+          <h3 class="create__input-title">
+            解答<small class="create__require">*</small>
+          </h3>
+          <ol class="create__answer__input-list" aria-hiden="false">
+            <li class="create__answer__input-wrapper">
+              <span class="create__answer__alphabet-label">A</span>
+              <input name="answers[0].label" placeholder="選択肢のテキストを入力してください。" class="create__answer__input" value="" aria-invalid="false"/>
+              <div class="create__answer__sub-wrapper">
+                <label class="create__answer__correct"><input type="checkbox" name="answers[0].correctFlag"
+                    class="create__answer__correct__input" value="0" checked /><span class="create__answer__correct__text-wrapper"><span
+                      class="create__answer__correct__text--correct">正解</span><span
+                      class="create__answer__correct__text--incorrect">不正解</span></span>
+                  <div class="create__answer__correct-circle"></div>
+                </label><button type="button" class="create__answer__delete">
+                  削除<span class="create__answer__delete-cross"></span>
+                </button>
+              </div>
+            </li>
+            <li class="create__answer__input-wrapper">
+              <span class="create__answer__alphabet-label">B</span>
+              <input name="answers[1].label" placeholder="選択肢のテキストを入力してください。" class="create__answer__input" value="" aria-invalid="false" />
+              <div class="create__answer__sub-wrapper">
+                <label class="create__answer__correct"><input type="checkbox" name="answers[0].correctFlag"
+                    class="create__answer__correct__input" value="0" /><span class="create__answer__correct__text-wrapper"><span
+                      class="create__answer__correct__text--correct">正解</span><span
+                      class="create__answer__correct__text--incorrect">不正解</span></span>
+                  <div class="create__answer__correct-circle"></div>
+                </label><button type="button" class="create__answer__delete">
+                  削除<span class="create__answer__delete-cross"></span>
+                </button>
+              </div>
+            </li>
+            <li class="create__answer__input-wrapper">
+              <span class="create__answer__alphabet-label">C</span>
+              <input name="answers[2].label" placeholder="選択肢のテキストを入力してください。" class="create__answer__input" value="" aria-invalid="false" />
+              <div class="create__answer__sub-wrapper">
+                <label class="create__answer__correct"><input type="checkbox" name="answers[0].correctFlag"
+                    class="create__answer__correct__input" value="0" /><span class="create__answer__correct__text-wrapper"><span
+                      class="create__answer__correct__text--correct">正解</span><span
+                      class="create__answer__correct__text--incorrect">不正解</span></span>
+                  <div class="create__answer__correct-circle"></div>
+                </label><button type="button" class="create__answer__delete">
+                  削除<span class="create__answer__delete-cross"></span>
+                </button>
+              </div>
+            </li>
+            <li class="create__answer__input-wrapper">
+              <span class="create__answer__alphabet-label">D</span>
+              <input name="answers[3].label" placeholder="選択肢のテキストを入力してください。" class="create__answer__input" value="" aria-invalid="false" />
+              <div class="create__answer__sub-wrapper">
+                <label class="create__answer__correct"><input type="checkbox" name="answers[0].correctFlag"
+                    class="create__answer__correct__input" value="0" /><span class="create__answer__correct__text-wrapper"><span
+                      class="create__answer__correct__text--correct">正解</span><span
+                      class="create__answer__correct__text--incorrect">不正解</span></span>
+                  <div class="create__answer__correct-circle"></div>
+                </label><button type="button" class="create__answer__delete">
+                  削除<span class="create__answer__delete-cross"></span>
+                </button>
+              </div>
+            </li>
+          </ol>
+          <div class="create__answer__yes-no" aria-hidden="true">
+            <label class="create__answer__yes-no__input-wrapper"><input name="answer_yes_no.correctFlag" class="create__answer__yes-no__input"
+                type="radio" value="True" checked/>
+              <div class="create__answer__yes-no__input-text">YES</div>
+            </label><label class="create__answer__yes-no__input-wrapper"><input name="answer_yes_no.correctFlag"
+                class="create__answer__yes-no__input" type="radio" value="True"  />
+              <div class="create__answer__yes-no__input-text">NO</div>
+            </label>
+          </div>
+          <p class="create__error" data-name="answer.correctFlag" data-reason="atLeast" aria-hidden="true">最低でも一つの選択肢は正解にしてください。</p>
+        </div>
+
+        <div class="create__description">
+          <div class="create__head-wrapper">
+            <h2 class="create__head">3.解説を作る</h2>
+          </div>
+          <h3 class="create__input-title">
+            トピック
+          </h3>
+          <div class="create__description__topic">
+            <input placeholder="トピックを追加する" name="topic" class="create__description__topic__input" /><button type="button"
+              class="create__description__topic__button">
+              <span class="create__description__topic__button__icon"></span>
+            </button>
+          </div>
+          <ul class="create__description__topic-list" aria-hidden="true">
+
+          </ul>
+          <h3 class="create__input-title">
+            解説<small class="create__require">*</small>
+          </h3>
+          <div class="create__question__textarea-wrapper">
+            <svg class="create__select-image" viewbox="0 0 21.571 18.5" data-name="descriptionPicture">
+              <g transform="translate(0 -.5)">
+                <path
+                  d="M182.9 100.626a2.155 2.155 0 1 0-2.155-2.155 2.157 2.157 0 0 0 2.155 2.155zm0-3.046a.891.891 0 1 1-.891.891.892.892 0 0 1 .891-.891zm0 0"
+                  transform="translate(-173.135 -91.78)"></path>
+                <path
+                  d="M20.783.5h-20A.789.789 0 0 0 0 1.288v16.924A.789.789 0 0 0 .788 19h20a.789.789 0 0 0 .788-.788V1.288A.789.789 0 0 0 20.783.5zm-.476 1.264v10l-3.975-3.973a.666.666 0 0 0-.94 0L9.77 13.413 6.179 9.822a.665.665 0 0 0-.94 0L1.264 13.8V1.764zM1.264 17.736v-2.152l4.445-4.445L9.3 14.73a.664.664 0 0 0 .94 0l5.622-5.622 4.445 4.445v4.183zm0 0">
+                </path>
+              </g>
+            </svg>
+            <input id="descriptionPictureFile" name="descriptionPicture" type="file" accept="image/png,image/jpeg" class="create__picture-file" />
+            <textarea name="descriptionText" class="create__textarea"></textarea>
+          </div>
+          <p class="create__error" data-name="descriptionText" data-reason="required">
+            入力してください
+          </p>
+          <p class="create__error" style="margin-bottom:28px;text-align:center;"  id= "descriptionPictureFileSizeError" aria-hidden="true">
+             Image file size is too big </p>
+           <script type="text/javascript">
+               var descriptionPictureFile = document.getElementById("descriptionPictureFile");
+
+               descriptionPictureFile.onchange = function() {
+
+                   if(this.files[0].size > 1000000){
+                      this.value = "";
+                      document.getElementById('descriptionPictureFileSizeError').setAttribute('aria-hidden', 'false');
+                   }
+                   else{
+                     document.getElementById('descriptionPictureFileSizeError').setAttribute('aria-hidden', 'true');
+                   }
+               };
+           </script>
+
+          <button type="button" class="button--light--arrow create__submit">
+            作成する<svg class="button--arrow__arrow" viewbox="0 0 5.547 9.679">
+              <path d="M764.6 703.842l-4.486 4.486 4.486 4.486" transform="translate(-759.411 -703.488)"></path>
+            </svg>
+          </button>
+          <div class="create__submenu">
+            <button type="button" class="create__submenu__button--draft">下書きとして保存</button>
+            <button type="button" class="create__submenu__button--preview">プレビュー</button>
+          </div>
+        </div>
+        <div class="preview" aria-hidden="true">
+          {{header('プレビュー',avatorImage,'true')}}
+          <div class="preview__body">
+            <div class="question">
+              <div class="question__image-wrapper">
+                <img src="/static/img/challenge/question_default.jpg" aria-hidden="true" class="question__image" />
+              </div>
+              <h2 class="question__head">
+                問題 <span class="question__correct-rate">正答率 50%</span>
+              </h2>
+              <p class="question__text"></p>
+            </div>
+            <div class="correct-answer">
+              <h2 class="correct-answer__head">正しい解答</h2>
+              <ul></ul>
+            </div>
+            <!-- ここから コンポーネント化-->
+            <div class="description">
+              <div class="description__headline">この問題の解説</div>
+              <div class="description__wrapper">
+                <div class="description__image-wrapper">
+                  <img src="/static/img/challenge/description_default.jpg" aria-hidden="true" class="description__image" />
+                </div>
+                <p class="description__paragraph">
+
+                </p>
+              </div>
+            </div>
+            <!-- ここまで コンポーネント化-->
+            <button type="button" class="button--light--arrow create__submit">
+              作成する<svg direction="next" color="#fff" class="button--arrow__arrow" viewbox="0 0 5.547 9.679">
+                <path d="M764.6 703.842l-4.486 4.486 4.486 4.486" transform="translate(-759.411 -703.488)"></path>
+              </svg>
+            </button>
+            <div class="create__submenu">
+              <button type="button" class="create__submenu__button--draft">下書きとして保存</button>
+              <button type="button" class="create__submenu__button--edit">編集に戻る</button>
+            </div>
+            <div class="preview__footer">
+              {% include './partials/footer.html' %}
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    {% include './partials/footer.html' %}
+  </div>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="/static/js/create.js"></script>
+</body>
+
+</html>

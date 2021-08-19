@@ -1,0 +1,57 @@
+.kb-setting-member {
+  button {
+    @include button($color: white, $text-color: black);
+    font-size: 14px;
+    padding: 9px 8px;
+    font-weight: normal;
+    text-shadow: none;
+  }
+  @include respond-to('small'){
+    .member-add-top{
+      flex-flow:wrap;
+      &>div{
+        margin-bottom:15px;
+        width:100%;
+        display:flex;
+        justify-content: center;
+      }
+    }
+  }
+  .search {
+    position: relative;
+    input {
+      width: 300px;
+      width: 300px;
+      border: 1px solid gray;
+      padding: 5px;
+      font-size: 14px;
+      height: 35px;
+      padding-left: 30px;
+      border-radius: 0.25rem;
+    }
+    button {
+      position: absolute;
+      top: 0px;
+      width: auto;
+      font-weight: normal;
+      border: 0;
+      background: none;
+      height: 100%;
+      left: 0px;
+    }
+  }
+}
+.member-add-media {
+  & > div {
+    &:first-child {
+      width: 150px;
+    }
+    &:last-child {
+      width: calc(100% - 150px);
+    }
+  }
+  label {
+    display: inline-block;
+    margin-left: 10px;
+  }
+}

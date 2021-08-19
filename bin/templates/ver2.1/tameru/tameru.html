@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel='icon' href='/static/ver2.1/img/logo@3x.png' />
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css' />
+    <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+    <style>
+        .tameru-search-more {
+            display: inline-flex;
+            cursor: pointer;
+        }
+
+        .tameru-search-more:after {
+            content: "";
+            display: block;
+            width: 6px;
+            height: 6px;
+            border-right: solid 1px #2962ff;
+            border-bottom: solid 1px #2962ff;
+            transform: rotate(45deg);
+            margin: -3px 0 0 5px;
+        }
+
+        .tameru-search-more.active:after {
+            transform: rotate(-135deg);
+            margin: 0 0 -3px 5px;
+        }
+
+        .tameru-search-more-area {
+            display: none;
+        }
+
+        .morePosts a {
+            cursor: pointer;
+        }
+
+        .margin-left-auto {
+            margin-left: auto;
+        }
+
+        .kb-tameru-loading {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+            margin: auto;
+            width: 40px;
+            margin: 40px auto;
+            z-index: 10;
+        }
+    </style>
+    {% include './ver2.1/partials/ga_tag.html' %}
+</head>
+{% include './ver2.1/partials/header.html' %}
+{% include './ver2.1/partials/sidebar.html' %}
+
+<body>
+    <div>
+        <div class='kb-container kb-tameru-container py-0'>
+            <div class="py-3">
+                <div class='text-center'>
+                    <h3>ためる</h3>
+                    <img src='/static/ver2.1/img/1092@3x.png' alt='' class='kb-tameru-logo my-4' />
+                </div>
+                <div class="kb-tameru-panel">
+                    <div class='flex flex-sb flex-item-center py-3 tameru-table-search'>
+                        <div class='flex flex-item-center'>
+                            <label class='mr-4 ml-3 user-label'>自分のためた課題一覧</label>
+                            <label class='mr-4 ml-3 admin-label'>みんなのためた課題一覧</label>
+                            <a href='/question/create'>
+                                <button class='open-modal' data-modal='#add-member-modal'>
+                                    <i class='fas fa-plus mr-3'></i>新しい課題をためる</button>
+                            </a>
+                        </div>
+                        <div class="search--wrap">
+                            <div class='search'>
+                                <input type='text' placeholder='キーワードで検索' id='tameru-search' style='font-size:14px' />
+                                <button>
+                                    <i class='fas fa-search'></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='kb-panel'>
+                        <div class='kb-panel-title bg p-3 tameru-table-list-search'>
+                            <div class="flex flex-s">
+                                <div>
+                                    <label>役職</label>
+                                    <select class="form-data" data-prop="positionId" id="positionId">
+                                        <option value="0" selected>すべて</option>
+                                        {% for p in company_positions.data %}
+                                        <option value="{{ p.id }}">{{ p.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class='mx-4'>
+                                    <label>チーム</label>
+                                    <select class="form-data" data-prop="teamId" id="teamId">
+                                        <option value="0">すべて</option>
+                                        {% for t in company_team.data %}
+                                        <option value="{{ t.id }}">{{ t.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class='mr-4'>
+                                    <label>カテゴリ</label>
+                                    <select class="form-data" data-prop="tag" id="tagId">
+                                        <option value="">すべて</option>
+                                        {% for tg in tag.data %}
+                                        <option value="{{ tg}}">{{ tg }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class='flex flex-item-end'>
+                                    <button class='search add-search-btn refineSearch-btn'>絞り込み検索</button>
+                                </div>
+                            </div>
+                            <div class='text-centerR mt-3'>
+                                <a class="tameru-search-more color-blue">絞り込み詳細</a>
+                            </div>
+                            <div class="tameru-search-more-area" style="display: none;">
+                                <div class="flex flex-s">
+                                    <div class='mr-4'>
+                                        <label>日付</label>
+                                        <select class="form-data" id="sortingID" data-prop="tag"
+                                            onchange="onChangeEvent(this.value)">
+                                            <option value="0" selected>選択無し</option>
+                                            <option value="1">新しい順</option>
+                                            <!--new order first /  -->
+                                            <option value="2">古い順</option>
+                                            <!--old order first /  -->
+                                        </select>
+                                    </div>
+                                    <div class='mr-4'>
+                                        <label>コメント</label>
+                                        <select class="form-data sm" id="commentID" data-prop="tag"
+                                            onchange="onChangeEventbyComment(this.value)">
+                                            <option value="0">選択無し</option>
+                                            <option value="1">コメントあり</option>
+                                            <!--Commented-->
+                                            <option value="2">コメントなし</option>
+                                            <!--Not Commented-->
+                                        </select>
+                                    </div>
+                                    <div class='mr-4'>
+                                        <label>評価</label>
+                                        <select id="ratingID" class="form-data" data-prop="tag"
+                                            onchange="onChangeEventbyRating(this.value)">
+                                            <option value="0" selected>選択無し</option>
+                                            <option value="1">評価なし</option>
+                                            <option value="2">1.0~1.9</option>
+                                            <option value="3">2.0~2.9</option>
+                                            <option value="4">3.0~3.9</option>
+                                            <option value="5">4.0~5.0</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label>お気に入り</label>
+                                        <select class="form-data" data-prop="tag" id="favID"
+                                            onchange="onChangeEventbyFavourite(this.value)">
+                                            <option value="0">選択無し</option>
+                                            <option value="1">多い</option>
+                                            <option value="2">少ない</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='kb-panel-body px-3'>
+
+                            <div class='overflow-auto show-header-for-none'>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>ステータス</th>
+                                            <th>日付</th>
+                                            <th class='show-hide-by-authority'>作成アカウント</th>
+                                            <th>問題文</th>
+                                            <th>役職</th>
+                                            <th>チーム</th>
+                                            <th>カテゴリ</th>
+                                            <th class="text-center">コメント</th>
+                                            <th>評価</th>
+                                            <th>編集</th>
+                                            <th>削除</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                                <div class='text-center'>
+                                    <p><small> 該当する問題がありません </small></p>
+                                </div>
+                            </div>
+                            <div class='search_result' style="position: relative;">
+                                <!-- <div class='kb-tameru-loading' id="loading"></div> -->
+                                <table class='scrollbox kb-tameru-table' id="scrollbox">
+                                    <thead class="kb-tameru-table-head">
+                                        <div class="scrollbar--wrap">
+                                            <div class="scrollbar" id="scrollbar">
+                                                <div class="scrollbar--inner"></div>
+                                            </div>
+                                        </div>
+                                        <tr>
+                                            <th class='kb-tameru-table-status'>ステータス</th>
+                                            <th class='kb-tameru-table-date'>日付</th>
+                                            <th class='show-hide-by-authority kb-tameru-table-account'>作成アカウント</th>
+                                            <th class='kb-tameru-table-question'>問題文</th>
+                                            <th class='kb-tameru-table-position'>役職</th>
+                                            <th class='kb-tameru-table-team'>チーム</th>
+                                            <th class='kb-tameru-table-category'>カテゴリ</th>
+                                            <th class="kb-tameru-table-comment text-center">コメント</th>
+                                            <th class='kb-tameru-table-star'>評価</th>
+                                            <th class='kb-tameru-table-edit'>編集</th>
+                                            <th class='kb-tameru-table-delete'>削除</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class='tameru-data-table scrollbox--inner' data-index='0'>
+                                    </tbody>
+                                </table>
+                                <div class='text-center'>
+                                    <a href class='display-inline color-blue view-more bt pt-3'>さらに表示する</a>
+                                    <a href class='display-inline color-blue view-more-search bt pt-3'>さらに表示する</a>
+                                    <a href class='display-inline  no-result bt pt-3'>該当する問題がありません</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src='/static/ver2.1/js/varidate.js'></script>
+    <script src='/static/ver2.1/js/script.js'></script>
+    <!-- <script src='/static/ver2.1/js/lottie.min.js'></script>
+    <script>
+        var animationTivel = lottie.loadAnimation({
+            container: document.getElementById('loading'),
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: '/static/ver2.1/json/loading.json'
+        });
+    </script> -->
+    <script>
+        $('.kb-tameru-container').css('overflow', 'hidden');
+
+
+        // $(window).on("load", function () {
+        //     setInterval(() => {
+        //         let data = $('.tameru-data-table tr:first-child .tameru_delete').attr("data-tamerudelete");
+        //         $.ajax({
+        //             type: 'POST',
+        //             url: '/question/delete',
+        //             headers: { "Content-Type": "application/json" },
+        //             data: JSON.stringify(data),
+        //             success: function (result) {
+        //                 $("#attention").hide();
+        //                 if (result["result"] == "ok") {
+        //                     status_show('ok');
+        //                     window.location.href = "/question";
+        //                 }
+        //                 if (result["result"] == "ng") {
+        //                     status_show('failed');
+        //                     window.location.href = "/question";
+        //                 }
+        //             }
+        //         });
+        //     }, 1000);
+        // })
+
+        $("#scrollbar, #scrollbox").on('scroll', function () {
+            if ($(this).attr('id') === 'scrollbar') {
+                $('#scrollbox').scrollLeft($(this).scrollLeft());
+            } else {
+                $("#scrollbar").scrollLeft($(this).scrollLeft());
+            }
+        });
+
+        var morePosts = true;
+        var from = 0;
+        var to = 10;
+        var descObj;
+        var ascObj;
+        var descendingData;
+        var globalDataDesc;
+        var ratingValue = 0;
+        var favValue = 0;
+        var commentValue = 0;
+        var fav_count = 0;
+        var value;
+        var g;
+        var s;
+        var globalQuestionCountTotal = 0;
+        var index = 1;
+        var tblSearchIndex = 1;
+        var searchResult = [];
+        var tempDataforSearch = [];
+        var globalData = [];
+        var refinementData = [];
+        var tempDescData = [];
+        var tempAscData = [];
+        var start = 0;
+        var end = 10;
+        var searchdataList = [];
+        var originalData = [];
+        var authority;
+        var searchedData = [];
+
+        $(".no-result").hide();
+        $('.user-label').show();
+        $('.admin-label').hide();
+
+        $('.show-header-for-none').hide();
+        $('.tameru-search-more').on('click', function () {
+            $(this).toggleClass('active');
+            $('.tameru-search-more-area').slideToggle();
+            if ($(this).hasClass('active')) {
+                setTimeout(function () {
+                    stickyPosScroll = stickyPosScroll + $('.tameru-search-more-area').outerHeight();
+                    stickyPos = stickyPos + $('.tameru-search-more-area').outerHeight();
+                }, 500);
+            } else {
+                stickyPosScroll = stickyPosScroll - $('.tameru-search-more-area').outerHeight();
+                stickyPos = stickyPos - $('.tameru-search-more-area').outerHeight();
+            }
+        });
+
+        $(document).on("click", ".view-more-search", function (e) {
+            e.preventDefault();
+            _slice_data_for_search();
+        })
+
+        function tableSearch(arry, searchKey1, searchText) {
+            var results = [];
+            arry.map(item => { if (item[searchKey1].toLowerCase().indexOf(searchText.toLowerCase()) != -1) { results.push(item); } })
+            return results;
+        }
+        $("#tameru-search").on("keyup keypress keydown", function () {
+            // $(".tameru-data-table").attr("data-index", 0);
+            searchedData = [];
+            searchedData = tableSearch(originalData, 'forSearch', $(this).val());
+
+            if ($(this).val() == '') {
+                // $(".tameru-data-table").attr("data-index", index);
+                _slice_data(globalData, globalQuestionCountTotal);
+                subData = [];
+                $(".view-more").show();
+                $(".view-more-search").hide();
+            }
+            subData = [];
+            $(".tameru-data-table").attr("data-index", 0);
+            // $(".tameru-data-table").empty();
+            _slice_data_for_search();
+            if ($(this).val() == '') {
+                _slice_data(globalData, globalQuestionCountTotal);
+                subData = [];
+                $(".view-more").show();
+                $(".view-more-search").hide();
+            }
+        });
+
+        function _slice_data_for_search() {
+            $(".tameru-data-table").empty();
+            // $(".tameru-data-table").attr("data-index", 0);
+            if (searchedData.length > 10) {
+
+                // // $(".tameru-data-table").empty();
+                // $(".view-more").hide();
+
+                // if (searchedData.length <= subData.length + 10) {
+                //     // index = searchedData.length;
+                //     // subData = searchedData;
+                //     //  $(".tameru-data-table").attr("data-index", searchedData.length);
+                //     $(".view-more-search").hide();
+                //     if (subData == []) { $(".no-result").show(); }
+                // }
+                // else {
+                //     // $(".tameru-data-table").empty();
+
+                //     let sindex = parseInt($(".tameru-data-table").attr("data-index")) + 10;
+                //     subData = searchedData.slice(0, sindex);
+                //     // if (subData.length == sindex + 10) {
+
+                //     // }
+
+                //     $(".tameru-data-table").attr("data-index", subData.length);
+                //     $(".view-more-search").show();
+                //     if (subData == []) { $(".no-result").show(); }
+                // }
+                $(".tameru-data-table").empty();
+                $(".view-more").hide();
+                if (searchedData.length <= subData.length + 10) {
+                    subData = searchedData;
+                    $(".view-more-search").hide();
+                    if (subData == []) { $(".no-result").show(); }
+                }
+                else {
+                    $(".tameru-data-table").empty();
+
+                    let sindex = parseInt($(".tameru-data-table").attr("data-index")) + 10;
+                    subData = searchedData.slice(0, sindex);
+                    $(".tameru-data-table").attr("data-index", subData.length);
+                    $(".view-more-search").show();
+                    if (subData == []) { $(".no-result").show(); }
+                }
+            }
+            else {
+                $(".tameru-data-table").empty();
+                $(".tameru-data-table").attr("data-index", 0);
+                subData = [];
+                subData = searchedData;
+                if (subData == []) { $(".no-result").show(); }
+                $(".view-more").hide();
+                $(".view-more-search").hide();
+            }
+
+            if (subData == []) { $(".no-result").show(); }
+            if (subData.length == 0) { $(".no-result").show(); } else { $(".no-result").hide(); }
+            appendDataTable(subData);
+        }
+
+        function _slice_data(searchResult, count, message) {
+            appendDataTable(searchResult);
+            if (count <= index * 10) {
+                $(".view-more").hide();
+                if (message != false && searchResult.length > 0 == false) { $(".no-result").show(); }
+                if (searchResult.length == 0) { $(".no-result").show(); } else { $(".no-result").hide(); }
+            } else {
+                $(".view-more").show();
+                $(".no-result").hide();
+            }
+        }
+
+        $(".refineSearch-btn").on("click", function () {
+            globalData = [];
+            index = 1;
+            document.getElementById("sortingID").selectedIndex = "0";
+            document.getElementById("commentID").selectedIndex = "0";
+            document.getElementById("ratingID").selectedIndex = "0";
+            document.getElementById("favID").selectedIndex = "0";
+
+            var e = document.getElementById("positionId");
+            var positionId = e.options[e.selectedIndex].value;
+            var t = document.getElementById("teamId");
+            var teamId = t.options[t.selectedIndex].value;
+            var tag = document.getElementById("tagId");
+            var tagValue = tag.options[tag.selectedIndex].value;
+            localStorage.setItem('positionId', parseInt(positionId));
+            localStorage.setItem('teamId', parseInt(teamId));
+            localStorage.setItem('tagId', tagValue);
+            var data = {};
+            data.positionId = parseInt(positionId);
+            data.teamId = parseInt(teamId);
+            data.tag = tagValue;
+            data.pageNum = parseInt(index);
+            _ajax(data);
+        });
+
+        function onChangeEvent(value) {
+            if (document.getElementById("tameru-search").value == '' && (value == 0 || value == 1) && document.getElementById("ratingID").value == "0") {
+                if (favValue == 0) {
+                    searchResult = [];
+                    tempDataforSearch = globalData;
+                    // _slice_data(globalData, globalQuestionCountTotal);
+                    // prepareFileterValue();
+                }
+                else if (favValue == 1) { tempDataforSearch = manySort(globalData); }
+                else if (favValue == 2) { tempDataforSearch = fewSort(globalData); }
+                prepareFileterValue();
+                filterValue = descObj;
+                if (commentValue == 0) {
+                    tempDataforSearch = globalData;
+                }
+                else if (commentValue == 1) {
+                    tempDataforSearch = tempDataforSearch.filter((item) => item.comment_count > 0);
+                }
+                else {
+                    tempDataforSearch = tempDataforSearch.filter((item) => item.comment_count == 0);
+                }
+                _slice_data(tempDataforSearch, globalQuestionCountTotal, true);
+                noResultShowHide(tempDataforSearch.length);
+                prepareFileterValue();
+
+            } else {
+                prepareFileterValue();
+                var filterValue = [];
+                // if (ratingValue == 5) {
+                //     filterValue = filter(5,4.0,5.0);
+                // } else if (ratingValue == 4) {
+                //     filterValue = filter(4,3.0,3.9);
+                // } else if (ratingValue == 3) {
+                //     filterValue =filter(3,2.0,2.9);
+                // } else if (ratingValue == 2) {
+                //     filterValue =filter(2,1.0,1.9);
+                // } else if (ratingValue == 1) {
+                //     filterValue = filter(1,0.0,0.9);
+                // }
+                if (ratingValue == 5 && (value == 1 || value == 0)) {
+                    filterValue = descObj;
+                    if (favValue == 2) { filterValue = fewSort(filterValue); } else if (favValue == 1) { filterValue = manySort(filterValue); }
+                    tempDataforSearch = filterValue;
+                    filterValue = filterValue.filter((item) => (4.0 <= item.rating && item.rating <= 5.0));
+                    filterValue = sortbyCmt(filterValue);
+                    noResultShowHide(filterValue.length);
+                }
+                else if (ratingValue == 5 && value == 2) {
+                    filterValue = ascObj;
+                    if (favValue == 2) { filterValue = fewSort(filterValue); } else if (favValue == 1) { filterValue = manySort(filterValue); }
+                    tempDataforSearch = filterValue;
+                    filterValue = filterValue.filter((item) => (4.0 <= item.rating && item.rating <= 5.0));
+                    filterValue = sortbyCmt(filterValue);
+                    noResultShowHide(filterValue.length);
+                } else if (ratingValue == 4 && (value == 1 || value == 0)) {
+                    filterValue = descObj;
+                    if (favValue == 2) { filterValue = fewSort(filterValue); } else if (favValue == 1) { filterValue = manySort(filterValue); }
+                    tempDataforSearch = filterValue;
+                    filterValue = filterValue.filter((item) => (3.0 <= item.rating && item.rating <= 3.9));
+                    filterValue = sortbyCmt(filterValue);
+                    noResultShowHide(filterValue.length);
+                } else if (ratingValue == 4 && value == 2) {
+                    filterValue = ascObj;
+                    if (favValue == 2) { filterValue = fewSort(filterValue); } else if (favValue == 1) { filterValue = manySort(filterValue); }
+                    tempDataforSearch = filterValue;
+                    filterValue = filterValue.filter((item) => (3.0 <= item.rating && item.rating <= 3.9));
+                    filterValue = sortbyCmt(filterValue);
+                    noResultShowHide(filterValue.length);
+                } else if (ratingValue == 3 && (value == 1 || value == 0)) {
+                    filterValue = descObj;
+                    if (favValue == 2) { filterValue = fewSort(filterValue); } else if (favValue == 1) { filterValue = manySort(filterValue); }
+                    tempDataforSearch = filterValue;
+                    filterValue = filterValue.filter((item) => (2.0 <= item.rating && item.rating <= 2.9));
+                    filterValue = sortbyCmt(filterValue);
+                    noResultShowHide(filterValue.length);
+                } else if (ratingValue == 3 && value == 2) {
+                    filterValue = ascObj;
+                    if (favValue == 2) { filterValue = fewSort(filterValue); } else if (favValue == 1) { filterValue = manySort(filterValue); }
+                    tempDataforSearch = filterValue;
+                    filterValue = filterValue.filter((item) => (2.0 <= item.rating && item.rating <= 2.9));
+                    filterValue = sortbyCmt(filterValue);
+                    noResultShowHide(filterValue.length);
+                } else if (ratingValue == 2 && (value == 1 || value == 0)) { //1.0~1.9
+                    filterValue = descObj;
+                    if (favValue == 2) { filterValue = fewSort(filterValue); } else if (favValue == 1) { filterValue = manySort(filterValue); }
+                    tempDataforSearch = filterValue;
+                    filterValue = filterValue.filter((item) => (1.0 <= item.rating && item.rating <= 1.9));
+                    filterValue = sortbyCmt(filterValue);
+                    noResultShowHide(filterValue.length);
+                } else if (ratingValue == 2 && value == 2) {
+                    filterValue = ascObj;
+                    if (favValue == 2) { filterValue = fewSort(filterValue); } else if (favValue == 1) { filterValue = manySort(filterValue); }
+                    tempDataforSearch = filterValue;
+                    filterValue = filterValue.filter((item) => (1.0 <= item.rating && item.rating <= 1.9)); //1.0~1.9
+                    filterValue = sortbyCmt(filterValue);
+                    noResultShowHide(filterValue.length);
+                } else if (ratingValue == 1 && (value == 1 || value == 0)) {
+                    filterValue = descObj;
+                    if (favValue == 2) { filterValue = fewSort(filterValue); } else if (favValue == 1) { filterValue = manySort(filterValue); }
+                    tempDataforSearch = filterValue;
+                    filterValue = filterValue.filter((item) => (0.0 <= item.rating && item.rating <= 0.9 || item.rating == "なし"));
+                    filterValue = sortbyCmt(filterValue);
+                    noResultShowHide(filterValue.length);
+
+
+                } else if (ratingValue == 1 && value == 2) {
+                    filterValue = ascObj;
+                    if (favValue == 2) { filterValue = fewSort(filterValue); } else if (favValue == 1) { filterValue = manySort(filterValue); }
+                    tempDataforSearch = filterValue;
+                    // filterValue = filterValue.filter((item) => item.rating <=0 && item.rating>=0.9); //0~0.9
+                    filterValue = filterValue.filter((item) => (0.0 <= item.rating && item.rating <= 0.9 || item.rating == "なし"));
+                    filterValue = sortbyCmt(filterValue);
+                    noResultShowHide(filterValue.length);
+                }
+                else {
+                    filterValue = descObj;
+                    if (favValue == 0) { if (value == 2) { filterValue = ascObj; } else { filterValue = descObj; } }
+                    if (favValue == 1) { filterValue = manySort(filterValue); }
+                    else if (favValue == 2) { filterValue = fewSort(filterValue); }
+                    tempDataforSearch = filterValue;
+                    noResultShowHide(filterValue.length);
+                }
+                noResultShowHide(filterValue.length);
+
+                var d;
+                if (value == 2) {
+                    d = ascObj;
+                    if (favValue == 2) {
+                        d = fewSort(ascObj);
+                    } else if (favValue == 1) {
+                        d = manySort(ascObj);
+                    } else if (favValue == 0) {
+                        d = ascObj;
+                    }
+                } else if (value == 0 || value == 1 || ratingValue == 0) {
+                    d = descObj;
+                    if (favValue == 2) {
+                        d = fewSort(descObj);
+                    } else if (favValue == 1) {
+                        d = manySort(descObj);
+                    } else if (favValue == 0) {
+                        d = descObj;
+                    }
+                }
+                if (ratingValue && filterValue != null) {
+                    d = filterValue;
+                }
+                $(".tameru-data-table").attr("data-index", 0);
+                appendDataTable(d);
+                refinementData = d;
+
+                if (d.length < 10) {
+                    $(".view-more").hide();
+                    // $(".no-result").show();
+
+                } else {
+                    $(".view-more").show();
+                    // $(".no-result").hide();
+                }
+            }
+        }
+
+        function filter(r, a, b) {
+            if (ratingValue == r && (value == 1 || value == 0)) {
+                filterValue = descObj;
+                if (favValue == 2) { filterValue = fewSort(filterValue); } else if (favValue == 1) { filterValue = manySort(filterValue); }
+                tempDataforSearch = filterValue;
+                filterValue = filterValue.filter((item) => (a <= item.rating && item.rating <= b));
+                filterValue = sortbyCmt(filterValue);
+                noResultShowHide(filterValue.length);
+                return filterValue;
+            }
+            else if (ratingValue == r && value == 2) {
+                filterValue = ascObj;
+                if (favValue == 2) { filterValue = fewSort(filterValue); } else if (favValue == 1) { filterValue = manySort(filterValue); }
+                tempDataforSearch = filterValue;
+                filterValue = filterValue.filter((item) => (a <= item.rating && item.rating <= b));
+                filterValue = sortbyCmt(filterValue);
+                noResultShowHide(filterValue.length);
+                return filterValue;
+            }
+        }
+
+        function sortbyCmt(f) {
+            if (commentValue == 0) {
+
+                tempDataforSearch = globalData;
+            }
+            else if (commentValue == 1) {
+
+                f = f.filter((item) => item.comment_count > 0);
+            }
+            else {
+
+                f = f.filter((item) => item.comment_count == 0);
+            }
+            return f;
+        }
+
+        function noResultShowHide(length) {
+            if (length == 0) {
+                $(".no-result").show();
+                $(".view-more").hide();
+
+            } else { $(".no-result").hide(); }
+        }
+
+        function fewSort(v) {
+            v.sort((a, b) => a.fav_count - b.fav_count);//asc
+            return v;
+        }
+
+        function manySort(v) {
+            v.sort((a, b) => a.fav_count - b.fav_count);//desc
+            ReverseArray = [];
+            var length = v.length;
+            for (var i = length - 1; i >= 0; i--) {
+                ReverseArray.push(v[i]);
+            }
+            return ReverseArray;
+        }
+
+        function appendDataTable(itemlist) {
+            console.log("item list is", itemlist);
+            $(".tameru-data-table").empty();
+
+            itemlist.map((result, index) => {
+                let data = JSON.stringify(result.questionId);
+                $(".tameru-data-table").append(`
+                          <tr>
+                              <td class='kb-tameru-table-status'><div><p>${result.draftFlag}</p></div></td>
+                              <td class='kb-tameru-table-date'><div><p>${result.date}</p></div></td>
+                              <td class='kb-tameru-table-account user-info show-hide-by-authority'>
+                                <div>
+                                    <div class='tameru-user-display-name-list'></div>
+                                    <div class='tameru-user-position-list'></div>
+                                    <div class='tameru-user-team-list'></div>
+                                    <div class='tameru-user-email-list'></div>
+                                </div>
+                              </td>
+                              <td class='kb-tameru-table-question'><div><p class=''>${result.problemStatement}</p></div></td>
+                              <td class='kb-tameru-table-position'><div class='tameru-position-list tameru-tags-list'></div></td>
+                              <td class='kb-tameru-table-team'><div class='tameru-team-list tameru-tags-list'></div></td>
+                              <td class='kb-tameru-table-category'><div class='tameru-tabs-list tameru-tags-list'></div></td>
+                              <td class='kb-tameru-table-comment'><div class="flex flex-c"><div class='flex flex-item-center'><img src='/static/ver2.1/img/comment-1@3x.png' class='icon' alt='' />
+                                <span class='mx-2'>${result.comment_count}</span></div></div></td>
+                              <td class='kb-tameru-table-star'><div><p>${result.rating}</p></div></td>
+                              <td class='kb-tameru-table-edit'><i class='edit-tameru fas fa-pencil-alt' data-tameruedit='${data}'></i></td>
+                              <td class='kb-tameru-table-delete'><i class="fas fa-trash tameru_delete" data-tamerudelete='${data}'></i></td>
+                          </tr>
+                          `)
+                //   <!-- <div><p>${String(result.rating).replace('0', 'なし')}</p></div> -->
+                if (result.taglist.length > 0) {
+                    result.taglist.map(tab => {
+                        $(".tameru-data-table tr").eq(index).find(".tameru-tabs-list").append(`<span>${tab}</span>`)
+                    })
+                }
+                var positions = result.position;
+                for (let i in positions) {
+                    $(".tameru-data-table tr").eq(index).find(".tameru-position-list").append(`<span>${positions[i].name}</span>`)
+                }
+                var teams = result.team;
+                for (let i in teams) {
+                    $(".tameru-data-table tr").eq(index).find(".tameru-team-list").append(`<span>${teams[i].name}</span>`)
+                }
+                if (authority == 0) { //simple user role
+                    $(".show-hide-by-authority").hide();
+                    $(".tameru-data-table tr").eq(index).find(".user-info").hide();
+                    $(".kb-tameru-table-question").addClass('kb-tameru-table-question--account');
+                } if (authority == 1) {  //Admin user role
+                    $(".show-hide-by-authority").show();
+                    $(".kb-tameru-table-question").removeClass('kb-tameru-table-question--account');
+                    var userInfo = result.userInfo
+                    for (let i in userInfo) {
+                        $(".tameru-data-table tr").eq(index).find(".tameru-user-display-name-list").append(`<span>${userInfo[i].displayName}</span>`)
+                        $(".tameru-data-table tr").eq(index).find(".tameru-user-position-list").append(`<span>${userInfo[i].position}</span>`)
+                        $(".tameru-data-table tr").eq(index).find(".tameru-user-team-list").append(`<span>${userInfo[i].team}</span>`)
+                        $(".tameru-data-table tr").eq(index).find(".tameru-user-email-list").append(`<span>${userInfo[i].email}</span>`)
+
+                    }
+                }
+            })
+            resetthead();
+        }
+
+        function onChangeEventbyRating(v) {
+            ratingValue = v;
+            onChangeEvent(1);
+        }
+        function onChangeEventbyFavourite(v) {
+            favValue = v;
+            onChangeEvent(1);
+        }
+        function onChangeEventbyComment(v) {
+            commentValue = v;
+            onChangeEvent(1);
+        }
+        $(document).on("click", ".view-more", function (e) {
+            index++;
+            var data = {};
+            data.positionId = localStorage.getItem('positionId');
+            data.teamId = localStorage.getItem('teamId');
+            data.tag = localStorage.getItem('tagId');
+            data.pageNum = parseInt(index);
+
+            _ajax(data);
+            e.preventDefault();
+        });
+        // $(document).on("click", ".view-more-search", function (e) {
+        //     tblSearchIndex++;
+        //     _slice_data_for_search(searchResult, searchResult.length);
+        //     e.preventDefault();
+        // });
+
+        $(document).ready(function () {
+
+            var ud = JSON.parse(localStorage.getItem('ud'));
+            authority = ud.authority;
+            if (authority == 0) {
+                $(".show-hide-by-authority").hide();
+                $(".user-label").show();
+                $(".admin-label").hide();
+            } else {
+                $(".show-hide-by-authority").show();
+                $(".admin-label").show();
+                $(".user-label").hide();
+            }
+            $(".no-result").hide();
+            $(".view-more").hide();
+            $(".view-more-search").hide();
+            localStorage.setItem('positionId', 0);
+            localStorage.setItem('teamId', 0);
+            localStorage.setItem('tagId', '');
+
+            var globalData = [];
+            var globalDataforSearch = [];
+            var subData = [];
+
+
+            var data = {};
+            data.pageNum = 1;
+            _ajax(data);
+            $(".no-result").hide();
+            function appendDataTable(itemlist) {
+                $(".tameru-data-table").empty();
+                itemlist.map((result, index) => {
+                    let data = JSON.stringify(result.questionId);
+                    $(".tameru-data-table").append(`
+                          <tr>
+                              <td class='kb-tameru-table-status'><div><p>${result.draftFlag}</p></div></td>
+                              <td class='kb-tameru-table-date'><div><p>${result.date}</p></div></td>
+                              <td class='kb-tameru-table-account user-info show-hide-by-authority'>
+                                <div>
+                                    <div class='tameru-user-display-name-list'></div>
+                                    <div class='tameru-user-position-list'></div>
+                                    <div class='tameru-user-team-list'></div>
+                                    <div class='tameru-user-email-list'></div>
+                                </div>
+                              </td>
+                              <td class='kb-tameru-table-question'><div><p class=''>${result.problemStatement}</p><div class='tameru-tabs-list tameru-tags-list'></div></div></td>
+                              <td class='kb-tameru-table-position'><div class='tameru-position-list tameru-tags-list'></div></td>
+                              <td class='kb-tameru-table-team'><div class='tameru-team-list tameru-tags-list'></div></td>
+                              <td class='kb-tameru-table-category'><div class='tameru-tabs-list tameru-tags-list'></div></td>
+                              <td class='kb-tameru-table-comment'><div class="flex flex-c"><div class='flex flex-item-center'><img src='/static/ver2.1/img/comment-1@3x.png' class='icon' alt='' />
+                                <span class='mx-2'>${result.comment_count}</span></div></div></td>
+                              <td class='kb-tameru-table-star'><div><p>${result.rating}</p></div></td>
+                              <td class='kb-tameru-table-edit'><i class='edit-tameru fas fa-pencil-alt' data-tameruedit='${data}'></i></td>
+                              <td class='kb-tameru-table-delete'><i class="fas fa-trash tameru_delete" data-tamerudelete='${data}'></i></td>
+                          </tr>
+                          `)
+                    //   <!-- <div><p>${String(result.rating).replace('0', 'なし')}</p></div> -->
+                    if (result.taglist.length > 0) {
+                        result.taglist.map(tab => {
+                            $(".tameru-data-table tr").eq(index).find(".tameru-tabs-list").append(`<span>${tab}</span>`)
+                        })
+                    }
+                    var positions = result.position;
+                    for (let i in positions) {
+                        $(".tameru-data-table tr").eq(index).find(".tameru-position-list").append(`<span>${positions[i].name}</span>`)
+                    }
+                    var teams = result.team;
+                    for (let i in teams) {
+                        $(".tameru-data-table tr").eq(index).find(".tameru-team-list").append(`<span>${teams[i].name}</span>`)
+                    }
+                    if (authority == 0) { //simple user role (Hidden)
+                        $(".show-hide-by-authority").hide();
+                        $(".tameru-data-table tr").eq(index).find(".user-info").hide();
+                    } else if (authority == 1) {  //Admin user role
+                        $(".show-hide-by-authority").show();
+                        var userInfo = result.userInfo
+                        for (let i in userInfo) {
+                            $(".tameru-data-table tr").eq(index).find(".tameru-user-display-name-list").append(`<span>${userInfo[i].displayName}</span>`)
+                            $(".tameru-data-table tr").eq(index).find(".tameru-user-email-list").append(`<span>${userInfo[i].email}</span>`)
+                            $(".tameru-data-table tr").eq(index).find(".tameru-user-position-list").append(`<span>${userInfo[i].position}</span>`)
+                            $(".tameru-data-table tr").eq(index).find(".tameru-user-team-list").append(`<span>${userInfo[i].team}</span>`)
+                        }
+                    }
+                })
+                resetthead();
+            }
+            $(document).on("click", ".edit-tameru", function () {
+                let data = $(this).attr("data-tameruedit");
+                localStorage.setItem("tameru_edit", data);
+                window.location.href = '/question/edit'
+            })
+
+            $(document).on("click", ".tameru_delete", function () {
+                var tamerudelete = $(this).attr('data-tamerudelete');
+                $("#attention").find('button.submit-btn').attr('data-tamerudelete', tamerudelete);
+                $("#attention").show();
+            });
+
+            $(document).on("click", ".tameru_delete--confirm", function () {
+                //let data = $(this).attr("data-tamerudelete");
+                obj = {
+                  'id': $(this).attr("data-tamerudelete"),
+                  'userId': 1
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: '/question/delete',
+                    headers: { "Content-Type": "application/json" },
+                    //data: JSON.stringify(data),
+                    data: JSON.stringify(obj),
+                    success: function (result) {
+                        console.log("result is", result)
+                        $("#attention").hide();
+                        if (result["result"] == "ok") {
+                            status_show('ok');
+                            window.location.href = "/question";
+                        }
+                        if (result["result"] == "ng") {
+                            status_show('failed');
+                            window.location.href = "/question";
+                        }
+                    }
+                });
+            })
+        })
+        $(document).on("click", ".tameru_delete--cancel", function () {
+            $("#attention").hide();
+        })
+        function status_show(status) {
+            if (status == "ok") {
+                $("body").append("<div class='status-container success'><p class='px-2'>内容を保存しました</p></div>");
+
+            }
+            else {
+                $("body").append("<div class='status-container fail'><p class='px-2'>内容の保存に失敗しました</p></div>");
+            }
+            // setTimeout(() => {
+            //   $(".status-container").remove();
+            // }, 3000)
+            $(".status-container").css({
+                position: "fixed",
+                top: "80px",
+                width: $(".kb-container").outerWidth(),
+                marginLeft: $(".kb-container").css("margin-left"),
+                zIndex: 20,
+                left: '0'
+            })
+            $(".status-container.success").css({
+                background: "#4caf50"
+            })
+            $(".status-container.fail").css({
+                background: "#fef3f2"
+            })
+        }
+
+        function _ajax(data) {
+            $.ajax({
+                type: 'POST',
+                url: '/question/tameruList',
+                headers: { "Content-Type": "application/json" },
+                data: JSON.stringify(data),
+                success: function (data) {
+                    globalQuestionCountTotal = parseInt(data.questionsCount);
+                    if (data['result'] == "ok") {
+                        var itemlist = data.data;
+                        globalData = globalData.concat(itemlist);
+                        originalData = globalData;
+                        tempDataforSearch = globalData;
+                        refinementData = globalData;
+                        prepareFileterValue();
+                        $('.search_result').show();
+                        $('.show-header-for-none').hide();
+                        $('.result_message').hide();
+                        _slice_data(globalData, globalQuestionCountTotal);
+                    }
+                    if (data['result'] == "ng") {
+                        $('.result_message').show();
+                        $('.search_result').hide();
+                        $('.show-header-for-none').show();
+                        $('view-more').hide();
+                    }
+                }
+            });
+        }
+        function prepareFileterValue() {
+
+            if (searchResult.length == 0) {
+                descObj = tempDataforSearch;
+            } else {
+                tempDataforSearch = searchResult;
+                descObj = searchResult;
+            }
+            ReverseArray = [];
+            var length = descObj.length;
+            for (var i = length - 1; i >= 0; i--) {
+                ReverseArray.push(descObj[i]);
+            }
+            ascObj = ReverseArray;
+        }
+        function myFunction() {
+
+            // Declare variables
+            var input = document.getElementById("myInput");
+            var filter = input.value.toUpperCase();
+            var table = document.getElementById("myTable");
+            var trs = table.tBodies[0].getElementsByTagName("tr");
+
+            // Loop through first tbody's rows
+            for (var i = 0; i < trs.length; i++) {
+
+                // define the row's cells
+                var tds = trs[i].getElementsByTagName("td");
+
+                // hide the row
+                trs[i].style.display = "none";
+
+                // loop through row cells
+                for (var i2 = 0; i2 < tds.length; i2++) {
+
+                    // if there's a match
+                    if (tds[i2].innerHTML.toUpperCase().indexOf(filter) > -1) {
+
+                        // show the row
+                        trs[i].style.display = "";
+
+                        // skip to the next row
+                        continue;
+
+                    }
+                }
+            }
+
+        }
+        var kbHeader,
+            searchHeader,
+            theadPos,
+            stickyPos,
+            stickyPosScroll,
+            scrollbarHeight,
+            resettheadToggle;
+
+        function resetthead() {
+            if (!resettheadToggle) {
+                kbHeader = $('.kb-header').outerHeight();
+                searchHeader = $('.tameru-table-search').outerHeight();
+                theadPos = $('.kb-panel-body').offset().top - $('.kb-tameru-container').scrollTop();
+                scrollbarHeight = $('.scrollbar--wrap').outerHeight();
+                stickyPos = theadPos - searchHeader - kbHeader + 20 - scrollbarHeight;
+                scrollPos = $('.scrollbar--wrap').offset().top - $('.kb-tameru-container').scrollTop();
+                stickyPosScroll = theadPos - searchHeader - kbHeader + 20;
+                $('.scrollbar--wrap').css('width', $('.kb-tameru-table').outerWidth());
+                resettheadToggle = true;
+            }
+            $('.kb-tameru-container').css('overflow', 'scroll');
+            $('.tameru-data-table').css('opacity', '1');
+            // $('#loading').hide();
+
+        }
+        $('.kb-tameru-container').on('scroll', function () {
+            var scroll = $(this).scrollTop()
+            if (scroll > stickyPosScroll) {
+                $('.scrollbar--wrap').css('top', (scroll - stickyPosScroll));
+                $('.kb-tameru-table-head').css('top', (scroll - stickyPos));
+            } else {
+                $('.scrollbar--wrap').css('top', 0);
+                $('.kb-tameru-table-head').css('top', scrollbarHeight);
+            }
+        })
+    </script>
+    <div class="modal" id="attention" style="display: none;">
+        <div class="flex flex-item-center">
+            <div class="modal-dialog">
+                <div class="kb-panel">
+                    <div class="kb-panel-title p-3">
+                        <p class="m-0">この問題を削除してもよろしいですか?</p>
+                        <i class="fas fa-times modal-close" data-modal="#edit-member-modal"></i>
+                    </div>
+                    <div class="kb-panel-body px-3">
+                        <div class="flex flex-c py-3">
+                            <a class="btn-tran btn-tran-modal tameru_delete--cancel mx-2">キャンセル</a>
+                            <button class="submit-btn mx-2 tameru_delete--confirm"> 削除する </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% include './ver2.1/partials/footer.html' %}
+
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>KnowledgeBank</title>
+  <link rel='icon' href='/static/ver2.1/img/logo@3x.png' />
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css' />
+  <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-160620961-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-160620961-1');
+  </script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src='/static/ver2.1/js/script.js'></script>
+</head>
+
+
+<div class='kb-alert'>
+  <div class='kb-alert-dialog'>
+    <div class='kb-alert-panel'>
+      <div class='kb-alert-panel__body'>
+        <p>ログインしてください</p>
+      </div>
+      <div class='kb-alert-panel__footer'>
+        <button onclick="location.href='/'">ログイン画面へ</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class='kb-sidebar'>
+  <span class='fas fa-times sidebar-close'></span>
+  <div class='pt-3'>
+    <ul>
+      <li class="item_home">
+        <a href='/home' class="item">
+          <img src='/static/ver2.1/img/home_gray.png' class="image" alt='' />
+          <img src='/static/ver2.1/img/home@2x.png' class="show" style="display: none;" class="image" alt='' />
+
+          <span>ホーム</span>
+        </a>
+      </li>
+      <li>
+        <a href='/question' class="item">
+          <img src='/static/ver2.1/img/1250@3x.png' class="image" alt='' />
+          <span>ためる</span>
+        </a>
+      </li>
+      <li>
+        <a href='/manabu' class="item">
+          <img src='/static/ver2.1/img/pen-tool-3.png' class="image" alt='' />
+          <span>まなぶ</span>
+        </a>
+      </li>
+      <li>
+        <a href='/target' class="item">
+          <img src='/static/ver2.1/img/archive@3x.png' class="image" alt='' />
+          <span>目標と評価一覧</span>
+        </a>
+      </li>
+      <li>
+        <a href='/event' class="item">
+          <img src='/static/ver2.1/img/1250@3x.png' class="image" alt='' />
+          <span>イベント</span>
+        </a>
+      </li>
+      <li>
+        <a href='/knowledge' class="item">
+          <img src='/static/ver2.1/img/archive@3x.png' class="image" alt='' />
+          <span>ナレッジ</span>
+        </a>
+      </li>
+      <li>
+        <a href='/news' class="item">
+          <img src='/static/ver2.1/img/info@3x.png' class="image" alt='' />
+          <span>お知らせ</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class='px-2'>
+    <div class='kb-arrow-icon-msg'>
+      <div class='arrow_box'>
+        <p class="m-0">
+          <span class='agree'></span><span class='s-name'></span>
+          今日も頑張りましょう。
+        </p>
+      </div>
+    </div>
+    <img src='/static/ver2.1/img/770@3x.png' alt='' class='arrow-icon' />
+  </div>
+  <div class='pt-0 px-4'>
+    <span class='m-0 text-muted'><small>Powered by</small></span>
+    <img src='/static/ver2.1/img/1076@3x.png' alt='' />
+  </div>
+</div>
+<script>
+
+  var sidebarLink = document.querySelectorAll(".kb-sidebar a");
+  sidebarLink.forEach(function (ele) {
+    ele.addEventListener("click", function (evt) {
+      evt.preventDefault();
+      if (localStorage.getItem("ud") && localStorage.getItem("ud") != "")
+        window.location.href = $(this).attr("href");
+      else {
+        document.querySelector(".kb-alert").classList.add("show");
+      }
+    })
+  })
+  document.querySelector(".kb-alert button").addEventListener("click", function () {
+    document.querySelector(".kb-alert").classList.remove("show");
+  })
+  var today = new Date()
+  var curHr = today.getHours()
+  var agree = '';
+  if (curHr < 12)
+    agree = 'おはようございます！'
+  else if (curHr < 18)
+    agree = 'こんにちは！'
+  else
+    agree = 'こんばんは！'
+
+  document.querySelector(".agree").innerText = agree;
+  var ud = JSON.parse(localStorage.getItem('ud'));
+  document.querySelector(".s-name").innerText = ud.name + 'さん。'
+  /* for sidebar highlight */
+  var windowURL = window.location.href.split("/");
+  var currentURL = '';
+  if (windowURL[windowURL.length - 1] == "") {
+    currentURL = windowURL[windowURL.length - 2]
+  }
+  else {
+    currentURL = `${windowURL[windowURL.length - 2]}/${windowURL[windowURL.length - 1]}`;
+
+  }
+
+
+
+  console.log("current url is", window.location.pathname)
+  var hasItem = window.location.pathname == '/event' ? false : true;
+
+
+  if (hasItem) {
+    const item = document.querySelector(`.kb-sidebar li a[href='/${currentURL}']`);
+    item.style.color = 'blue';
+    item.style.borderRight = '0px solid blue';
+    //item.style.backgroundColor = 'blue';
+    
+
+  }
+  if (hasItem == false) {
+    const item2 = document.querySelector(`.kb-sidebar li a[href='${window.location.pathname}']`);
+    item2.style.color = 'blue';
+    item2.style.borderRight = '2px solid blue';  
+
+  }
+
+
+  if (currentURL.match(/\//)) {
+    if (currentURL != "event") {
+      var lowerURL = currentURL.split('/');
+      currentURL = lowerURL[0];
+    }
+  }
+  var sidebarLink = document.querySelector(`.kb-sidebar li a[href='/${currentURL}']`);
+  let url = windowURL[windowURL.length - 1]
+
+
+
+  if (sidebarLink != null) {
+    sidebarLink.closest("li").classList.add("active");
+  }
+  if (currentURL == "manabu" || currentURL == "question") {
+    var headerLink = document.querySelector(`.kb-primary-menuitem a[href='/${currentURL}']`);
+    headerLink.closest(".kb-primary-menuitem").classList.add("active");
+  }
+</script>

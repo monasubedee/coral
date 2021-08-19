@@ -1,0 +1,71 @@
+{% macro header(title, avatorImage, logined) %}
+<div class="header">
+  <div class="header__left">
+    <a class="header__logo">
+      <img
+        src="/static/img/logo_name_horizonal.png"
+        aria-hidden="true"
+        class="header__company-logo"
+      />
+    </a>
+
+    <span class="header__knowledge-count">
+      <img
+        src="/static/img/icon/light-bulb.svg"
+        aria-hidden="true"
+        class="header__bulb_icon"
+      />
+      <span class="header__bulb_text">2193 Knowledge!</span>
+    </span>
+  </div>
+
+  <div class="header__right">
+    <a>
+      <div>
+        <img
+          src="/static/img/homever2/pen-tool.png"
+          alt=""
+          class="header__pen_icon"
+        />
+        <span class="header__icon_text header__pen_text">今日のまなび</span>
+      </div>
+    </a>
+    <a>
+      <div>
+        <img
+          src="/static/img/homever2/triangle.png"
+          alt=""
+          class="header__triangle_icon"
+        />
+        <span class="header__icon_text header__triangle_text"
+          >課題をためる</span
+        >
+      </div>
+    </a>
+    <a class="header__group_wrapper">
+      <div>
+        <a href="/profile">
+        <img
+          src="/static/img/homever2/group.png"
+          alt=""
+          class="header__group_icon"
+        />
+        </a>
+        <span class="header__icon_text header__group_text">戸田 大輔 さん</span>
+      </div>
+    </a>
+    <a>
+      <div class="header__noti_icon_wrapper">
+        <a href='/settings/mail'>
+        <img
+          src="../../../static/img/homever2/notification.png"
+          alt=""
+          class="header__noti_icon"
+        />
+        </a>
+        <span class="header__badge">8</span>
+      </div>
+    </a>
+  </div>
+</div>
+{% endmacro %}

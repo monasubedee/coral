@@ -1,0 +1,47 @@
+[
+  {
+    "greetingMessage": "コーヒーを飲みながらサクッと解答。<br>知識の泉はもう溢れ出そうですか？",
+    "imgSrc": "/static/img/greeting/001.png",
+    "imgSrcSet": [
+      "/static/img/greeting/001.png 1x",
+      "/static/img/greeting/001@2x.png 2x",
+      "/static/img/greeting/001@3x.png 3x"
+    ]
+  },
+  {
+    "greetingMessage": "成功も失敗も、全部かけらにして集めよう。<br>それらはかけがえのない資産になります。",
+    "imgSrc": "/static/img/greeting/002.png",
+    "imgSrcSet": [
+      "/static/img/greeting/002.png 1x",
+      "/static/img/greeting/002@2x.png 2x",
+      "/static/img/greeting/002@3x.png 3x"
+    ]
+  },
+  {
+    "greetingMessage": "One for all, All for oneを知っていますか？<br>お互いをリスペクトし、フォローして成長しましょう。",
+    "imgSrc": "/static/img/greeting/003.png",
+    "imgSrcSet": [
+      "/static/img/greeting/003.png 1x",
+      "/static/img/greeting/003@2x.png 2x",
+      "/static/img/greeting/003@3x.png 3x"
+    ]
+  },
+  {
+    "greetingMessage": "そうだったのか！今日も1UP。<br>わかるとちょっと気分がいいですよね。",
+    "imgSrc": "/static/img/greeting/004.png",
+    "imgSrcSet": [
+      "/static/img/greeting/004.png 1x",
+      "/static/img/greeting/004@2x.png 2x",
+      "/static/img/greeting/004@3x.png 3x"
+    ]
+  },
+  {
+    "greetingMessage": "週末までもう少し！今週もお疲れ様でした。<br>少しブレイクしませんか？",
+    "imgSrc": "/static/img/greeting/005.png",
+    "imgSrcSet": [
+      "/static/img/greeting/005.png 1x",
+      "/static/img/greeting/005@2x.png 2x",
+      "/static/img/greeting/005@3x.png 3x"
+    ]
+  }
+]

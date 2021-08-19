@@ -1,0 +1,10 @@
+import multiprocessing
+
+workers = 3
+worker_class = 'sync'
+
+socket_path = "unix:/home/ec2-user/coral/bin/tmp/kb_coral.sock"
+bind = socket_path
+accesslog = "/home/ec2-user/coral/bin/log/gunicorn-access.log"
+errorlog = "/home/ec2-user/coral/bin/log/gunicorn-error.log"
+loglevel = "info"

@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KnowledgeBank</title>
+    <link rel='icon' href='/static/ver2.1/img/logo@3x.png'/>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css' />
+    <link rel='stylesheet' href='/static/ver2.1/css/main.css' type='text/css'>
+{% include './ver2.1/partials/ga_tag.html' %}
+</head>
+{% include './ver2.1/partials/header.html' %}
+{% include './ver2.1/partials/sidebar.html' %}
+
+<body>
+    <div>
+        <div class='kb-container'>
+            <div class='kb-setting-container kb-company'>
+                <div class='text-center'>
+                    <h3>企業情報</h3>
+                    <p class='text-muted'><small>ご利用企業の情報を入力してください</small></p>
+                </div>
+                <div class='kb-panel my-3'>
+                    <div class='kb-panel-title p-3'>
+                        <p class='m-0'>会社情報  <b class="color-red__opacity">(* = 必須フィールドを指定してください)</b></p>
+                    </div>
+                    <div class='kb-panel-body px-3 company-form'>
+                        <div class='flex flex-s flex-item-center my-3 input-required'>
+                            <div>
+                                <p>会社名</p>
+                            </div>
+                            <div class='px-3 companyname-wrap'>
+                                <input type='text' id="company_name" class='kb-input form-data data-validate' data-prop='companyname' placeholder='株式会社ナレッジバンク' />
+                            </div>
+                        </div>
+                        <div class='flex flex-s flex-item-center my-3 input-required'>
+                            <div >
+                                <p>郵便番号</p>
+                            </div>
+                            <div class='px-3 flex flex-item-center'>
+                                <div class="street-wrap">
+                                    <input type='text' id="street_name" name='zip21' data-prop='street' class='kb-input kb-input-small mr-3 number-input form-data data-validate' placeholder='123' />
+                                </div>
+                                <div class="postalno-wrap">
+                                    <input type='text' id="postal_no" name='zip22' data-prop='postalno' class='kb-input kb-input-small mr-3 number-input form-data data-validate' placeholder='4567' />
+                                </div>
+                                <button class='btn-tran addr-search-btn'><i class='fas fa-search mr-2'></i>住所検索</button>
+                            </div>
+                        </div>
+                        <div class='flex flex-s my-3 input-required'>
+                            <div>
+                                <p class='my-1'>住所</p>
+                            </div>
+                            <div class='px-3'>
+                                <div class="flex flex-item-center residence-wrap">
+                                    <select name='residence' data-prop="residence" id='residence' class="form-data data-validate mr-3">
+                                        <option value="" selected>選択無し</option>
+                                        <option value="北海道">北海道</option>
+                                        <option value="青森県">青森県</option>
+                                        <option value="秋田県">秋田県</option>
+                                        <option value="岩手県">岩手県</option>
+                                        <option value="山形県">山形県</option>
+                                        <option value="宮城県">宮城県</option>
+                                        <option value="福島県">福島県</option>
+                                        <option value="山梨県">山梨県</option>
+                                        <option value="長野県">長野県</option>
+                                        <option value="新潟県">新潟県</option>
+                                        <option value="富山県">富山県</option>
+                                        <option value="石川県">石川県</option>
+                                        <option value="福井県">福井県</option>
+                                        <option value="茨城県">茨城県</option>
+                                        <option value="栃木県">栃木県</option>
+                                        <option value="群馬県">群馬県</option>
+                                        <option value="埼玉県">埼玉県</option>
+                                        <option value="千葉県">千葉県</option>
+                                        <option value="東京都">東京都</option>
+                                        <option value="神奈川県">神奈川県</option>
+                                        <option value="愛知県">愛知県</option>
+                                        <option value="静岡県">静岡県</option>
+                                        <option value="岐阜県">岐阜県</option>
+                                        <option value="三重県">三重県</option>
+                                        <option value="大阪府">大阪府</option>
+                                        <option value="兵庫県">兵庫県</option>
+                                        <option value="京都府">京都府</option>
+                                        <option value="滋賀県">滋賀県</option>
+                                        <option value="奈良県">奈良県</option>
+                                        <option value="和歌山県">和歌山県</option>
+                                        <option value="岡山県">岡山県</option>
+                                        <option value="広島県">広島県</option>
+                                        <option value="鳥取県">鳥取県</option>
+                                        <option value="島根県">島根県</option>
+                                        <option value="山口県">山口県</option>
+                                        <option value="徳島県">徳島県</option>
+                                        <option value="香川県">香川県</option>
+                                        <option value="愛媛県">愛媛県</option>
+                                        <option value="高知県">高知県</option>
+                                        <option value="福岡県">福岡県</option>
+                                        <option value="佐賀県">佐賀県</option>
+                                        <option value="長崎県">長崎県</option>
+                                        <option value="熊本県">熊本県</option>
+                                        <option value="大分県">大分県</option>
+                                        <option value="宮崎県">宮崎県</option>
+                                        <option value="鹿児島県">鹿児島県</option>
+                                        <option value="沖縄県">沖縄県</option>
+                                    </select>
+                                    <p class="px-3 m-0 color-red" id='error-txt' style="display: none;"><small>都道府県が設定されていません</small></p>
+                                </div>
+
+                                <div class="cityname-wrap">
+                                    <input type='text' name='pref21' id="city_name" data-prop="cityname" class='kb-input my-3 data-validate form-data' placeholder='市区町村名' />
+                                </div>
+                                <div class="fulladd-wrap">
+                                    <input type='text' name='addr21' id="full_add" data-prop="fulladd" class='kb-input my-3 data-validate form-data' placeholder='番地' />
+                                </div>
+                                <div class="building-wrap">
+                                    <input type='text' name='strt21' id="building" data-prop="building" class='kb-input my-3 data-validate form-data' placeholder='ビル・マンション名' />
+                                </div>
+                            </div>
+                        </div>
+                        <div class='flex flex-s flex-item-center my-3 input-required'>
+                            <div>
+                                <p>電話番号</p>
+                            </div>
+                            <div class='px-3 flex flex-item-center'>
+                                <div class="phone_no_1-wrap">
+                                    <input type='text' id="ph_no_1" data-prop='phone_no_1' class='kb-input kb-input-small mr-3 number-input form-data-add data-validate' placeholder='03' />
+                                </div>
+                                <div class="phone_no_2-wrap">
+                                    <input type='text' id="ph_no_2" data-prop='phone_no_2' class='kb-input kb-input-small mr-3 number-input form-data-add data-validate' placeholder='1234' />
+                                </div>
+                                <div class="phone_no_3-wrap">
+                                    <input type='text' id="ph_no_3" data-prop='phone_no_3' class='kb-input kb-input-small mr-3 number-input form-data-add data-validate' placeholder='5678' />
+                                </div>
+                            </div>
+                        </div>
+                        <div class='flex flex-s flex-item-center my-3'>
+                            <div>
+                                <p>URL</p>
+                            </div>
+                            <div class='px-3 flex flex-item-center companyurl-wrap'>
+                                <input type='text' class='kb-input form-data' id="company_url" data-prop="companyurl" placeholder='https://knowledgebank.jp' />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='kb-panel my-3 input-required'>
+                    <div class='kb-panel-title p-3'>
+                        <p class='m-0'>担当者情報</p>
+                    </div>
+                    <div class='kb-panel-body px-3 company-form'>
+                        <div class='flex flex-s flex-item-center my-3 input-required'>
+                            <div>
+                                <p>お名前</p>
+                            </div>
+                            <div class='px-3 respname-wrap'>
+                                <input type='text' id="resp_name" data-prop="respname" class='kb-input form-data data-validate' placeholder='ナレッジ　太郎' />
+                            </div>
+                        </div>
+                        <div class='flex flex-s flex-item-center my-3 input-required'>
+                            <div>
+                                <p>メールアドレス</p>
+                            </div>
+                            <div class='px-3 respmail-wrap'>
+                                <input type='text' data-prop="respmail" id='mail' class='kb-input form-data data-validate'  placeholder='mail@knowledgebank.jp' />
+                            </div>
+                        </div>
+                        <div class='flex flex-s my-4 input-required'>
+                            <div>
+                                <p>役職</p>
+                            </div>
+                            <div class='px-3 respposition-wrap'>
+                                <input type='text' id="resp_poistion" data-prop="respposition" class='kb-input kb-input-md form-data data-validate' placeholder="人事部長" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='kb-panel my-3 input-required'>
+                    <div class='kb-panel-title p-3'>
+                        <p class='m-0'>請求情報</p>
+                    </div>
+                    <div class='kb-panel-body px-3'>
+                        <div class='flex flex-s'>
+                            <div class='mr-4'>
+                                <label>会社情報と同じ住所を請求先にする</label>
+                                <input id='companyformclose' type='radio' checked name='choose-buildInfo-option' value=0 />
+                            </div>
+                            <div>
+                                <label>請求先住所を新しく入力する</label>
+                                <input id='companyformopen' type='radio' name='choose-buildInfo-option' value=1 />
+                            </div>
+                        </div>
+                        <div class='company-form' id='companyForm' style="display:none;">
+                            <div class='flex flex-s flex-item-center my-4'>
+                                <div class="input-required">
+                                    <p>請求先名称</p>
+                                </div>
+                                <div class='px-3 billingname-wrap'>
+                                    <input type='text' id="billing_name" data-prop="billingname" class='kb-input company-form-data company-data-validate' placeholder='株式会社ナレッジバンク' />
+                                </div>
+                            </div>
+                            <div class='flex flex-s my-4'>
+                                <div class="input-required">
+                                    <p class='my-1'>請求先住所</p>
+                                </div>
+                                <div class='px-3'>
+                                    <div class="flex flex-item-center b_residence-wrap">
+                                        <select data-prop="b_residence"  id='b_residence' class="company-form-data company-data-validate mr-3">
+                                            <option value="" selected>選択無し</option>
+                                            <option value="北海道">北海道</option>
+                                            <option value="青森県">青森県</option>
+                                            <option value="岩手県">岩手県</option>
+                                            <option value="宮城県">宮城県</option>
+                                            <option value="秋田県">秋田県</option>
+                                            <option value="山形県">山形県</option>
+                                            <option value="福島県">福島県</option>
+                                            <option value="茨城県">茨城県</option>
+                                            <option value="栃木県">栃木県</option>
+                                            <option value="群馬県">群馬県</option>
+                                            <option value="埼玉県">埼玉県</option>
+                                            <option value="千葉県">千葉県</option>
+                                            <option value="東京都">東京都</option>
+                                            <option value="神奈川県">神奈川県</option>
+                                            <option value="新潟県">新潟県</option>
+                                            <option value="富山県">富山県</option>
+                                            <option value="石川県">石川県</option>
+                                            <option value="福井県">福井県</option>
+                                            <option value="山梨県">山梨県</option>
+                                            <option value="長野県">長野県</option>
+                                            <option value="岐阜県">岐阜県</option>
+                                            <option value="静岡県">静岡県</option>
+                                            <option value="愛知県">愛知県</option>
+                                            <option value="三重県">三重県</option>
+                                            <option value="滋賀県">滋賀県</option>
+                                            <option value="京都府">京都府</option>
+                                            <option value="大阪府">大阪府</option>
+                                            <option value="兵庫県">兵庫県</option>
+                                            <option value="奈良県">奈良県</option>
+                                            <option value="和歌山県">和歌山県</option>
+                                            <option value="鳥取県">鳥取県</option>
+                                            <option value="島根県">島根県</option>
+                                            <option value="岡山県">岡山県</option>
+                                            <option value="広島県">広島県</option>
+                                            <option value="山口県">山口県</option>
+                                            <option value="徳島県">徳島県</option>
+                                            <option value="香川県">香川県</option>
+                                            <option value="愛媛県">愛媛県</option>
+                                            <option value="高知県">高知県</option>
+                                            <option value="福岡県">福岡県</option>
+                                            <option value="佐賀県">佐賀県</option>
+                                            <option value="長崎県">長崎県</option>
+                                            <option value="熊本県">熊本県</option>
+                                            <option value="大分県">大分県</option>
+                                            <option value="宮崎県">宮崎県</option>
+                                            <option value="鹿児島県">鹿児島県</option>
+                                            <option value="沖縄県">沖縄県</option>
+                                        </select>
+                                        <p class="px-3 m-0 color-red" id='b-error-txt' style="display: none;"><small>都道府県が設定されていません</small></p>
+                                    </div>
+                                    <div class="b_cityname-wrap">
+                                        <input type='text' id="b_cityname" data-prop="b_cityname" class='kb-input my-3 company-form-data company-data-validate' placeholder='市区町村名' />
+                                    </div>
+                                    <div class="b_fulladd-wrap">
+                                        <input type='text' id="b_fulladd" data-prop="b_fulladd" class='kb-input my-3 company-form-data company-data-validate' placeholder='番地' />
+                                    </div>
+                                    <div class="b_building-wrap">
+                                        <input type='text' id="b_building" data-prop="b_building" class='kb-input my-3 company-form-data company-data-validate' placeholder='ビル・マンション名' />
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <p class='text-muted'>
+                                    <span>クレジットカード管理</span>
+                                    <span class='mx-4'>(VISA) **** **** **** 6034</span>
+                                    <button class='btn-tran'>カード変更</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='text-center my-3'>
+                    <a class='submit-btn submit-setting-company-btn'>入力内容を保存する</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src='/static/ver2.1/js/varidate.js'></script>
+    <script src='/static/ver2.1/js/script.js'></script>
+    <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
+    <script>
+        $(document).ready(function(){
+          $(".input-required").each(function(){
+              $(this).closest('.input-required').children("div").eq(0).find("p").addClass("required");
+          });
+
+          $.ajax({
+              method:"GET",
+              url:"/settings/companyInfo",
+              headers:{"Content-Type":"application/json"},
+
+              success:function(data){
+                  if(JSON.parse(data).result=='OK'){
+                    var res=JSON.parse(data);
+                     document.getElementById("company_name").value=res.data[0].companyname;
+                     document.getElementById("street_name").value=res.data[0].address[2];
+                     document.getElementById("postal_no").value=res.data[0].address[0];
+                     document.getElementById("residence").value=res.data[0].address[1];
+                     document.getElementById("city_name").value=res.data[0].address[3];
+                     document.getElementById("full_add").value=res.data[0].address[4];
+                     document.getElementById("building").value=res.data[0].address[5];
+                     var string = res.data[0].phoneno;
+                     document.getElementById("ph_no_1").value = string.slice(0, 2);
+                     document.getElementById("ph_no_2").value = string.slice(2, 6);
+                     document.getElementById("ph_no_3").value = string.slice(6, 10);
+                     document.getElementById("company_url").value = res.data[0].companyurl;
+                     document.getElementById("resp_name").value = res.data[0].respname;
+                     document.getElementById("mail").value = res.data[0].respmail;
+                     document.getElementById("resp_poistion").value = res.data[0].resppoistion;
+                     if(res.data[0].flag==1)
+                     {
+                       document.getElementById("companyformopen").checked=true;
+                       document.getElementById("billing_name").value = res.data[0].billingname;
+                       document.getElementById("b_residence").value = res.data[0].billingaddress[0];
+                       document.getElementById("b_cityname").value = res.data[0].billingaddress[1];
+                       document.getElementById("b_fulladd").value = res.data[0].billingaddress[2];
+                       document.getElementById("b_building").value = res.data[0].billingaddress[3];
+
+                       $("#companyForm").css({ display: "block" });
+                       // document.getElementById("companyForm").style.display="block";
+                     }
+                     if(res.data[0].flag==0)
+                     {
+                       document.getElementById("companyformclose").checked=true;
+                     }
+                  }
+
+                  else {
+
+                  }
+              }
+          })
+            $(".addr-search-btn").on("click",function(){
+                AjaxZip3.onSuccess = function () {
+                    $('#b_fulladd').focus();
+                };
+                AjaxZip3.onFailure = function () {
+                    console.log('error');
+                };
+                AjaxZip3.zip2addr('zip21', 'zip22', 'residence', 'pref21');
+            })
+            $("#companyformopen").on("click",function(){
+                var formctrl = document.getElementById("companyformopen");
+
+                // Get the output text
+                var list = document.getElementById("companyForm");
+                if (formctrl.checked == true){
+                    list.style.display = "block";
+                }
+            })
+            $("#companyformclose").on("click",function(){
+                var formctrl = document.getElementById("companyformclose");
+
+                // Get the output text
+                var list = document.getElementById("companyForm");
+                if (formctrl.checked == true){
+                    list.style.display = "none";
+                }
+            })
+
+            $(".number-input").on("keypress keyup blur",function (event) {
+                $(this).val($(this).val().replace(/[^\d].+/, ""));
+                if ((event.which < 48 || event.which > 57)) {
+                    event.preventDefault();
+                }
+            });
+            function ValidateEmail(inputText)
+            {
+                var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                if(inputText.match(mailformat))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            $(".submit-setting-company-btn").on("click",function(event){
+                $('.error-element').remove();
+                var error_list={};
+                var data={}
+                var error_obj = {
+                    companyname: false,
+                    street: false,
+                    postalno: false,
+                    residence: false,
+                    cityname: false,
+                    fulladd: false,
+                    building: false,
+                    respmail: false,
+                    phone_no_1: false,
+                    phone_no_2: false,
+                    phone_no_3: false,
+                    companyurl: false,
+                    respname: false,
+                    respmail: false,
+                    respposition: false,
+                    billingname: false,
+                    b_residence: false,
+                    b_cityname: false,
+                    b_fulladd: false,
+                    b_building: false,
+                };
+                error_obj.companyname = input_varidate('#company_name', {
+                    required: true,
+                    maxLength: 100,
+                    message: '会社名'
+                });
+                error_obj.street = input_varidate('#street_name', {
+                    required: true,
+                    type: 'number',
+                    maxLength: 3,
+                    message: '郵便番号'
+                });
+                error_obj.postalno = input_varidate('#postal_no', {
+                    required: true,
+                    type: 'number',
+                    maxLength: 4,
+                    message: '郵便番号'
+                });
+                error_obj.residence = input_varidate('#residence', {
+                    required: true,
+                    message: '都道府県'
+                });
+                error_obj.cityname = input_varidate('#city_name', {
+                    required: true,
+                    maxLength: 100,
+                    message: '住所'
+                });
+                error_obj.fulladd = input_varidate('#full_add', {
+                    maxLength: 100,
+                });
+                error_obj.building = input_varidate('#building', {
+                    maxLength: 100,
+                });
+                error_obj.phone_no_1 = input_varidate('#ph_no_1', {
+                    required: true,
+                    type: 'number',
+                    maxLength: 5,
+                    message: '電話番号'
+                });
+                error_obj.phone_no_2 = input_varidate('#ph_no_2', {
+                    required: true,
+                    type: 'number',
+                    maxLength: 4,
+                    message: '電話番号'
+                });
+                error_obj.phone_no_3 = input_varidate('#ph_no_3', {
+                    required: true,
+                    type: 'number',
+                    maxLength: 4,
+                    message: '電話番号'
+                });
+                error_obj.companyurl = input_varidate('#company_url', {
+                    type: 'half',
+                    maxLength: 500,
+                });
+                error_obj.respname = input_varidate('#resp_name', {
+                    required: true,
+                    maxLength: 100,
+                    message: 'お名前'
+                });
+                error_obj.respmail = input_varidate('#mail', {
+                    required: true,
+                    type: 'email',
+                    maxLength: 100,
+                    message: 'メールアドレス'
+                });
+                error_obj.respposition = input_varidate('#resp_poistion', {
+                    required: true,
+                    maxLength: 100,
+                    message: '役職'
+                });
+                error_obj.billingname = input_varidate('#billing_name', {
+                    required: true,
+                    maxLength: 100,
+                    message: '請求先名称'
+                });
+                error_obj.b_residence = input_varidate('#b_residence', {
+                    required: true,
+                    message: '都道府県'
+                });
+                error_obj.b_cityname = input_varidate('#b_city_name', {
+                    required: true,
+                    maxLength: 100,
+                    message: '住所'
+                });
+                error_obj.b_fulladd = input_varidate('#b_full_add', {
+                    maxLength: 100,
+                });
+                error_obj.b_building = input_varidate('#b_building', {
+                    maxLength: 100,
+                });
+                $(".data-validate").each(function(){
+                    var prop=$(this).attr("data-prop");
+                    // if(prop=='respmail'){
+                    //     if(error_obj.respmail==true){
+                    //         $(this).css({
+                    //             border:'1px solid #c9cad0'
+                    //         })
+                    //         $(this).removeClass("error-field");
+                    //         error_list[prop]=true;
+                    //     }
+                    //     else{
+                    //         $(this).css({
+                    //             border:'1px solid red'
+                    //         })
+                    //         $(this).addClass("error-field");
+                    //         error_list[prop]=false;
+                    //         $(this).closest('.input-required').children("div").eq(0).find("p").addClass("required");
+                    //         input_errorElement('#mail', error_obj.respmail ,'.respmail-wrap')
+                    //     }
+                    // }
+                    // else{
+                    // }
+
+                    if (error_obj[prop] !== true) {
+                        input_errorElement('#' + $(this).attr('id'), error_obj[prop], '.' + prop + '-wrap');
+                        error_list[prop] = false;
+                    } else {
+                        input_errorElement('#' + $(this).attr('id'), '', '.' + prop + '-wrap');
+                        error_list[prop] = true;
+                    }
+                })
+                var checkList= $("input[name='choose-buildInfo-option']:checked").val();
+                if(checkList==1){
+                  $(".company-data-validate").each(function(){
+                      var prop=$(this).attr("data-prop");
+                      if (error_obj[prop] !== true) {
+                          input_errorElement('#' + $(this).attr('id'), error_obj[prop], '.' + prop + '-wrap');
+                          error_list[prop] = false;
+                      } else {
+                          input_errorElement('#' + $(this).attr('id'), '', '.' + prop + '-wrap');
+                          error_list[prop] = true;
+                      }
+                  });
+                }
+
+                var result=Object.values(error_list).filter(item=> item==false);
+                if(result.length==0 ){
+                    var phoneno='';
+                    $(".form-data-add").each(function(){
+                        phoneno+=$(this).val();
+                    })
+                    data.phoneno=phoneno;
+                    $(".form-data").each(function(){
+                        var prop=$(this).attr("data-prop");
+                        data[prop]=$(this).val()
+                    })
+                    if(checkList==0){
+                        data.billingname=data.companyname;
+                        data.b_residence=data.residence;
+                        data.b_building=data.building;
+                        data.b_cityname=data.cityname;
+                        data.b_fulladd=data.fulladd;
+                        data.flag=0;
+                    }
+                    else{
+                    $(".company-form-data").each(function(){
+                        var prop=$(this).attr("data-prop");
+                        data[prop]=$(this).val();
+                    })
+                    data.flag=1;
+                    }
+                    $.ajax({
+                        method:"POST",
+                        url:"/settings/company",
+                        headers:{"Content-Type":"application/json"},
+                        data:JSON.stringify(data),
+                        success:function(data){
+                            if(JSON.parse(data).result=='ok'){
+                                status_show('ok');
+                                window.onbeforeunload = null;  // 関数を削除
+                                // window.location.href='/home';
+                            }
+                        }
+                    })
+                }else{
+                    status_show('error');
+                }
+                event.preventDefault();
+            })
+        })
+        function status_show(status) {
+            if (status == "ok") {
+                $("body").append("<div class='status-container success'><p class='px-2'>内容を保存しました</p></div>");
+
+            } else {
+                if(status == "error"){
+                    $("body").append("<div class='status-container error'><p class='px-2'>入力内容に不備があります</p></div>");
+                }else{
+                    $("body").append("<div class='status-container fail'><p class='px-2'>内容の保存に失敗しました</p></div>");
+                }
+            }
+            setTimeout(() => {
+                $(".status-container").remove();
+            }, 2000)
+            $(".status-container").css({
+                    position:"fixed",
+                    top:"80px",
+                    width:$(".kb-container").outerWidth(),
+                    marginLeft:$(".kb-container").css("margin-left"),
+                    zIndex:2,
+                    left:'0'
+                })
+            $(".status-container.success").css({
+                background: "#4caf50"
+            })
+            $(".status-container.fail").css({
+                background: "#fef3f2"
+            })
+            $(".status-container.error").css({
+                color:"#fff",
+                background: "rgb(217, 82, 67)"
+            })
+        }
+        window.onbeforeunload = function (e) {
+            return 'このページを離れると、入力したデータが削除されます。移動してもよろしいですか？';
+        }
+
+        $("input").on("keyup keypress keydown", function () {
+            window.onbeforeunload = function (e) {
+                return 'このページを離れると、入力したデータが削除されます。移動してもよろしいですか？';
+            }
+        });
+    </script>
+</body>
+{% include './ver2.1/partials/footer.html' %}
+
+</html>

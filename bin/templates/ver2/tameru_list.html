@@ -1,0 +1,192 @@
+{%from "./ver2/partials/sidebar.html" import sidebar with context%}
+
+<!DOCTYPE html>
+<html lang="ja">
+    {% include './partials/head.html' %}
+    <head></head>
+    <body class="tamerulistver2">
+        {% include './ver2/partials/sidebar.html' %}
+        <div class="tamerulistver2__header">
+            <p class="tamerulistver2__title">ためる</p>
+            <p class="tamerulistver2__subtitle">ビジネスに役立つ知識をまなぼう</p>
+            <img class="tamerulistver2__img" src="/static/img/homever2/tamerulist.png">
+        </div>
+        <div class="tamerulistver2__list">
+            <div class="tamerulistver2__left">
+                <p class="tamerulistver2__content">課題一覧</p>
+                <p class="tamerulistver2__challange"><i class="tamerulistver2__challangeicon fa fa-plus"></i>課題をためる</p>
+            </div>
+            <div class="tamerulistver2__right">
+                <input type="text" id="tamerulistver2__searchInput" onkeyup="myFunction()" placeholder="投稿を検索">
+            </div>
+        </div>
+        <div class="tamerulistver2__tameru">
+            <div class="tamerulistver2__filterlist">
+                <table class="tamerulistver2__filterTable">
+                    <tr class="tamerulistver2__filtername">
+                        <th>役職</th>
+                        <th>チーム</th>
+                        <th>何について</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select id="position" class="tamerulistver2__filterbox">
+                                <option value="0">すべて</option>
+                                {% for p in company_positions.data %}
+                                <option value="{{ p.id }}">{{ p.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <select id="team" class="tamerulistver2__filterbox">
+                                <option value="0">すべて</option>
+                                {% for t in company_team.data %}
+                                <option value="{{ t.id }}">{{ t.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <select id="tag" class="tamerulistver2__filterbox">
+                                <option value="0">すべて</option>
+                                {% for tg in tag.data %}
+                                <option value="{{ tg }}">{{ tg }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <button class="tamerulistver2__filter-searchbox" onclick="search(position.value, team.value, tag.value)">絞り込み検索</button>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="tamerulistver2__table">
+                <p class="tamerulistver2__searchtext">役職”社員”の検索結果</p>
+                <table id="filterResultTable">
+                    <tr class="tamerulistver2__tableheader">
+                        <th class="tamerulistver2__tabletxt">ステータス</th>
+                        <th>日付<i class="tamerulistver2__icon fa fa-sort-up"></i></th>
+                        <th>問題文</th>
+                        <th>コメント<i class="tamerulistver2__icon fa fa-sort-down"></i></th>
+                        <th>評価<i class="tamerulistver2__icon fa fa-sort-down"></i></th>
+                        <th>お気に入り<i class="tamerulistver2__icon fa fa-sort-down"></i></th>
+                    </tr>
+
+                    {% for tameru in tameru_data.data %}
+                    <tr class="tamerulistver2__tableborder">
+                        <td class="tamerulistver2__table-system">公開済み</td>
+                        <td class="tamerulistver2__table-date">{{tameru.date}}</td>
+                        <td class="tamerulistver2__table-problem">{{ tameru.problemStatement }}
+                            <div>
+                                {% for tag in tameru.taglist %}
+                                <p class="tamerulistver2__table-problemtag">{{ tag }}</p>
+                                {% endfor %}
+                            </div>
+
+                        </td>
+                        <td class="tamerulistver2__table-comment"><i class="tamerulistver2__tableicon fa fa-comment"></i>{{ tameru.comment_count}}</td>
+                        <td class="tamerulistver2__table-rating">{{ tameru.rating }}</td>
+                        <td class="tamerulistver2__table-rateicon">
+                            {% if tameru.fav == 'T' %}
+                            <i class="tamerulistver2__tableiconcolor fa fa-star"></i>
+                            {% else %}
+                            <i class="tamerulistver2__tableicon fa fa-star"></i>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    <!-- <tr class="tamerulistver2__tableborder">
+                        <td class="tamerulistver2__table-system">公開済み</td>
+                        <td class="tamerulistver2__table-date">2019/07/20 19:41</td>
+                        <td class="tamerulistver2__table-problem">
+                            次の文章が正しい場合は〇、正しくない場合は×で回答しなさい。 googleAnalyticsのトラッキングコードの設置場所は直後推奨とされ…
+                            <div>
+                                <p class="tamerulistver2__table-problemtag">社員</p>
+                                <p class="tamerulistver2__table-problemtag">ディレクター</p>
+                                <p class="tamerulistver2__table-problemtag">Webマーケティング</p>
+                                <p class="tamerulistver2__table-problemtag">企画</p>
+                                <p class="tamerulistver2__table-problemtag">権利関係</p>
+                                <p class="tamerulistver2__table-problemtag">経営関係</p>
+                                <p class="tamerulistver2__table-problemtag">アイデアランプ</p>
+                                <p class="tamerulistver2__table-problemtag">html</p>
+                            </div>
+                        </td>
+                        <td class="tamerulistver2__table-comment"><i class="tamerulistver2__tableicon fa fa-comment"></i>14</td>
+                        <td class="tamerulistver2__table-rating">3.6</td>
+                        <td class="tamerulistver2__table-rateicon"><i class="tamerulistver2__tableiconcolor fa fa-star"></i></td>
+                    </tr>
+                     <tr class="tamerulistver2__tableborder">
+                        <td class="tamerulistver2__table-system">公開済み</td>
+                        <td class="tamerulistver2__table-date">2019/07/20 19:41</td>
+                        <td class="tamerulistver2__table-problem">
+                            次の文章が正しい場合は〇、正しくない場合は×で回答しなさい。 googleAnalyticsのトラッキングコードの設置場所は直後推奨とされ…
+                            <div>
+                                <p class="tamerulistver2__table-problemtag">社員</p>
+                                <p class="tamerulistver2__table-problemtag">ディレクター</p>
+                                <p class="tamerulistver2__table-problemtag">Webマーケティング</p>
+                                <p class="tamerulistver2__table-problemtag">企画</p>
+                                <p class="tamerulistver2__table-problemtag">権利関係</p>
+                                <p class="tamerulistver2__table-problemtag">経営関係</p>
+                                <p class="tamerulistver2__table-problemtag">アイデアランプ</p>
+                                <p class="tamerulistver2__table-problemtag">html</p>
+                            </div>
+                        </td>
+                        <td class="tamerulistver2__table-comment"><i class="tamerulistver2__tableicon fa fa-comment"></i>14</td>
+                        <td class="tamerulistver2__table-rating">3.6</td>
+                        <td class="tamerulistver2__table-rateicon"><i class="tamerulistver2__tableiconcolor fa fa-star"></i></td>
+                    </tr> -->
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td class="tamerulistver2__tablefooter">さらに表示する</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+
+        <script>
+            function search(position, team, tag) {
+                console.log(position)
+                console.log(team)
+                console.log(tag)
+                var data = '{"teamId": ' +parseInt(team)+', "positionId": '+parseInt(position)+', "tag":"'+tag+'"}';
+                console.log('data', data);
+
+                var xhr = new XMLHttpRequest();
+                var url = "/ver2/tamerulist";
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var json = JSON.parse(xhr.responseText);
+                        console.log("json",json);
+                    }
+                };
+                xhr.send(data)
+            }
+            function myFunction() {
+                var input, filter, table, tr, td, i, txtValue;
+                input = document.getElementById("tamerulistver2__searchInput");
+                filter = input.value//.toUpperCase();
+                table = document.getElementById("filterResultTable");
+                tr = table.getElementsByTagName("tr");
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[2];
+                    if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.indexOf(filter) > -1) {  //.toUpperCase()
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>
